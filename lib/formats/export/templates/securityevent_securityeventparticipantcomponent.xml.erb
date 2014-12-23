@@ -1,0 +1,13 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.role().nil? && !model.role.empty?) -%><%- model.role().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'role', model: element} %><%- end -%><%- end -%>
+    <%- if !model.reference().nil? -%><%== render :template => 'reference', :locals => {name: 'reference', model: model.reference()} %><%- end -%>
+    <%- if !model.userId().nil? -%><userId value="<%= model.userId() %>"/><%- end -%>
+    <%- if !model.altId().nil? -%><altId value="<%= model.altId() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.requestor().nil? -%><requestor value="<%= model.requestor() %>"/><%- end -%>
+    <%- if !model.media().nil? -%><%== render :template => 'coding', :locals => {name: 'media', model: model.media()} %><%- end -%>
+    <%- if !model.network().nil? -%><%== render :template => 'securityevent_securityeventparticipantnetworkcomponent', :locals => {name: 'network', model: model.network()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

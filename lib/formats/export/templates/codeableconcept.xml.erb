@@ -1,0 +1,9 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'CodeableConcept' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.coding().nil? && !model.coding.empty?) -%><%- model.coding().each do |element| -%><%== render :template => 'coding', :locals => {name: 'coding', model: element} %><%- end -%><%- end -%>
+    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

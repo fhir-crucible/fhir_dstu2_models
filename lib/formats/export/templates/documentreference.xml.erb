@@ -1,0 +1,31 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'DocumentReference' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.masterIdentifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'masterIdentifier', model: model.masterIdentifier()} %><%- end -%>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.fhirClass().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'class', model: model.fhirClass()} %><%- end -%>
+    <%- if (!model.author().nil? && !model.author.empty?) -%><%- model.author().each do |element| -%><%== render :template => 'reference', :locals => {name: 'author', model: element} %><%- end -%><%- end -%>
+    <%- if !model.custodian().nil? -%><%== render :template => 'reference', :locals => {name: 'custodian', model: model.custodian()} %><%- end -%>
+    <%- if !model.policyManager().nil? -%><policyManager value="<%= model.policyManager() %>"/><%- end -%>
+    <%- if !model.authenticator().nil? -%><%== render :template => 'reference', :locals => {name: 'authenticator', model: model.authenticator()} %><%- end -%>
+    <%- if !model.created().nil? -%><created value="<%= model.created().iso8601 %>"/><%- end -%>
+    <%- if !model.indexed().nil? -%><indexed value="<%= model.indexed().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.docStatus().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'docStatus', model: model.docStatus()} %><%- end -%>
+    <%- if (!model.relatesTo().nil? && !model.relatesTo.empty?) -%><%- model.relatesTo().each do |element| -%><%== render :template => 'documentreference_documentreferencerelatestocomponent', :locals => {name: 'relatesTo', model: element} %><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if (!model.confidentiality().nil? && !model.confidentiality.empty?) -%><%- model.confidentiality().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'confidentiality', model: element} %><%- end -%><%- end -%>
+    <%- if !model.primaryLanguage().nil? -%><primaryLanguage value="<%= model.primaryLanguage() %>"/><%- end -%>
+    <%- if !model.mimeType().nil? -%><mimeType value="<%= model.mimeType() %>"/><%- end -%>
+    <%- if (model.format() && !model.format.empty?) -%><%- model.format().each do |element| -%><format value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.size().nil? -%><size value="<%= model.size() %>"/><%- end -%>
+    <%- if !model.fhirHash().nil? -%><hash value="<%= model.fhirHash() %>"/><%- end -%>
+    <%- if !model.location().nil? -%><location value="<%= model.location() %>"/><%- end -%>
+    <%- if !model.service().nil? -%><%== render :template => 'documentreference_documentreferenceservicecomponent', :locals => {name: 'service', model: model.service()} %><%- end -%>
+    <%- if !model.context().nil? -%><%== render :template => 'documentreference_documentreferencecontextcomponent', :locals => {name: 'context', model: model.context()} %><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

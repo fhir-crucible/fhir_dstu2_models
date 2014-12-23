@@ -1,0 +1,11 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'SecurityEvent' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.event().nil? -%><%== render :template => 'securityevent_securityeventeventcomponent', :locals => {name: 'event', model: model.event()} %><%- end -%>
+    <%- if (!model.participant().nil? && !model.participant.empty?) -%><%- model.participant().each do |element| -%><%== render :template => 'securityevent_securityeventparticipantcomponent', :locals => {name: 'participant', model: element} %><%- end -%><%- end -%>
+    <%- if !model.source().nil? -%><%== render :template => 'securityevent_securityeventsourcecomponent', :locals => {name: 'source', model: model.source()} %><%- end -%>
+    <%- if (!model.object().nil? && !model.object.empty?) -%><%- model.object().each do |element| -%><%== render :template => 'securityevent_securityeventobjectcomponent', :locals => {name: 'object', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

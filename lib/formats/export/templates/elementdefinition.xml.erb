@@ -1,0 +1,33 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'ElementDefinition' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.path().nil? -%><path value="<%= model.path() %>"/><%- end -%>
+    <%- if (model.representation() && !model.representation.empty?) -%><%- model.representation().each do |element| -%><representation value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.slicing().nil? -%><%== render :template => 'elementdefinition_elementdefinitionslicingcomponent', :locals => {name: 'slicing', model: model.slicing()} %><%- end -%>
+    <%- if !model.short().nil? -%><short value="<%= model.short() %>"/><%- end -%>
+    <%- if !model.formal().nil? -%><formal value="<%= model.formal() %>"/><%- end -%>
+    <%- if !model.comments().nil? -%><comments value="<%= model.comments() %>"/><%- end -%>
+    <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
+    <%- if (model.synonym() && !model.synonym.empty?) -%><%- model.synonym().each do |element| -%><synonym value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.min().nil? -%><min value="<%= model.min() %>"/><%- end -%>
+    <%- if !model.max().nil? -%><max value="<%= model.max() %>"/><%- end -%>
+    <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'elementdefinition_typerefcomponent', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
+    <%- if !model.nameReference().nil? -%><nameReference value="<%= model.nameReference() %>"/><%- end -%>
+    <%- if !model.defaultValue().nil? -%><%- if FHIR::AnyType::PRIMITIVES.include? model.defaultValueType().downcase -%><defaultValue<%= model.defaultValueType() %> value="<%= model.defaultValue() %>"/><%- elsif FHIR::AnyType::DATE_TIMES.include? model.defaultValueType().downcase -%><defaultValue<%= model.defaultValueType() %> value="<%= model.defaultValue().iso8601 %>"/><%- else -%><%== model.defaultValue().to_xml(is_root: false, name: "defaultValue#{model.defaultValueType()}")%><%- end -%><%- end -%>
+    <%- if !model.meaningWhenMissing().nil? -%><meaningWhenMissing value="<%= model.meaningWhenMissing() %>"/><%- end -%>
+    <%- if !model.fixed().nil? -%><%- if FHIR::AnyType::PRIMITIVES.include? model.fixedType().downcase -%><fixed<%= model.fixedType() %> value="<%= model.fixed() %>"/><%- elsif FHIR::AnyType::DATE_TIMES.include? model.fixedType().downcase -%><fixed<%= model.fixedType() %> value="<%= model.fixed().iso8601 %>"/><%- else -%><%== model.fixed().to_xml(is_root: false, name: "fixed#{model.fixedType()}")%><%- end -%><%- end -%>
+    <%- if !model.pattern().nil? -%><%- if FHIR::AnyType::PRIMITIVES.include? model.patternType().downcase -%><pattern<%= model.patternType() %> value="<%= model.pattern() %>"/><%- elsif FHIR::AnyType::DATE_TIMES.include? model.patternType().downcase -%><pattern<%= model.patternType() %> value="<%= model.pattern().iso8601 %>"/><%- else -%><%== model.pattern().to_xml(is_root: false, name: "pattern#{model.patternType()}")%><%- end -%><%- end -%>
+    <%- if !model.example().nil? -%><%- if FHIR::AnyType::PRIMITIVES.include? model.exampleType().downcase -%><example<%= model.exampleType() %> value="<%= model.example() %>"/><%- elsif FHIR::AnyType::DATE_TIMES.include? model.exampleType().downcase -%><example<%= model.exampleType() %> value="<%= model.example().iso8601 %>"/><%- else -%><%== model.example().to_xml(is_root: false, name: "example#{model.exampleType()}")%><%- end -%><%- end -%>
+    <%- if !model.maxLength().nil? -%><maxLength value="<%= model.maxLength() %>"/><%- end -%>
+    <%- if (model.condition() && !model.condition.empty?) -%><%- model.condition().each do |element| -%><condition value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (!model.constraint().nil? && !model.constraint.empty?) -%><%- model.constraint().each do |element| -%><%== render :template => 'elementdefinition_elementdefinitionconstraintcomponent', :locals => {name: 'constraint', model: element} %><%- end -%><%- end -%>
+    <%- if !model.mustSupport().nil? -%><mustSupport value="<%= model.mustSupport() %>"/><%- end -%>
+    <%- if !model.isModifier().nil? -%><isModifier value="<%= model.isModifier() %>"/><%- end -%>
+    <%- if !model.isSummary().nil? -%><isSummary value="<%= model.isSummary() %>"/><%- end -%>
+    <%- if !model.binding().nil? -%><%== render :template => 'elementdefinition_elementdefinitionbindingcomponent', :locals => {name: 'binding', model: model.binding()} %><%- end -%>
+    <%- if (!model.mapping().nil? && !model.mapping.empty?) -%><%- model.mapping().each do |element| -%><%== render :template => 'elementdefinition_elementdefinitionmappingcomponent', :locals => {name: 'mapping', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

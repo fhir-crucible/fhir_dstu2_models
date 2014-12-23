@@ -1,0 +1,6 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.sequenceLinkId().nil? -%><sequenceLinkId value="<%= model.sequenceLinkId() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

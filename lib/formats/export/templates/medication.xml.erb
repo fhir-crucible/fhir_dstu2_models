@@ -1,0 +1,14 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Medication' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
+    <%- if !model.isBrand().nil? -%><isBrand value="<%= model.isBrand() %>"/><%- end -%>
+    <%- if !model.manufacturer().nil? -%><%== render :template => 'reference', :locals => {name: 'manufacturer', model: model.manufacturer()} %><%- end -%>
+    <%- if !model.kind().nil? -%><kind value="<%= model.kind() %>"/><%- end -%>
+    <%- if !model.product().nil? -%><%== render :template => 'medication_medicationproductcomponent', :locals => {name: 'product', model: model.product()} %><%- end -%>
+    <%- if !model.package().nil? -%><%== render :template => 'medication_medicationpackagecomponent', :locals => {name: 'package', model: model.package()} %><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

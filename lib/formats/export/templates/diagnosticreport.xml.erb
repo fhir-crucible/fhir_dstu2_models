@@ -1,0 +1,24 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'DiagnosticReport' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.name().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'name', model: model.name()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.issued().nil? -%><issued value="<%= model.issued().iso8601 %>"/><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if (!model.requestDetail().nil? && !model.requestDetail.empty?) -%><%- model.requestDetail().each do |element| -%><%== render :template => 'reference', :locals => {name: 'requestDetail', model: element} %><%- end -%><%- end -%>
+    <%- if !model.serviceCategory().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'serviceCategory', model: model.serviceCategory()} %><%- end -%>
+    <%- if !model.diagnosticDateTime().nil? -%><diagnosticDateTime value="<%= model.diagnosticDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.diagnosticPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'diagnosticPeriod', model: model.diagnosticPeriod()} %><%- end -%>
+    <%- if (!model.specimen().nil? && !model.specimen.empty?) -%><%- model.specimen().each do |element| -%><%== render :template => 'reference', :locals => {name: 'specimen', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.result().nil? && !model.result.empty?) -%><%- model.result().each do |element| -%><%== render :template => 'reference', :locals => {name: 'result', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.imagingStudy().nil? && !model.imagingStudy.empty?) -%><%- model.imagingStudy().each do |element| -%><%== render :template => 'reference', :locals => {name: 'imagingStudy', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.image().nil? && !model.image.empty?) -%><%- model.image().each do |element| -%><%== render :template => 'diagnosticreport_diagnosticreportimagecomponent', :locals => {name: 'image', model: element} %><%- end -%><%- end -%>
+    <%- if !model.conclusion().nil? -%><conclusion value="<%= model.conclusion() %>"/><%- end -%>
+    <%- if (!model.codedDiagnosis().nil? && !model.codedDiagnosis.empty?) -%><%- model.codedDiagnosis().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'codedDiagnosis', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.presentedForm().nil? && !model.presentedForm.empty?) -%><%- model.presentedForm().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'presentedForm', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

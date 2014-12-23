@@ -1,0 +1,15 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.reference().nil? -%><%== render :template => 'reference', :locals => {name: 'reference', model: model.reference()} %><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.role().nil? -%><role value="<%= model.role() %>"/><%- end -%>
+    <%- if !model.lifecycle().nil? -%><lifecycle value="<%= model.lifecycle() %>"/><%- end -%>
+    <%- if !model.sensitivity().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'sensitivity', model: model.sensitivity()} %><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.query().nil? -%><query value="<%= model.query() %>"/><%- end -%>
+    <%- if (!model.detail().nil? && !model.detail.empty?) -%><%- model.detail().each do |element| -%><%== render :template => 'securityevent_securityeventobjectdetailcomponent', :locals => {name: 'detail', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

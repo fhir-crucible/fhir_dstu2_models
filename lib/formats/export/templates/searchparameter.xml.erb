@@ -1,0 +1,17 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'SearchParameter' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
+    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
+    <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.xpath().nil? -%><xpath value="<%= model.xpath() %>"/><%- end -%>
+    <%- if (model.target() && !model.target.empty?) -%><%- model.target().each do |element| -%><target value="<%= element %>"/><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

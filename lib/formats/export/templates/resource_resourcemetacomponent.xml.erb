@@ -1,0 +1,10 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.versionId().nil? -%><versionId value="<%= model.versionId() %>"/><%- end -%>
+    <%- if !model.lastUpdated().nil? -%><lastUpdated value="<%= model.lastUpdated().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if (model.profile() && !model.profile.empty?) -%><%- model.profile().each do |element| -%><profile value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (!model.security().nil? && !model.security.empty?) -%><%- model.security().each do |element| -%><%== render :template => 'coding', :locals => {name: 'security', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.tag().nil? && !model.tag.empty?) -%><%- model.tag().each do |element| -%><%== render :template => 'coding', :locals => {name: 'tag', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

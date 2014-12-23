@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
+    <%- if !model.display().nil? -%><display value="<%= model.display() %>"/><%- end -%>
+    <%- if (!model.designation().nil? && !model.designation.empty?) -%><%- model.designation().each do |element| -%><%== render :template => 'valueset_conceptdefinitiondesignationcomponent', :locals => {name: 'designation', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

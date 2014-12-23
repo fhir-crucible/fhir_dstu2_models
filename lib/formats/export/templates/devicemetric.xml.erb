@@ -1,0 +1,18 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'DeviceMetric' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.unit().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'unit', model: model.unit()} %><%- end -%>
+    <%- if !model.source().nil? -%><%== render :template => 'reference', :locals => {name: 'source', model: model.source()} %><%- end -%>
+    <%- if !model.parent().nil? -%><%== render :template => 'reference', :locals => {name: 'parent', model: model.parent()} %><%- end -%>
+    <%- if !model.operationalState().nil? -%><operationalState value="<%= model.operationalState() %>"/><%- end -%>
+    <%- if !model.measurementMode().nil? -%><%== render :template => 'identifier', :locals => {name: 'measurementMode', model: model.measurementMode()} %><%- end -%>
+    <%- if !model.color().nil? -%><%== render :template => 'identifier', :locals => {name: 'color', model: model.color()} %><%- end -%>
+    <%- if !model.category().nil? -%><category value="<%= model.category() %>"/><%- end -%>
+    <%- if !model.measurementPeriod().nil? -%><%== render :template => 'timing', :locals => {name: 'measurementPeriod', model: model.measurementPeriod()} %><%- end -%>
+    <%- if (!model.calibrationInfo().nil? && !model.calibrationInfo.empty?) -%><%- model.calibrationInfo().each do |element| -%><%== render :template => 'devicemetric_devicemetriccalibrationinfocomponent', :locals => {name: 'calibrationInfo', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

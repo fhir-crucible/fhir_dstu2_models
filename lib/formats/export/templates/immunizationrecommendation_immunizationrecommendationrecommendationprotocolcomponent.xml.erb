@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.doseSequence().nil? -%><doseSequence value="<%= model.doseSequence() %>"/><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.authority().nil? -%><%== render :template => 'reference', :locals => {name: 'authority', model: model.authority()} %><%- end -%>
+    <%- if !model.series().nil? -%><series value="<%= model.series() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,21 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Procedure' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if (!model.bodySite().nil? && !model.bodySite.empty?) -%><%- model.bodySite().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySite', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.indication().nil? && !model.indication.empty?) -%><%- model.indication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'indication', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.performer().nil? && !model.performer.empty?) -%><%- model.performer().each do |element| -%><%== render :template => 'procedure_procedureperformercomponent', :locals => {name: 'performer', model: element} %><%- end -%><%- end -%>
+    <%- if !model.date().nil? -%><%== render :template => 'period', :locals => {name: 'date', model: model.date()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
+    <%- if !model.outcome().nil? -%><outcome value="<%= model.outcome() %>"/><%- end -%>
+    <%- if (!model.report().nil? && !model.report.empty?) -%><%- model.report().each do |element| -%><%== render :template => 'reference', :locals => {name: 'report', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.complication().nil? && !model.complication.empty?) -%><%- model.complication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'complication', model: element} %><%- end -%><%- end -%>
+    <%- if !model.followUp().nil? -%><followUp value="<%= model.followUp() %>"/><%- end -%>
+    <%- if (!model.relatedItem().nil? && !model.relatedItem.empty?) -%><%- model.relatedItem().each do |element| -%><%== render :template => 'procedure_procedurerelateditemcomponent', :locals => {name: 'relatedItem', model: element} %><%- end -%><%- end -%>
+    <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

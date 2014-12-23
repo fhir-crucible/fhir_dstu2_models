@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.outcome().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'outcome', model: model.outcome()} %><%- end -%>
+    <%- if !model.onsetAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'onsetAge', model: model.onsetAge()} %><%- end -%>
+    <%- if !model.onsetRange().nil? -%><%== render :template => 'range', :locals => {name: 'onsetRange', model: model.onsetRange()} %><%- end -%>
+    <%- if !model.onsetString().nil? -%><onsetString value="<%= model.onsetString() %>"/><%- end -%>
+    <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

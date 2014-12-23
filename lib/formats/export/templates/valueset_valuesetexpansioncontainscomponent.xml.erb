@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.system().nil? -%><system value="<%= model.system() %>"/><%- end -%>
+    <%- if !model.abstract().nil? -%><abstract value="<%= model.abstract() %>"/><%- end -%>
+    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
+    <%- if !model.display().nil? -%><display value="<%= model.display() %>"/><%- end -%>
+    <%- if (!model.contains().nil? && !model.contains.empty?) -%><%- model.contains().each do |element| -%><%== render :template => 'valueset_valuesetexpansioncontainscomponent', :locals => {name: 'contains', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

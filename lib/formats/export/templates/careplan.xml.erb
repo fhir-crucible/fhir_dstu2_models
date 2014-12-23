@@ -1,0 +1,17 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'CarePlan' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+    <%- if !model.modified().nil? -%><modified value="<%= model.modified().iso8601 %>"/><%- end -%>
+    <%- if (!model.concern().nil? && !model.concern.empty?) -%><%- model.concern().each do |element| -%><%== render :template => 'reference', :locals => {name: 'concern', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.participant().nil? && !model.participant.empty?) -%><%- model.participant().each do |element| -%><%== render :template => 'careplan_careplanparticipantcomponent', :locals => {name: 'participant', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.goal().nil? && !model.goal.empty?) -%><%- model.goal().each do |element| -%><%== render :template => 'careplan_careplangoalcomponent', :locals => {name: 'goal', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.activity().nil? && !model.activity.empty?) -%><%- model.activity().each do |element| -%><%== render :template => 'careplan_careplanactivitycomponent', :locals => {name: 'activity', model: element} %><%- end -%><%- end -%>
+    <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

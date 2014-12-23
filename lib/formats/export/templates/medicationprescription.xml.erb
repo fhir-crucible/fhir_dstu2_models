@@ -1,0 +1,19 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'MedicationPrescription' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.dateWritten().nil? -%><dateWritten value="<%= model.dateWritten().iso8601 %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.prescriber().nil? -%><%== render :template => 'reference', :locals => {name: 'prescriber', model: model.prescriber()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
+    <%- if !model.reasonCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonCodeableConcept', model: model.reasonCodeableConcept()} %><%- end -%>
+    <%- if !model.reasonReference().nil? -%><%== render :template => 'reference', :locals => {name: 'reasonReference', model: model.reasonReference()} %><%- end -%>
+    <%- if !model.medication().nil? -%><%== render :template => 'reference', :locals => {name: 'medication', model: model.medication()} %><%- end -%>
+    <%- if (!model.dosageInstruction().nil? && !model.dosageInstruction.empty?) -%><%- model.dosageInstruction().each do |element| -%><%== render :template => 'medicationprescription_medicationprescriptiondosageinstructioncomponent', :locals => {name: 'dosageInstruction', model: element} %><%- end -%><%- end -%>
+    <%- if !model.dispense().nil? -%><%== render :template => 'medicationprescription_medicationprescriptiondispensecomponent', :locals => {name: 'dispense', model: model.dispense()} %><%- end -%>
+    <%- if !model.substitution().nil? -%><%== render :template => 'medicationprescription_medicationprescriptionsubstitutioncomponent', :locals => {name: 'substitution', model: model.substitution()} %><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

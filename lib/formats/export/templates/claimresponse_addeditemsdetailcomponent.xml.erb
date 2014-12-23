@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.service().nil? -%><%== render :template => 'coding', :locals => {name: 'service', model: model.service()} %><%- end -%>
+    <%- if !model.fee().nil? -%><%== render :template => 'quantity', :locals => {name: 'fee', model: model.fee()} %><%- end -%>
+    <%- if (!model.adjudication().nil? && !model.adjudication.empty?) -%><%- model.adjudication().each do |element| -%><%== render :template => 'claimresponse_addeditemdetailadjudicationcomponent', :locals => {name: 'adjudication', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

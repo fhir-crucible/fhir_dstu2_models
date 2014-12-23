@@ -1,0 +1,15 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Subscription' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.criteria().nil? -%><criteria value="<%= model.criteria() %>"/><%- end -%>
+    <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
+    <%- if !model.reason().nil? -%><reason value="<%= model.reason() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.error().nil? -%><error value="<%= model.error() %>"/><%- end -%>
+    <%- if !model.channel().nil? -%><%== render :template => 'subscription_subscriptionchannelcomponent', :locals => {name: 'channel', model: model.channel()} %><%- end -%>
+    <%- if !model.end().nil? -%><end value="<%= model.end().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if (!model.tag().nil? && !model.tag.empty?) -%><%- model.tag().each do |element| -%><%== render :template => 'subscription_subscriptiontagcomponent', :locals => {name: 'tag', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

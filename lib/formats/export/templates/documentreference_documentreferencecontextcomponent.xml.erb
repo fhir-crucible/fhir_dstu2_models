@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'event', model: element} %><%- end -%><%- end -%>
+    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+    <%- if !model.facilityType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'facilityType', model: model.facilityType()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

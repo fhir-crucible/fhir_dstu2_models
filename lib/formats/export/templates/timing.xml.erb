@@ -1,0 +1,9 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Timing' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%== render :template => 'period', :locals => {name: 'event', model: element} %><%- end -%><%- end -%>
+    <%- if !model.repeat().nil? -%><%== render :template => 'timing_timingrepeatcomponent', :locals => {name: 'repeat', model: model.repeat()} %><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

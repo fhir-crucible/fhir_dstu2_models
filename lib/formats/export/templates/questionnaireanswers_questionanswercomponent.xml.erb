@@ -1,0 +1,17 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.valueBoolean().nil? -%><valueBoolean value="<%= model.valueBoolean() %>"/><%- end -%>
+    <%- if !model.valueDecimal().nil? -%><valueDecimal value="<%= model.valueDecimal() %>"/><%- end -%>
+    <%- if !model.valueInteger().nil? -%><valueInteger value="<%= model.valueInteger() %>"/><%- end -%>
+    <%- if !model.valueDate().nil? -%><valueDate value="<%= model.valueDate().iso8601 %>"/><%- end -%>
+    <%- if !model.valueDateTime().nil? -%><valueDateTime value="<%= model.valueDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.valueInstant().nil? -%><valueInstant value="<%= model.valueInstant().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().iso8601 %>"/><%- end -%>
+    <%- if !model.valueString().nil? -%><valueString value="<%= model.valueString() %>"/><%- end -%>
+    <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>
+    <%- if !model.valueCoding().nil? -%><%== render :template => 'coding', :locals => {name: 'valueCoding', model: model.valueCoding()} %><%- end -%>
+    <%- if !model.valueQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'valueQuantity', model: model.valueQuantity()} %><%- end -%>
+    <%- if !model.valueReference().nil? -%><%== render :template => 'reference', :locals => {name: 'valueReference', model: model.valueReference()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.modifier().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'modifier', model: model.modifier()} %><%- end -%>
+    <%- if !model.amountQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'amountQuantity', model: model.amountQuantity()} %><%- end -%>
+    <%- if !model.amountRange().nil? -%><%== render :template => 'range', :locals => {name: 'amountRange', model: model.amountRange()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.codeSystem().nil? -%><codeSystem value="<%= model.codeSystem() %>"/><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
+    <%- if (!model.dependsOn().nil? && !model.dependsOn.empty?) -%><%- model.dependsOn().each do |element| -%><%== render :template => 'conceptmap_otherelementcomponent', :locals => {name: 'dependsOn', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.map().nil? && !model.map.empty?) -%><%- model.map().each do |element| -%><%== render :template => 'conceptmap_conceptmapelementmapcomponent', :locals => {name: 'map', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

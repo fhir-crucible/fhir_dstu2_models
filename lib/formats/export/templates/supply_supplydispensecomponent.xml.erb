@@ -1,0 +1,15 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.suppliedItem().nil? -%><%== render :template => 'reference', :locals => {name: 'suppliedItem', model: model.suppliedItem()} %><%- end -%>
+    <%- if !model.supplier().nil? -%><%== render :template => 'reference', :locals => {name: 'supplier', model: model.supplier()} %><%- end -%>
+    <%- if !model.whenPrepared().nil? -%><%== render :template => 'period', :locals => {name: 'whenPrepared', model: model.whenPrepared()} %><%- end -%>
+    <%- if !model.whenHandedOver().nil? -%><%== render :template => 'period', :locals => {name: 'whenHandedOver', model: model.whenHandedOver()} %><%- end -%>
+    <%- if !model.destination().nil? -%><%== render :template => 'reference', :locals => {name: 'destination', model: model.destination()} %><%- end -%>
+    <%- if (!model.receiver().nil? && !model.receiver.empty?) -%><%- model.receiver().each do |element| -%><%== render :template => 'reference', :locals => {name: 'receiver', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

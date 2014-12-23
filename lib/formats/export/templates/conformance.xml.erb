@@ -1,0 +1,25 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Conformance' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.identifier().nil? -%><identifier value="<%= model.identifier() %>"/><%- end -%>
+    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
+    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.software().nil? -%><%== render :template => 'conformance_conformancesoftwarecomponent', :locals => {name: 'software', model: model.software()} %><%- end -%>
+    <%- if !model.implementation().nil? -%><%== render :template => 'conformance_conformanceimplementationcomponent', :locals => {name: 'implementation', model: model.implementation()} %><%- end -%>
+    <%- if !model.fhirVersion().nil? -%><fhirVersion value="<%= model.fhirVersion() %>"/><%- end -%>
+    <%- if !model.acceptUnknown().nil? -%><acceptUnknown value="<%= model.acceptUnknown() %>"/><%- end -%>
+    <%- if (model.format() && !model.format.empty?) -%><%- model.format().each do |element| -%><format value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (!model.profile().nil? && !model.profile.empty?) -%><%- model.profile().each do |element| -%><%== render :template => 'reference', :locals => {name: 'profile', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.rest().nil? && !model.rest.empty?) -%><%- model.rest().each do |element| -%><%== render :template => 'conformance_conformancerestcomponent', :locals => {name: 'rest', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.messaging().nil? && !model.messaging.empty?) -%><%- model.messaging().each do |element| -%><%== render :template => 'conformance_conformancemessagingcomponent', :locals => {name: 'messaging', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.document().nil? && !model.document.empty?) -%><%- model.document().each do |element| -%><%== render :template => 'conformance_conformancedocumentcomponent', :locals => {name: 'document', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

@@ -1,0 +1,11 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Substance' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.instance().nil? -%><%== render :template => 'substance_substanceinstancecomponent', :locals => {name: 'instance', model: model.instance()} %><%- end -%>
+    <%- if (!model.ingredient().nil? && !model.ingredient.empty?) -%><%- model.ingredient().each do |element| -%><%== render :template => 'substance_substanceingredientcomponent', :locals => {name: 'ingredient', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

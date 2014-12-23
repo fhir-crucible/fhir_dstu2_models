@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.longitude().nil? -%><longitude value="<%= model.longitude() %>"/><%- end -%>
+    <%- if !model.latitude().nil? -%><latitude value="<%= model.latitude() %>"/><%- end -%>
+    <%- if !model.altitude().nil? -%><altitude value="<%= model.altitude() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

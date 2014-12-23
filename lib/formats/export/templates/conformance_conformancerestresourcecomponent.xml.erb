@@ -1,0 +1,13 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.profile().nil? -%><%== render :template => 'reference', :locals => {name: 'profile', model: model.profile()} %><%- end -%>
+    <%- if (!model.interaction().nil? && !model.interaction.empty?) -%><%- model.interaction().each do |element| -%><%== render :template => 'conformance_resourceinteractioncomponent', :locals => {name: 'interaction', model: element} %><%- end -%><%- end -%>
+    <%- if !model.versioning().nil? -%><versioning value="<%= model.versioning() %>"/><%- end -%>
+    <%- if !model.readHistory().nil? -%><readHistory value="<%= model.readHistory() %>"/><%- end -%>
+    <%- if !model.updateCreate().nil? -%><updateCreate value="<%= model.updateCreate() %>"/><%- end -%>
+    <%- if (model.searchInclude() && !model.searchInclude.empty?) -%><%- model.searchInclude().each do |element| -%><searchInclude value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (!model.searchParam().nil? && !model.searchParam.empty?) -%><%- model.searchParam().each do |element| -%><%== render :template => 'conformance_conformancerestresourcesearchparamcomponent', :locals => {name: 'searchParam', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

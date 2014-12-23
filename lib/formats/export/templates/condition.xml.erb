@@ -1,0 +1,28 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Condition' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
+    <%- if !model.asserter().nil? -%><%== render :template => 'reference', :locals => {name: 'asserter', model: model.asserter()} %><%- end -%>
+    <%- if !model.dateAsserted().nil? -%><dateAsserted value="<%= model.dateAsserted().iso8601 %>"/><%- end -%>
+    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
+    <%- if !model.category().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: model.category()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.certainty().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'certainty', model: model.certainty()} %><%- end -%>
+    <%- if !model.severity().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'severity', model: model.severity()} %><%- end -%>
+    <%- if !model.onsetDateTime().nil? -%><onsetDateTime value="<%= model.onsetDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.onsetAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'onsetAge', model: model.onsetAge()} %><%- end -%>
+    <%- if !model.abatementDate().nil? -%><abatementDate value="<%= model.abatementDate().iso8601 %>"/><%- end -%>
+    <%- if !model.abatementAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'abatementAge', model: model.abatementAge()} %><%- end -%>
+    <%- if !model.abatementBoolean().nil? -%><abatementBoolean value="<%= model.abatementBoolean() %>"/><%- end -%>
+    <%- if !model.stage().nil? -%><%== render :template => 'condition_conditionstagecomponent', :locals => {name: 'stage', model: model.stage()} %><%- end -%>
+    <%- if (!model.evidence().nil? && !model.evidence.empty?) -%><%- model.evidence().each do |element| -%><%== render :template => 'condition_conditionevidencecomponent', :locals => {name: 'evidence', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.location().nil? && !model.location.empty?) -%><%- model.location().each do |element| -%><%== render :template => 'condition_conditionlocationcomponent', :locals => {name: 'location', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.dueTo().nil? && !model.dueTo.empty?) -%><%- model.dueTo().each do |element| -%><%== render :template => 'condition_conditionduetocomponent', :locals => {name: 'dueTo', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.occurredFollowing().nil? && !model.occurredFollowing.empty?) -%><%- model.occurredFollowing().each do |element| -%><%== render :template => 'condition_conditionoccurredfollowingcomponent', :locals => {name: 'occurredFollowing', model: element} %><%- end -%><%- end -%>
+    <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

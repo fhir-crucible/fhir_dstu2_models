@@ -1,0 +1,24 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'ProcedureRequest' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if (!model.bodySite().nil? && !model.bodySite.empty?) -%><%- model.bodySite().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySite', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.indication().nil? && !model.indication.empty?) -%><%- model.indication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'indication', model: element} %><%- end -%><%- end -%>
+    <%- if !model.timingDateTime().nil? -%><timingDateTime value="<%= model.timingDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.timingPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'timingPeriod', model: model.timingPeriod()} %><%- end -%>
+    <%- if !model.timingTiming().nil? -%><%== render :template => 'timing', :locals => {name: 'timingTiming', model: model.timingTiming()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
+    <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if (model.notes() && !model.notes.empty?) -%><%- model.notes().each do |element| -%><notes value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.asNeededBoolean().nil? -%><asNeededBoolean value="<%= model.asNeededBoolean() %>"/><%- end -%>
+    <%- if !model.asNeededCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'asNeededCodeableConcept', model: model.asNeededCodeableConcept()} %><%- end -%>
+    <%- if !model.orderedOn().nil? -%><orderedOn value="<%= model.orderedOn().iso8601 %>"/><%- end -%>
+    <%- if !model.orderer().nil? -%><%== render :template => 'reference', :locals => {name: 'orderer', model: model.orderer()} %><%- end -%>
+    <%- if !model.priority().nil? -%><priority value="<%= model.priority() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

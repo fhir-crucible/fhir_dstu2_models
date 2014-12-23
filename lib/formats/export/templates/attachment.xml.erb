@@ -1,0 +1,14 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Attachment' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.contentType().nil? -%><contentType value="<%= model.contentType() %>"/><%- end -%>
+    <%- if !model.language().nil? -%><language value="<%= model.language() %>"/><%- end -%>
+    <%- if !model.data().nil? -%><data value="<%= model.data() %>"/><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if !model.size().nil? -%><size value="<%= model.size() %>"/><%- end -%>
+    <%- if !model.fhirHash().nil? -%><hash value="<%= model.fhirHash() %>"/><%- end -%>
+    <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

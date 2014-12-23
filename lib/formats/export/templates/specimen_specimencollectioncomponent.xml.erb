@@ -1,0 +1,12 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.collector().nil? -%><%== render :template => 'reference', :locals => {name: 'collector', model: model.collector()} %><%- end -%>
+    <%- if (model.comment() && !model.comment.empty?) -%><%- model.comment().each do |element| -%><comment value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.collectedDateTime().nil? -%><collectedDateTime value="<%= model.collectedDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.collectedPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'collectedPeriod', model: model.collectedPeriod()} %><%- end -%>
+    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.method().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'method', model: model.method()} %><%- end -%>
+    <%- if !model.sourceSite().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'sourceSite', model: model.sourceSite()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

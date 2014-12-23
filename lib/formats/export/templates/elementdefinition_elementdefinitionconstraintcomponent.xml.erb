@@ -1,0 +1,10 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.key().nil? -%><key value="<%= model.key() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.severity().nil? -%><severity value="<%= model.severity() %>"/><%- end -%>
+    <%- if !model.human().nil? -%><human value="<%= model.human() %>"/><%- end -%>
+    <%- if !model.xpath().nil? -%><xpath value="<%= model.xpath() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

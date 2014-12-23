@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.isExtensible().nil? -%><isExtensible value="<%= model.isExtensible() %>"/><%- end -%>
+    <%- if !model.conformance().nil? -%><conformance value="<%= model.conformance() %>"/><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.referenceUri().nil? -%><referenceUri value="<%= model.referenceUri() %>"/><%- end -%>
+    <%- if !model.referenceReference().nil? -%><%== render :template => 'reference', :locals => {name: 'referenceReference', model: model.referenceReference()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

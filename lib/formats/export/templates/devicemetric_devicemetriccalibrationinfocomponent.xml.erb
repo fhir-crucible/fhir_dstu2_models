@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.state().nil? -%><state value="<%= model.state() %>"/><%- end -%>
+    <%- if !model.time().nil? -%><time value="<%= model.time().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.initial().nil? -%><initial value="<%= model.initial() %>"/><%- end -%>
+    <%- if !model.priorDate().nil? -%><priorDate value="<%= model.priorDate().iso8601 %>"/><%- end -%>
+    <%- if !model.priorMaterial().nil? -%><%== render :template => 'coding', :locals => {name: 'priorMaterial', model: model.priorMaterial()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

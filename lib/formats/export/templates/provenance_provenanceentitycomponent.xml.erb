@@ -1,0 +1,10 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.role().nil? -%><role value="<%= model.role() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.reference().nil? -%><reference value="<%= model.reference() %>"/><%- end -%>
+    <%- if !model.display().nil? -%><display value="<%= model.display() %>"/><%- end -%>
+    <%- if !model.agent().nil? -%><%== render :template => 'provenance_provenanceagentcomponent', :locals => {name: 'agent', model: model.agent()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

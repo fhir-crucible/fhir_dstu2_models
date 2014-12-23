@@ -1,0 +1,13 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.use().nil? -%><use value="<%= model.use() %>"/><%- end -%>
+    <%- if !model.min().nil? -%><min value="<%= model.min() %>"/><%- end -%>
+    <%- if !model.max().nil? -%><max value="<%= model.max() %>"/><%- end -%>
+    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.profile().nil? -%><%== render :template => 'reference', :locals => {name: 'profile', model: model.profile()} %><%- end -%>
+    <%- if (!model.part().nil? && !model.part.empty?) -%><%- model.part().each do |element| -%><%== render :template => 'operationdefinition_operationdefinitionparameterpartcomponent', :locals => {name: 'part', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

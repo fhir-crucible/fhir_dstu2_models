@@ -1,0 +1,22 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Appointment' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.priority().nil? -%><priority value="<%= model.priority() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.reason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: model.reason()} %><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.start().nil? -%><start value="<%= model.start().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.end().nil? -%><end value="<%= model.end().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if (!model.slot().nil? && !model.slot.empty?) -%><%- model.slot().each do |element| -%><%== render :template => 'reference', :locals => {name: 'slot', model: element} %><%- end -%><%- end -%>
+    <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
+    <%- if !model.comment().nil? -%><comment value="<%= model.comment() %>"/><%- end -%>
+    <%- if !model.order().nil? -%><%== render :template => 'reference', :locals => {name: 'order', model: model.order()} %><%- end -%>
+    <%- if (!model.participant().nil? && !model.participant.empty?) -%><%- model.participant().each do |element| -%><%== render :template => 'appointment_appointmentparticipantcomponent', :locals => {name: 'participant', model: element} %><%- end -%><%- end -%>
+    <%- if !model.lastModifiedBy().nil? -%><%== render :template => 'reference', :locals => {name: 'lastModifiedBy', model: model.lastModifiedBy()} %><%- end -%>
+    <%- if !model.lastModified().nil? -%><lastModified value="<%= model.lastModified().iso8601 %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

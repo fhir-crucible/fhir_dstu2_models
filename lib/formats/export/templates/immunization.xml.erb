@@ -1,0 +1,25 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Immunization' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.vaccineType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'vaccineType', model: model.vaccineType()} %><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.refusedIndicator().nil? -%><refusedIndicator value="<%= model.refusedIndicator() %>"/><%- end -%>
+    <%- if !model.reported().nil? -%><reported value="<%= model.reported() %>"/><%- end -%>
+    <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
+    <%- if !model.requester().nil? -%><%== render :template => 'reference', :locals => {name: 'requester', model: model.requester()} %><%- end -%>
+    <%- if !model.manufacturer().nil? -%><%== render :template => 'reference', :locals => {name: 'manufacturer', model: model.manufacturer()} %><%- end -%>
+    <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
+    <%- if !model.lotNumber().nil? -%><lotNumber value="<%= model.lotNumber() %>"/><%- end -%>
+    <%- if !model.expirationDate().nil? -%><expirationDate value="<%= model.expirationDate().iso8601 %>"/><%- end -%>
+    <%- if !model.site().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'site', model: model.site()} %><%- end -%>
+    <%- if !model.route().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'route', model: model.route()} %><%- end -%>
+    <%- if !model.doseQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'doseQuantity', model: model.doseQuantity()} %><%- end -%>
+    <%- if !model.explanation().nil? -%><%== render :template => 'immunization_immunizationexplanationcomponent', :locals => {name: 'explanation', model: model.explanation()} %><%- end -%>
+    <%- if (!model.reaction().nil? && !model.reaction.empty?) -%><%- model.reaction().each do |element| -%><%== render :template => 'immunization_immunizationreactioncomponent', :locals => {name: 'reaction', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.vaccinationProtocol().nil? && !model.vaccinationProtocol.empty?) -%><%- model.vaccinationProtocol().each do |element| -%><%== render :template => 'immunization_immunizationvaccinationprotocolcomponent', :locals => {name: 'vaccinationProtocol', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

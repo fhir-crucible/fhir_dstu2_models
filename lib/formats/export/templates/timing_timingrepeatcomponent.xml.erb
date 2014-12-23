@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.frequency().nil? -%><frequency value="<%= model.frequency() %>"/><%- end -%>
+    <%- if !model.when().nil? -%><when value="<%= model.when() %>"/><%- end -%>
+    <%- if !model.duration().nil? -%><duration value="<%= model.duration() %>"/><%- end -%>
+    <%- if !model.units().nil? -%><units value="<%= model.units() %>"/><%- end -%>
+    <%- if !model.count().nil? -%><count value="<%= model.count() %>"/><%- end -%>
+    <%- if !model.end().nil? -%><end value="<%= model.end().iso8601 %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.provider().nil? -%><%== render :template => 'reference', :locals => {name: 'provider', model: model.provider()} %><%- end -%>
+    <%- if !model.organization().nil? -%><%== render :template => 'reference', :locals => {name: 'organization', model: model.organization()} %><%- end -%>
+    <%- if !model.person().nil? -%><%== render :template => 'reference', :locals => {name: 'person', model: model.person()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

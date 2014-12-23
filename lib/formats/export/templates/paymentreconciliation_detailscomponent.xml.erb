@@ -1,0 +1,12 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.request().nil? -%><%== render :template => 'reference', :locals => {name: 'request', model: model.request()} %><%- end -%>
+    <%- if !model.responce().nil? -%><%== render :template => 'reference', :locals => {name: 'responce', model: model.responce()} %><%- end -%>
+    <%- if !model.submitter().nil? -%><%== render :template => 'reference', :locals => {name: 'submitter', model: model.submitter()} %><%- end -%>
+    <%- if !model.payee().nil? -%><%== render :template => 'reference', :locals => {name: 'payee', model: model.payee()} %><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.amount().nil? -%><%== render :template => 'quantity', :locals => {name: 'amount', model: model.amount()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

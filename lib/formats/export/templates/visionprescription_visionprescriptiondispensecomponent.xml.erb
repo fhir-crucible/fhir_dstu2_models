@@ -1,0 +1,20 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.product().nil? -%><%== render :template => 'coding', :locals => {name: 'product', model: model.product()} %><%- end -%>
+    <%- if !model.eye().nil? -%><eye value="<%= model.eye() %>"/><%- end -%>
+    <%- if !model.sphere().nil? -%><sphere value="<%= model.sphere() %>"/><%- end -%>
+    <%- if !model.cylinder().nil? -%><cylinder value="<%= model.cylinder() %>"/><%- end -%>
+    <%- if !model.axis().nil? -%><axis value="<%= model.axis() %>"/><%- end -%>
+    <%- if !model.prism().nil? -%><prism value="<%= model.prism() %>"/><%- end -%>
+    <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
+    <%- if !model.add().nil? -%><add value="<%= model.add() %>"/><%- end -%>
+    <%- if !model.power().nil? -%><power value="<%= model.power() %>"/><%- end -%>
+    <%- if !model.backCurve().nil? -%><backCurve value="<%= model.backCurve() %>"/><%- end -%>
+    <%- if !model.diameter().nil? -%><diameter value="<%= model.diameter() %>"/><%- end -%>
+    <%- if !model.duration().nil? -%><%== render :template => 'quantity', :locals => {name: 'duration', model: model.duration()} %><%- end -%>
+    <%- if !model.color().nil? -%><color value="<%= model.color() %>"/><%- end -%>
+    <%- if !model.brand().nil? -%><brand value="<%= model.brand() %>"/><%- end -%>
+    <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

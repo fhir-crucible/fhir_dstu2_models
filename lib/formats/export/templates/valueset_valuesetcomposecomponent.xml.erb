@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (model.import() && !model.import.empty?) -%><%- model.import().each do |element| -%><import value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (!model.include().nil? && !model.include.empty?) -%><%- model.include().each do |element| -%><%== render :template => 'valueset_conceptsetcomponent', :locals => {name: 'include', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.exclude().nil? && !model.exclude.empty?) -%><%- model.exclude().each do |element| -%><%== render :template => 'valueset_conceptsetcomponent', :locals => {name: 'exclude', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

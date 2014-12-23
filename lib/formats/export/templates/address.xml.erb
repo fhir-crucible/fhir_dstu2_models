@@ -1,0 +1,15 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Address' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.use().nil? -%><use value="<%= model.use() %>"/><%- end -%>
+    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
+    <%- if (model.line() && !model.line.empty?) -%><%- model.line().each do |element| -%><line value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.city().nil? -%><city value="<%= model.city() %>"/><%- end -%>
+    <%- if !model.state().nil? -%><state value="<%= model.state() %>"/><%- end -%>
+    <%- if !model.postalCode().nil? -%><postalCode value="<%= model.postalCode() %>"/><%- end -%>
+    <%- if !model.country().nil? -%><country value="<%= model.country() %>"/><%- end -%>
+    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.search().nil? -%><search value="<%= model.search() %>"/><%- end -%>
+    <%- if !model.score().nil? -%><score value="<%= model.score() %>"/><%- end -%>
+    <%- if !model.fhirDeleted().nil? -%><%== render :template => 'bundle_bundleentrydeletedcomponent', :locals => {name: 'deleted', model: model.fhirDeleted()} %><%- end -%>
+    <%- if !model.resource().nil? -%><resource><%== model.resource().to_xml(is_root: false, name: "#{model.resourceType()}")%></resource><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

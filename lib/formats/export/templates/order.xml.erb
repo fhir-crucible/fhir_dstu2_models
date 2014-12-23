@@ -1,0 +1,17 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Order' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.source().nil? -%><%== render :template => 'reference', :locals => {name: 'source', model: model.source()} %><%- end -%>
+    <%- if !model.target().nil? -%><%== render :template => 'reference', :locals => {name: 'target', model: model.target()} %><%- end -%>
+    <%- if !model.reasonCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonCodeableConcept', model: model.reasonCodeableConcept()} %><%- end -%>
+    <%- if !model.reasonReference().nil? -%><%== render :template => 'reference', :locals => {name: 'reasonReference', model: model.reasonReference()} %><%- end -%>
+    <%- if !model.authority().nil? -%><%== render :template => 'reference', :locals => {name: 'authority', model: model.authority()} %><%- end -%>
+    <%- if !model.when().nil? -%><%== render :template => 'order_orderwhencomponent', :locals => {name: 'when', model: model.when()} %><%- end -%>
+    <%- if (!model.detail().nil? && !model.detail.empty?) -%><%- model.detail().each do |element| -%><%== render :template => 'reference', :locals => {name: 'detail', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

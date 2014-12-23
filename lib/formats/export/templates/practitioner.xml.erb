@@ -1,0 +1,21 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Practitioner' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.name().nil? -%><%== render :template => 'humanname', :locals => {name: 'name', model: model.name()} %><%- end -%>
+    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.address().nil? && !model.address.empty?) -%><%- model.address().each do |element| -%><%== render :template => 'address', :locals => {name: 'address', model: element} %><%- end -%><%- end -%>
+    <%- if !model.gender().nil? -%><gender value="<%= model.gender() %>"/><%- end -%>
+    <%- if !model.birthDate().nil? -%><birthDate value="<%= model.birthDate().iso8601 %>"/><%- end -%>
+    <%- if (!model.photo().nil? && !model.photo.empty?) -%><%- model.photo().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'photo', model: element} %><%- end -%><%- end -%>
+    <%- if !model.organization().nil? -%><%== render :template => 'reference', :locals => {name: 'organization', model: model.organization()} %><%- end -%>
+    <%- if (!model.role().nil? && !model.role.empty?) -%><%- model.role().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'role', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.specialty().nil? && !model.specialty.empty?) -%><%- model.specialty().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'specialty', model: element} %><%- end -%><%- end -%>
+    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+    <%- if (!model.location().nil? && !model.location.empty?) -%><%- model.location().each do |element| -%><%== render :template => 'reference', :locals => {name: 'location', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.qualification().nil? && !model.qualification.empty?) -%><%- model.qualification().each do |element| -%><%== render :template => 'practitioner_practitionerqualificationcomponent', :locals => {name: 'qualification', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.communication().nil? && !model.communication.empty?) -%><%- model.communication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'communication', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

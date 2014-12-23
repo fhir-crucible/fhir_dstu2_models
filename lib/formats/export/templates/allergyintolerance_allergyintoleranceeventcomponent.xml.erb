@@ -1,0 +1,14 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.substance().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'substance', model: model.substance()} %><%- end -%>
+    <%- if !model.certainty().nil? -%><certainty value="<%= model.certainty() %>"/><%- end -%>
+    <%- if (!model.manifestation().nil? && !model.manifestation.empty?) -%><%- model.manifestation().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'manifestation', model: element} %><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.onset().nil? -%><onset value="<%= model.onset().iso8601 %>"/><%- end -%>
+    <%- if !model.duration().nil? -%><%== render :template => 'quantity', :locals => {name: 'duration', model: model.duration()} %><%- end -%>
+    <%- if !model.severity().nil? -%><severity value="<%= model.severity() %>"/><%- end -%>
+    <%- if !model.exposureRoute().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'exposureRoute', model: model.exposureRoute()} %><%- end -%>
+    <%- if !model.comment().nil? -%><comment value="<%= model.comment() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,13 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.vaccineType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'vaccineType', model: model.vaccineType()} %><%- end -%>
+    <%- if !model.doseNumber().nil? -%><doseNumber value="<%= model.doseNumber() %>"/><%- end -%>
+    <%- if !model.forecastStatus().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'forecastStatus', model: model.forecastStatus()} %><%- end -%>
+    <%- if (!model.dateCriterion().nil? && !model.dateCriterion.empty?) -%><%- model.dateCriterion().each do |element| -%><%== render :template => 'immunizationrecommendation_immunizationrecommendationrecommendationdatecriterioncomponent', :locals => {name: 'dateCriterion', model: element} %><%- end -%><%- end -%>
+    <%- if !model.protocol().nil? -%><%== render :template => 'immunizationrecommendation_immunizationrecommendationrecommendationprotocolcomponent', :locals => {name: 'protocol', model: model.protocol()} %><%- end -%>
+    <%- if (!model.supportingImmunization().nil? && !model.supportingImmunization.empty?) -%><%- model.supportingImmunization().each do |element| -%><%== render :template => 'reference', :locals => {name: 'supportingImmunization', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.supportingPatientInformation().nil? && !model.supportingPatientInformation.empty?) -%><%- model.supportingPatientInformation().each do |element| -%><%== render :template => 'reference', :locals => {name: 'supportingPatientInformation', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

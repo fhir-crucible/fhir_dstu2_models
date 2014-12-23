@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.linkId().nil? -%><linkId value="<%= model.linkId() %>"/><%- end -%>
+    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
+    <%- if (!model.answer().nil? && !model.answer.empty?) -%><%- model.answer().each do |element| -%><%== render :template => 'questionnaireanswers_questionanswercomponent', :locals => {name: 'answer', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.group().nil? && !model.group.empty?) -%><%- model.group().each do |element| -%><%== render :template => 'questionnaireanswers_groupcomponent', :locals => {name: 'group', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

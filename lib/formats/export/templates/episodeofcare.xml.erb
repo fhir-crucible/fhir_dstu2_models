@@ -1,0 +1,18 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'EpisodeOfCare' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.currentStatus().nil? -%><currentStatus value="<%= model.currentStatus() %>"/><%- end -%>
+    <%- if (!model.statusHistory().nil? && !model.statusHistory.empty?) -%><%- model.statusHistory().each do |element| -%><%== render :template => 'episodeofcare_episodeofcarestatushistorycomponent', :locals => {name: 'statusHistory', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.managingOrganization().nil? -%><%== render :template => 'reference', :locals => {name: 'managingOrganization', model: model.managingOrganization()} %><%- end -%>
+    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+    <%- if (!model.condition().nil? && !model.condition.empty?) -%><%- model.condition().each do |element| -%><%== render :template => 'reference', :locals => {name: 'condition', model: element} %><%- end -%><%- end -%>
+    <%- if !model.referralRequest().nil? -%><%== render :template => 'reference', :locals => {name: 'referralRequest', model: model.referralRequest()} %><%- end -%>
+    <%- if !model.careManager().nil? -%><%== render :template => 'reference', :locals => {name: 'careManager', model: model.careManager()} %><%- end -%>
+    <%- if (!model.careTeam().nil? && !model.careTeam.empty?) -%><%- model.careTeam().each do |element| -%><%== render :template => 'episodeofcare_episodeofcarecareteamcomponent', :locals => {name: 'careTeam', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

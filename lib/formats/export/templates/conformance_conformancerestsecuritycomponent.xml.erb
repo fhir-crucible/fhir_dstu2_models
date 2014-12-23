@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.cors().nil? -%><cors value="<%= model.cors() %>"/><%- end -%>
+    <%- if (!model.service().nil? && !model.service.empty?) -%><%- model.service().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'service', model: element} %><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if (!model.certificate().nil? && !model.certificate.empty?) -%><%- model.certificate().each do |element| -%><%== render :template => 'conformance_conformancerestsecuritycertificatecomponent', :locals => {name: 'certificate', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

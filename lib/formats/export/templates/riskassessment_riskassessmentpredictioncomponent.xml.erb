@@ -1,0 +1,13 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.outcome().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'outcome', model: model.outcome()} %><%- end -%>
+    <%- if !model.probabilityDecimal().nil? -%><probabilityDecimal value="<%= model.probabilityDecimal() %>"/><%- end -%>
+    <%- if !model.probabilityRange().nil? -%><%== render :template => 'range', :locals => {name: 'probabilityRange', model: model.probabilityRange()} %><%- end -%>
+    <%- if !model.probabilityCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'probabilityCodeableConcept', model: model.probabilityCodeableConcept()} %><%- end -%>
+    <%- if !model.relativeRisk().nil? -%><relativeRisk value="<%= model.relativeRisk() %>"/><%- end -%>
+    <%- if !model.whenPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'whenPeriod', model: model.whenPeriod()} %><%- end -%>
+    <%- if !model.whenRange().nil? -%><%== render :template => 'range', :locals => {name: 'whenRange', model: model.whenRange()} %><%- end -%>
+    <%- if !model.rationale().nil? -%><rationale value="<%= model.rationale() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>
