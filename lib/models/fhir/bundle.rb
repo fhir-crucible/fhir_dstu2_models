@@ -82,6 +82,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            attr_accessor :resource
             
             VALID_CODES = {
                 status: [ "create", "update", "match", "include" ]
@@ -94,7 +95,7 @@ module FHIR
             field :score, type: Float
             embeds_one :fhirDeleted, class_name:'FHIR::Bundle::BundleEntryDeletedComponent'
             field :resourceType, type: String
-            field :resource, type: FHIR::AnyType
+            # field :resource, type: FHIR::AnyType
         end
         
         field :fhirType, type: String

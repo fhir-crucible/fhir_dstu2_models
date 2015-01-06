@@ -35,7 +35,7 @@ module FHIR
                 entry.xpath("./fhir:resource/*").each do |e|
                   model.resourceType = e.name
                   v = "FHIR::#{model.resourceType}".constantize.parse_xml_entry(e) unless v
-                  model.resource = {type: model.resourceType, value: v}
+                  model.resource = v #{type: model.resourceType, value: v}
                 end
                 model
             end
