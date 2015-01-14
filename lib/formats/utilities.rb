@@ -8,16 +8,37 @@ module FHIR
         return fhir_classes.include? classname
       end
 
-      def equals?(other)
-        self.attributes.except('_id').keys.each do |key|
-          return false unless compare_attribute(self[key], other[key])
+      def equals?(other, exclude=['_id'])
+        self.attributes.except(*exclude).keys.each do |key|
+          return false unless compare_attribute(self[key], other[key], exclude)
         end
         true
       end
 
-      def compare_attribute(left, right)
+      def mismatch(other, exclude=['_id'])
+        misses = []
+        self.attributes.except(*exclude).keys.each do |key|
+          these = attribute_mismatch(self[key], other[key], exclude)
+          if !these || (these.is_a?(Array) && !these.empty?)
+            misses << "#{self.class}::#{key}" 
+            misses.concat these if these.is_a?(Array)
+          end
+        end
+        misses
+      end
+
+      def attribute_mismatch(left, right, exclude=['_id'])
+        if left.respond_to?(:mismatch) && right.respond_to?(:mismatch)
+          left.mismatch right, exclude
+        else
+          compare_attribute(left, right, exclude)
+        end
+      end
+
+
+      def compare_attribute(left, right, exclude=['_id'])
         if left.respond_to?(:equals?) && right.respond_to?(:equals?)
-          left.equals? right
+          left.equals? right, exclude
         elsif left.is_a?(Array) && right.is_a?(Array) && (left.length == right.length)
           result = true
           (0...(left.length)).each {|i| result &&= compare_attribute(left[i], right[i])}
