@@ -72,7 +72,12 @@ module FHIR
       def decodeHash(h,depth)
          # if the input is a String, convert it into a Hash
         if h.is_a? String
-          h = JSON.parse(h)
+          begin
+            h = JSON.parse(h)
+          rescue Exception => e
+            $LOG.error "Failed to parse JSON hash as resource: #{e.message} %n #{h} %n #{e.backtrace.join("\n")}"
+            return nil
+          end
         end
         
         objClass = nil
