@@ -11,7 +11,9 @@ module FHIR
                 entry.xpath("./*[contains(local-name(),'value')]").each do |e| 
                   model.valueType = e.name.gsub('value','')
                   v = e.at_xpath('@value').try(:value)
-                  v = "FHIR::#{model.valueType}".constantize.parse_xml_entry(e) unless v
+                  if v.nil? && is_fhir_class?("FHIR::#{model.valueType}")
+                    v = "FHIR::#{model.valueType}".constantize.parse_xml_entry(e)
+                  end
                   model.value = {type: model.valueType, value: v}
                 end
                 model
