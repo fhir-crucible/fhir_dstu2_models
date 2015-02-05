@@ -78,26 +78,34 @@ module FHIR
                 entry.xpath("./*[contains(local-name(),'defaultValue')]").each do |e| 
                   model.defaultValueType = e.name.gsub('defaultValue','')
                   v = e.at_xpath('@value').try(:value)
-                  v = "FHIR::#{model.defaultValueType}".constantize.parse_xml_entry(e) unless v
+                  if v.nil? && is_fhir_class?("FHIR::#{model.defaultValueType}")
+                    v = "FHIR::#{model.defaultValueType}".constantize.parse_xml_entry(e)
+                  end
                   model.defaultValue = {type: model.defaultValueType, value: v}
                 end
                 set_model_data(model, 'meaningWhenMissing', entry.at_xpath('./fhir:meaningWhenMissing/@value').try(:value))
                 entry.xpath("./*[contains(local-name(),'fixed')]").each do |e| 
                   model.fixedType = e.name.gsub('fixed','')
                   v = e.at_xpath('@value').try(:value)
-                  v = "FHIR::#{model.fixedType}".constantize.parse_xml_entry(e) unless v
+                  if v.nil? && is_fhir_class?("FHIR::#{model.fixedType}")
+                    v = "FHIR::#{model.fixedType}".constantize.parse_xml_entry(e)
+                  end
                   model.fixed = {type: model.fixedType, value: v}
                 end
                 entry.xpath("./*[contains(local-name(),'pattern')]").each do |e| 
                   model.patternType = e.name.gsub('pattern','')
                   v = e.at_xpath('@value').try(:value)
-                  v = "FHIR::#{model.patternType}".constantize.parse_xml_entry(e) unless v
+                  if v.nil? && is_fhir_class?("FHIR::#{model.patternType}")
+                    v = "FHIR::#{model.patternType}".constantize.parse_xml_entry(e)
+                  end
                   model.pattern = {type: model.patternType, value: v}
                 end
                 entry.xpath("./*[contains(local-name(),'example')]").each do |e| 
                   model.exampleType = e.name.gsub('example','')
                   v = e.at_xpath('@value').try(:value)
-                  v = "FHIR::#{model.exampleType}".constantize.parse_xml_entry(e) unless v
+                  if v.nil? && is_fhir_class?("FHIR::#{model.exampleType}")
+                    v = "FHIR::#{model.exampleType}".constantize.parse_xml_entry(e)
+                  end
                   model.example = {type: model.exampleType, value: v}
                 end
                 set_model_data(model, 'maxLength', entry.at_xpath('./fhir:maxLength/@value').try(:value))

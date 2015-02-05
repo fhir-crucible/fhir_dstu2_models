@@ -146,14 +146,18 @@ module FHIR
         embeds_many :fhirType, class_name:'FHIR::ElementDefinition::TypeRefComponent'
         field :nameReference, type: String
         field :defaultValueType, type: String
-        field :defaultValue, type: FHIR::AnyType
+        attr_accessor :defaultValue
+        # field :defaultValue, type: FHIR::AnyType
         field :meaningWhenMissing, type: String
         field :fixedType, type: String
-        field :fixed, type: FHIR::AnyType
+        attr_accessor :fixed
+        # field :fixed, type: FHIR::AnyType
         field :patternType, type: String
-        field :pattern, type: FHIR::AnyType
+        attr_accessor :pattern
+        # field :pattern, type: FHIR::AnyType
         field :exampleType, type: String
-        field :example, type: FHIR::AnyType
+        attr_accessor :example
+        # field :example, type: FHIR::AnyType
         field :maxLength, type: Integer
         field :condition, type: Array # Array of Strings
         embeds_many :constraint, class_name:'FHIR::ElementDefinition::ElementDefinitionConstraintComponent'

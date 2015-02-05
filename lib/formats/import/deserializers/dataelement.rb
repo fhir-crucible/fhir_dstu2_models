@@ -51,7 +51,9 @@ module FHIR
                 entry.xpath("./*[contains(local-name(),'example')]").each do |e| 
                   model.exampleType = e.name.gsub('example','')
                   v = e.at_xpath('@value').try(:value)
-                  v = "FHIR::#{model.exampleType}".constantize.parse_xml_entry(e) unless v
+                  if v.nil? && is_fhir_class?("FHIR::#{model.exampleType}")
+                    v = "FHIR::#{model.exampleType}".constantize.parse_xml_entry(e)
+                  end
                   model.example = {type: model.exampleType, value: v}
                 end
                 set_model_data(model, 'maxLength', entry.at_xpath('./fhir:maxLength/@value').try(:value))

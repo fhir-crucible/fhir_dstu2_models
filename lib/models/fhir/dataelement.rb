@@ -106,7 +106,8 @@ module FHIR
         field :fhirType, type: String
         validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
         field :exampleType, type: String
-        field :example, type: FHIR::AnyType
+        attr_accessor :example
+        # field :example, type: FHIR::AnyType
         field :maxLength, type: Integer
         embeds_one :unitsCodeableConcept, class_name:'FHIR::CodeableConcept'
         embeds_one :unitsReference, class_name:'FHIR::Reference'

@@ -37,7 +37,8 @@ module FHIR
         field :url, type: String
         validates_presence_of :url
         field :valueType, type: String
-        field :value, type: FHIR::AnyType
+        attr_accessor :value
+        # field :value, type: FHIR::AnyType
         track_history
     end
 end

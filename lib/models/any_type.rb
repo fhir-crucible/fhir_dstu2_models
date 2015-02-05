@@ -42,7 +42,6 @@ module FHIR
         when AnyType then object.mongoize
         when Hash 
           v = object[:value]
-          # return nil if v.nil?
           case object[:type].downcase
           when 'integer', 'decimal', 'boolean'
             v = YAML.load(v)
