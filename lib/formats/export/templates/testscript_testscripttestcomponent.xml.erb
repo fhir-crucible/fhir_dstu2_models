@@ -1,0 +1,10 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.metadata().nil? -%><%== render :template => 'testscript_testscripttestmetadatacomponent', :locals => {name: 'metadata', model: model.metadata()} %><%- end -%>
+    <%- if (!model.operation().nil? && !model.operation.empty?) -%><%- model.operation().each do |element| -%><%== render :template => 'testscript_testscripttestoperationcomponent', :locals => {name: 'operation', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.assertion().nil? && !model.assertion.empty?) -%><%- model.assertion().each do |element| -%><%== render :template => 'testscript_testscripttestassertioncomponent', :locals => {name: 'assertion', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

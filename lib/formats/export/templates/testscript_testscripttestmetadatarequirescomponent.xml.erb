@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.operations().nil? -%><operations value="<%= model.operations() %>"/><%- end -%>
+    <%- if !model.destination().nil? -%><destination value="<%= model.destination() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>
