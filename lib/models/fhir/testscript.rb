@@ -36,8 +36,12 @@ module FHIR
         extend FHIR::Deserializer::TestScript
         
         SEARCH_PARAMS = [
+            'validates-operations',
+            'validates-type',
+            'requires-type',
             'name',
-            'description'
+            'description',
+            'requires-operations'
             ]
         # This is an ugly hack to deal with embedded structures in the spec fixture
         class TestScriptFixtureComponent
@@ -56,7 +60,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance" ]
+                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion" ]
             }
             
             field :fhirType, type: String
@@ -65,6 +69,7 @@ module FHIR
             field :source, type: String
             field :target, type: String
             field :destination, type: Integer
+            field :parameter, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec setup
@@ -126,7 +131,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance" ]
+                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion" ]
             }
             
             field :fhirType, type: String
@@ -135,16 +140,7 @@ module FHIR
             field :source, type: String
             field :target, type: String
             field :destination, type: Integer
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec assertion
-        class TestScriptTestAssertionComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            field :fhirType, type: String
-            validates_presence_of :fhirType
-            field :args, type: String
+            field :parameter, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec test
@@ -157,8 +153,6 @@ module FHIR
             embeds_one :metadata, class_name:'FHIR::TestScript::TestScriptTestMetadataComponent'
             embeds_many :operation, class_name:'FHIR::TestScript::TestScriptTestOperationComponent'
             validates_presence_of :operation
-            embeds_many :assertion, class_name:'FHIR::TestScript::TestScriptTestAssertionComponent'
-            validates_presence_of :assertion
         end
         
         # This is an ugly hack to deal with embedded structures in the spec operation
@@ -168,7 +162,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance" ]
+                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion" ]
             }
             
             field :fhirType, type: String
@@ -177,6 +171,7 @@ module FHIR
             field :source, type: String
             field :target, type: String
             field :destination, type: Integer
+            field :parameter, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec teardown
