@@ -26,6 +26,7 @@ module FHIR
                 set_model_data(model, 'source', entry.at_xpath('./fhir:source/@value').try(:value))
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
+                set_model_data(model, 'parameter', entry.at_xpath('./fhir:parameter/@value').try(:value))
                 model
             end
             
@@ -84,15 +85,7 @@ module FHIR
                 set_model_data(model, 'source', entry.at_xpath('./fhir:source/@value').try(:value))
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
-                model
-            end
-            
-            def parse_xml_entry_TestScriptTestAssertionComponent(entry) 
-                return nil unless entry
-                model = FHIR::TestScript::TestScriptTestAssertionComponent.new
-                self.parse_element_data(model, entry)
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'args', entry.at_xpath('./fhir:args/@value').try(:value))
+                set_model_data(model, 'parameter', entry.at_xpath('./fhir:parameter/@value').try(:value))
                 model
             end
             
@@ -104,7 +97,6 @@ module FHIR
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
                 set_model_data(model, 'metadata', parse_xml_entry_TestScriptTestMetadataComponent(entry.at_xpath('./fhir:metadata')))
                 set_model_data(model, 'operation', entry.xpath('./fhir:operation').map {|e| parse_xml_entry_TestScriptTestOperationComponent(e)})
-                set_model_data(model, 'assertion', entry.xpath('./fhir:assertion').map {|e| parse_xml_entry_TestScriptTestAssertionComponent(e)})
                 model
             end
             
@@ -116,6 +108,7 @@ module FHIR
                 set_model_data(model, 'source', entry.at_xpath('./fhir:source/@value').try(:value))
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
+                set_model_data(model, 'parameter', entry.at_xpath('./fhir:parameter/@value').try(:value))
                 model
             end
             
@@ -134,6 +127,7 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
+                set_model_data(model, 'multiserver', entry.at_xpath('./fhir:multiserver/@value').try(:value))
                 set_model_data(model, 'fixture', entry.xpath('./fhir:fixture').map {|e| parse_xml_entry_TestScriptFixtureComponent(e)})
                 set_model_data(model, 'setup', parse_xml_entry_TestScriptSetupComponent(entry.at_xpath('./fhir:setup')))
                 set_model_data(model, 'test', entry.xpath('./fhir:test').map {|e| parse_xml_entry_TestScriptTestComponent(e)})

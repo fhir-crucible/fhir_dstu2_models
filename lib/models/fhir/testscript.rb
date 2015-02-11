@@ -48,9 +48,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            attr_accessor :resource
             field :uri, type: String
             field :resourceType, type: String
-            field :resource, type: FHIR::AnyType
+            # field :resource, type: FHIR::AnyType
         end
         
         # This is an ugly hack to deal with embedded structures in the spec operation
@@ -184,6 +185,7 @@ module FHIR
         
         field :name, type: String
         field :description, type: String
+        field :multiserver, type: Boolean
         embeds_many :fixture, class_name:'FHIR::TestScript::TestScriptFixtureComponent'
         embeds_one :setup, class_name:'FHIR::TestScript::TestScriptSetupComponent'
         embeds_many :test, class_name:'FHIR::TestScript::TestScriptTestComponent'

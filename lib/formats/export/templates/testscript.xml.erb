@@ -6,6 +6,7 @@
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.multiserver().nil? -%><multiserver value="<%= model.multiserver() %>"/><%- end -%>
     <%- if (!model.fixture().nil? && !model.fixture.empty?) -%><%- model.fixture().each do |element| -%><%== render :template => 'testscript_testscriptfixturecomponent', :locals => {name: 'fixture', model: element} %><%- end -%><%- end -%>
     <%- if !model.setup().nil? -%><%== render :template => 'testscript_testscriptsetupcomponent', :locals => {name: 'setup', model: model.setup()} %><%- end -%>
     <%- if (!model.test().nil? && !model.test.empty?) -%><%- model.test().each do |element| -%><%== render :template => 'testscript_testscripttestcomponent', :locals => {name: 'test', model: element} %><%- end -%><%- end -%>
