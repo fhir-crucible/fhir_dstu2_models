@@ -10,10 +10,9 @@ module FHIR
                 set_model_data(model, 'uri', entry.at_xpath('./fhir:uri/@value').try(:value))
                 entry.xpath("./fhir:resource/*").each do |e|
                   model.resourceType = e.name
-                  if v.nil? && is_fhir_class?("FHIR::#{model.resourceType}")
-                    v = "FHIR::#{model.resourceType}".constantize.parse_xml_entry(e)
-                  end
-                  model.resource = {type: model.resourceType, value: v}
+                  v = "FHIR::#{model.resourceType}".constantize.parse_xml_entry(e) unless v
+                  model.resource = v
+                  #model.resource = {type: model.resourceType, value: v}
                 end
                 model
             end
@@ -26,7 +25,7 @@ module FHIR
                 set_model_data(model, 'source', entry.at_xpath('./fhir:source/@value').try(:value))
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
-                set_model_data(model, 'parameter', entry.at_xpath('./fhir:parameter/@value').try(:value))
+                set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
                 model
             end
             
@@ -85,7 +84,7 @@ module FHIR
                 set_model_data(model, 'source', entry.at_xpath('./fhir:source/@value').try(:value))
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
-                set_model_data(model, 'parameter', entry.at_xpath('./fhir:parameter/@value').try(:value))
+                set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
                 model
             end
             
@@ -108,7 +107,7 @@ module FHIR
                 set_model_data(model, 'source', entry.at_xpath('./fhir:source/@value').try(:value))
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
-                set_model_data(model, 'parameter', entry.at_xpath('./fhir:parameter/@value').try(:value))
+                set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
                 model
             end
             

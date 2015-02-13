@@ -48,9 +48,9 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            attr_accessor :resource
             field :uri, type: String
             field :resourceType, type: String
+            attr_accessor :resource
             # field :resource, type: FHIR::AnyType
         end
         
@@ -70,7 +70,7 @@ module FHIR
             field :source, type: String
             field :target, type: String
             field :destination, type: Integer
-            field :parameter, type: String
+            field :parameter, type: Array # Array of Strings
         end
         
         # This is an ugly hack to deal with embedded structures in the spec setup
@@ -141,7 +141,7 @@ module FHIR
             field :source, type: String
             field :target, type: String
             field :destination, type: Integer
-            field :parameter, type: String
+            field :parameter, type: Array # Array of Strings
         end
         
         # This is an ugly hack to deal with embedded structures in the spec test
@@ -172,7 +172,7 @@ module FHIR
             field :source, type: String
             field :target, type: String
             field :destination, type: Integer
-            field :parameter, type: String
+            field :parameter, type: Array # Array of Strings
         end
         
         # This is an ugly hack to deal with embedded structures in the spec teardown

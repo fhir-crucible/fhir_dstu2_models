@@ -6,5 +6,5 @@
     <%- if !model.source().nil? -%><source value="<%= model.source() %>"/><%- end -%>
     <%- if !model.target().nil? -%><target value="<%= model.target() %>"/><%- end -%>
     <%- if !model.destination().nil? -%><destination value="<%= model.destination() %>"/><%- end -%>
-    <%- if !model.parameter().nil? -%><parameter value="<%= model.parameter() %>"/><%- end -%>
+    <%- if (model.parameter() && !model.parameter.empty?) -%><%- model.parameter().each do |element| -%><parameter value="<%= element %>"/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>
