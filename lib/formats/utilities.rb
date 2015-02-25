@@ -64,7 +64,9 @@ module FHIR
                   'collection' => 'fhirCollection',
                   'deleted' => 'fhirDeleted',
                   'version' => 'versionNum',
-                  'class' => 'fhirClass' }
+                  'class' => 'fhirClass',
+                  'xmlId' => 'id',
+                  'id' => 'xmlId' }
         keys.merge!(keys.invert)
         if keys.has_key? key
           fixed = keys[key]
@@ -77,7 +79,7 @@ module FHIR
         hash.each {|key,value| copy[fix_key(key)] = value }
         copy
       end
-      
+
     end
   end
 end
