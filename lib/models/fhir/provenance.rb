@@ -37,12 +37,12 @@ module FHIR
         
         SEARCH_PARAMS = [
             'patient',
-            'location',
             'start',
+            'end',
+            'location',
             'partytype',
-            'target',
             'party',
-            'end'
+            'target'
             ]
         # This is an ugly hack to deal with embedded structures in the spec agent
         class ProvenanceAgentComponent

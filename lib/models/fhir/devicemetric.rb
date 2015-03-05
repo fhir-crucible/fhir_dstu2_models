@@ -36,16 +36,16 @@ module FHIR
         extend FHIR::Deserializer::DeviceMetric
         
         SEARCH_PARAMS = [
-            'category',
-            'source',
             'parent',
+            'identifier',
+            'source',
             'type',
-            'identifier'
+            'category'
             ]
         
         VALID_CODES = {
-            category: [ "measurement", "setting", "calculation", "unspecified" ],
-            operationalState: [ "on", "off", "standby" ]
+            operationalState: [ "on", "off", "standby" ],
+            category: [ "measurement", "setting", "calculation", "unspecified" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec calibrationInfo

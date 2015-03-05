@@ -37,15 +37,15 @@ module FHIR
         
         SEARCH_PARAMS = [
             'uid',
-            'series',
-            'patient',
-            'bodysite',
-            'accession',
             'study',
-            'modality',
-            'started',
             'dicom-class',
-            'size'
+            'modality',
+            'bodysite',
+            'size',
+            'patient',
+            'series',
+            'started',
+            'accession'
             ]
         
         VALID_CODES = {

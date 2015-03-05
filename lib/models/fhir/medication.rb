@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::Medication
         
         SEARCH_PARAMS = [
-            'content',
-            'form',
             'container',
-            'manufacturer',
-            'name',
+            'code',
             'ingredient',
-            'code'
+            'form',
+            'name',
+            'content',
+            'manufacturer'
             ]
         
         VALID_CODES = {

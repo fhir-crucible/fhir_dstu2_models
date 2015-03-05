@@ -36,8 +36,8 @@ module FHIR
         extend FHIR::Deserializer::DeviceUseStatement
         
         SEARCH_PARAMS = [
-            'patient',
-            'subject'
+            'subject',
+            'patient'
             ]
         embeds_many :bodySite, class_name:'FHIR::CodeableConcept'
         embeds_one :whenUsed, class_name:'FHIR::Period'

@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::RiskAssessment
         
         SEARCH_PARAMS = [
-            'patient',
+            'date',
+            'identifier',
             'condition',
-            'subject',
             'performer',
             'method',
-            'date',
-            'identifier'
+            'subject',
+            'patient'
             ]
         # This is an ugly hack to deal with embedded structures in the spec prediction
         class RiskAssessmentPredictionComponent

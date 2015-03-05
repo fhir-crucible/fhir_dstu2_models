@@ -36,15 +36,15 @@ module FHIR
         extend FHIR::Deserializer::Group
         
         SEARCH_PARAMS = [
-            'member',
-            'characteristic-value',
-            'value',
             'actual',
-            'exclude',
+            'identifier',
+            'characteristic-value',
             'code',
-            'characteristic',
+            'member',
+            'exclude',
             'type',
-            'identifier'
+            'value',
+            'characteristic'
             ]
         
         VALID_CODES = {

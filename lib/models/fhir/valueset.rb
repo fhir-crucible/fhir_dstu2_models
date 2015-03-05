@@ -36,16 +36,16 @@ module FHIR
         extend FHIR::Deserializer::ValueSet
         
         SEARCH_PARAMS = [
-            'system',
-            'status',
-            'description',
-            'name',
-            'code',
             'date',
-            'identifier',
             'reference',
+            'identifier',
+            'system',
+            'code',
+            'name',
             'publisher',
-            'version'
+            'description',
+            'version',
+            'status'
             ]
         
         VALID_CODES = {

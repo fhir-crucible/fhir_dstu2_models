@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::Media
         
         SEARCH_PARAMS = [
-            'patient',
+            'identifier',
+            'view',
+            'subtype',
             'created',
             'subject',
-            'subtype',
-            'view',
+            'patient',
             'type',
-            'identifier',
             'operator'
             ]
         

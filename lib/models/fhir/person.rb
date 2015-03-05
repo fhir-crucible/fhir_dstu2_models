@@ -36,14 +36,14 @@ module FHIR
         extend FHIR::Deserializer::Person
         
         SEARCH_PARAMS = [
-            'organization',
+            'identifier',
             'phonetic',
             'address',
-            'name',
             'birthdate',
-            'telecom',
             'gender',
-            'identifier'
+            'organization',
+            'name',
+            'telecom'
             ]
         
         VALID_CODES = {

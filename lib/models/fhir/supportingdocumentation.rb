@@ -36,10 +36,10 @@ module FHIR
         extend FHIR::Deserializer::SupportingDocumentation
         
         SEARCH_PARAMS = [
+            'identifier',
             'author',
-            'patient',
             'subject',
-            'identifier'
+            'patient'
             ]
         # This is an ugly hack to deal with embedded structures in the spec detail
         class SupportingDocumentationDetailComponent

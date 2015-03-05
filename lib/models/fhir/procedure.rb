@@ -36,8 +36,8 @@ module FHIR
         extend FHIR::Deserializer::Procedure
         
         SEARCH_PARAMS = [
-            'patient',
             'date',
+            'patient',
             'type'
             ]
         # This is an ugly hack to deal with embedded structures in the spec performer

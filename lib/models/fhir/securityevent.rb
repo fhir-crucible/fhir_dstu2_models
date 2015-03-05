@@ -36,22 +36,22 @@ module FHIR
         extend FHIR::Deserializer::SecurityEvent
         
         SEARCH_PARAMS = [
-            'site',
-            'desc',
-            'type',
             'date',
-            'reference',
-            'identity',
-            'patient',
-            'altid',
+            'address',
             'patientid',
             'source',
-            'address',
+            'type',
+            'altid',
+            'reference',
+            'site',
             'subtype',
+            'identity',
+            'patient',
+            'object-type',
             'name',
             'action',
-            'object-type',
-            'user'
+            'user',
+            'desc'
             ]
         # This is an ugly hack to deal with embedded structures in the spec event
         class SecurityEventEventComponent

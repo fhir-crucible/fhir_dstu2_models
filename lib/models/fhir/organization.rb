@@ -36,12 +36,12 @@ module FHIR
         extend FHIR::Deserializer::Organization
         
         SEARCH_PARAMS = [
-            'phonetic',
+            'identifier',
             'partof',
+            'phonetic',
             'name',
             'active',
-            'type',
-            'identifier'
+            'type'
             ]
         # This is an ugly hack to deal with embedded structures in the spec contact
         class OrganizationContactComponent

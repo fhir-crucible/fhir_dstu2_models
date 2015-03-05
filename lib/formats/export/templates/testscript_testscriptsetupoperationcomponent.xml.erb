@@ -7,4 +7,5 @@
     <%- if !model.target().nil? -%><target value="<%= model.target() %>"/><%- end -%>
     <%- if !model.destination().nil? -%><destination value="<%= model.destination() %>"/><%- end -%>
     <%- if (model.parameter() && !model.parameter.empty?) -%><%- model.parameter().each do |element| -%><parameter value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.responseId().nil? -%><responseId value="<%= model.responseId() %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

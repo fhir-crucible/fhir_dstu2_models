@@ -36,15 +36,15 @@ module FHIR
         extend FHIR::Deserializer::MedicationAdministration
         
         SEARCH_PARAMS = [
-            'medication',
+            'identifier',
+            'prescription',
             'effectivetime',
             'patient',
-            'status',
-            'prescription',
+            'medication',
+            'encounter',
             'device',
             'notgiven',
-            'encounter',
-            'identifier'
+            'status'
             ]
         
         VALID_CODES = {

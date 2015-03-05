@@ -36,11 +36,11 @@ module FHIR
         extend FHIR::Deserializer::OrderResponse
         
         SEARCH_PARAMS = [
-            'patient',
-            'fulfillment',
+            'date',
             'request',
             'code',
-            'date',
+            'patient',
+            'fulfillment',
             'who'
             ]
         

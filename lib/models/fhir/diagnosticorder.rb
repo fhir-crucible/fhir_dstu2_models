@@ -36,28 +36,28 @@ module FHIR
         extend FHIR::Deserializer::DiagnosticOrder
         
         SEARCH_PARAMS = [
-            'orderer',
-            'status',
-            'subject',
-            'item-status',
-            'event-status',
-            'actor',
-            'code',
-            'encounter',
             'item-past-status',
-            'patient',
-            'bodysite',
-            'item-date',
-            'specimen',
-            'event-status-date',
-            'event-date',
             'identifier',
-            'item-status-date'
+            'bodysite',
+            'code',
+            'event-date',
+            'event-status-date',
+            'subject',
+            'encounter',
+            'actor',
+            'item-date',
+            'item-status-date',
+            'event-status',
+            'item-status',
+            'patient',
+            'orderer',
+            'specimen',
+            'status'
             ]
         
         VALID_CODES = {
-            status: [ "requested", "received", "accepted", "in progress", "review", "completed", "suspended", "rejected", "failed" ],
-            priority: [ "routine", "urgent", "stat", "asap" ]
+            priority: [ "routine", "urgent", "stat", "asap" ],
+            status: [ "requested", "received", "accepted", "in progress", "review", "completed", "suspended", "rejected", "failed" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec event

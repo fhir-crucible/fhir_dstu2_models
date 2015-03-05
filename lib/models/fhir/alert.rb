@@ -36,8 +36,8 @@ module FHIR
         extend FHIR::Deserializer::Alert
         
         SEARCH_PARAMS = [
-            'patient',
-            'subject'
+            'subject',
+            'patient'
             ]
         
         VALID_CODES = {

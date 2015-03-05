@@ -36,10 +36,10 @@ module FHIR
         extend FHIR::Deserializer::CarePlan2
         
         SEARCH_PARAMS = [
-            'patient',
+            'date',
             'condition',
-            'participant',
-            'date'
+            'patient',
+            'participant'
             ]
         
         VALID_CODES = {

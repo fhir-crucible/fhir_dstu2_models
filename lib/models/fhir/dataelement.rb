@@ -36,21 +36,21 @@ module FHIR
         extend FHIR::Deserializer::DataElement
         
         SEARCH_PARAMS = [
-            'category',
-            'status',
-            'description',
-            'name',
-            'code',
             'date',
             'identifier',
+            'code',
+            'name',
             'publisher',
-            'version'
+            'description',
+            'category',
+            'version',
+            'status'
             ]
         
         VALID_CODES = {
-            status: [ "draft", "active", "retired" ],
             granularity: [ "comparable", "fully specified", "equivalent", "convertable", "scaleable", "flexible" ],
-            fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "string", "time", "uri", "uuid" ]
+            fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "string", "time", "uri", "uuid" ],
+            status: [ "draft", "active", "retired" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec binding

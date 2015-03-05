@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::Questionnaire
         
         SEARCH_PARAMS = [
-            'title',
-            'status',
-            'code',
             'date',
             'identifier',
+            'code',
+            'publisher',
+            'title',
             'version',
-            'publisher'
+            'status'
             ]
         
         VALID_CODES = {

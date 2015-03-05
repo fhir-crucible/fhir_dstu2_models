@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::List
         
         SEARCH_PARAMS = [
-            'patient',
-            'source',
-            'subject',
-            'item',
-            'code',
             'date',
-            'empty-reason'
+            'item',
+            'empty-reason',
+            'code',
+            'subject',
+            'patient',
+            'source'
             ]
         
         VALID_CODES = {

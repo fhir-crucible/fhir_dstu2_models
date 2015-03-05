@@ -36,12 +36,12 @@ module FHIR
         extend FHIR::Deserializer::ReferralRequest
         
         SEARCH_PARAMS = [
-            'patient',
-            'status',
-            'priority',
-            'type',
             'specialty',
-            'recipient'
+            'patient',
+            'recipient',
+            'type',
+            'priority',
+            'status'
             ]
         
         VALID_CODES = {

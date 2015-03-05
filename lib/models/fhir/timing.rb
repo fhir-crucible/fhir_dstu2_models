@@ -41,8 +41,8 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                when: [ "HS", "WAKE", "AC", "ACM", "ACD", "ACV", "PC", "PCM", "PCD", "PCV" ],
-                units: [ "s", "min", "h", "d", "wk", "mo", "a" ]
+                units: [ "s", "min", "h", "d", "wk", "mo", "a" ],
+                when: [ "HS", "WAKE", "AC", "ACM", "ACD", "ACV", "PC", "PCM", "PCD", "PCV" ]
             }
             
             field :frequency, type: Integer

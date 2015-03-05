@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::ProcedureRequest
         
         SEARCH_PARAMS = [
-            'patient',
-            'subject'
+            'subject',
+            'patient'
             ]
         
         VALID_CODES = {
-            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "aborted" ],
-            priority: [ "routine", "urgent", "stat", "asap" ]
+            priority: [ "routine", "urgent", "stat", "asap" ],
+            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "aborted" ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'

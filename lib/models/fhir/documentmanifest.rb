@@ -36,18 +36,18 @@ module FHIR
         extend FHIR::Deserializer::DocumentManifest
         
         SEARCH_PARAMS = [
-            'content',
-            'author',
-            'patient',
-            'supersedes',
-            'status',
-            'created',
-            'confidentiality',
-            'description',
-            'subject',
-            'type',
             'identifier',
-            'recipient'
+            'subject',
+            'author',
+            'created',
+            'patient',
+            'confidentiality',
+            'recipient',
+            'description',
+            'type',
+            'content',
+            'status',
+            'supersedes'
             ]
         
         VALID_CODES = {

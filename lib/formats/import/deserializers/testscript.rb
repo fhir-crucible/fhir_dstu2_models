@@ -26,6 +26,7 @@ module FHIR
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
+                set_model_data(model, 'responseId', entry.at_xpath('./fhir:responseId/@value').try(:value))
                 model
             end
             
@@ -85,6 +86,7 @@ module FHIR
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
+                set_model_data(model, 'responseId', entry.at_xpath('./fhir:responseId/@value').try(:value))
                 model
             end
             
@@ -108,6 +110,7 @@ module FHIR
                 set_model_data(model, 'target', entry.at_xpath('./fhir:target/@value').try(:value))
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
+                set_model_data(model, 'responseId', entry.at_xpath('./fhir:responseId/@value').try(:value))
                 model
             end
             

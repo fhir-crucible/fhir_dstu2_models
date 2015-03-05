@@ -39,8 +39,8 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "proposed", "active", "retired" ],
-            fhirType: [ "codesystem", "identifier", "root" ]
+            fhirType: [ "codesystem", "identifier", "root" ],
+            status: [ "proposed", "active", "retired" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec uniqueId

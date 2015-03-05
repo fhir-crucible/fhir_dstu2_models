@@ -36,17 +36,17 @@ module FHIR
         extend FHIR::Deserializer::NutritionOrder
         
         SEARCH_PARAMS = [
-            'patient',
-            'status',
+            'identifier',
+            'datetime',
+            'provider',
             'subject',
             'supplement',
-            'oraldiet',
-            'provider',
+            'patient',
+            'formula',
             'encounter',
-            'datetime',
-            'additive',
-            'identifier',
-            'formula'
+            'oraldiet',
+            'status',
+            'additive'
             ]
         
         VALID_CODES = {

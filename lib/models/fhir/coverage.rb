@@ -36,14 +36,14 @@ module FHIR
         extend FHIR::Deserializer::Coverage
         
         SEARCH_PARAMS = [
-            'plan',
-            'issuer',
-            'sequence',
-            'dependent',
-            'group',
-            'type',
             'identifier',
-            'subplan'
+            'sequence',
+            'subplan',
+            'type',
+            'plan',
+            'dependent',
+            'issuer',
+            'group'
             ]
         embeds_one :issuer, class_name:'FHIR::Reference'
         embeds_one :period, class_name:'FHIR::Period'

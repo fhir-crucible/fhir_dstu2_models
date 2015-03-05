@@ -61,7 +61,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion" ]
+                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
             }
             
             field :fhirType, type: String
@@ -71,6 +71,7 @@ module FHIR
             field :target, type: String
             field :destination, type: Integer
             field :parameter, type: Array # Array of Strings
+            field :responseId, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec setup
@@ -79,6 +80,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_many :operation, class_name:'FHIR::TestScript::TestScriptSetupOperationComponent'
+            validates_presence_of :operation
         end
         
         # This is an ugly hack to deal with embedded structures in the spec link
@@ -132,7 +134,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion" ]
+                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
             }
             
             field :fhirType, type: String
@@ -142,6 +144,7 @@ module FHIR
             field :target, type: String
             field :destination, type: Integer
             field :parameter, type: Array # Array of Strings
+            field :responseId, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec test
@@ -163,7 +166,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion" ]
+                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
             }
             
             field :fhirType, type: String
@@ -173,6 +176,7 @@ module FHIR
             field :target, type: String
             field :destination, type: Integer
             field :parameter, type: Array # Array of Strings
+            field :responseId, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec teardown
@@ -181,6 +185,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_many :operation, class_name:'FHIR::TestScript::TestScriptTeardownOperationComponent'
+            validates_presence_of :operation
         end
         
         field :name, type: String

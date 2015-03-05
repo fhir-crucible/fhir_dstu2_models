@@ -36,18 +36,18 @@ module FHIR
         extend FHIR::Deserializer::ConceptMap
         
         SEARCH_PARAMS = [
-            'product',
-            'dependson',
-            'system',
-            'source',
-            'status',
-            'description',
-            'name',
-            'target',
             'date',
             'identifier',
+            'product',
+            'system',
+            'dependson',
+            'name',
             'publisher',
-            'version'
+            'description',
+            'source',
+            'version',
+            'status',
+            'target'
             ]
         
         VALID_CODES = {

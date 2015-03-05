@@ -36,15 +36,15 @@ module FHIR
         extend FHIR::Deserializer::EpisodeOfCare
         
         SEARCH_PARAMS = [
-            'organization',
-            'patient',
-            'condition',
-            'status',
-            'referral',
-            'care-manager',
-            'type',
             'date',
-            'identifier'
+            'identifier',
+            'condition',
+            'referral',
+            'patient',
+            'organization',
+            'type',
+            'care-manager',
+            'status'
             ]
         
         VALID_CODES = {

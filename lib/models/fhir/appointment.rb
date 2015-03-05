@@ -36,11 +36,11 @@ module FHIR
         extend FHIR::Deserializer::Appointment
         
         SEARCH_PARAMS = [
+            'date',
+            'actor',
             'partstatus',
             'patient',
-            'status',
-            'actor',
-            'date'
+            'status'
             ]
         
         VALID_CODES = {
@@ -54,8 +54,8 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "accepted", "declined", "tentative", "in-process", "completed", "needs-action" ],
-                required: [ "required", "optional", "information-only" ]
+                required: [ "required", "optional", "information-only" ],
+                status: [ "accepted", "declined", "tentative", "in-process", "completed", "needs-action" ]
             }
             
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'

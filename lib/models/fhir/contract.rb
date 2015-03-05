@@ -36,8 +36,8 @@ module FHIR
         extend FHIR::Deserializer::Contract
         
         SEARCH_PARAMS = [
-            'patient',
-            'subject'
+            'subject',
+            'patient'
             ]
         # This is an ugly hack to deal with embedded structures in the spec signer
         class ContractSignerComponent

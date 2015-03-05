@@ -36,17 +36,17 @@ module FHIR
         extend FHIR::Deserializer::Practitioner
         
         SEARCH_PARAMS = [
-            'organization',
-            'phonetic',
+            'identifier',
             'given',
-            'location',
-            'communication',
+            'phonetic',
             'address',
-            'family',
+            'gender',
+            'organization',
             'name',
             'telecom',
-            'gender',
-            'identifier'
+            'location',
+            'family',
+            'communication'
             ]
         
         VALID_CODES = {

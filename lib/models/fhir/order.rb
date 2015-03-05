@@ -36,15 +36,15 @@ module FHIR
         extend FHIR::Deserializer::Order
         
         SEARCH_PARAMS = [
-            'authority',
-            'detail',
-            'patient',
-            'source',
+            'date',
             'subject',
+            'patient',
+            'authority',
+            'source',
+            'detail',
             'when',
             'target',
-            'when_code',
-            'date'
+            'when_code'
             ]
         # This is an ugly hack to deal with embedded structures in the spec when
         class OrderWhenComponent

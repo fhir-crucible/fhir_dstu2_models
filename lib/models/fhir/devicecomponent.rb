@@ -36,8 +36,8 @@ module FHIR
         extend FHIR::Deserializer::DeviceComponent
         
         SEARCH_PARAMS = [
-            'source',
             'parent',
+            'source',
             'type'
             ]
         

@@ -36,8 +36,8 @@ module FHIR
         extend FHIR::Deserializer::FamilyHistory
         
         SEARCH_PARAMS = [
-            'patient',
-            'date'
+            'date',
+            'patient'
             ]
         # This is an ugly hack to deal with embedded structures in the spec condition
         class FamilyHistoryRelationConditionComponent

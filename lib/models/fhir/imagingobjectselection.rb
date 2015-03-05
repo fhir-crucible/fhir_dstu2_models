@@ -36,12 +36,12 @@ module FHIR
         extend FHIR::Deserializer::ImagingObjectSelection
         
         SEARCH_PARAMS = [
+            'identifier',
+            'authoring-time',
             'selected-study',
             'author',
-            'title',
             'patient',
-            'authoring-time',
-            'identifier'
+            'title'
             ]
         
         VALID_CODES = {

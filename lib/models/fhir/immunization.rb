@@ -36,22 +36,22 @@ module FHIR
         extend FHIR::Deserializer::Immunization
         
         SEARCH_PARAMS = [
-            'reaction',
-            'requester',
-            'dose-sequence',
-            'vaccine-type',
-            'location',
-            'reason',
-            'subject',
-            'reaction-date',
             'date',
-            'patient',
-            'lot-number',
-            'manufacturer',
+            'requester',
+            'identifier',
+            'reason',
             'performer',
-            'refusal-reason',
+            'reaction',
+            'lot-number',
             'refused',
-            'identifier'
+            'subject',
+            'vaccine-type',
+            'manufacturer',
+            'dose-sequence',
+            'patient',
+            'location',
+            'refusal-reason',
+            'reaction-date'
             ]
         # This is an ugly hack to deal with embedded structures in the spec explanation
         class ImmunizationExplanationComponent

@@ -36,17 +36,17 @@ module FHIR
         extend FHIR::Deserializer::MedicationDispense
         
         SEARCH_PARAMS = [
-            'medication',
-            'patient',
-            'status',
-            'prescription',
-            'responsibleparty',
             'dispenser',
-            'type',
             'identifier',
-            'whenprepared',
+            'prescription',
+            'patient',
+            'destination',
+            'medication',
+            'responsibleparty',
+            'type',
             'whenhandedover',
-            'destination'
+            'whenprepared',
+            'status'
             ]
         
         VALID_CODES = {

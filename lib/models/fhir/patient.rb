@@ -36,22 +36,22 @@ module FHIR
         extend FHIR::Deserializer::Patient
         
         SEARCH_PARAMS = [
-            'animal-breed',
-            'phonetic',
-            'link',
-            'animal-species',
-            'organization',
+            'identifier',
             'given',
-            'careprovider',
             'address',
-            'family',
+            'birthdate',
+            'gender',
+            'animal-species',
+            'link',
+            'active',
+            'language',
+            'animal-breed',
+            'careprovider',
+            'phonetic',
+            'organization',
             'name',
             'telecom',
-            'birthdate',
-            'active',
-            'gender',
-            'language',
-            'identifier'
+            'family'
             ]
         
         VALID_CODES = {

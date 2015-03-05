@@ -36,21 +36,21 @@ module FHIR
         extend FHIR::Deserializer::Composition
         
         SEARCH_PARAMS = [
-            'section-code',
-            'status',
-            'subject',
-            'class',
-            'period',
-            'type',
             'date',
-            'section',
+            'identifier',
+            'period',
+            'subject',
             'author',
-            'title',
-            'patient',
-            'attester',
             'confidentiality',
+            'section-code',
+            'section',
+            'type',
+            'title',
+            'attester',
+            'patient',
             'context',
-            'identifier'
+            'class',
+            'status'
             ]
         
         VALID_CODES = {

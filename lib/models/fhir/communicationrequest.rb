@@ -36,19 +36,19 @@ module FHIR
         extend FHIR::Deserializer::CommunicationRequest
         
         SEARCH_PARAMS = [
-            'sender',
-            'time',
             'requester',
-            'category',
-            'patient',
-            'status',
-            'priority',
-            'subject',
-            'ordered',
-            'encounter',
             'identifier',
+            'ordered',
+            'subject',
             'medium',
-            'recipient'
+            'encounter',
+            'priority',
+            'sender',
+            'patient',
+            'recipient',
+            'time',
+            'category',
+            'status'
             ]
         
         VALID_CODES = {

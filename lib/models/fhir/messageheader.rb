@@ -37,16 +37,16 @@ module FHIR
         
         SEARCH_PARAMS = [
             'destination-uri',
-            'timestamp',
-            'source-uri',
+            'code',
+            'data',
             'receiver',
+            'src-id',
+            'source-uri',
+            'destination',
+            'response-id',
             'source',
             'event',
-            'data',
-            'code',
-            'response-id',
-            'src-id',
-            'destination'
+            'timestamp'
             ]
         
         VALID_CODES = {

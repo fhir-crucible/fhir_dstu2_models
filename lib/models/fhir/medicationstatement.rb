@@ -36,11 +36,11 @@ module FHIR
         extend FHIR::Deserializer::MedicationStatement
         
         SEARCH_PARAMS = [
-            'medication',
-            'patient',
-            'device',
+            'identifier',
             'when-given',
-            'identifier'
+            'patient',
+            'medication',
+            'device'
             ]
         # This is an ugly hack to deal with embedded structures in the spec dosage
         class MedicationStatementDosageComponent

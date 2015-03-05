@@ -36,9 +36,9 @@ module FHIR
         extend FHIR::Deserializer::EnrollmentRequest
         
         SEARCH_PARAMS = [
-            'patient',
+            'identifier',
             'subject',
-            'identifier'
+            'patient'
             ]
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :ruleset, class_name:'FHIR::Coding'

@@ -36,10 +36,10 @@ module FHIR
         extend FHIR::Deserializer::InstitutionalClaim
         
         SEARCH_PARAMS = [
-            'patient',
-            'priority',
+            'identifier',
             'use',
-            'identifier'
+            'patient',
+            'priority'
             ]
         
         VALID_CODES = {

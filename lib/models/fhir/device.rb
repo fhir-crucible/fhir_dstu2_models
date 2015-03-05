@@ -36,14 +36,14 @@ module FHIR
         extend FHIR::Deserializer::Device
         
         SEARCH_PARAMS = [
+            'identifier',
+            'patient',
             'organization',
             'model',
-            'patient',
             'location',
-            'manufacturer',
             'udi',
             'type',
-            'identifier'
+            'manufacturer'
             ]
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'

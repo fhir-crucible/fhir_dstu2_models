@@ -36,29 +36,29 @@ module FHIR
         extend FHIR::Deserializer::DocumentReference
         
         SEARCH_PARAMS = [
-            'location',
-            'indexed',
-            'status',
-            'subject',
-            'relatesto',
-            'relation',
-            'class',
-            'format',
+            'identifier',
             'period',
-            'type',
-            'authenticator',
-            'size',
-            'relationship',
-            'author',
-            'patient',
             'custodian',
-            'facility',
+            'indexed',
+            'subject',
+            'author',
             'created',
-            'event',
             'confidentiality',
+            'format',
             'description',
             'language',
-            'identifier'
+            'type',
+            'relation',
+            'size',
+            'patient',
+            'location',
+            'relatesto',
+            'relationship',
+            'event',
+            'class',
+            'authenticator',
+            'facility',
+            'status'
             ]
         
         VALID_CODES = {

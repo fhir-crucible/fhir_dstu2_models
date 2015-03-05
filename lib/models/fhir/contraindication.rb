@@ -36,11 +36,11 @@ module FHIR
         extend FHIR::Deserializer::Contraindication
         
         SEARCH_PARAMS = [
-            'category',
-            'implicated',
-            'patient',
             'date',
-            'identifier'
+            'identifier',
+            'patient',
+            'implicated',
+            'category'
             ]
         # This is an ugly hack to deal with embedded structures in the spec mitigation
         class ContraindicationMitigationComponent

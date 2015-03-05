@@ -36,16 +36,16 @@ module FHIR
         extend FHIR::Deserializer::ImmunizationRecommendation
         
         SEARCH_PARAMS = [
-            'information',
-            'dose-sequence',
-            'patient',
-            'support',
-            'vaccine-type',
-            'status',
-            'dose-number',
-            'subject',
             'date',
-            'identifier'
+            'identifier',
+            'dose-sequence',
+            'subject',
+            'patient',
+            'vaccine-type',
+            'dose-number',
+            'information',
+            'support',
+            'status'
             ]
         # This is an ugly hack to deal with embedded structures in the spec dateCriterion
         class ImmunizationRecommendationRecommendationDateCriterionComponent

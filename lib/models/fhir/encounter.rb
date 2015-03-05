@@ -36,24 +36,24 @@ module FHIR
         extend FHIR::Deserializer::Encounter
         
         SEARCH_PARAMS = [
-            'participant-type',
-            'patient',
-            'episodeofcare',
-            'location',
-            'status',
-            'indication',
-            'length',
-            'type',
             'date',
-            'special-arrangement',
             'identifier',
+            'episodeofcare',
+            'participant-type',
+            'length',
             'part-of',
-            'location-period'
+            'type',
+            'patient',
+            'location-period',
+            'location',
+            'indication',
+            'special-arrangement',
+            'status'
             ]
         
         VALID_CODES = {
-            status: [ "planned", "arrived", "in progress", "onleave", "finished", "cancelled" ],
-            fhirClass: [ "inpatient", "outpatient", "ambulatory", "emergency", "home", "field", "daytime", "virtual", "other" ]
+            fhirClass: [ "inpatient", "outpatient", "ambulatory", "emergency", "home", "field", "daytime", "virtual", "other" ],
+            status: [ "planned", "arrived", "in progress", "onleave", "finished", "cancelled" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec statusHistory

@@ -36,20 +36,20 @@ module FHIR
         extend FHIR::Deserializer::Location
         
         SEARCH_PARAMS = [
-            'organization',
-            'near',
+            'identifier',
             'partof',
-            'status',
-            'address',
-            'name',
             'near-distance',
+            'address',
+            'organization',
+            'name',
+            'near',
             'type',
-            'identifier'
+            'status'
             ]
         
         VALID_CODES = {
-            status: [ "active", "suspended", "inactive" ],
-            mode: [ "instance", "kind" ]
+            mode: [ "instance", "kind" ],
+            status: [ "active", "suspended", "inactive" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec position

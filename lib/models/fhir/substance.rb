@@ -36,11 +36,11 @@ module FHIR
         extend FHIR::Deserializer::Substance
         
         SEARCH_PARAMS = [
-            'substance',
-            'quantity',
-            'type',
             'identifier',
-            'expiry'
+            'quantity',
+            'substance',
+            'expiry',
+            'type'
             ]
         # This is an ugly hack to deal with embedded structures in the spec instance
         class SubstanceInstanceComponent

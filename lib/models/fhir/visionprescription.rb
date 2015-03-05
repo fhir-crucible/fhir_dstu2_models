@@ -36,10 +36,10 @@ module FHIR
         extend FHIR::Deserializer::VisionPrescription
         
         SEARCH_PARAMS = [
-            'datewritten',
+            'identifier',
             'patient',
-            'encounter',
-            'identifier'
+            'datewritten',
+            'encounter'
             ]
         # This is an ugly hack to deal with embedded structures in the spec dispense
         class VisionPrescriptionDispenseComponent
@@ -48,8 +48,8 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                base: [ "up", "down", "in", "out" ],
-                eye: [ "right", "left" ]
+                eye: [ "right", "left" ],
+                base: [ "up", "down", "in", "out" ]
             }
             
             embeds_one :product, class_name:'FHIR::Coding'

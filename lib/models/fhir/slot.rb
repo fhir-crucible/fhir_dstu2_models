@@ -37,8 +37,8 @@ module FHIR
         
         SEARCH_PARAMS = [
             'schedule',
-            'start',
             'slottype',
+            'start',
             'fbtype'
             ]
         

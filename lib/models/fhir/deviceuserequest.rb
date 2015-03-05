@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::DeviceUseRequest
         
         SEARCH_PARAMS = [
-            'patient',
-            'subject'
+            'subject',
+            'patient'
             ]
         
         VALID_CODES = {
-            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "aborted" ],
-            priority: [ "routine", "urgent", "stat", "asap" ]
+            priority: [ "routine", "urgent", "stat", "asap" ],
+            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "aborted" ]
         }
         
         embeds_many :bodySite, class_name:'FHIR::CodeableConcept'

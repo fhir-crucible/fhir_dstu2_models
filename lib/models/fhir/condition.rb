@@ -36,23 +36,23 @@ module FHIR
         extend FHIR::Deserializer::Condition
         
         SEARCH_PARAMS = [
-            'asserter',
-            'following-code',
-            'dueto-code',
-            'status',
-            'location',
-            'subject',
-            'onset',
-            'evidence',
-            'following-item',
             'severity',
             'code',
-            'encounter',
+            'evidence',
             'date-asserted',
+            'subject',
+            'dueto-item',
+            'encounter',
+            'onset',
+            'asserter',
             'stage',
-            'category',
+            'following-item',
             'patient',
-            'dueto-item'
+            'dueto-code',
+            'location',
+            'category',
+            'following-code',
+            'status'
             ]
         
         VALID_CODES = {

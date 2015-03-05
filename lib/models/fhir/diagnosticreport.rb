@@ -36,20 +36,20 @@ module FHIR
         extend FHIR::Deserializer::DiagnosticReport
         
         SEARCH_PARAMS = [
-            'result',
-            'status',
-            'subject',
-            'issued',
-            'diagnosis',
-            'image',
             'date',
-            'patient',
+            'identifier',
+            'image',
             'request',
+            'performer',
+            'subject',
+            'diagnosis',
+            'result',
+            'service',
+            'patient',
             'specimen',
             'name',
-            'service',
-            'performer',
-            'identifier'
+            'issued',
+            'status'
             ]
         
         VALID_CODES = {

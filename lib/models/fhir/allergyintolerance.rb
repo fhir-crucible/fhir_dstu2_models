@@ -36,29 +36,29 @@ module FHIR
         extend FHIR::Deserializer::AllergyIntolerance
         
         SEARCH_PARAMS = [
-            'status',
-            'subject',
-            'onset',
-            'last-date',
             'severity',
             'date',
-            'type',
+            'identifier',
+            'manifestation',
+            'recorder',
+            'subject',
             'substance',
             'criticality',
-            'category',
+            'type',
+            'onset',
             'duration',
-            'patient',
-            'recorder',
             'route',
-            'identifier',
-            'manifestation'
+            'patient',
+            'category',
+            'last-date',
+            'status'
             ]
         
         VALID_CODES = {
             criticality: [ "low", "high", "unassessible" ],
             category: [ "food", "medication", "environment" ],
-            status: [ "unconfirmed", "confirmed", "resolved", "refuted" ],
-            fhirType: [ "immune", "non-immune" ]
+            fhirType: [ "immune", "non-immune" ],
+            status: [ "unconfirmed", "confirmed", "resolved", "refuted" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec event
@@ -68,8 +68,8 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                certainty: [ "unlikely", "likely", "confirmed" ],
-                severity: [ "mild", "moderate", "severe" ]
+                severity: [ "mild", "moderate", "severe" ],
+                certainty: [ "unlikely", "likely", "confirmed" ]
             }
             
             embeds_one :substance, class_name:'FHIR::CodeableConcept'

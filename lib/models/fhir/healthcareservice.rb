@@ -38,8 +38,8 @@ module FHIR
         SEARCH_PARAMS = [
             'servicecategory',
             'servicetype',
-            'location',
-            'name'
+            'name',
+            'location'
             ]
         # This is an ugly hack to deal with embedded structures in the spec serviceType
         class ServiceTypeComponent

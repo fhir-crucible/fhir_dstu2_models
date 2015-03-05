@@ -36,19 +36,19 @@ module FHIR
         extend FHIR::Deserializer::ClinicalAssessment
         
         SEARCH_PARAMS = [
-            'previous',
-            'referral',
-            'diagnosis',
-            'problem',
             'date',
-            'careplan',
-            'ruledout',
+            'previous',
             'assessor',
+            'careplan',
+            'diagnosis',
+            'ruledout',
+            'problem',
+            'referral',
             'patient',
-            'resolved',
-            'plan',
+            'investigation',
             'action',
-            'investigation'
+            'plan',
+            'resolved'
             ]
         # This is an ugly hack to deal with embedded structures in the spec investigations
         class ClinicalAssessmentInvestigationsComponent

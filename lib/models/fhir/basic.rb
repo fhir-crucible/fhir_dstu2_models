@@ -36,10 +36,10 @@ module FHIR
         extend FHIR::Deserializer::Basic
         
         SEARCH_PARAMS = [
-            'patient',
-            'created',
+            'code',
             'subject',
-            'code'
+            'created',
+            'patient'
             ]
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :code, class_name:'FHIR::CodeableConcept'

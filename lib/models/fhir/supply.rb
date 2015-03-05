@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::Supply
         
         SEARCH_PARAMS = [
-            'patient',
-            'status',
-            'dispenseid',
             'identifier',
-            'supplier',
             'kind',
-            'dispensestatus'
+            'patient',
+            'supplier',
+            'dispenseid',
+            'dispensestatus',
+            'status'
             ]
         
         VALID_CODES = {

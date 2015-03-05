@@ -36,31 +36,31 @@ module FHIR
         extend FHIR::Deserializer::Observation
         
         SEARCH_PARAMS = [
-            'value-string',
-            'status',
-            'subject',
-            'value-concept',
-            'reliability',
-            'encounter',
             'date',
             'name-value-[x]',
-            'related-target',
+            'identifier',
+            'performer',
+            'value-quantity',
+            'subject',
+            'reliability',
+            'value-concept',
+            'value-date',
             'data-absent-reason',
+            'encounter',
+            'related-type',
+            'related-target',
             'related',
             'patient',
-            'name',
             'specimen',
-            'related-type',
-            'performer',
-            'identifier',
-            'value-quantity',
-            'value-date'
+            'name',
+            'value-string',
+            'status'
             ]
         
         VALID_CODES = {
-            status: [ "registered", "preliminary", "final", "amended", "cancelled", "entered in error" ],
             dataAbsentReason: [ "unknown", "asked", "temp", "notasked", "masked", "unsupported", "astext", "error" ],
-            reliability: [ "ok", "ongoing", "early", "questionable", "calibrating", "error", "unknown" ]
+            reliability: [ "ok", "ongoing", "early", "questionable", "calibrating", "error", "unknown" ],
+            status: [ "registered", "preliminary", "final", "amended", "cancelled", "entered in error" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec referenceRange

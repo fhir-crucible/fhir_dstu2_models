@@ -36,13 +36,13 @@ module FHIR
         extend FHIR::Deserializer::Subscription
         
         SEARCH_PARAMS = [
-            'criteria',
-            'status',
-            'tag',
             'payload',
-            'type',
+            'criteria',
             'contact',
-            'url'
+            'tag',
+            'type',
+            'url',
+            'status'
             ]
         
         VALID_CODES = {

@@ -36,17 +36,17 @@ module FHIR
         extend FHIR::Deserializer::Specimen
         
         SEARCH_PARAMS = [
-            'site',
-            'collector',
-            'patient',
-            'source',
             'container',
-            'collected',
+            'identifier',
+            'site',
             'subject',
-            'containerid',
+            'patient',
+            'collected',
+            'source',
             'accession',
             'type',
-            'identifier'
+            'containerid',
+            'collector'
             ]
         # This is an ugly hack to deal with embedded structures in the spec source
         class SpecimenSourceComponent
