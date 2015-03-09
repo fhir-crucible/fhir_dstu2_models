@@ -14,6 +14,8 @@ module FHIR
                   model.resource = v
                   #model.resource = {type: model.resourceType, value: v}
                 end
+                set_model_data(model, 'autocreate', entry.at_xpath('./fhir:autocreate/@value').try(:value))
+                set_model_data(model, 'autodelete', entry.at_xpath('./fhir:autodelete/@value').try(:value))
                 model
             end
             
@@ -27,6 +29,7 @@ module FHIR
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
                 set_model_data(model, 'responseId', entry.at_xpath('./fhir:responseId/@value').try(:value))
+                set_model_data(model, 'contentType', entry.at_xpath('./fhir:contentType/@value').try(:value))
                 model
             end
             
@@ -87,6 +90,7 @@ module FHIR
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
                 set_model_data(model, 'responseId', entry.at_xpath('./fhir:responseId/@value').try(:value))
+                set_model_data(model, 'contentType', entry.at_xpath('./fhir:contentType/@value').try(:value))
                 model
             end
             
@@ -111,6 +115,7 @@ module FHIR
                 set_model_data(model, 'destination', entry.at_xpath('./fhir:destination/@value').try(:value))
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter/@value').map {|e| e.value })
                 set_model_data(model, 'responseId', entry.at_xpath('./fhir:responseId/@value').try(:value))
+                set_model_data(model, 'contentType', entry.at_xpath('./fhir:contentType/@value').try(:value))
                 model
             end
             

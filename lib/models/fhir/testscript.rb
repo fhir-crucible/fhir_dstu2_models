@@ -52,6 +52,8 @@ module FHIR
             field :resourceType, type: String
             attr_accessor :resource
             # field :resource, type: FHIR::AnyType
+            field :autocreate, type: Boolean
+            field :autodelete, type: Boolean
         end
         
         # This is an ugly hack to deal with embedded structures in the spec operation
@@ -61,6 +63,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
+                contentType: [ "xml", "json" ],
                 fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
             }
             
@@ -72,6 +75,8 @@ module FHIR
             field :destination, type: Integer
             field :parameter, type: Array # Array of Strings
             field :responseId, type: String
+            field :contentType, type: String
+            validates :contentType, :inclusion => { in: VALID_CODES[:contentType], :allow_nil => true }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec setup
@@ -98,7 +103,13 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "string", "time", "uri", "uuid", "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ]
+            }
+            
             field :fhirType, type: String
+            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
             field :operations, type: String
             validates_presence_of :operations
@@ -110,7 +121,13 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "string", "time", "uri", "uuid", "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ]
+            }
+            
             field :fhirType, type: String
+            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
             field :operations, type: String
             validates_presence_of :operations
@@ -134,6 +151,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
+                contentType: [ "xml", "json" ],
                 fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
             }
             
@@ -145,6 +163,8 @@ module FHIR
             field :destination, type: Integer
             field :parameter, type: Array # Array of Strings
             field :responseId, type: String
+            field :contentType, type: String
+            validates :contentType, :inclusion => { in: VALID_CODES[:contentType], :allow_nil => true }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec test
@@ -166,6 +186,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
+                contentType: [ "xml", "json" ],
                 fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
             }
             
@@ -177,6 +198,8 @@ module FHIR
             field :destination, type: Integer
             field :parameter, type: Array # Array of Strings
             field :responseId, type: String
+            field :contentType, type: String
+            validates :contentType, :inclusion => { in: VALID_CODES[:contentType], :allow_nil => true }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec teardown

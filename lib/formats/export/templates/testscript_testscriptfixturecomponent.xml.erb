@@ -4,4 +4,6 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.uri().nil? -%><uri value="<%= model.uri() %>"/><%- end -%>
     <%- if !model.resource().nil? -%><resource><%== model.resource().to_xml(is_root: false, name: "#{model.resourceType()}")%></resource><%- end -%>
+    <%- if !model.autocreate().nil? -%><autocreate value="<%= model.autocreate() %>"/><%- end -%>
+    <%- if !model.autodelete().nil? -%><autodelete value="<%= model.autodelete() %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>
