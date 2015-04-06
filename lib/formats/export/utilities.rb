@@ -22,7 +22,17 @@ module FHIR
         # if this is a FHIR class, convert to a hash
         if is_fhir_class?(h.class.name)
           resourceType = h.class.name.demodulize
-          h = Marshal.load(Marshal.dump(h.attributes))
+          hash = Marshal.load(Marshal.dump(h.attributes))
+
+          # go through the keys, if one is a FHIR::PartialDateTime,
+          # then include the iso8601 value and not a hash
+          klass = get_fhir_class_from_resource_type(resourceType)
+          klass.fields.each do |key,value|
+            if value.type == FHIR::PartialDateTime
+              hash[key] = h.send(key)
+            end
+          end
+          h = hash
         end
         
         if h.is_a? Hash
@@ -53,6 +63,9 @@ module FHIR
             # remove empty attributes
             elsif value.nil?
               h.delete(key)
+            # special handling for partial date times
+            elsif value.is_a? FHIR::PartialDateTime
+              h[key] = value.iso8601 
             # massage entires that are FHIR classes...
             elsif is_fhir_class?(value.class.name)
               h[key] = massageHash(value,false)

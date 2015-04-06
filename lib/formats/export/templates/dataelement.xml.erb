@@ -21,7 +21,7 @@
     <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
     <%- if (model.synonym() && !model.synonym.empty?) -%><%- model.synonym().each do |element| -%><synonym value="<%= element %>"/><%- end -%><%- end -%>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.example().nil? -%><%- if FHIR::AnyType::PRIMITIVES.include? model.exampleType().downcase -%><example<%= model.exampleType() %> value="<%= model.example() %>"/><%- elsif FHIR::AnyType::DATE_TIMES.include? model.exampleType().downcase -%><example<%= model.exampleType() %> value="<%= model.example().iso8601 %>"/><%- else -%><%== model.example().to_xml(is_root: false, name: "example#{model.exampleType()}")%><%- end -%><%- end -%>
+    <%- if !model.example().nil? -%><%- if FHIR::AnyType::PRIMITIVES.include? model.exampleType().downcase -%><example<%= model.exampleType() %> value="<%= model.example()[:value] %>"/><%- elsif FHIR::AnyType::DATE_TIMES.include? model.exampleType().downcase -%><example<%= model.exampleType() %> value="<%= model.example()[:value] %>"/><%- else -%><%== model.example()[:value].to_xml(is_root: false, name: "example#{model.exampleType()}")%><%- end -%><%- end -%>
     <%- if !model.maxLength().nil? -%><maxLength value="<%= model.maxLength() %>"/><%- end -%>
     <%- if !model.unitsCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'unitsCodeableConcept', model: model.unitsCodeableConcept()} %><%- end -%>
     <%- if !model.unitsReference().nil? -%><%== render :template => 'reference', :locals => {name: 'unitsReference', model: model.unitsReference()} %><%- end -%>
