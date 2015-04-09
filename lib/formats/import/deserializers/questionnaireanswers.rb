@@ -15,6 +15,7 @@ module FHIR
                 set_model_data(model, 'valueInstant', parse_date_time(entry.at_xpath('./fhir:valueInstant/@value').try(:value)))
                 set_model_data(model, 'valueTime', entry.at_xpath('./fhir:valueTime/@value').try(:value))
                 set_model_data(model, 'valueString', entry.at_xpath('./fhir:valueString/@value').try(:value))
+                set_model_data(model, 'valueUri', entry.at_xpath('./fhir:valueUri/@value').try(:value))
                 set_model_data(model, 'valueAttachment', FHIR::Attachment.parse_xml_entry(entry.at_xpath('./fhir:valueAttachment')))
                 set_model_data(model, 'valueCoding', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:valueCoding')))
                 set_model_data(model, 'valueQuantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:valueQuantity')))

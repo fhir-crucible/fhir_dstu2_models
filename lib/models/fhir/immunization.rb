@@ -43,14 +43,14 @@ module FHIR
             'performer',
             'reaction',
             'lot-number',
-            'refused',
             'subject',
             'vaccine-type',
+            'notgiven',
             'manufacturer',
             'dose-sequence',
             'patient',
+            'reason-not-given',
             'location',
-            'refusal-reason',
             'reaction-date'
             ]
         # This is an ugly hack to deal with embedded structures in the spec explanation
@@ -59,7 +59,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_many :reason, class_name:'FHIR::CodeableConcept'
-            embeds_many :refusalReason, class_name:'FHIR::CodeableConcept'
+            embeds_many :reasonNotGiven, class_name:'FHIR::CodeableConcept'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec reaction
@@ -77,12 +77,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :doseSequence, type: Integer
+            embeds_one :doseSequence, class_name:'FHIR::positiveInt'
             validates_presence_of :doseSequence
             field :description, type: String
             embeds_one :authority, class_name:'FHIR::Reference'
             field :series, type: String
-            field :seriesDoses, type: Integer
+            embeds_one :seriesDoses, class_name:'FHIR::positiveInt'
             embeds_one :doseTarget, class_name:'FHIR::CodeableConcept'
             validates_presence_of :doseTarget
             embeds_one :doseStatus, class_name:'FHIR::CodeableConcept'
@@ -95,14 +95,15 @@ module FHIR
         validates_presence_of :date
         embeds_one :vaccineType, class_name:'FHIR::CodeableConcept'
         validates_presence_of :vaccineType
-        embeds_one :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
-        field :refusedIndicator, type: Boolean
-        validates_presence_of :refusedIndicator
+        embeds_one :patient, class_name:'FHIR::Reference'
+        validates_presence_of :patient
+        field :wasNotGiven, type: Boolean
+        validates_presence_of :wasNotGiven
         field :reported, type: Boolean
         validates_presence_of :reported
         embeds_one :performer, class_name:'FHIR::Reference'
         embeds_one :requester, class_name:'FHIR::Reference'
+        embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :manufacturer, class_name:'FHIR::Reference'
         embeds_one :location, class_name:'FHIR::Reference'
         field :lotNumber, type: String

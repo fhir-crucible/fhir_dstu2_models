@@ -3,6 +3,15 @@ module FHIR
         module ValueSet
         include FHIR::Formats::Utilities
         include FHIR::Deserializer::Utilities
+            def parse_xml_entry_ValueSetContactComponent(entry) 
+                return nil unless entry
+                model = FHIR::ValueSet::ValueSetContactComponent.new
+                self.parse_element_data(model, entry)
+                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
+                model
+            end
+            
             def parse_xml_entry_ConceptDefinitionDesignationComponent(entry) 
                 return nil unless entry
                 model = FHIR::ValueSet::ConceptDefinitionDesignationComponent.new
@@ -78,6 +87,20 @@ module FHIR
                 model
             end
             
+            def parse_xml_entry_ValueSetExpansionParameterComponent(entry) 
+                return nil unless entry
+                model = FHIR::ValueSet::ValueSetExpansionParameterComponent.new
+                self.parse_element_data(model, entry)
+                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                set_model_data(model, 'valueString', entry.at_xpath('./fhir:valueString/@value').try(:value))
+                set_model_data(model, 'valueBoolean', entry.at_xpath('./fhir:valueBoolean/@value').try(:value))
+                set_model_data(model, 'valueInteger', entry.at_xpath('./fhir:valueInteger/@value').try(:value))
+                set_model_data(model, 'valueDecimal', entry.at_xpath('./fhir:valueDecimal/@value').try(:value))
+                set_model_data(model, 'valueUri', entry.at_xpath('./fhir:valueUri/@value').try(:value))
+                set_model_data(model, 'valueCode', entry.at_xpath('./fhir:valueCode/@value').try(:value))
+                model
+            end
+            
             def parse_xml_entry_ValueSetExpansionContainsComponent(entry) 
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetExpansionContainsComponent.new
@@ -95,8 +118,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetExpansionComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
+                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
                 set_model_data(model, 'timestamp', entry.at_xpath('./fhir:timestamp/@value').try(:value))
+                set_model_data(model, 'parameter', entry.xpath('./fhir:parameter').map {|e| parse_xml_entry_ValueSetExpansionParameterComponent(e)})
                 set_model_data(model, 'contains', entry.xpath('./fhir:contains').map {|e| parse_xml_entry_ValueSetExpansionContainsComponent(e)})
                 model
             end
@@ -106,20 +130,22 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
+                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
+                set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
                 set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'purpose', entry.at_xpath('./fhir:purpose/@value').try(:value))
+                set_model_data(model, 'useContext', entry.xpath('./fhir:useContext').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'immutable', entry.at_xpath('./fhir:immutable/@value').try(:value))
                 set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
-                set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
+                set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_ValueSetContactComponent(e)})
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
+                set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
                 set_model_data(model, 'copyright', entry.at_xpath('./fhir:copyright/@value').try(:value))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'experimental', entry.at_xpath('./fhir:experimental/@value').try(:value))
                 set_model_data(model, 'extensible', entry.at_xpath('./fhir:extensible/@value').try(:value))
                 set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
-                set_model_data(model, 'stableDate', entry.at_xpath('./fhir:stableDate/@value').try(:value))
+                set_model_data(model, 'lockedDate', entry.at_xpath('./fhir:lockedDate/@value').try(:value))
                 set_model_data(model, 'define', parse_xml_entry_ValueSetDefineComponent(entry.at_xpath('./fhir:define')))
                 set_model_data(model, 'compose', parse_xml_entry_ValueSetComposeComponent(entry.at_xpath('./fhir:compose')))
                 set_model_data(model, 'expansion', parse_xml_entry_ValueSetExpansionComponent(entry.at_xpath('./fhir:expansion')))

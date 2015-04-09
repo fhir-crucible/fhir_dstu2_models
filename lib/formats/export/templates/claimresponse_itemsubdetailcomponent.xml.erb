@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.sequenceLinkId().nil? -%><sequenceLinkId value="<%= model.sequenceLinkId() %>"/><%- end -%>
-    <%- if (!model.adjudication().nil? && !model.adjudication.empty?) -%><%- model.adjudication().each do |element| -%><%== render :template => 'claimresponse_subdetailadjudicationcomponent', :locals => {name: 'adjudication', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

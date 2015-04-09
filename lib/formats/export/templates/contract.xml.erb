@@ -4,33 +4,23 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.issued().nil? -%><issued value="<%= model.issued().iso8601 %>"/><%- end -%>
+    <%- if !model.applies().nil? -%><%== render :template => 'period', :locals => {name: 'applies', model: model.applies()} %><%- end -%>
     <%- if (!model.subject().nil? && !model.subject.empty?) -%><%- model.subject().each do |element| -%><%== render :template => 'reference', :locals => {name: 'subject', model: element} %><%- end -%><%- end -%>
     <%- if (!model.authority().nil? && !model.authority.empty?) -%><%- model.authority().each do |element| -%><%== render :template => 'reference', :locals => {name: 'authority', model: element} %><%- end -%><%- end -%>
     <%- if (!model.domain().nil? && !model.domain.empty?) -%><%- model.domain().each do |element| -%><%== render :template => 'reference', :locals => {name: 'domain', model: element} %><%- end -%><%- end -%>
     <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if (!model.subtype().nil? && !model.subtype.empty?) -%><%- model.subtype().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'subtype', model: element} %><%- end -%><%- end -%>
-    <%- if !model.issued().nil? -%><issued value="<%= model.issued().iso8601 %>"/><%- end -%>
-    <%- if !model.applies().nil? -%><%== render :template => 'period', :locals => {name: 'applies', model: model.applies()} %><%- end -%>
-    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
-    <%- if !model.unitPrice().nil? -%><%== render :template => 'quantity', :locals => {name: 'unitPrice', model: model.unitPrice()} %><%- end -%>
-    <%- if !model.factor().nil? -%><factor value="<%= model.factor() %>"/><%- end -%>
-    <%- if !model.points().nil? -%><points value="<%= model.points() %>"/><%- end -%>
-    <%- if !model.net().nil? -%><%== render :template => 'quantity', :locals => {name: 'net', model: model.net()} %><%- end -%>
-    <%- if (!model.author().nil? && !model.author.empty?) -%><%- model.author().each do |element| -%><%== render :template => 'reference', :locals => {name: 'author', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.grantor().nil? && !model.grantor.empty?) -%><%- model.grantor().each do |element| -%><%== render :template => 'reference', :locals => {name: 'grantor', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.grantee().nil? && !model.grantee.empty?) -%><%- model.grantee().each do |element| -%><%== render :template => 'reference', :locals => {name: 'grantee', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.witness().nil? && !model.witness.empty?) -%><%- model.witness().each do |element| -%><%== render :template => 'reference', :locals => {name: 'witness', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.executor().nil? && !model.executor.empty?) -%><%- model.executor().each do |element| -%><%== render :template => 'reference', :locals => {name: 'executor', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.notary().nil? && !model.notary.empty?) -%><%- model.notary().each do |element| -%><%== render :template => 'reference', :locals => {name: 'notary', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.signer().nil? && !model.signer.empty?) -%><%- model.signer().each do |element| -%><%== render :template => 'contract_contractsignercomponent', :locals => {name: 'signer', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.term().nil? && !model.term.empty?) -%><%- model.term().each do |element| -%><%== render :template => 'contract_contracttermcomponent', :locals => {name: 'term', model: element} %><%- end -%><%- end -%>
-    <%- if !model.binding().nil? -%><%== render :template => 'attachment', :locals => {name: 'binding', model: model.binding()} %><%- end -%>
-    <%- if !model.bindingDateTime().nil? -%><bindingDateTime value="<%= model.bindingDateTime().iso8601 %>"/><%- end -%>
-    <%- if (!model.friendly().nil? && !model.friendly.empty?) -%><%- model.friendly().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'friendly', model: element} %><%- end -%><%- end -%>
-    <%- if !model.friendlyDateTime().nil? -%><friendlyDateTime value="<%= model.friendlyDateTime().iso8601 %>"/><%- end -%>
-    <%- if (!model.legal().nil? && !model.legal.empty?) -%><%- model.legal().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'legal', model: element} %><%- end -%><%- end -%>
-    <%- if !model.legalDateTime().nil? -%><legalDateTime value="<%= model.legalDateTime().iso8601 %>"/><%- end -%>
-    <%- if (!model.rule().nil? && !model.rule.empty?) -%><%- model.rule().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'rule', model: element} %><%- end -%><%- end -%>
-    <%- if !model.ruleDateTime().nil? -%><ruleDateTime value="<%= model.ruleDateTime().iso8601 %>"/><%- end -%>
+    <%- if (!model.subType().nil? && !model.subType.empty?) -%><%- model.subType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'subType', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.action().nil? && !model.action.empty?) -%><%- model.action().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'action', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.actionReason().nil? && !model.actionReason.empty?) -%><%- model.actionReason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'actionReason', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.actor().nil? && !model.actor.empty?) -%><%- model.actor().each do |element| -%><%== render :template => 'contract_actorcomponent', :locals => {name: 'actor', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.valuedItem().nil? && !model.valuedItem.empty?) -%><%- model.valuedItem().each do |element| -%><%== render :template => 'contract_valueditemcomponent', :locals => {name: 'valuedItem', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.signer().nil? && !model.signer.empty?) -%><%- model.signer().each do |element| -%><%== render :template => 'contract_signatorycomponent', :locals => {name: 'signer', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.term().nil? && !model.term.empty?) -%><%- model.term().each do |element| -%><%== render :template => 'contract_termcomponent', :locals => {name: 'term', model: element} %><%- end -%><%- end -%>
+    <%- if !model.bindingAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'bindingAttachment', model: model.bindingAttachment()} %><%- end -%>
+    <%- if !model.bindingReference().nil? -%><%== render :template => 'reference', :locals => {name: 'bindingReference', model: model.bindingReference()} %><%- end -%>
+    <%- if (!model.friendly().nil? && !model.friendly.empty?) -%><%- model.friendly().each do |element| -%><%== render :template => 'contract_friendlylanguagecomponent', :locals => {name: 'friendly', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.legal().nil? && !model.legal.empty?) -%><%- model.legal().each do |element| -%><%== render :template => 'contract_legallanguagecomponent', :locals => {name: 'legal', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.rule().nil? && !model.rule.empty?) -%><%- model.rule().each do |element| -%><%== render :template => 'contract_computablelanguagecomponent', :locals => {name: 'rule', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

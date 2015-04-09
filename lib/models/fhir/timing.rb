@@ -34,6 +34,11 @@ module FHIR
         include FHIR::Serializer::Utilities
         extend FHIR::Deserializer::Timing
         
+        
+        VALID_CODES = {
+            code: [ "BID", "TID", "QID", "AM", "PM" ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec repeat
         class TimingRepeatComponent
         include Mongoid::Document
@@ -41,24 +46,29 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                units: [ "s", "min", "h", "d", "wk", "mo", "a" ],
-                when: [ "HS", "WAKE", "AC", "ACM", "ACD", "ACV", "PC", "PCM", "PCD", "PCV" ]
+                periodUnits: [ "s", "min", "h", "d", "wk", "mo", "a" ],
+                durationUnits: [ "s", "min", "h", "d", "wk", "mo", "a" ],
+                when: [ "HS", "WAKE", "C", "CM", "CD", "CV", "AC", "ACM", "ACD", "ACV", "PC", "PCM", "PCD", "PCV" ]
             }
             
+            embeds_one :bounds, class_name:'FHIR::Period'
+            field :count, type: Integer
+            field :duration, type: Float
+            field :durationUnits, type: String
+            validates :durationUnits, :inclusion => { in: VALID_CODES[:durationUnits], :allow_nil => true }
             field :frequency, type: Integer
+            field :frequencyMax, type: Integer
+            field :period, type: Float
+            field :periodMax, type: Float
+            field :periodUnits, type: String
+            validates :periodUnits, :inclusion => { in: VALID_CODES[:periodUnits], :allow_nil => true }
             field :when, type: String
             validates :when, :inclusion => { in: VALID_CODES[:when], :allow_nil => true }
-            field :duration, type: Float
-            validates_presence_of :duration
-            field :units, type: String
-            validates :units, :inclusion => { in: VALID_CODES[:units] }
-            validates_presence_of :units
-            field :count, type: Integer
-            field :end, type: FHIR::PartialDateTime
         end
         
-        embeds_many :event, class_name:'FHIR::Period'
+        field :event, type: Array # Array of FHIR::PartialDateTimes
         embeds_one :repeat, class_name:'FHIR::Timing::TimingRepeatComponent'
+        embeds_one :code, class_name:'FHIR::CodeableConcept'
         track_history
     end
 end

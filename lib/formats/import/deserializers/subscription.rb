@@ -8,19 +8,9 @@ module FHIR
                 model = FHIR::Subscription::SubscriptionChannelComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
+                set_model_data(model, 'endpoint', entry.at_xpath('./fhir:endpoint/@value').try(:value))
                 set_model_data(model, 'payload', entry.at_xpath('./fhir:payload/@value').try(:value))
                 set_model_data(model, 'header', entry.at_xpath('./fhir:header/@value').try(:value))
-                model
-            end
-            
-            def parse_xml_entry_SubscriptionTagComponent(entry) 
-                return nil unless entry
-                model = FHIR::Subscription::SubscriptionTagComponent.new
-                self.parse_element_data(model, entry)
-                set_model_data(model, 'term', entry.at_xpath('./fhir:term/@value').try(:value))
-                set_model_data(model, 'scheme', entry.at_xpath('./fhir:scheme/@value').try(:value))
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
                 model
             end
             
@@ -36,7 +26,7 @@ module FHIR
                 set_model_data(model, 'error', entry.at_xpath('./fhir:error/@value').try(:value))
                 set_model_data(model, 'channel', parse_xml_entry_SubscriptionChannelComponent(entry.at_xpath('./fhir:channel')))
                 set_model_data(model, 'end', parse_date_time(entry.at_xpath('./fhir:end/@value').try(:value)))
-                set_model_data(model, 'tag', entry.xpath('./fhir:tag').map {|e| parse_xml_entry_SubscriptionTagComponent(e)})
+                set_model_data(model, 'tag', entry.xpath('./fhir:tag').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 model
             end
         end

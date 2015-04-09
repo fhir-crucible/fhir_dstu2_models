@@ -9,6 +9,15 @@
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.dispenser().nil? -%><%== render :template => 'reference', :locals => {name: 'dispenser', model: model.dispenser()} %><%- end -%>
     <%- if (!model.authorizingPrescription().nil? && !model.authorizingPrescription.empty?) -%><%- model.authorizingPrescription().each do |element| -%><%== render :template => 'reference', :locals => {name: 'authorizingPrescription', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.dispense().nil? && !model.dispense.empty?) -%><%- model.dispense().each do |element| -%><%== render :template => 'medicationdispense_medicationdispensedispensecomponent', :locals => {name: 'dispense', model: element} %><%- end -%><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.daysSupply().nil? -%><%== render :template => 'quantity', :locals => {name: 'daysSupply', model: model.daysSupply()} %><%- end -%>
+    <%- if !model.medication().nil? -%><%== render :template => 'reference', :locals => {name: 'medication', model: model.medication()} %><%- end -%>
+    <%- if !model.whenPrepared().nil? -%><whenPrepared value="<%= model.whenPrepared().iso8601 %>"/><%- end -%>
+    <%- if !model.whenHandedOver().nil? -%><whenHandedOver value="<%= model.whenHandedOver().iso8601 %>"/><%- end -%>
+    <%- if !model.destination().nil? -%><%== render :template => 'reference', :locals => {name: 'destination', model: model.destination()} %><%- end -%>
+    <%- if (!model.receiver().nil? && !model.receiver.empty?) -%><%- model.receiver().each do |element| -%><%== render :template => 'reference', :locals => {name: 'receiver', model: element} %><%- end -%><%- end -%>
+    <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
+    <%- if (!model.dosageInstruction().nil? && !model.dosageInstruction.empty?) -%><%- model.dosageInstruction().each do |element| -%><%== render :template => 'medicationdispense_medicationdispensedosageinstructioncomponent', :locals => {name: 'dosageInstruction', model: element} %><%- end -%><%- end -%>
     <%- if !model.substitution().nil? -%><%== render :template => 'medicationdispense_medicationdispensesubstitutioncomponent', :locals => {name: 'substitution', model: model.substitution()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

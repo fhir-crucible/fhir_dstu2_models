@@ -1,0 +1,14 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.entityCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'entityCodeableConcept', model: model.entityCodeableConcept()} %><%- end -%>
+    <%- if !model.entityReference().nil? -%><%== render :template => 'reference', :locals => {name: 'entityReference', model: model.entityReference()} %><%- end -%>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.effectiveTime().nil? -%><effectiveTime value="<%= model.effectiveTime().iso8601 %>"/><%- end -%>
+    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.unitPrice().nil? -%><%== render :template => 'quantity', :locals => {name: 'unitPrice', model: model.unitPrice()} %><%- end -%>
+    <%- if !model.factor().nil? -%><factor value="<%= model.factor() %>"/><%- end -%>
+    <%- if !model.points().nil? -%><points value="<%= model.points() %>"/><%- end -%>
+    <%- if !model.net().nil? -%><%== render :template => 'quantity', :locals => {name: 'net', model: model.net()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

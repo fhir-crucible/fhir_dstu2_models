@@ -3,15 +3,6 @@ module FHIR
         module Specimen
         include FHIR::Formats::Utilities
         include FHIR::Deserializer::Utilities
-            def parse_xml_entry_SpecimenSourceComponent(entry) 
-                return nil unless entry
-                model = FHIR::Specimen::SpecimenSourceComponent.new
-                self.parse_element_data(model, entry)
-                set_model_data(model, 'relationship', entry.at_xpath('./fhir:relationship/@value').try(:value))
-                set_model_data(model, 'target', entry.xpath('./fhir:target').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                model
-            end
-            
             def parse_xml_entry_SpecimenCollectionComponent(entry) 
                 return nil unless entry
                 model = FHIR::Specimen::SpecimenCollectionComponent.new
@@ -22,7 +13,8 @@ module FHIR
                 set_model_data(model, 'collectedPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:collectedPeriod')))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
                 set_model_data(model, 'method', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:method')))
-                set_model_data(model, 'sourceSite', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:sourceSite')))
+                set_model_data(model, 'bodySiteCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:bodySiteCodeableConcept')))
+                set_model_data(model, 'bodySiteReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:bodySiteReference')))
                 model
             end
             
@@ -57,7 +49,7 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
-                set_model_data(model, 'source', entry.xpath('./fhir:source').map {|e| parse_xml_entry_SpecimenSourceComponent(e)})
+                set_model_data(model, 'parent', entry.xpath('./fhir:parent').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'accessionIdentifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:accessionIdentifier')))
                 set_model_data(model, 'receivedTime', entry.at_xpath('./fhir:receivedTime/@value').try(:value))

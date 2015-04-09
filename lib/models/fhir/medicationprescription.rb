@@ -36,6 +36,7 @@ module FHIR
         extend FHIR::Deserializer::MedicationPrescription
         
         SEARCH_PARAMS = [
+            'prescriber',
             'identifier',
             'patient',
             'datewritten',
@@ -45,7 +46,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "active", "on hold", "completed", "entered in error", "stopped", "superceded" ]
+            status: [ "active", "on-hold", "completed", "entered-in-error", "stopped", "superceded", "draft" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosageInstruction
@@ -63,6 +64,7 @@ module FHIR
             embeds_one :site, class_name:'FHIR::CodeableConcept'
             embeds_one :route, class_name:'FHIR::CodeableConcept'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
+            embeds_one :doseRange, class_name:'FHIR::Range'
             embeds_one :doseQuantity, class_name:'FHIR::Quantity'
             embeds_one :rate, class_name:'FHIR::Ratio'
             embeds_one :maxDosePerPeriod, class_name:'FHIR::Ratio'
@@ -75,7 +77,7 @@ module FHIR
         include FHIR::Formats::Utilities
             embeds_one :medication, class_name:'FHIR::Reference'
             embeds_one :validityPeriod, class_name:'FHIR::Period'
-            field :numberOfRepeatsAllowed, type: Integer
+            embeds_one :numberOfRepeatsAllowed, class_name:'FHIR::positiveInt'
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :expectedSupplyDuration, class_name:'FHIR::Quantity'
         end
@@ -99,6 +101,7 @@ module FHIR
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :reasonCodeableConcept, class_name:'FHIR::CodeableConcept'
         embeds_one :reasonReference, class_name:'FHIR::Reference'
+        field :note, type: String
         embeds_one :medication, class_name:'FHIR::Reference'
         embeds_many :dosageInstruction, class_name:'FHIR::MedicationPrescription::MedicationPrescriptionDosageInstructionComponent'
         embeds_one :dispense, class_name:'FHIR::MedicationPrescription::MedicationPrescriptionDispenseComponent'

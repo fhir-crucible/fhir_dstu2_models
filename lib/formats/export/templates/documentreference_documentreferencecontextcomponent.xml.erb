@@ -5,4 +5,7 @@
     <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'event', model: element} %><%- end -%><%- end -%>
     <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
     <%- if !model.facilityType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'facilityType', model: model.facilityType()} %><%- end -%>
+    <%- if !model.practiceSetting().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'practiceSetting', model: model.practiceSetting()} %><%- end -%>
+    <%- if !model.sourcePatientInfo().nil? -%><%== render :template => 'reference', :locals => {name: 'sourcePatientInfo', model: model.sourcePatientInfo()} %><%- end -%>
+    <%- if (!model.related().nil? && !model.related.empty?) -%><%- model.related().each do |element| -%><%== render :template => 'documentreference_documentreferencecontextrelatedcomponent', :locals => {name: 'related', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

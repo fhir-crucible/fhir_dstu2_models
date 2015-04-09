@@ -11,5 +11,5 @@
     <%- if !model.error().nil? -%><error value="<%= model.error() %>"/><%- end -%>
     <%- if !model.channel().nil? -%><%== render :template => 'subscription_subscriptionchannelcomponent', :locals => {name: 'channel', model: model.channel()} %><%- end -%>
     <%- if !model.end().nil? -%><end value="<%= model.end().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
-    <%- if (!model.tag().nil? && !model.tag.empty?) -%><%- model.tag().each do |element| -%><%== render :template => 'subscription_subscriptiontagcomponent', :locals => {name: 'tag', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.tag().nil? && !model.tag.empty?) -%><%- model.tag().each do |element| -%><%== render :template => 'coding', :locals => {name: 'tag', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

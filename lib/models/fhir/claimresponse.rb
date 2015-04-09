@@ -76,12 +76,12 @@ module FHIR
             field :value, type: Float
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec subdetail
-        class ItemSubdetailComponent
+        # This is an ugly hack to deal with embedded structures in the spec subDetail
+        class SubDetailComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :sequenceLinkId, type: Integer
+            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
             validates_presence_of :sequenceLinkId
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::SubdetailAdjudicationComponent'
         end
@@ -91,10 +91,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :sequenceLinkId, type: Integer
+            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
             validates_presence_of :sequenceLinkId
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::DetailAdjudicationComponent'
-            embeds_many :subdetail, class_name:'FHIR::ClaimResponse::ItemSubdetailComponent'
+            embeds_many :subDetail, class_name:'FHIR::ClaimResponse::SubDetailComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec item
@@ -102,9 +102,9 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :sequenceLinkId, type: Integer
+            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
             validates_presence_of :sequenceLinkId
-            field :noteNumber, type: Array # Array of Integers
+            embeds_many :noteNumber, class_name:'FHIR::positiveInt'
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::ItemAdjudicationComponent'
             embeds_many :detail, class_name:'FHIR::ClaimResponse::ItemDetailComponent'
         end
@@ -142,16 +142,16 @@ module FHIR
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::AddedItemDetailAdjudicationComponent'
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec additem
+        # This is an ugly hack to deal with embedded structures in the spec addItem
         class AddedItemComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :sequenceLinkId, type: Array # Array of Integers
+            embeds_many :sequenceLinkId, class_name:'FHIR::positiveInt'
             embeds_one :service, class_name:'FHIR::Coding'
             validates_presence_of :service
             embeds_one :fee, class_name:'FHIR::Quantity'
-            field :noteNumberLinkId, type: Array # Array of Integers
+            embeds_many :noteNumberLinkId, class_name:'FHIR::positiveInt'
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::AddedItemAdjudicationComponent'
             embeds_many :detail, class_name:'FHIR::ClaimResponse::AddedItemsDetailComponent'
         end
@@ -161,9 +161,9 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :sequenceLinkId, type: Integer
-            field :detailSequenceLinkId, type: Integer
-            field :subdetailSequenceLinkId, type: Integer
+            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
+            embeds_one :detailSequenceLinkId, class_name:'FHIR::positiveInt'
+            embeds_one :subdetailSequenceLinkId, class_name:'FHIR::positiveInt'
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
         end
@@ -178,9 +178,28 @@ module FHIR
                 fhirType: [ "display", "print", "printoper" ]
             }
             
-            field :number, type: Integer
+            embeds_one :number, class_name:'FHIR::positiveInt'
             embeds_one :fhirType, class_name:'FHIR::Coding'
             field :text, type: String
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec coverage
+        class CoverageComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            validates_presence_of :sequence
+            field :focal, type: Boolean
+            validates_presence_of :focal
+            embeds_one :coverage, class_name:'FHIR::Reference'
+            validates_presence_of :coverage
+            field :businessArrangement, type: String
+            embeds_one :relationship, class_name:'FHIR::Coding'
+            validates_presence_of :relationship
+            field :preAuthRef, type: Array # Array of Strings
+            embeds_one :claimResponse, class_name:'FHIR::Reference'
+            embeds_one :originalRuleset, class_name:'FHIR::Coding'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -196,7 +215,7 @@ module FHIR
         field :disposition, type: String
         embeds_one :payeeType, class_name:'FHIR::Coding'
         embeds_many :item, class_name:'FHIR::ClaimResponse::ItemsComponent'
-        embeds_many :additem, class_name:'FHIR::ClaimResponse::AddedItemComponent'
+        embeds_many :addItem, class_name:'FHIR::ClaimResponse::AddedItemComponent'
         embeds_many :error, class_name:'FHIR::ClaimResponse::ErrorsComponent'
         embeds_one :totalCost, class_name:'FHIR::Quantity'
         embeds_one :unallocDeductable, class_name:'FHIR::Quantity'
@@ -209,6 +228,7 @@ module FHIR
         embeds_one :reserved, class_name:'FHIR::Coding'
         embeds_one :form, class_name:'FHIR::Coding'
         embeds_many :note, class_name:'FHIR::ClaimResponse::NotesComponent'
+        embeds_many :coverage, class_name:'FHIR::ClaimResponse::CoverageComponent'
         track_history
     end
 end

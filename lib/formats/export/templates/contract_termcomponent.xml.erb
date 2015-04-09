@@ -1,0 +1,17 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.issued().nil? -%><issued value="<%= model.issued().iso8601 %>"/><%- end -%>
+    <%- if !model.applies().nil? -%><%== render :template => 'period', :locals => {name: 'applies', model: model.applies()} %><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.subType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'subType', model: model.subType()} %><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if (!model.action().nil? && !model.action.empty?) -%><%- model.action().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'action', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.actionReason().nil? && !model.actionReason.empty?) -%><%- model.actionReason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'actionReason', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.actor().nil? && !model.actor.empty?) -%><%- model.actor().each do |element| -%><%== render :template => 'contract_termactorcomponent', :locals => {name: 'actor', model: element} %><%- end -%><%- end -%>
+    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
+    <%- if (!model.valuedItem().nil? && !model.valuedItem.empty?) -%><%- model.valuedItem().each do |element| -%><%== render :template => 'contract_termvalueditemcomponent', :locals => {name: 'valuedItem', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.group().nil? && !model.group.empty?) -%><%- model.group().each do |element| -%><%== render :template => 'contract_termcomponent', :locals => {name: 'group', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -3,7 +3,7 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if !model.endpoint().nil? -%><endpoint value="<%= model.endpoint() %>"/><%- end -%>
     <%- if !model.payload().nil? -%><payload value="<%= model.payload() %>"/><%- end -%>
     <%- if !model.header().nil? -%><header value="<%= model.header() %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -39,16 +39,17 @@ module FHIR
             'date',
             'identifier',
             'condition',
-            'referral',
+            'incomingreferral',
             'patient',
             'organization',
+            'team-member',
             'type',
             'care-manager',
             'status'
             ]
         
         VALID_CODES = {
-            currentStatus: [ "planned", "active", "onhold", "finished", "withdrawn", "other" ]
+            status: [ "planned", "waitlist", "active", "onhold", "finished", "cancelled" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec statusHistory
@@ -58,7 +59,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "planned", "active", "onhold", "finished", "withdrawn", "other" ]
+                status: [ "planned", "waitlist", "active", "onhold", "finished", "cancelled" ]
             }
             
             field :status, type: String
@@ -79,9 +80,9 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :currentStatus, type: String
-        validates :currentStatus, :inclusion => { in: VALID_CODES[:currentStatus] }
-        validates_presence_of :currentStatus
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
+        validates_presence_of :status
         embeds_many :statusHistory, class_name:'FHIR::EpisodeOfCare::EpisodeOfCareStatusHistoryComponent'
         embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :patient, class_name:'FHIR::Reference'
@@ -89,7 +90,7 @@ module FHIR
         embeds_one :managingOrganization, class_name:'FHIR::Reference'
         embeds_one :period, class_name:'FHIR::Period'
         embeds_many :condition, class_name:'FHIR::Reference'
-        embeds_one :referralRequest, class_name:'FHIR::Reference'
+        embeds_many :referralRequest, class_name:'FHIR::Reference'
         embeds_one :careManager, class_name:'FHIR::Reference'
         embeds_many :careTeam, class_name:'FHIR::EpisodeOfCare::EpisodeOfCareCareTeamComponent'
         track_history

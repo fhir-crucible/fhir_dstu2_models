@@ -64,7 +64,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                code: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "string", "time", "uri", "uuid" ],
+                code: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Meta", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "positiveInt", "string", "time", "unsignedInt", "uri", "uuid" ],
                 aggregation: [ "contained", "referenced", "bundled" ]
             }
             
@@ -105,18 +105,17 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                conformance: [ "required", "preferred", "example" ]
+                strength: [ "required", "extensible", "preferred", "example" ]
             }
             
             field :name, type: String
             validates_presence_of :name
-            field :isExtensible, type: Boolean
-            validates_presence_of :isExtensible
-            field :conformance, type: String
-            validates :conformance, :inclusion => { in: VALID_CODES[:conformance], :allow_nil => true }
+            field :strength, type: String
+            validates :strength, :inclusion => { in: VALID_CODES[:strength] }
+            validates_presence_of :strength
             field :description, type: String
-            field :referenceUri, type: String
-            embeds_one :referenceReference, class_name:'FHIR::Reference'
+            field :valueSetUri, type: String
+            embeds_one :valueSetReference, class_name:'FHIR::Reference'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec mapping
@@ -126,6 +125,7 @@ module FHIR
         include FHIR::Formats::Utilities
             field :identity, type: String
             validates_presence_of :identity
+            field :language, type: String
             field :map, type: String
             validates_presence_of :map
         end
@@ -135,12 +135,14 @@ module FHIR
         field :representation, type: Array # Array of Strings
         validates :representation, :inclusion => { in: VALID_CODES[:representation], :allow_nil => true }
         field :name, type: String
+        field :label, type: String
+        embeds_many :code, class_name:'FHIR::Coding'
         embeds_one :slicing, class_name:'FHIR::ElementDefinition::ElementDefinitionSlicingComponent'
         field :short, type: String
-        field :formal, type: String
+        field :definition, type: String
         field :comments, type: String
         field :requirements, type: String
-        field :synonym, type: Array # Array of Strings
+        field :alias, type: Array # Array of Strings
         field :min, type: Integer
         field :max, type: String
         embeds_many :fhirType, class_name:'FHIR::ElementDefinition::TypeRefComponent'

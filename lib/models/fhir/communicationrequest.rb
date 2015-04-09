@@ -52,7 +52,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "failed" ]
+            status: [ "proposed", "planned", "requested", "received", "accepted", "in-progress", "completed", "suspended", "rejected", "failed" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec payload

@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
-    <%- if (!model.concern().nil? && !model.concern.empty?) -%><%- model.concern().each do |element| -%><%== render :template => 'reference', :locals => {name: 'concern', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

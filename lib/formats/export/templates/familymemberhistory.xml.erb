@@ -1,0 +1,26 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'FamilyMemberHistory' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.relationship().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'relationship', model: model.relationship()} %><%- end -%>
+    <%- if !model.gender().nil? -%><gender value="<%= model.gender() %>"/><%- end -%>
+    <%- if !model.bornPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'bornPeriod', model: model.bornPeriod()} %><%- end -%>
+    <%- if !model.bornDate().nil? -%><bornDate value="<%= model.bornDate().iso8601 %>"/><%- end -%>
+    <%- if !model.bornString().nil? -%><bornString value="<%= model.bornString() %>"/><%- end -%>
+    <%- if !model.ageAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'ageAge', model: model.ageAge()} %><%- end -%>
+    <%- if !model.ageRange().nil? -%><%== render :template => 'range', :locals => {name: 'ageRange', model: model.ageRange()} %><%- end -%>
+    <%- if !model.ageString().nil? -%><ageString value="<%= model.ageString() %>"/><%- end -%>
+    <%- if !model.deceasedBoolean().nil? -%><deceasedBoolean value="<%= model.deceasedBoolean() %>"/><%- end -%>
+    <%- if !model.deceasedAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'deceasedAge', model: model.deceasedAge()} %><%- end -%>
+    <%- if !model.deceasedRange().nil? -%><%== render :template => 'range', :locals => {name: 'deceasedRange', model: model.deceasedRange()} %><%- end -%>
+    <%- if !model.deceasedDate().nil? -%><deceasedDate value="<%= model.deceasedDate().iso8601 %>"/><%- end -%>
+    <%- if !model.deceasedString().nil? -%><deceasedString value="<%= model.deceasedString() %>"/><%- end -%>
+    <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
+    <%- if (!model.condition().nil? && !model.condition.empty?) -%><%- model.condition().each do |element| -%><%== render :template => 'familymemberhistory_familymemberhistoryconditioncomponent', :locals => {name: 'condition', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

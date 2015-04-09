@@ -48,6 +48,17 @@ module FHIR
             title: [ "113000", "113001", "113002", "113003", "113004", "113005", "113006", "113007", "113008", "113009", "113010", "113013", "113018", "113020", "113021", "113030", "113031", "113032", "113033", "113034", "113035", "113036", "113037", "113038", "113039" ]
         }
         
+        # This is an ugly hack to deal with embedded structures in the spec frames
+        class FramesComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_many :frameNumbers, class_name:'FHIR::unsignedInt'
+            validates_presence_of :frameNumbers
+            field :url, type: String
+            validates_presence_of :url
+        end
+        
         # This is an ugly hack to deal with embedded structures in the spec instance
         class InstanceComponent
         include Mongoid::Document
@@ -57,8 +68,9 @@ module FHIR
             validates_presence_of :sopClass
             field :uid, type: String
             validates_presence_of :uid
-            field :retrieveAETitle, type: String
-            field :retrieveUrl, type: String
+            field :url, type: String
+            validates_presence_of :url
+            embeds_many :frames, class_name:'FHIR::ImagingObjectSelection::FramesComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec series
@@ -67,9 +79,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :uid, type: String
-            validates_presence_of :uid
-            field :retrieveAETitle, type: String
-            field :retrieveUrl, type: String
+            field :url, type: String
             embeds_many :instance, class_name:'FHIR::ImagingObjectSelection::InstanceComponent'
             validates_presence_of :instance
         end
@@ -81,8 +91,7 @@ module FHIR
         include FHIR::Formats::Utilities
             field :uid, type: String
             validates_presence_of :uid
-            field :retrieveAETitle, type: String
-            field :retrieveUrl, type: String
+            field :url, type: String
             embeds_many :series, class_name:'FHIR::ImagingObjectSelection::SeriesComponent'
             validates_presence_of :series
         end

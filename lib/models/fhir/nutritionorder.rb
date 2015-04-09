@@ -39,9 +39,8 @@ module FHIR
             'identifier',
             'datetime',
             'provider',
-            'subject',
-            'supplement',
             'patient',
+            'supplement',
             'formula',
             'encounter',
             'oraldiet',
@@ -50,21 +49,20 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "requested", "active", "inactive", "held", "cancelled" ]
+            status: [ "proposed", "draft", "planned", "requested", "active", "on-hold", "completed", "cancelled" ]
         }
         
-        # This is an ugly hack to deal with embedded structures in the spec nutrients
-        class NutritionOrderItemOralDietNutrientsComponent
+        # This is an ugly hack to deal with embedded structures in the spec nutrient
+        class NutritionOrderOralDietNutrientComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_one :modifier, class_name:'FHIR::CodeableConcept'
-            embeds_one :amountQuantity, class_name:'FHIR::Quantity'
-            embeds_one :amountRange, class_name:'FHIR::Range'
+            embeds_one :amount, class_name:'FHIR::Quantity'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec texture
-        class NutritionOrderItemOralDietTextureComponent
+        class NutritionOrderOralDietTextureComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
@@ -73,37 +71,41 @@ module FHIR
         end
         
         # This is an ugly hack to deal with embedded structures in the spec oralDiet
-        class NutritionOrderItemOralDietComponent
+        class NutritionOrderOralDietComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
-            embeds_many :nutrients, class_name:'FHIR::NutritionOrder::NutritionOrderItemOralDietNutrientsComponent'
-            embeds_many :texture, class_name:'FHIR::NutritionOrder::NutritionOrderItemOralDietTextureComponent'
+            embeds_one :scheduled, class_name:'FHIR::Timing'
+            embeds_many :nutrient, class_name:'FHIR::NutritionOrder::NutritionOrderOralDietNutrientComponent'
+            embeds_many :texture, class_name:'FHIR::NutritionOrder::NutritionOrderOralDietTextureComponent'
             embeds_many :fluidConsistencyType, class_name:'FHIR::CodeableConcept'
             field :instruction, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec supplement
-        class NutritionOrderItemSupplementComponent
+        class NutritionOrderSupplementComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
+            field :productName, type: String
+            embeds_one :scheduled, class_name:'FHIR::Timing'
             embeds_one :quantity, class_name:'FHIR::Quantity'
-            field :name, type: String
+            field :instruction, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec enteralFormula
-        class NutritionOrderItemEnteralFormulaComponent
+        class NutritionOrderEnteralFormulaComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :administrationInstructions, type: String
             embeds_one :baseFormulaType, class_name:'FHIR::CodeableConcept'
-            field :baseFormulaName, type: String
+            field :baseFormulaProductName, type: String
+            embeds_one :scheduled, class_name:'FHIR::Timing'
             embeds_one :additiveType, class_name:'FHIR::CodeableConcept'
-            field :additiveName, type: String
+            field :additiveProductName, type: String
             embeds_one :caloricDensity, class_name:'FHIR::Quantity'
             embeds_one :routeofAdministration, class_name:'FHIR::CodeableConcept'
             embeds_one :quantity, class_name:'FHIR::Quantity'
@@ -112,33 +114,21 @@ module FHIR
             embeds_one :maxVolumeToDeliver, class_name:'FHIR::Quantity'
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec item
-        class NutritionOrderItemComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            embeds_one :scheduledTiming, class_name:'FHIR::Timing'
-            embeds_one :scheduledPeriod, class_name:'FHIR::Period'
-            field :isInEffect, type: Boolean
-            validates_presence_of :isInEffect
-            embeds_one :oralDiet, class_name:'FHIR::NutritionOrder::NutritionOrderItemOralDietComponent'
-            embeds_one :supplement, class_name:'FHIR::NutritionOrder::NutritionOrderItemSupplementComponent'
-            embeds_one :enteralFormula, class_name:'FHIR::NutritionOrder::NutritionOrderItemEnteralFormulaComponent'
-        end
-        
-        embeds_one :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
+        embeds_one :patient, class_name:'FHIR::Reference'
+        validates_presence_of :patient
         embeds_one :orderer, class_name:'FHIR::Reference'
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :encounter, class_name:'FHIR::Reference'
         field :dateTime, type: FHIR::PartialDateTime
         validates_presence_of :dateTime
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_many :allergyIntolerance, class_name:'FHIR::Reference'
         embeds_many :foodPreferenceModifier, class_name:'FHIR::CodeableConcept'
         embeds_many :excludeFoodModifier, class_name:'FHIR::CodeableConcept'
-        embeds_many :item, class_name:'FHIR::NutritionOrder::NutritionOrderItemComponent'
-        field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
+        embeds_one :oralDiet, class_name:'FHIR::NutritionOrder::NutritionOrderOralDietComponent'
+        embeds_many :supplement, class_name:'FHIR::NutritionOrder::NutritionOrderSupplementComponent'
+        embeds_one :enteralFormula, class_name:'FHIR::NutritionOrder::NutritionOrderEnteralFormulaComponent'
         track_history
     end
 end

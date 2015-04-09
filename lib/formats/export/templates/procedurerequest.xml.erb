@@ -7,7 +7,7 @@
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if (!model.bodySite().nil? && !model.bodySite.empty?) -%><%- model.bodySite().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySite', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.bodySite().nil? && !model.bodySite.empty?) -%><%- model.bodySite().each do |element| -%><%== render :template => 'procedurerequest_procedurerequestbodysitecomponent', :locals => {name: 'bodySite', model: element} %><%- end -%><%- end -%>
     <%- if (!model.indication().nil? && !model.indication.empty?) -%><%- model.indication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'indication', model: element} %><%- end -%><%- end -%>
     <%- if !model.timingDateTime().nil? -%><timingDateTime value="<%= model.timingDateTime().iso8601 %>"/><%- end -%>
     <%- if !model.timingPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'timingPeriod', model: model.timingPeriod()} %><%- end -%>

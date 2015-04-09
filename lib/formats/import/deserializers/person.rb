@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Person::PersonLinkComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'other', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:other')))
+                set_model_data(model, 'target', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:target')))
                 set_model_data(model, 'assurance', entry.at_xpath('./fhir:assurance/@value').try(:value))
                 model
             end

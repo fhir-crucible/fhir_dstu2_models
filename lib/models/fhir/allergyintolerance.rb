@@ -41,9 +41,9 @@ module FHIR
             'identifier',
             'manifestation',
             'recorder',
-            'subject',
             'substance',
             'criticality',
+            'reporter',
             'type',
             'onset',
             'duration',
@@ -58,7 +58,7 @@ module FHIR
             criticality: [ "low", "high", "unassessible" ],
             category: [ "food", "medication", "environment" ],
             fhirType: [ "immune", "non-immune" ],
-            status: [ "unconfirmed", "confirmed", "resolved", "refuted" ]
+            status: [ "unconfirmed", "confirmed", "resolved", "refuted", "entered-in-error" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec event
@@ -89,8 +89,9 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :recordedDate, type: FHIR::PartialDateTime
         embeds_one :recorder, class_name:'FHIR::Reference'
-        embeds_one :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
+        embeds_one :patient, class_name:'FHIR::Reference'
+        validates_presence_of :patient
+        embeds_one :reporter, class_name:'FHIR::Reference'
         embeds_one :substance, class_name:'FHIR::CodeableConcept'
         validates_presence_of :substance
         field :status, type: String

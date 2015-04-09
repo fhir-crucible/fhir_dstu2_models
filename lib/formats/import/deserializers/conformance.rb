@@ -3,6 +3,15 @@ module FHIR
         module Conformance
         include FHIR::Formats::Utilities
         include FHIR::Deserializer::Utilities
+            def parse_xml_entry_ConformanceContactComponent(entry) 
+                return nil unless entry
+                model = FHIR::Conformance::ConformanceContactComponent.new
+                self.parse_element_data(model, entry)
+                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
+                model
+            end
+            
             def parse_xml_entry_ConformanceSoftwareComponent(entry) 
                 return nil unless entry
                 model = FHIR::Conformance::ConformanceSoftwareComponent.new
@@ -74,6 +83,9 @@ module FHIR
                 set_model_data(model, 'versioning', entry.at_xpath('./fhir:versioning/@value').try(:value))
                 set_model_data(model, 'readHistory', entry.at_xpath('./fhir:readHistory/@value').try(:value))
                 set_model_data(model, 'updateCreate', entry.at_xpath('./fhir:updateCreate/@value').try(:value))
+                set_model_data(model, 'conditionalCreate', entry.at_xpath('./fhir:conditionalCreate/@value').try(:value))
+                set_model_data(model, 'conditionalUpdate', entry.at_xpath('./fhir:conditionalUpdate/@value').try(:value))
+                set_model_data(model, 'conditionalDelete', entry.at_xpath('./fhir:conditionalDelete/@value').try(:value))
                 set_model_data(model, 'searchInclude', entry.xpath('./fhir:searchInclude/@value').map {|e| e.value })
                 set_model_data(model, 'searchParam', entry.xpath('./fhir:searchParam').map {|e| parse_xml_entry_ConformanceRestResourceSearchParamComponent(e)})
                 model
@@ -108,6 +120,7 @@ module FHIR
                 set_model_data(model, 'interaction', entry.xpath('./fhir:interaction').map {|e| parse_xml_entry_SystemInteractionComponent(e)})
                 set_model_data(model, 'operation', entry.xpath('./fhir:operation').map {|e| parse_xml_entry_ConformanceRestOperationComponent(e)})
                 set_model_data(model, 'documentMailbox', entry.xpath('./fhir:documentMailbox/@value').map {|e| e.value })
+                set_model_data(model, 'compartment', entry.xpath('./fhir:compartment/@value').map {|e| e.value })
                 model
             end
             
@@ -131,7 +144,7 @@ module FHIR
                 model = FHIR::Conformance::ConformanceMessagingComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'endpoint', entry.at_xpath('./fhir:endpoint/@value').try(:value))
-                set_model_data(model, 'reliableCache', entry.at_xpath('./fhir:reliableCache/@value').try(:value))
+                set_model_data(model, 'reliableCache', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:reliableCache')))
                 set_model_data(model, 'documentation', entry.at_xpath('./fhir:documentation/@value').try(:value))
                 set_model_data(model, 'event', entry.xpath('./fhir:event').map {|e| parse_xml_entry_ConformanceMessagingEventComponent(e)})
                 model
@@ -152,12 +165,14 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
+                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
                 set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
                 set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
-                set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
+                set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_ConformanceContactComponent(e)})
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
+                set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
+                set_model_data(model, 'copyright', entry.at_xpath('./fhir:copyright/@value').try(:value))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'experimental', entry.at_xpath('./fhir:experimental/@value').try(:value))
                 set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))

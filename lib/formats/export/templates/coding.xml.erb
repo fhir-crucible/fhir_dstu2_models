@@ -9,5 +9,4 @@
     <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
     <%- if !model.display().nil? -%><display value="<%= model.display() %>"/><%- end -%>
     <%- if !model.primary().nil? -%><primary value="<%= model.primary() %>"/><%- end -%>
-    <%- if !model.valueSet().nil? -%><%== render :template => 'reference', :locals => {name: 'valueSet', model: model.valueSet()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

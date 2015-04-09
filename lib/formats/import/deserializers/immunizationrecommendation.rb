@@ -29,7 +29,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
                 set_model_data(model, 'vaccineType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:vaccineType')))
-                set_model_data(model, 'doseNumber', entry.at_xpath('./fhir:doseNumber/@value').try(:value))
+                set_model_data(model, 'doseNumber', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:doseNumber')))
                 set_model_data(model, 'forecastStatus', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:forecastStatus')))
                 set_model_data(model, 'dateCriterion', entry.xpath('./fhir:dateCriterion').map {|e| parse_xml_entry_ImmunizationRecommendationRecommendationDateCriterionComponent(e)})
                 set_model_data(model, 'protocol', parse_xml_entry_ImmunizationRecommendationRecommendationProtocolComponent(entry.at_xpath('./fhir:protocol')))
@@ -44,7 +44,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
-                set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
+                set_model_data(model, 'patient', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:patient')))
                 set_model_data(model, 'recommendation', entry.xpath('./fhir:recommendation').map {|e| parse_xml_entry_ImmunizationRecommendationRecommendationComponent(e)})
                 model
             end

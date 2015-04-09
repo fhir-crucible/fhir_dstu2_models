@@ -10,6 +10,7 @@
     <%- if !model.valueInstant().nil? -%><valueInstant value="<%= model.valueInstant().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
     <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().iso8601 %>"/><%- end -%>
     <%- if !model.valueString().nil? -%><valueString value="<%= model.valueString() %>"/><%- end -%>
+    <%- if !model.valueUri().nil? -%><valueUri value="<%= model.valueUri() %>"/><%- end -%>
     <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>
     <%- if !model.valueCoding().nil? -%><%== render :template => 'coding', :locals => {name: 'valueCoding', model: model.valueCoding()} %><%- end -%>
     <%- if !model.valueQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'valueQuantity', model: model.valueQuantity()} %><%- end -%>

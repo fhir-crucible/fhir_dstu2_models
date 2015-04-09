@@ -3,9 +3,9 @@ module FHIR
         module MedicationDispense
         include FHIR::Formats::Utilities
         include FHIR::Deserializer::Utilities
-            def parse_xml_entry_MedicationDispenseDispenseDosageComponent(entry) 
+            def parse_xml_entry_MedicationDispenseDosageInstructionComponent(entry) 
                 return nil unless entry
-                model = FHIR::MedicationDispense::MedicationDispenseDispenseDosageComponent.new
+                model = FHIR::MedicationDispense::MedicationDispenseDosageInstructionComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'additionalInstructions', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:additionalInstructions')))
                 set_model_data(model, 'scheduleDateTime', entry.at_xpath('./fhir:scheduleDateTime/@value').try(:value))
@@ -16,26 +16,10 @@ module FHIR
                 set_model_data(model, 'site', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:site')))
                 set_model_data(model, 'route', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:route')))
                 set_model_data(model, 'method', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:method')))
-                set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
+                set_model_data(model, 'doseRange', FHIR::Range.parse_xml_entry(entry.at_xpath('./fhir:doseRange')))
+                set_model_data(model, 'doseQuantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:doseQuantity')))
                 set_model_data(model, 'rate', FHIR::Ratio.parse_xml_entry(entry.at_xpath('./fhir:rate')))
                 set_model_data(model, 'maxDosePerPeriod', FHIR::Ratio.parse_xml_entry(entry.at_xpath('./fhir:maxDosePerPeriod')))
-                model
-            end
-            
-            def parse_xml_entry_MedicationDispenseDispenseComponent(entry) 
-                return nil unless entry
-                model = FHIR::MedicationDispense::MedicationDispenseDispenseComponent.new
-                self.parse_element_data(model, entry)
-                set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
-                set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
-                set_model_data(model, 'medication', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:medication')))
-                set_model_data(model, 'whenPrepared', entry.at_xpath('./fhir:whenPrepared/@value').try(:value))
-                set_model_data(model, 'whenHandedOver', entry.at_xpath('./fhir:whenHandedOver/@value').try(:value))
-                set_model_data(model, 'destination', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:destination')))
-                set_model_data(model, 'receiver', entry.xpath('./fhir:receiver').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                set_model_data(model, 'dosage', entry.xpath('./fhir:dosage').map {|e| parse_xml_entry_MedicationDispenseDispenseDosageComponent(e)})
                 model
             end
             
@@ -59,7 +43,16 @@ module FHIR
                 set_model_data(model, 'patient', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:patient')))
                 set_model_data(model, 'dispenser', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:dispenser')))
                 set_model_data(model, 'authorizingPrescription', entry.xpath('./fhir:authorizingPrescription').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                set_model_data(model, 'dispense', entry.xpath('./fhir:dispense').map {|e| parse_xml_entry_MedicationDispenseDispenseComponent(e)})
+                set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
+                set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
+                set_model_data(model, 'daysSupply', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:daysSupply')))
+                set_model_data(model, 'medication', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:medication')))
+                set_model_data(model, 'whenPrepared', entry.at_xpath('./fhir:whenPrepared/@value').try(:value))
+                set_model_data(model, 'whenHandedOver', entry.at_xpath('./fhir:whenHandedOver/@value').try(:value))
+                set_model_data(model, 'destination', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:destination')))
+                set_model_data(model, 'receiver', entry.xpath('./fhir:receiver').map {|e| FHIR::Reference.parse_xml_entry(e)})
+                set_model_data(model, 'note', entry.at_xpath('./fhir:note/@value').try(:value))
+                set_model_data(model, 'dosageInstruction', entry.xpath('./fhir:dosageInstruction').map {|e| parse_xml_entry_MedicationDispenseDosageInstructionComponent(e)})
                 set_model_data(model, 'substitution', parse_xml_entry_MedicationDispenseSubstitutionComponent(entry.at_xpath('./fhir:substitution')))
                 model
             end

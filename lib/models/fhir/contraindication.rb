@@ -39,6 +39,7 @@ module FHIR
             'date',
             'identifier',
             'patient',
+            'author',
             'implicated',
             'category'
             ]

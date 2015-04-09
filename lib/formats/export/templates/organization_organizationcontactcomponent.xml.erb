@@ -6,5 +6,4 @@
     <%- if !model.name().nil? -%><%== render :template => 'humanname', :locals => {name: 'name', model: model.name()} %><%- end -%>
     <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
     <%- if !model.address().nil? -%><%== render :template => 'address', :locals => {name: 'address', model: model.address()} %><%- end -%>
-    <%- if !model.gender().nil? -%><gender value="<%= model.gender() %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

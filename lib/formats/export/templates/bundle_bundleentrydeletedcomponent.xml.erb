@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.resourceId().nil? -%><resourceId value="<%= model.resourceId() %>"/><%- end -%>
-    <%- if !model.versionId().nil? -%><versionId value="<%= model.versionId() %>"/><%- end -%>
-    <%- if !model.instant().nil? -%><instant value="<%= model.instant().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

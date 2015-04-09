@@ -7,8 +7,11 @@
     <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
     <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
-    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'searchparameter_searchparametercontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
     <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
     <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>

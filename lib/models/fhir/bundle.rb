@@ -56,25 +56,52 @@ module FHIR
             validates_presence_of :url
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec fhirDeleted
-        class BundleEntryDeletedComponent
+        # This is an ugly hack to deal with embedded structures in the spec search
+        class BundleEntrySearchComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ]
+                mode: [ "match", "include" ]
             }
             
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :resourceId, type: String
-            validates_presence_of :resourceId
-            field :versionId, type: String
-            validates_presence_of :versionId
-            field :instant, type: DateTime
-            validates_presence_of :instant
+            field :mode, type: String
+            validates :mode, :inclusion => { in: VALID_CODES[:mode], :allow_nil => true }
+            field :score, type: Float
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec transaction
+        class BundleEntryTransactionComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                method: [ "GET", "POST", "PUT", "DELETE" ]
+            }
+            
+            field :method, type: String
+            validates :method, :inclusion => { in: VALID_CODES[:method] }
+            validates_presence_of :method
+            field :url, type: String
+            validates_presence_of :url
+            field :ifNoneMatch, type: String
+            field :ifMatch, type: String
+            field :ifModifiedSince, type: DateTime
+            field :ifNoneExist, type: String
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec transactionResponse
+        class BundleEntryTransactionResponseComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :status, type: String
+            validates_presence_of :status
+            field :location, type: String
+            field :etag, type: String
+            field :lastModified, type: DateTime
         end
         
         # This is an ugly hack to deal with embedded structures in the spec entry
@@ -82,27 +109,21 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                status: [ "create", "update", "match", "include" ]
-            }
-            
             field :base, type: String
-            field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
-            field :search, type: String
-            field :score, type: Float
-            embeds_one :fhirDeleted, class_name:'FHIR::Bundle::BundleEntryDeletedComponent'
+            embeds_many :link, class_name:'FHIR::Bundle::BundleLinkComponent'
             field :resourceType, type: String
             attr_accessor :resource
             # field :resource, type: FHIR::AnyType
+            embeds_one :search, class_name:'FHIR::Bundle::BundleEntrySearchComponent'
+            embeds_one :transaction, class_name:'FHIR::Bundle::BundleEntryTransactionComponent'
+            embeds_one :transactionResponse, class_name:'FHIR::Bundle::BundleEntryTransactionResponseComponent'
         end
         
         field :fhirType, type: String
         validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         field :base, type: String
-        field :total, type: Integer
+        embeds_one :total, class_name:'FHIR::unsignedInt'
         embeds_many :link, class_name:'FHIR::Bundle::BundleLinkComponent'
         embeds_many :entry, class_name:'FHIR::Bundle::BundleEntryComponent'
         field :signature, type: Moped::BSON::Binary

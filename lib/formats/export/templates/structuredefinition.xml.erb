@@ -1,0 +1,31 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'StructureDefinition' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if (!model.useContext().nil? && !model.useContext.empty?) -%><%- model.useContext().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'useContext', model: element} %><%- end -%><%- end -%>
+    <%- if !model.display().nil? -%><display value="<%= model.display() %>"/><%- end -%>
+    <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
+    <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'structuredefinition_structuredefinitioncontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
+    <%- if !model.copyright().nil? -%><copyright value="<%= model.copyright() %>"/><%- end -%>
+    <%- if (!model.code().nil? && !model.code.empty?) -%><%- model.code().each do |element| -%><%== render :template => 'coding', :locals => {name: 'code', model: element} %><%- end -%><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.fhirVersion().nil? -%><fhirVersion value="<%= model.fhirVersion() %>"/><%- end -%>
+    <%- if (!model.mapping().nil? && !model.mapping.empty?) -%><%- model.mapping().each do |element| -%><%== render :template => 'structuredefinition_structuredefinitionmappingcomponent', :locals => {name: 'mapping', model: element} %><%- end -%><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.abstract().nil? -%><abstract value="<%= model.abstract() %>"/><%- end -%>
+    <%- if !model.contextType().nil? -%><contextType value="<%= model.contextType() %>"/><%- end -%>
+    <%- if (model.context() && !model.context.empty?) -%><%- model.context().each do |element| -%><context value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
+    <%- if !model.snapshot().nil? -%><%== render :template => 'structuredefinition_structuredefinitionsnapshotcomponent', :locals => {name: 'snapshot', model: model.snapshot()} %><%- end -%>
+    <%- if !model.differential().nil? -%><%== render :template => 'structuredefinition_structuredefinitiondifferentialcomponent', :locals => {name: 'differential', model: model.differential()} %><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

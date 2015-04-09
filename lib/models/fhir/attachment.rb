@@ -38,9 +38,10 @@ module FHIR
         field :language, type: String
         field :data, type: Moped::BSON::Binary
         field :url, type: String
-        field :size, type: Integer
+        embeds_one :size, class_name:'FHIR::unsignedInt'
         field :fhirHash, type: Moped::BSON::Binary
         field :title, type: String
+        field :creation, type: FHIR::PartialDateTime
         track_history
     end
 end

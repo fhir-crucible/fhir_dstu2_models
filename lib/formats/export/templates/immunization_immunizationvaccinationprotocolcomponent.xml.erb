@@ -2,11 +2,11 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.doseSequence().nil? -%><doseSequence value="<%= model.doseSequence() %>"/><%- end -%>
+    <%- if !model.doseSequence().nil? -%><%== render :template => 'positiveint', :locals => {name: 'doseSequence', model: model.doseSequence()} %><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if !model.authority().nil? -%><%== render :template => 'reference', :locals => {name: 'authority', model: model.authority()} %><%- end -%>
     <%- if !model.series().nil? -%><series value="<%= model.series() %>"/><%- end -%>
-    <%- if !model.seriesDoses().nil? -%><seriesDoses value="<%= model.seriesDoses() %>"/><%- end -%>
+    <%- if !model.seriesDoses().nil? -%><%== render :template => 'positiveint', :locals => {name: 'seriesDoses', model: model.seriesDoses()} %><%- end -%>
     <%- if !model.doseTarget().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'doseTarget', model: model.doseTarget()} %><%- end -%>
     <%- if !model.doseStatus().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'doseStatus', model: model.doseStatus()} %><%- end -%>
     <%- if !model.doseStatusReason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'doseStatusReason', model: model.doseStatusReason()} %><%- end -%>

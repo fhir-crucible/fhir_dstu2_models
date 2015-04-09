@@ -36,21 +36,35 @@ module FHIR
         extend FHIR::Deserializer::ProcedureRequest
         
         SEARCH_PARAMS = [
+            'performer',
             'subject',
-            'patient'
+            'patient',
+            'orderer',
+            'encounter'
             ]
         
         VALID_CODES = {
             priority: [ "routine", "urgent", "stat", "asap" ],
-            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "aborted" ]
+            status: [ "proposed", "draft", "requested", "received", "accepted", "in-progress", "completed", "suspended", "rejected", "aborted" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec bodySite
+        class ProcedureRequestBodySiteComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :siteCodeableConcept
+            embeds_one :siteReference, class_name:'FHIR::Reference'
+            validates_presence_of :siteReference
+        end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         validates_presence_of :fhirType
-        embeds_many :bodySite, class_name:'FHIR::CodeableConcept'
+        embeds_many :bodySite, class_name:'FHIR::ProcedureRequest::ProcedureRequestBodySiteComponent'
         embeds_many :indication, class_name:'FHIR::CodeableConcept'
         field :timingDateTime, type: FHIR::PartialDateTime
         embeds_one :timingPeriod, class_name:'FHIR::Period'

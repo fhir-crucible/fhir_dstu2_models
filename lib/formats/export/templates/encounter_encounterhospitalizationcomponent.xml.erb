@@ -5,7 +5,7 @@
     <%- if !model.preAdmissionIdentifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'preAdmissionIdentifier', model: model.preAdmissionIdentifier()} %><%- end -%>
     <%- if !model.origin().nil? -%><%== render :template => 'reference', :locals => {name: 'origin', model: model.origin()} %><%- end -%>
     <%- if !model.admitSource().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'admitSource', model: model.admitSource()} %><%- end -%>
-    <%- if !model.diet().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'diet', model: model.diet()} %><%- end -%>
+    <%- if !model.dietPreference().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'dietPreference', model: model.dietPreference()} %><%- end -%>
     <%- if (!model.specialCourtesy().nil? && !model.specialCourtesy.empty?) -%><%- model.specialCourtesy().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'specialCourtesy', model: element} %><%- end -%><%- end -%>
     <%- if (!model.specialArrangement().nil? && !model.specialArrangement.empty?) -%><%- model.specialArrangement().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'specialArrangement', model: element} %><%- end -%><%- end -%>
     <%- if !model.destination().nil? -%><%== render :template => 'reference', :locals => {name: 'destination', model: model.destination()} %><%- end -%>

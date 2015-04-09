@@ -41,11 +41,10 @@ module FHIR
                 model = FHIR::ElementDefinition::ElementDefinitionBindingComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'isExtensible', entry.at_xpath('./fhir:isExtensible/@value').try(:value))
-                set_model_data(model, 'conformance', entry.at_xpath('./fhir:conformance/@value').try(:value))
+                set_model_data(model, 'strength', entry.at_xpath('./fhir:strength/@value').try(:value))
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'referenceUri', entry.at_xpath('./fhir:referenceUri/@value').try(:value))
-                set_model_data(model, 'referenceReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:referenceReference')))
+                set_model_data(model, 'valueSetUri', entry.at_xpath('./fhir:valueSetUri/@value').try(:value))
+                set_model_data(model, 'valueSetReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:valueSetReference')))
                 model
             end
             
@@ -54,6 +53,7 @@ module FHIR
                 model = FHIR::ElementDefinition::ElementDefinitionMappingComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'identity', entry.at_xpath('./fhir:identity/@value').try(:value))
+                set_model_data(model, 'language', entry.at_xpath('./fhir:language/@value').try(:value))
                 set_model_data(model, 'map', entry.at_xpath('./fhir:map/@value').try(:value))
                 model
             end
@@ -65,12 +65,14 @@ module FHIR
                 set_model_data(model, 'path', entry.at_xpath('./fhir:path/@value').try(:value))
                 set_model_data(model, 'representation', entry.xpath('./fhir:representation/@value').map {|e| e.value })
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                set_model_data(model, 'label', entry.at_xpath('./fhir:label/@value').try(:value))
+                set_model_data(model, 'code', entry.xpath('./fhir:code').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 set_model_data(model, 'slicing', parse_xml_entry_ElementDefinitionSlicingComponent(entry.at_xpath('./fhir:slicing')))
                 set_model_data(model, 'short', entry.at_xpath('./fhir:short/@value').try(:value))
-                set_model_data(model, 'formal', entry.at_xpath('./fhir:formal/@value').try(:value))
+                set_model_data(model, 'definition', entry.at_xpath('./fhir:definition/@value').try(:value))
                 set_model_data(model, 'comments', entry.at_xpath('./fhir:comments/@value').try(:value))
                 set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
-                set_model_data(model, 'synonym', entry.xpath('./fhir:synonym/@value').map {|e| e.value })
+                set_model_data(model, 'alias', entry.xpath('./fhir:alias/@value').map {|e| e.value })
                 set_model_data(model, 'min', entry.at_xpath('./fhir:min/@value').try(:value))
                 set_model_data(model, 'max', entry.at_xpath('./fhir:max/@value').try(:value))
                 set_model_data(model, 'fhirType', entry.xpath('./fhir:type').map {|e| parse_xml_entry_TypeRefComponent(e)})

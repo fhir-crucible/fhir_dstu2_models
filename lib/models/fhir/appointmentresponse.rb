@@ -36,9 +36,12 @@ module FHIR
         extend FHIR::Deserializer::AppointmentResponse
         
         SEARCH_PARAMS = [
+            'actor',
             'partstatus',
-            'subject',
-            'appointment'
+            'practitioner',
+            'patient',
+            'appointment',
+            'location'
             ]
         
         VALID_CODES = {
@@ -49,15 +52,13 @@ module FHIR
         embeds_one :appointment, class_name:'FHIR::Reference'
         validates_presence_of :appointment
         embeds_many :participantType, class_name:'FHIR::CodeableConcept'
-        embeds_many :individual, class_name:'FHIR::Reference'
+        embeds_one :actor, class_name:'FHIR::Reference'
         field :participantStatus, type: String
         validates :participantStatus, :inclusion => { in: VALID_CODES[:participantStatus] }
         validates_presence_of :participantStatus
         field :comment, type: String
         field :start, type: DateTime
         field :end, type: DateTime
-        embeds_one :lastModifiedBy, class_name:'FHIR::Reference'
-        field :lastModified, type: FHIR::PartialDateTime
         track_history
     end
 end

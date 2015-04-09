@@ -41,11 +41,11 @@ module FHIR
             'dicom-class',
             'modality',
             'bodysite',
-            'size',
             'patient',
             'series',
             'started',
-            'accession'
+            'accession',
+            'order'
             ]
         
         VALID_CODES = {
@@ -58,15 +58,14 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :number, type: Integer
+            embeds_one :number, class_name:'FHIR::unsignedInt'
             field :uid, type: String
             validates_presence_of :uid
             field :sopclass, type: String
             validates_presence_of :sopclass
             field :fhirType, type: String
             field :title, type: String
-            field :url, type: String
-            embeds_one :attachment, class_name:'FHIR::Reference'
+            embeds_many :content, class_name:'FHIR::Attachment'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec series
@@ -80,19 +79,20 @@ module FHIR
                 availability: [ "ONLINE", "OFFLINE", "NEARLINE", "UNAVAILABLE" ]
             }
             
-            field :number, type: Integer
+            embeds_one :number, class_name:'FHIR::unsignedInt'
             field :modality, type: String
             validates :modality, :inclusion => { in: VALID_CODES[:modality] }
             validates_presence_of :modality
             field :uid, type: String
             validates_presence_of :uid
             field :description, type: String
-            field :numberOfInstances, type: Integer
+            embeds_one :numberOfInstances, class_name:'FHIR::unsignedInt'
             validates_presence_of :numberOfInstances
             field :availability, type: String
             validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
             field :url, type: String
             embeds_one :bodySite, class_name:'FHIR::Coding'
+            embeds_one :laterality, class_name:'FHIR::Coding'
             field :dateTime, type: FHIR::PartialDateTime
             embeds_many :instance, class_name:'FHIR::ImagingStudy::ImagingStudySeriesInstanceComponent'
         end
@@ -111,9 +111,9 @@ module FHIR
         field :availability, type: String
         validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
         field :url, type: String
-        field :numberOfSeries, type: Integer
+        embeds_one :numberOfSeries, class_name:'FHIR::unsignedInt'
         validates_presence_of :numberOfSeries
-        field :numberOfInstances, type: Integer
+        embeds_one :numberOfInstances, class_name:'FHIR::unsignedInt'
         validates_presence_of :numberOfInstances
         field :clinicalInformation, type: String
         embeds_many :procedure, class_name:'FHIR::Coding'

@@ -12,5 +12,5 @@
     <%- if (model.policy() && !model.policy.empty?) -%><%- model.policy().each do |element| -%><policy value="<%= element %>"/><%- end -%><%- end -%>
     <%- if (!model.agent().nil? && !model.agent.empty?) -%><%- model.agent().each do |element| -%><%== render :template => 'provenance_provenanceagentcomponent', :locals => {name: 'agent', model: element} %><%- end -%><%- end -%>
     <%- if (!model.entity().nil? && !model.entity.empty?) -%><%- model.entity().each do |element| -%><%== render :template => 'provenance_provenanceentitycomponent', :locals => {name: 'entity', model: element} %><%- end -%><%- end -%>
-    <%- if !model.integritySignature().nil? -%><integritySignature value="<%= model.integritySignature() %>"/><%- end -%>
+    <%- if (!model.signature().nil? && !model.signature.empty?) -%><%- model.signature().each do |element| -%><%== render :template => 'signature', :locals => {name: 'signature', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

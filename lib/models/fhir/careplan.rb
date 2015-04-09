@@ -39,8 +39,10 @@ module FHIR
             'date',
             'activitycode',
             'activitydate',
-            'activitydetail',
             'condition',
+            'activityreference',
+            'performer',
+            'goal',
             'patient',
             'participant'
             ]
@@ -59,38 +61,29 @@ module FHIR
             validates_presence_of :member
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec goal
-        class CarePlanGoalComponent
+        # This is an ugly hack to deal with embedded structures in the spec detail
+        class CarePlanActivityDetailComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "in progress", "achieved", "sustaining", "cancelled" ]
-            }
-            
-            field :description, type: String
-            validates_presence_of :description
-            field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
-            field :notes, type: String
-            embeds_many :concern, class_name:'FHIR::Reference'
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec simple
-        class CarePlanActivitySimpleComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                category: [ "diet", "drug", "encounter", "observation", "procedure", "supply", "other" ]
+                category: [ "diet", "drug", "encounter", "observation", "procedure", "supply", "other" ],
+                status: [ "not-started", "scheduled", "in-progress", "on-hold", "completed", "cancelled" ]
             }
             
             field :category, type: String
             validates :category, :inclusion => { in: VALID_CODES[:category] }
             validates_presence_of :category
             embeds_one :code, class_name:'FHIR::CodeableConcept'
+            embeds_one :reasonCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :reasonReference, class_name:'FHIR::Reference'
+            embeds_many :goal, class_name:'FHIR::Reference'
+            field :status, type: String
+            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
+            embeds_one :statusReason, class_name:'FHIR::CodeableConcept'
+            field :prohibited, type: Boolean
+            validates_presence_of :prohibited
             embeds_one :scheduledTiming, class_name:'FHIR::Timing'
             embeds_one :scheduledPeriod, class_name:'FHIR::Period'
             field :scheduledString, type: String
@@ -99,7 +92,7 @@ module FHIR
             embeds_one :product, class_name:'FHIR::Reference'
             embeds_one :dailyAmount, class_name:'FHIR::Quantity'
             embeds_one :quantity, class_name:'FHIR::Quantity'
-            field :details, type: String
+            field :note, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec activity
@@ -107,20 +100,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                status: [ "not started", "scheduled", "in progress", "on hold", "completed", "cancelled" ]
-            }
-            
-            field :goal, type: Array # Array of Strings
-            field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
-            field :prohibited, type: Boolean
-            validates_presence_of :prohibited
             embeds_many :actionResulting, class_name:'FHIR::Reference'
             field :notes, type: String
-            embeds_one :detail, class_name:'FHIR::Reference'
-            embeds_one :simple, class_name:'FHIR::CarePlan::CarePlanActivitySimpleComponent'
+            embeds_one :reference, class_name:'FHIR::Reference'
+            embeds_one :detail, class_name:'FHIR::CarePlan::CarePlanActivityDetailComponent'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -129,10 +112,13 @@ module FHIR
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :period, class_name:'FHIR::Period'
+        embeds_many :author, class_name:'FHIR::Reference'
         field :modified, type: FHIR::PartialDateTime
+        embeds_many :category, class_name:'FHIR::CodeableConcept'
         embeds_many :concern, class_name:'FHIR::Reference'
+        embeds_many :support, class_name:'FHIR::Reference'
         embeds_many :participant, class_name:'FHIR::CarePlan::CarePlanParticipantComponent'
-        embeds_many :goal, class_name:'FHIR::CarePlan::CarePlanGoalComponent'
+        embeds_many :goal, class_name:'FHIR::Reference'
         embeds_many :activity, class_name:'FHIR::CarePlan::CarePlanActivityComponent'
         field :notes, type: String
         track_history

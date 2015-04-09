@@ -7,11 +7,12 @@
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
     <%- if !model.vaccineType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'vaccineType', model: model.vaccineType()} %><%- end -%>
-    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
-    <%- if !model.refusedIndicator().nil? -%><refusedIndicator value="<%= model.refusedIndicator() %>"/><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.wasNotGiven().nil? -%><wasNotGiven value="<%= model.wasNotGiven() %>"/><%- end -%>
     <%- if !model.reported().nil? -%><reported value="<%= model.reported() %>"/><%- end -%>
     <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
     <%- if !model.requester().nil? -%><%== render :template => 'reference', :locals => {name: 'requester', model: model.requester()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if !model.manufacturer().nil? -%><%== render :template => 'reference', :locals => {name: 'manufacturer', model: model.manufacturer()} %><%- end -%>
     <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
     <%- if !model.lotNumber().nil? -%><lotNumber value="<%= model.lotNumber() %>"/><%- end -%>

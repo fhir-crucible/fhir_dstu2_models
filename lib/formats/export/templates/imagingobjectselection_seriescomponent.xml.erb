@@ -3,7 +3,6 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.uid().nil? -%><uid value="<%= model.uid() %>"/><%- end -%>
-    <%- if !model.retrieveAETitle().nil? -%><retrieveAETitle value="<%= model.retrieveAETitle() %>"/><%- end -%>
-    <%- if !model.retrieveUrl().nil? -%><retrieveUrl value="<%= model.retrieveUrl() %>"/><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
     <%- if (!model.instance().nil? && !model.instance.empty?) -%><%- model.instance().each do |element| -%><%== render :template => 'imagingobjectselection_instancecomponent', :locals => {name: 'instance', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

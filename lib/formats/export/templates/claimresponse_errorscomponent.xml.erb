@@ -2,8 +2,8 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.sequenceLinkId().nil? -%><sequenceLinkId value="<%= model.sequenceLinkId() %>"/><%- end -%>
-    <%- if !model.detailSequenceLinkId().nil? -%><detailSequenceLinkId value="<%= model.detailSequenceLinkId() %>"/><%- end -%>
-    <%- if !model.subdetailSequenceLinkId().nil? -%><subdetailSequenceLinkId value="<%= model.subdetailSequenceLinkId() %>"/><%- end -%>
+    <%- if !model.sequenceLinkId().nil? -%><%== render :template => 'positiveint', :locals => {name: 'sequenceLinkId', model: model.sequenceLinkId()} %><%- end -%>
+    <%- if !model.detailSequenceLinkId().nil? -%><%== render :template => 'positiveint', :locals => {name: 'detailSequenceLinkId', model: model.detailSequenceLinkId()} %><%- end -%>
+    <%- if !model.subdetailSequenceLinkId().nil? -%><%== render :template => 'positiveint', :locals => {name: 'subdetailSequenceLinkId', model: model.subdetailSequenceLinkId()} %><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'coding', :locals => {name: 'code', model: model.code()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

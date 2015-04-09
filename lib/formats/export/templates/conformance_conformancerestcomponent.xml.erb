@@ -9,4 +9,5 @@
     <%- if (!model.interaction().nil? && !model.interaction.empty?) -%><%- model.interaction().each do |element| -%><%== render :template => 'conformance_systeminteractioncomponent', :locals => {name: 'interaction', model: element} %><%- end -%><%- end -%>
     <%- if (!model.operation().nil? && !model.operation.empty?) -%><%- model.operation().each do |element| -%><%== render :template => 'conformance_conformancerestoperationcomponent', :locals => {name: 'operation', model: element} %><%- end -%><%- end -%>
     <%- if (model.documentMailbox() && !model.documentMailbox.empty?) -%><%- model.documentMailbox().each do |element| -%><documentMailbox value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (model.compartment() && !model.compartment.empty?) -%><%- model.compartment().each do |element| -%><compartment value="<%= element %>"/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

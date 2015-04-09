@@ -38,32 +38,17 @@ module FHIR
         SEARCH_PARAMS = [
             'container',
             'identifier',
-            'site',
+            'parent',
             'subject',
             'patient',
+            'site-reference',
             'collected',
-            'source',
             'accession',
             'type',
             'containerid',
+            'site-code',
             'collector'
             ]
-        # This is an ugly hack to deal with embedded structures in the spec source
-        class SpecimenSourceComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                relationship: [ "parent", "child" ]
-            }
-            
-            field :relationship, type: String
-            validates :relationship, :inclusion => { in: VALID_CODES[:relationship] }
-            validates_presence_of :relationship
-            embeds_many :target, class_name:'FHIR::Reference'
-        end
-        
         # This is an ugly hack to deal with embedded structures in the spec fhirCollection
         class SpecimenCollectionComponent
         include Mongoid::Document
@@ -75,7 +60,8 @@ module FHIR
             embeds_one :collectedPeriod, class_name:'FHIR::Period'
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
-            embeds_one :sourceSite, class_name:'FHIR::CodeableConcept'
+            embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :bodySiteReference, class_name:'FHIR::Reference'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec treatment
@@ -104,7 +90,7 @@ module FHIR
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-        embeds_many :source, class_name:'FHIR::Specimen::SpecimenSourceComponent'
+        embeds_many :parent, class_name:'FHIR::Reference'
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
         embeds_one :accessionIdentifier, class_name:'FHIR::Identifier'

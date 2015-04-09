@@ -39,7 +39,8 @@ module FHIR
             'code',
             'subject',
             'created',
-            'patient'
+            'patient',
+            'author'
             ]
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :code, class_name:'FHIR::CodeableConcept'

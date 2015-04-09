@@ -12,12 +12,22 @@ module FHIR
                 model
             end
             
+            def parse_xml_entry_MedicationProductBatchComponent(entry) 
+                return nil unless entry
+                model = FHIR::Medication::MedicationProductBatchComponent.new
+                self.parse_element_data(model, entry)
+                set_model_data(model, 'lotNumber', entry.at_xpath('./fhir:lotNumber/@value').try(:value))
+                set_model_data(model, 'expirationDate', entry.at_xpath('./fhir:expirationDate/@value').try(:value))
+                model
+            end
+            
             def parse_xml_entry_MedicationProductComponent(entry) 
                 return nil unless entry
                 model = FHIR::Medication::MedicationProductComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'form', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:form')))
                 set_model_data(model, 'ingredient', entry.xpath('./fhir:ingredient').map {|e| parse_xml_entry_MedicationProductIngredientComponent(e)})
+                set_model_data(model, 'batch', entry.xpath('./fhir:batch').map {|e| parse_xml_entry_MedicationProductBatchComponent(e)})
                 model
             end
             

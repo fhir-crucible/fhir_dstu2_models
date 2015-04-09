@@ -14,10 +14,13 @@ class ParseExamplesTest < Test::Unit::TestCase
   # Create a blank folder for the errors
   FileUtils.rm_rf(ERROR_DIR) if File.directory?(ERROR_DIR)
   FileUtils.mkdir_p ERROR_DIR
+
+  utils = Class.new.extend(FHIR::Formats::Utilities)
   
   Dir.glob(example_files).each do | example_file |
     root_element = Nokogiri::XML(File.read(example_file)).root.try(:name)
     next if (root_element.nil? || ['Workbook', 'div'].include?(root_element))
+    next if !utils.is_fhir_class? "FHIR::#{root_element}"
 
     # TODO: probably want these eventually
     next if EXCLUDED_RESOURCES.include?(root_element)

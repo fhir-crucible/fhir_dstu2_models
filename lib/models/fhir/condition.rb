@@ -37,6 +37,8 @@ module FHIR
         
         SEARCH_PARAMS = [
             'severity',
+            'clinicalstatus',
+            'onset-info',
             'code',
             'evidence',
             'date-asserted',
@@ -51,12 +53,11 @@ module FHIR
             'dueto-code',
             'location',
             'category',
-            'following-code',
-            'status'
+            'following-code'
             ]
         
         VALID_CODES = {
-            status: [ "provisional", "working", "confirmed", "refuted" ]
+            clinicalStatus: [ "provisional", "working", "confirmed", "refuted", "entered-in-error", "unknown" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec stage
@@ -82,8 +83,8 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :code, class_name:'FHIR::CodeableConcept'
-            field :detail, type: String
+            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteReference, class_name:'FHIR::Reference'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec dueTo
@@ -91,7 +92,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :codeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :code, class_name:'FHIR::CodeableConcept'
             embeds_one :target, class_name:'FHIR::Reference'
         end
         
@@ -100,29 +101,34 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :codeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :code, class_name:'FHIR::CodeableConcept'
             embeds_one :target, class_name:'FHIR::Reference'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        embeds_one :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
+        embeds_one :patient, class_name:'FHIR::Reference'
+        validates_presence_of :patient
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :asserter, class_name:'FHIR::Reference'
         field :dateAsserted, type: FHIR::PartialDateTime
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code
         embeds_one :category, class_name:'FHIR::CodeableConcept'
-        field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
-        validates_presence_of :status
-        embeds_one :certainty, class_name:'FHIR::CodeableConcept'
+        field :clinicalStatus, type: String
+        validates :clinicalStatus, :inclusion => { in: VALID_CODES[:clinicalStatus] }
+        validates_presence_of :clinicalStatus
         embeds_one :severity, class_name:'FHIR::CodeableConcept'
         field :onsetDateTime, type: FHIR::PartialDateTime
         embeds_one :onsetAge, class_name:'FHIR::Quantity'
+        embeds_one :onsetPeriod, class_name:'FHIR::Period'
+        embeds_one :onsetRange, class_name:'FHIR::Range'
+        field :onsetString, type: String
         field :abatementDate, type: FHIR::PartialDateTime
         embeds_one :abatementAge, class_name:'FHIR::Quantity'
         field :abatementBoolean, type: Boolean
+        embeds_one :abatementPeriod, class_name:'FHIR::Period'
+        embeds_one :abatementRange, class_name:'FHIR::Range'
+        field :abatementString, type: String
         embeds_one :stage, class_name:'FHIR::Condition::ConditionStageComponent'
         embeds_many :evidence, class_name:'FHIR::Condition::ConditionEvidenceComponent'
         embeds_many :location, class_name:'FHIR::Condition::ConditionLocationComponent'

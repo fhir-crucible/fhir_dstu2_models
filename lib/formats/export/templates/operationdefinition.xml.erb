@@ -4,18 +4,19 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.identifier().nil? -%><identifier value="<%= model.identifier() %>"/><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
     <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
-    <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
     <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
-    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'operationdefinition_operationdefinitioncontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
-    <%- if (!model.code().nil? && !model.code.empty?) -%><%- model.code().each do |element| -%><%== render :template => 'coding', :locals => {name: 'code', model: element} %><%- end -%><%- end -%>
+    <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
     <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
     <%- if !model.kind().nil? -%><kind value="<%= model.kind() %>"/><%- end -%>
-    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.idempotent().nil? -%><idempotent value="<%= model.idempotent() %>"/><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
     <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
     <%- if !model.base().nil? -%><%== render :template => 'reference', :locals => {name: 'base', model: model.base()} %><%- end -%>
     <%- if !model.system().nil? -%><system value="<%= model.system() %>"/><%- end -%>

@@ -46,7 +46,6 @@ module FHIR
         validates_presence_of :actor
         embeds_one :planningHorizon, class_name:'FHIR::Period'
         field :comment, type: String
-        field :lastModified, type: FHIR::PartialDateTime
         track_history
     end
 end

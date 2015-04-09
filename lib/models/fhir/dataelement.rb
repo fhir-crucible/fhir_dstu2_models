@@ -40,35 +40,26 @@ module FHIR
             'identifier',
             'code',
             'name',
+            'context',
             'publisher',
             'description',
-            'category',
             'version',
+            'url',
             'status'
             ]
         
         VALID_CODES = {
-            granularity: [ "comparable", "fully specified", "equivalent", "convertable", "scaleable", "flexible" ],
-            fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "string", "time", "uri", "uuid" ],
+            specificity: [ "comparable", "fully-specified", "equivalent", "convertable", "scaleable", "flexible" ],
             status: [ "draft", "active", "retired" ]
         }
         
-        # This is an ugly hack to deal with embedded structures in the spec binding
-        class DataElementBindingComponent
+        # This is an ugly hack to deal with embedded structures in the spec contact
+        class DataElementContactComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                conformance: [ "required", "preferred", "example" ]
-            }
-            
-            field :isExtensible, type: Boolean
-            validates_presence_of :isExtensible
-            field :conformance, type: String
-            validates :conformance, :inclusion => { in: VALID_CODES[:conformance], :allow_nil => true }
-            field :description, type: String
-            embeds_one :valueSet, class_name:'FHIR::Reference'
+            field :name, type: String
+            embeds_many :telecom, class_name:'FHIR::ContactPoint'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec mapping
@@ -76,43 +67,31 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            field :identity, type: String
+            validates_presence_of :identity
             field :uri, type: String
-            field :definitional, type: Boolean
             field :name, type: String
             field :comments, type: String
-            field :map, type: String
-            validates_presence_of :map
         end
         
+        field :url, type: String
         embeds_one :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
-        field :publisher, type: String
-        embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        field :name, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
+        field :experimental, type: Boolean
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :date, type: FHIR::PartialDateTime
-        field :name, type: String
-        embeds_many :category, class_name:'FHIR::CodeableConcept'
-        field :granularity, type: String
-        validates :granularity, :inclusion => { in: VALID_CODES[:granularity], :allow_nil => true }
-        embeds_many :code, class_name:'FHIR::Coding'
-        field :question, type: String
-        field :label, type: String
-        field :definition, type: String
-        field :comments, type: String
-        field :requirements, type: String
-        field :synonym, type: Array # Array of Strings
-        field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
-        field :exampleType, type: String
-        attr_accessor :example
-        # field :example, type: FHIR::AnyType
-        field :maxLength, type: Integer
-        embeds_one :unitsCodeableConcept, class_name:'FHIR::CodeableConcept'
-        embeds_one :unitsReference, class_name:'FHIR::Reference'
-        embeds_one :binding, class_name:'FHIR::DataElement::DataElementBindingComponent'
+        field :copyright, type: String
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::DataElement::DataElementContactComponent'
+        field :specificity, type: String
+        validates :specificity, :inclusion => { in: VALID_CODES[:specificity], :allow_nil => true }
         embeds_many :mapping, class_name:'FHIR::DataElement::DataElementMappingComponent'
+        embeds_many :element, class_name:'FHIR::ElementDefinition'
+        validates_presence_of :element
         track_history
     end
 end

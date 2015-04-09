@@ -38,6 +38,7 @@ module FHIR
         SEARCH_PARAMS = [
             'dispenser',
             'identifier',
+            'receiver',
             'prescription',
             'patient',
             'destination',
@@ -50,11 +51,11 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "in progress", "on hold", "completed", "entered in error", "stopped" ]
+            status: [ "in-progress", "on-hold", "completed", "entered-in-error", "stopped" ]
         }
         
-        # This is an ugly hack to deal with embedded structures in the spec dosage
-        class MedicationDispenseDispenseDosageComponent
+        # This is an ugly hack to deal with embedded structures in the spec dosageInstruction
+        class MedicationDispenseDosageInstructionComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
@@ -67,32 +68,10 @@ module FHIR
             embeds_one :site, class_name:'FHIR::CodeableConcept'
             embeds_one :route, class_name:'FHIR::CodeableConcept'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
-            embeds_one :quantity, class_name:'FHIR::Quantity'
+            embeds_one :doseRange, class_name:'FHIR::Range'
+            embeds_one :doseQuantity, class_name:'FHIR::Quantity'
             embeds_one :rate, class_name:'FHIR::Ratio'
             embeds_one :maxDosePerPeriod, class_name:'FHIR::Ratio'
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec dispense
-        class MedicationDispenseDispenseComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                status: [ "in progress", "on hold", "completed", "entered in error", "stopped" ]
-            }
-            
-            embeds_one :identifier, class_name:'FHIR::Identifier'
-            field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
-            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-            embeds_one :quantity, class_name:'FHIR::Quantity'
-            embeds_one :medication, class_name:'FHIR::Reference'
-            field :whenPrepared, type: FHIR::PartialDateTime
-            field :whenHandedOver, type: FHIR::PartialDateTime
-            embeds_one :destination, class_name:'FHIR::Reference'
-            embeds_many :receiver, class_name:'FHIR::Reference'
-            embeds_many :dosage, class_name:'FHIR::MedicationDispense::MedicationDispenseDispenseDosageComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec substitution
@@ -112,7 +91,16 @@ module FHIR
         embeds_one :patient, class_name:'FHIR::Reference'
         embeds_one :dispenser, class_name:'FHIR::Reference'
         embeds_many :authorizingPrescription, class_name:'FHIR::Reference'
-        embeds_many :dispense, class_name:'FHIR::MedicationDispense::MedicationDispenseDispenseComponent'
+        embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
+        embeds_one :quantity, class_name:'FHIR::Quantity'
+        embeds_one :daysSupply, class_name:'FHIR::Quantity'
+        embeds_one :medication, class_name:'FHIR::Reference'
+        field :whenPrepared, type: FHIR::PartialDateTime
+        field :whenHandedOver, type: FHIR::PartialDateTime
+        embeds_one :destination, class_name:'FHIR::Reference'
+        embeds_many :receiver, class_name:'FHIR::Reference'
+        field :note, type: String
+        embeds_many :dosageInstruction, class_name:'FHIR::MedicationDispense::MedicationDispenseDosageInstructionComponent'
         embeds_one :substitution, class_name:'FHIR::MedicationDispense::MedicationDispenseSubstitutionComponent'
         track_history
     end

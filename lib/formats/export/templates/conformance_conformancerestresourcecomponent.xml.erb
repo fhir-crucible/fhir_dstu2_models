@@ -8,6 +8,9 @@
     <%- if !model.versioning().nil? -%><versioning value="<%= model.versioning() %>"/><%- end -%>
     <%- if !model.readHistory().nil? -%><readHistory value="<%= model.readHistory() %>"/><%- end -%>
     <%- if !model.updateCreate().nil? -%><updateCreate value="<%= model.updateCreate() %>"/><%- end -%>
+    <%- if !model.conditionalCreate().nil? -%><conditionalCreate value="<%= model.conditionalCreate() %>"/><%- end -%>
+    <%- if !model.conditionalUpdate().nil? -%><conditionalUpdate value="<%= model.conditionalUpdate() %>"/><%- end -%>
+    <%- if !model.conditionalDelete().nil? -%><conditionalDelete value="<%= model.conditionalDelete() %>"/><%- end -%>
     <%- if (model.searchInclude() && !model.searchInclude.empty?) -%><%- model.searchInclude().each do |element| -%><searchInclude value="<%= element %>"/><%- end -%><%- end -%>
     <%- if (!model.searchParam().nil? && !model.searchParam.empty?) -%><%- model.searchParam().each do |element| -%><%== render :template => 'conformance_conformancerestresourcesearchparamcomponent', :locals => {name: 'searchParam', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

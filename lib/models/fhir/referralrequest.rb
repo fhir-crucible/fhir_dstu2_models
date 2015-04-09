@@ -36,6 +36,7 @@ module FHIR
         extend FHIR::Deserializer::ReferralRequest
         
         SEARCH_PARAMS = [
+            'requester',
             'specialty',
             'patient',
             'recipient',
@@ -45,7 +46,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "draft", "sent", "active", "cancelled", "refused", "completed" ]
+            status: [ "draft", "requested", "active", "cancelled", "accepted", "rejected", "completed" ]
         }
         
         field :status, type: String

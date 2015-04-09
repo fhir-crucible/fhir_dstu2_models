@@ -4,14 +4,16 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.orderer().nil? -%><%== render :template => 'reference', :locals => {name: 'orderer', model: model.orderer()} %><%- end -%>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if (!model.allergyIntolerance().nil? && !model.allergyIntolerance.empty?) -%><%- model.allergyIntolerance().each do |element| -%><%== render :template => 'reference', :locals => {name: 'allergyIntolerance', model: element} %><%- end -%><%- end -%>
     <%- if (!model.foodPreferenceModifier().nil? && !model.foodPreferenceModifier.empty?) -%><%- model.foodPreferenceModifier().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'foodPreferenceModifier', model: element} %><%- end -%><%- end -%>
     <%- if (!model.excludeFoodModifier().nil? && !model.excludeFoodModifier.empty?) -%><%- model.excludeFoodModifier().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'excludeFoodModifier', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.item().nil? && !model.item.empty?) -%><%- model.item().each do |element| -%><%== render :template => 'nutritionorder_nutritionorderitemcomponent', :locals => {name: 'item', model: element} %><%- end -%><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.oralDiet().nil? -%><%== render :template => 'nutritionorder_nutritionorderoraldietcomponent', :locals => {name: 'oralDiet', model: model.oralDiet()} %><%- end -%>
+    <%- if (!model.supplement().nil? && !model.supplement.empty?) -%><%- model.supplement().each do |element| -%><%== render :template => 'nutritionorder_nutritionordersupplementcomponent', :locals => {name: 'supplement', model: element} %><%- end -%><%- end -%>
+    <%- if !model.enteralFormula().nil? -%><%== render :template => 'nutritionorder_nutritionorderenteralformulacomponent', :locals => {name: 'enteralFormula', model: model.enteralFormula()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

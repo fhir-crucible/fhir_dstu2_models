@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'coding', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
-    <%- if !model.signature().nil? -%><signature value="<%= model.signature() %>"/><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

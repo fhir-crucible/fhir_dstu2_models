@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.location().nil? -%><location value="<%= model.location() %>"/><%- end -%>
+    <%- if !model.etag().nil? -%><etag value="<%= model.etag() %>"/><%- end -%>
+    <%- if !model.lastModified().nil? -%><lastModified value="<%= model.lastModified().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

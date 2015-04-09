@@ -56,7 +56,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "boolean", "decimal", "integer", "date", "dateTime", "instant", "time", "string", "text", "choice", "open-choice", "attachment", "reference", "quantity" ]
+                fhirType: [ "boolean", "decimal", "integer", "date", "dateTime", "instant", "time", "string", "text", "url", "choice", "open-choice", "attachment", "reference", "quantity" ]
             }
             
             field :linkId, type: String
@@ -92,6 +92,7 @@ module FHIR
         validates_presence_of :status
         field :date, type: FHIR::PartialDateTime
         field :publisher, type: String
+        embeds_many :telecom, class_name:'FHIR::ContactPoint'
         embeds_one :group, class_name:'FHIR::Questionnaire::GroupComponent'
         validates_presence_of :group
         track_history

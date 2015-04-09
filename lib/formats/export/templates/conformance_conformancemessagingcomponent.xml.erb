@@ -3,7 +3,7 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.endpoint().nil? -%><endpoint value="<%= model.endpoint() %>"/><%- end -%>
-    <%- if !model.reliableCache().nil? -%><reliableCache value="<%= model.reliableCache() %>"/><%- end -%>
+    <%- if !model.reliableCache().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'reliableCache', model: model.reliableCache()} %><%- end -%>
     <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
     <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%== render :template => 'conformance_conformancemessagingeventcomponent', :locals => {name: 'event', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

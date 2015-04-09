@@ -8,7 +8,8 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'bodySite', entry.xpath('./fhir:bodySite').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                set_model_data(model, 'bodySiteCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:bodySiteCodeableConcept')))
+                set_model_data(model, 'bodySiteReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:bodySiteReference')))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'device', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:device')))
                 set_model_data(model, 'encounter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:encounter')))

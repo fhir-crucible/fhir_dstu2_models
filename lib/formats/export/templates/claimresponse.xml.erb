@@ -16,7 +16,7 @@
     <%- if !model.disposition().nil? -%><disposition value="<%= model.disposition() %>"/><%- end -%>
     <%- if !model.payeeType().nil? -%><%== render :template => 'coding', :locals => {name: 'payeeType', model: model.payeeType()} %><%- end -%>
     <%- if (!model.item().nil? && !model.item.empty?) -%><%- model.item().each do |element| -%><%== render :template => 'claimresponse_itemscomponent', :locals => {name: 'item', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.additem().nil? && !model.additem.empty?) -%><%- model.additem().each do |element| -%><%== render :template => 'claimresponse_addeditemcomponent', :locals => {name: 'additem', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.addItem().nil? && !model.addItem.empty?) -%><%- model.addItem().each do |element| -%><%== render :template => 'claimresponse_addeditemcomponent', :locals => {name: 'addItem', model: element} %><%- end -%><%- end -%>
     <%- if (!model.error().nil? && !model.error.empty?) -%><%- model.error().each do |element| -%><%== render :template => 'claimresponse_errorscomponent', :locals => {name: 'error', model: element} %><%- end -%><%- end -%>
     <%- if !model.totalCost().nil? -%><%== render :template => 'quantity', :locals => {name: 'totalCost', model: model.totalCost()} %><%- end -%>
     <%- if !model.unallocDeductable().nil? -%><%== render :template => 'quantity', :locals => {name: 'unallocDeductable', model: model.unallocDeductable()} %><%- end -%>
@@ -29,4 +29,5 @@
     <%- if !model.reserved().nil? -%><%== render :template => 'coding', :locals => {name: 'reserved', model: model.reserved()} %><%- end -%>
     <%- if !model.form().nil? -%><%== render :template => 'coding', :locals => {name: 'form', model: model.form()} %><%- end -%>
     <%- if (!model.note().nil? && !model.note.empty?) -%><%- model.note().each do |element| -%><%== render :template => 'claimresponse_notescomponent', :locals => {name: 'note', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.coverage().nil? && !model.coverage.empty?) -%><%- model.coverage().each do |element| -%><%== render :template => 'claimresponse_coveragecomponent', :locals => {name: 'coverage', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

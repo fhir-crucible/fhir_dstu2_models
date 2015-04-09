@@ -5,7 +5,7 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.use().nil? -%><use value="<%= model.use() %>"/><%- end -%>
-    <%- if !model.label().nil? -%><label value="<%= model.label() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
     <%- if !model.system().nil? -%><system value="<%= model.system() %>"/><%- end -%>
     <%- if !model.value().nil? -%><value value="<%= model.value() %>"/><%- end -%>
     <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>

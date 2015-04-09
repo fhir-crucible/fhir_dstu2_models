@@ -1,0 +1,36 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Claim' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.ruleset().nil? -%><%== render :template => 'coding', :locals => {name: 'ruleset', model: model.ruleset()} %><%- end -%>
+    <%- if !model.originalRuleset().nil? -%><%== render :template => 'coding', :locals => {name: 'originalRuleset', model: model.originalRuleset()} %><%- end -%>
+    <%- if !model.created().nil? -%><created value="<%= model.created().iso8601 %>"/><%- end -%>
+    <%- if !model.target().nil? -%><%== render :template => 'reference', :locals => {name: 'target', model: model.target()} %><%- end -%>
+    <%- if !model.provider().nil? -%><%== render :template => 'reference', :locals => {name: 'provider', model: model.provider()} %><%- end -%>
+    <%- if !model.organization().nil? -%><%== render :template => 'reference', :locals => {name: 'organization', model: model.organization()} %><%- end -%>
+    <%- if !model.use().nil? -%><use value="<%= model.use() %>"/><%- end -%>
+    <%- if !model.priority().nil? -%><%== render :template => 'coding', :locals => {name: 'priority', model: model.priority()} %><%- end -%>
+    <%- if !model.fundsReserve().nil? -%><%== render :template => 'coding', :locals => {name: 'fundsReserve', model: model.fundsReserve()} %><%- end -%>
+    <%- if !model.enterer().nil? -%><%== render :template => 'reference', :locals => {name: 'enterer', model: model.enterer()} %><%- end -%>
+    <%- if !model.facility().nil? -%><%== render :template => 'reference', :locals => {name: 'facility', model: model.facility()} %><%- end -%>
+    <%- if !model.prescription().nil? -%><%== render :template => 'reference', :locals => {name: 'prescription', model: model.prescription()} %><%- end -%>
+    <%- if !model.originalPrescription().nil? -%><%== render :template => 'reference', :locals => {name: 'originalPrescription', model: model.originalPrescription()} %><%- end -%>
+    <%- if !model.payee().nil? -%><%== render :template => 'claim_payeecomponent', :locals => {name: 'payee', model: model.payee()} %><%- end -%>
+    <%- if !model.referral().nil? -%><%== render :template => 'reference', :locals => {name: 'referral', model: model.referral()} %><%- end -%>
+    <%- if (!model.diagnosis().nil? && !model.diagnosis.empty?) -%><%- model.diagnosis().each do |element| -%><%== render :template => 'claim_diagnosiscomponent', :locals => {name: 'diagnosis', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.condition().nil? && !model.condition.empty?) -%><%- model.condition().each do |element| -%><%== render :template => 'coding', :locals => {name: 'condition', model: element} %><%- end -%><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if (!model.coverage().nil? && !model.coverage.empty?) -%><%- model.coverage().each do |element| -%><%== render :template => 'claim_coveragecomponent', :locals => {name: 'coverage', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.exception().nil? && !model.exception.empty?) -%><%- model.exception().each do |element| -%><%== render :template => 'coding', :locals => {name: 'exception', model: element} %><%- end -%><%- end -%>
+    <%- if !model.school().nil? -%><school value="<%= model.school() %>"/><%- end -%>
+    <%- if !model.accident().nil? -%><accident value="<%= model.accident().iso8601 %>"/><%- end -%>
+    <%- if !model.accidentType().nil? -%><%== render :template => 'coding', :locals => {name: 'accidentType', model: model.accidentType()} %><%- end -%>
+    <%- if (!model.interventionException().nil? && !model.interventionException.empty?) -%><%- model.interventionException().each do |element| -%><%== render :template => 'coding', :locals => {name: 'interventionException', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.item().nil? && !model.item.empty?) -%><%- model.item().each do |element| -%><%== render :template => 'claim_itemscomponent', :locals => {name: 'item', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.additionalMaterials().nil? && !model.additionalMaterials.empty?) -%><%- model.additionalMaterials().each do |element| -%><%== render :template => 'coding', :locals => {name: 'additionalMaterials', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.missingTeeth().nil? && !model.missingTeeth.empty?) -%><%- model.missingTeeth().each do |element| -%><%== render :template => 'claim_missingteethcomponent', :locals => {name: 'missingTeeth', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

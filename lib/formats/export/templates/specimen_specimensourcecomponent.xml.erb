@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.relationship().nil? -%><relationship value="<%= model.relationship() %>"/><%- end -%>
-    <%- if (!model.target().nil? && !model.target.empty?) -%><%- model.target().each do |element| -%><%== render :template => 'reference', :locals => {name: 'target', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

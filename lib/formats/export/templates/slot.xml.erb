@@ -12,5 +12,4 @@
     <%- if !model.end().nil? -%><end value="<%= model.end().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
     <%- if !model.overbooked().nil? -%><overbooked value="<%= model.overbooked() %>"/><%- end -%>
     <%- if !model.comment().nil? -%><comment value="<%= model.comment() %>"/><%- end -%>
-    <%- if !model.lastModified().nil? -%><lastModified value="<%= model.lastModified().iso8601 %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

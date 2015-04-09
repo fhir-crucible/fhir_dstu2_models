@@ -12,23 +12,18 @@ module FHIR
                 model
             end
             
-            def parse_xml_entry_CarePlanGoalComponent(entry) 
+            def parse_xml_entry_CarePlanActivityDetailComponent(entry) 
                 return nil unless entry
-                model = FHIR::CarePlan::CarePlanGoalComponent.new
-                self.parse_element_data(model, entry)
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'notes', entry.at_xpath('./fhir:notes/@value').try(:value))
-                set_model_data(model, 'concern', entry.xpath('./fhir:concern').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                model
-            end
-            
-            def parse_xml_entry_CarePlanActivitySimpleComponent(entry) 
-                return nil unless entry
-                model = FHIR::CarePlan::CarePlanActivitySimpleComponent.new
+                model = FHIR::CarePlan::CarePlanActivityDetailComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'category', entry.at_xpath('./fhir:category/@value').try(:value))
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
+                set_model_data(model, 'reasonCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:reasonCodeableConcept')))
+                set_model_data(model, 'reasonReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:reasonReference')))
+                set_model_data(model, 'goal', entry.xpath('./fhir:goal').map {|e| FHIR::Reference.parse_xml_entry(e)})
+                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                set_model_data(model, 'statusReason', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:statusReason')))
+                set_model_data(model, 'prohibited', entry.at_xpath('./fhir:prohibited/@value').try(:value))
                 set_model_data(model, 'scheduledTiming', FHIR::Timing.parse_xml_entry(entry.at_xpath('./fhir:scheduledTiming')))
                 set_model_data(model, 'scheduledPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:scheduledPeriod')))
                 set_model_data(model, 'scheduledString', entry.at_xpath('./fhir:scheduledString/@value').try(:value))
@@ -37,7 +32,7 @@ module FHIR
                 set_model_data(model, 'product', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:product')))
                 set_model_data(model, 'dailyAmount', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:dailyAmount')))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
-                set_model_data(model, 'details', entry.at_xpath('./fhir:details/@value').try(:value))
+                set_model_data(model, 'note', entry.at_xpath('./fhir:note/@value').try(:value))
                 model
             end
             
@@ -45,13 +40,10 @@ module FHIR
                 return nil unless entry
                 model = FHIR::CarePlan::CarePlanActivityComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'goal', entry.xpath('./fhir:goal/@value').map {|e| e.value })
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'prohibited', entry.at_xpath('./fhir:prohibited/@value').try(:value))
                 set_model_data(model, 'actionResulting', entry.xpath('./fhir:actionResulting').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'notes', entry.at_xpath('./fhir:notes/@value').try(:value))
-                set_model_data(model, 'detail', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:detail')))
-                set_model_data(model, 'simple', parse_xml_entry_CarePlanActivitySimpleComponent(entry.at_xpath('./fhir:simple')))
+                set_model_data(model, 'reference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:reference')))
+                set_model_data(model, 'detail', parse_xml_entry_CarePlanActivityDetailComponent(entry.at_xpath('./fhir:detail')))
                 model
             end
             
@@ -64,10 +56,13 @@ module FHIR
                 set_model_data(model, 'patient', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:patient')))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
+                set_model_data(model, 'author', entry.xpath('./fhir:author').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'modified', entry.at_xpath('./fhir:modified/@value').try(:value))
+                set_model_data(model, 'category', entry.xpath('./fhir:category').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'concern', entry.xpath('./fhir:concern').map {|e| FHIR::Reference.parse_xml_entry(e)})
+                set_model_data(model, 'support', entry.xpath('./fhir:support').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'participant', entry.xpath('./fhir:participant').map {|e| parse_xml_entry_CarePlanParticipantComponent(e)})
-                set_model_data(model, 'goal', entry.xpath('./fhir:goal').map {|e| parse_xml_entry_CarePlanGoalComponent(e)})
+                set_model_data(model, 'goal', entry.xpath('./fhir:goal').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'activity', entry.xpath('./fhir:activity').map {|e| parse_xml_entry_CarePlanActivityComponent(e)})
                 set_model_data(model, 'notes', entry.at_xpath('./fhir:notes/@value').try(:value))
                 model

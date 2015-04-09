@@ -45,7 +45,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            code: [ "pending", "review", "rejected", "error", "accepted", "cancelled", "replaced", "aborted", "complete" ]
+            orderStatus: [ "pending", "review", "rejected", "error", "accepted", "cancelled", "replaced", "aborted", "completed" ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -55,9 +55,9 @@ module FHIR
         embeds_one :who, class_name:'FHIR::Reference'
         embeds_one :authorityCodeableConcept, class_name:'FHIR::CodeableConcept'
         embeds_one :authorityReference, class_name:'FHIR::Reference'
-        field :code, type: String
-        validates :code, :inclusion => { in: VALID_CODES[:code] }
-        validates_presence_of :code
+        field :orderStatus, type: String
+        validates :orderStatus, :inclusion => { in: VALID_CODES[:orderStatus] }
+        validates_presence_of :orderStatus
         field :description, type: String
         embeds_many :fulfillment, class_name:'FHIR::Reference'
         track_history

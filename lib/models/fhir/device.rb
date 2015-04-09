@@ -45,12 +45,20 @@ module FHIR
             'type',
             'manufacturer'
             ]
+        
+        VALID_CODES = {
+            status: [ "available", "not-available", "entered-in-error" ]
+        }
+        
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         validates_presence_of :fhirType
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :manufacturer, type: String
         field :model, type: String
         field :versionNum, type: String
+        field :manufactureDate, type: FHIR::PartialDateTime
         field :expiry, type: FHIR::PartialDateTime
         field :udi, type: String
         field :lotNumber, type: String

@@ -39,6 +39,7 @@ module FHIR
             'identifier',
             'prescription',
             'effectivetime',
+            'practitioner',
             'patient',
             'medication',
             'encounter',
@@ -48,7 +49,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "in progress", "on hold", "completed", "entered in error", "stopped" ]
+            status: [ "in-progress", "on-hold", "completed", "entered-in-error", "stopped" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosage
@@ -56,16 +57,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :timingDateTime, type: FHIR::PartialDateTime
-            embeds_one :timingPeriod, class_name:'FHIR::Period'
-            field :asNeededBoolean, type: Boolean
-            embeds_one :asNeededCodeableConcept, class_name:'FHIR::CodeableConcept'
+            field :text, type: String
             embeds_one :site, class_name:'FHIR::CodeableConcept'
             embeds_one :route, class_name:'FHIR::CodeableConcept'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :rate, class_name:'FHIR::Ratio'
-            embeds_one :maxDosePerPeriod, class_name:'FHIR::Ratio'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -75,19 +72,19 @@ module FHIR
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
         embeds_one :practitioner, class_name:'FHIR::Reference'
-        validates_presence_of :practitioner
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :prescription, class_name:'FHIR::Reference'
-        validates_presence_of :prescription
         field :wasNotGiven, type: Boolean
         embeds_many :reasonNotGiven, class_name:'FHIR::CodeableConcept'
+        embeds_many :reasonGiven, class_name:'FHIR::CodeableConcept'
         field :effectiveTimeDateTime, type: FHIR::PartialDateTime
         validates_presence_of :effectiveTimeDateTime
         embeds_one :effectiveTimePeriod, class_name:'FHIR::Period'
         validates_presence_of :effectiveTimePeriod
         embeds_one :medication, class_name:'FHIR::Reference'
         embeds_many :device, class_name:'FHIR::Reference'
-        embeds_many :dosage, class_name:'FHIR::MedicationAdministration::MedicationAdministrationDosageComponent'
+        field :note, type: String
+        embeds_one :dosage, class_name:'FHIR::MedicationAdministration::MedicationAdministrationDosageComponent'
         track_history
     end
 end

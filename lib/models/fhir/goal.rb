@@ -40,17 +40,32 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "proposed", "planned", "in progress", "achieved", "sustaining", "cancelled", "accepted", "rejected" ]
+            status: [ "proposed", "planned", "in-progress", "achieved", "sustaining", "cancelled", "accepted", "rejected" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec outcome
+        class GoalOutcomeComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :resultCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :resultReference, class_name:'FHIR::Reference'
+        end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
+        field :targetDate, type: FHIR::PartialDateTime
         field :description, type: String
         validates_presence_of :description
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
-        field :notes, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
+        validates_presence_of :status
+        field :statusDate, type: FHIR::PartialDateTime
+        embeds_one :author, class_name:'FHIR::Reference'
+        embeds_one :priority, class_name:'FHIR::CodeableConcept'
         embeds_many :concern, class_name:'FHIR::Reference'
+        field :notes, type: String
+        embeds_many :outcome, class_name:'FHIR::Goal::GoalOutcomeComponent'
         track_history
     end
 end

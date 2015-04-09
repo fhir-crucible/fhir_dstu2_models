@@ -40,25 +40,44 @@ module FHIR
             'subject',
             'author',
             'created',
-            'patient',
-            'confidentiality',
-            'recipient',
+            'relatedref',
             'description',
+            'source',
             'type',
-            'content',
+            'relatedid',
+            'patient',
+            'recipient',
             'status',
-            'supersedes'
+            'contentref'
             ]
         
         VALID_CODES = {
-            status: [ "current", "superceded", "entered in error" ]
+            status: [ "current", "superceded", "entered-in-error" ]
         }
         
+        # This is an ugly hack to deal with embedded structures in the spec content
+        class DocumentManifestContentComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :pAttachment, class_name:'FHIR::Attachment'
+            validates_presence_of :pAttachment
+            embeds_one :pReference, class_name:'FHIR::Reference'
+            validates_presence_of :pReference
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec related
+        class DocumentManifestRelatedComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :identifier, class_name:'FHIR::Identifier'
+            embeds_one :ref, class_name:'FHIR::Reference'
+        end
+        
         embeds_one :masterIdentifier, class_name:'FHIR::Identifier'
-        validates_presence_of :masterIdentifier
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        embeds_many :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
+        embeds_one :subject, class_name:'FHIR::Reference'
         embeds_many :recipient, class_name:'FHIR::Reference'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_many :author, class_name:'FHIR::Reference'
@@ -67,11 +86,10 @@ module FHIR
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        embeds_one :supercedes, class_name:'FHIR::Reference'
         field :description, type: String
-        embeds_one :confidentiality, class_name:'FHIR::CodeableConcept'
-        embeds_many :content, class_name:'FHIR::Reference'
+        embeds_many :content, class_name:'FHIR::DocumentManifest::DocumentManifestContentComponent'
         validates_presence_of :content
+        embeds_many :related, class_name:'FHIR::DocumentManifest::DocumentManifestRelatedComponent'
         track_history
     end
 end

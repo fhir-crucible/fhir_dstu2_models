@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.sequenceLinkId().nil? -%><sequenceLinkId value="<%= model.sequenceLinkId() %>"/><%- end -%>
+    <%- if !model.sequenceLinkId().nil? -%><%== render :template => 'positiveint', :locals => {name: 'sequenceLinkId', model: model.sequenceLinkId()} %><%- end -%>
     <%- if (!model.adjudication().nil? && !model.adjudication.empty?) -%><%- model.adjudication().each do |element| -%><%== render :template => 'claimresponse_detailadjudicationcomponent', :locals => {name: 'adjudication', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.subdetail().nil? && !model.subdetail.empty?) -%><%- model.subdetail().each do |element| -%><%== render :template => 'claimresponse_itemsubdetailcomponent', :locals => {name: 'subdetail', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.subDetail().nil? && !model.subDetail.empty?) -%><%- model.subDetail().each do |element| -%><%== render :template => 'claimresponse_subdetailcomponent', :locals => {name: 'subDetail', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

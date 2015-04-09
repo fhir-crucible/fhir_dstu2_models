@@ -14,7 +14,7 @@ module FHIR
                 set_model_data(model, 'who', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:who')))
                 set_model_data(model, 'authorityCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:authorityCodeableConcept')))
                 set_model_data(model, 'authorityReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:authorityReference')))
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
+                set_model_data(model, 'orderStatus', entry.at_xpath('./fhir:orderStatus/@value').try(:value))
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
                 set_model_data(model, 'fulfillment', entry.xpath('./fhir:fulfillment').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 model

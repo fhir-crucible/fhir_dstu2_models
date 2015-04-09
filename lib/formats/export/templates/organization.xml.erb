@@ -11,6 +11,5 @@
     <%- if (!model.address().nil? && !model.address.empty?) -%><%- model.address().each do |element| -%><%== render :template => 'address', :locals => {name: 'address', model: element} %><%- end -%><%- end -%>
     <%- if !model.partOf().nil? -%><%== render :template => 'reference', :locals => {name: 'partOf', model: model.partOf()} %><%- end -%>
     <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'organization_organizationcontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.location().nil? && !model.location.empty?) -%><%- model.location().each do |element| -%><%== render :template => 'reference', :locals => {name: 'location', model: element} %><%- end -%><%- end -%>
     <%- if !model.active().nil? -%><active value="<%= model.active() %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

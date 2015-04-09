@@ -78,7 +78,7 @@ module FHIR
             validates_presence_of :date
             embeds_one :vaccineType, class_name:'FHIR::CodeableConcept'
             validates_presence_of :vaccineType
-            field :doseNumber, type: Integer
+            embeds_one :doseNumber, class_name:'FHIR::positiveInt'
             embeds_one :forecastStatus, class_name:'FHIR::CodeableConcept'
             validates_presence_of :forecastStatus
             embeds_many :dateCriterion, class_name:'FHIR::ImmunizationRecommendation::ImmunizationRecommendationRecommendationDateCriterionComponent'
@@ -88,8 +88,8 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        embeds_one :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
+        embeds_one :patient, class_name:'FHIR::Reference'
+        validates_presence_of :patient
         embeds_many :recommendation, class_name:'FHIR::ImmunizationRecommendation::ImmunizationRecommendationRecommendationComponent'
         validates_presence_of :recommendation
         track_history

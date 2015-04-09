@@ -65,7 +65,6 @@ class ProfileValidationTest < Test::Unit::TestCase
     
     valid = profile.is_valid?(example_json_hash,'JSON')
     if !valid
-      # puts profile.warnings
       puts profile.errors
       File.open("#{ERROR_DIR_JSON}/#{example_name}.json", 'w:UTF-8') {|file| file.write(example_json_string)}      
     end
@@ -77,7 +76,6 @@ class ProfileValidationTest < Test::Unit::TestCase
     
     valid = profile.is_valid?(example_xml_string,'XML')
     if !valid
-      # puts profile.warnings
       puts profile.errors
       File.open("#{ERROR_DIR}/#{example_name}.xml", 'w:UTF-8') {|file| file.write(example_xml_string)}      
     end

@@ -56,7 +56,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "in progress", "dispensed", "abandoned" ]
+                status: [ "in-progress", "dispensed", "abandoned" ]
             }
             
             embeds_one :identifier, class_name:'FHIR::Identifier'
@@ -67,7 +67,7 @@ module FHIR
             embeds_one :suppliedItem, class_name:'FHIR::Reference'
             embeds_one :supplier, class_name:'FHIR::Reference'
             embeds_one :whenPrepared, class_name:'FHIR::Period'
-            embeds_one :whenHandedOver, class_name:'FHIR::Period'
+            field :whenHandedOver, type: FHIR::PartialDateTime
             embeds_one :destination, class_name:'FHIR::Reference'
             embeds_many :receiver, class_name:'FHIR::Reference'
         end

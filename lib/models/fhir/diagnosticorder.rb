@@ -57,7 +57,7 @@ module FHIR
         
         VALID_CODES = {
             priority: [ "routine", "urgent", "stat", "asap" ],
-            status: [ "requested", "received", "accepted", "in progress", "review", "completed", "suspended", "rejected", "failed" ]
+            status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec event
@@ -67,7 +67,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "requested", "received", "accepted", "in progress", "review", "completed", "suspended", "rejected", "failed" ]
+                status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
             }
             
             field :status, type: String
@@ -86,13 +86,14 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "requested", "received", "accepted", "in progress", "review", "completed", "suspended", "rejected", "failed" ]
+                status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
             }
             
             embeds_one :code, class_name:'FHIR::CodeableConcept'
             validates_presence_of :code
             embeds_many :specimen, class_name:'FHIR::Reference'
-            embeds_one :bodySite, class_name:'FHIR::CodeableConcept'
+            embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :bodySiteReference, class_name:'FHIR::Reference'
             field :status, type: String
             validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_many :event, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderEventComponent'

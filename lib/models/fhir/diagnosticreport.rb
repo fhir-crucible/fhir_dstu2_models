@@ -43,6 +43,7 @@ module FHIR
             'performer',
             'subject',
             'diagnosis',
+            'encounter',
             'result',
             'service',
             'patient',
@@ -53,7 +54,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "registered", "partial", "final", "corrected", "amended", "appended", "cancelled", "entered in error" ]
+            status: [ "registered", "partial", "final", "corrected", "appended", "cancelled", "entered-in-error" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec image
@@ -77,7 +78,8 @@ module FHIR
         validates_presence_of :subject
         embeds_one :performer, class_name:'FHIR::Reference'
         validates_presence_of :performer
-        embeds_one :identifier, class_name:'FHIR::Identifier'
+        embeds_one :encounter, class_name:'FHIR::Reference'
+        embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_many :requestDetail, class_name:'FHIR::Reference'
         embeds_one :serviceCategory, class_name:'FHIR::CodeableConcept'
         field :diagnosticDateTime, type: FHIR::PartialDateTime

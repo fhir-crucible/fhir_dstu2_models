@@ -4,17 +4,18 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.name().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'name', model: model.name()} %><%- end -%>
+    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
     <%- if !model.valueQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'valueQuantity', model: model.valueQuantity()} %><%- end -%>
     <%- if !model.valueCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'valueCodeableConcept', model: model.valueCodeableConcept()} %><%- end -%>
-    <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>
+    <%- if !model.valueString().nil? -%><valueString value="<%= model.valueString() %>"/><%- end -%>
+    <%- if !model.valueRange().nil? -%><%== render :template => 'range', :locals => {name: 'valueRange', model: model.valueRange()} %><%- end -%>
     <%- if !model.valueRatio().nil? -%><%== render :template => 'ratio', :locals => {name: 'valueRatio', model: model.valueRatio()} %><%- end -%>
+    <%- if !model.valueSampledData().nil? -%><%== render :template => 'sampleddata', :locals => {name: 'valueSampledData', model: model.valueSampledData()} %><%- end -%>
+    <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>
+    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().iso8601 %>"/><%- end -%>
     <%- if !model.valueDateTime().nil? -%><valueDateTime value="<%= model.valueDateTime().iso8601 %>"/><%- end -%>
     <%- if !model.valuePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'valuePeriod', model: model.valuePeriod()} %><%- end -%>
-    <%- if !model.valueSampledData().nil? -%><%== render :template => 'sampleddata', :locals => {name: 'valueSampledData', model: model.valueSampledData()} %><%- end -%>
-    <%- if !model.valueString().nil? -%><valueString value="<%= model.valueString() %>"/><%- end -%>
-    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().iso8601 %>"/><%- end -%>
-    <%- if !model.dataAbsentReason().nil? -%><dataAbsentReason value="<%= model.dataAbsentReason() %>"/><%- end -%>
+    <%- if !model.dataAbsentReason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'dataAbsentReason', model: model.dataAbsentReason()} %><%- end -%>
     <%- if !model.interpretation().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'interpretation', model: model.interpretation()} %><%- end -%>
     <%- if !model.comments().nil? -%><comments value="<%= model.comments() %>"/><%- end -%>
     <%- if !model.appliesDateTime().nil? -%><appliesDateTime value="<%= model.appliesDateTime().iso8601 %>"/><%- end -%>
@@ -22,12 +23,14 @@
     <%- if !model.issued().nil? -%><issued value="<%= model.issued().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.reliability().nil? -%><reliability value="<%= model.reliability() %>"/><%- end -%>
-    <%- if !model.bodySite().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySite', model: model.bodySite()} %><%- end -%>
+    <%- if !model.bodySiteCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySiteCodeableConcept', model: model.bodySiteCodeableConcept()} %><%- end -%>
+    <%- if !model.bodySiteReference().nil? -%><%== render :template => 'reference', :locals => {name: 'bodySiteReference', model: model.bodySiteReference()} %><%- end -%>
     <%- if !model.method().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'method', model: model.method()} %><%- end -%>
-    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if !model.specimen().nil? -%><%== render :template => 'reference', :locals => {name: 'specimen', model: model.specimen()} %><%- end -%>
     <%- if (!model.performer().nil? && !model.performer.empty?) -%><%- model.performer().each do |element| -%><%== render :template => 'reference', :locals => {name: 'performer', model: element} %><%- end -%><%- end -%>
+    <%- if !model.device().nil? -%><%== render :template => 'reference', :locals => {name: 'device', model: model.device()} %><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if (!model.referenceRange().nil? && !model.referenceRange.empty?) -%><%- model.referenceRange().each do |element| -%><%== render :template => 'observation_observationreferencerangecomponent', :locals => {name: 'referenceRange', model: element} %><%- end -%><%- end -%>
     <%- if (!model.related().nil? && !model.related.empty?) -%><%- model.related().each do |element| -%><%== render :template => 'observation_observationrelatedcomponent', :locals => {name: 'related', model: element} %><%- end -%><%- end -%>

@@ -37,16 +37,23 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
-            'when-given',
             'patient',
             'medication',
-            'device'
+            'source',
+            'effectivedate',
+            'status'
             ]
+        
+        VALID_CODES = {
+            status: [ "in-progress", "completed", "entered-in-error" ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec dosage
         class MedicationStatementDosageComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            field :text, type: String
             embeds_one :schedule, class_name:'FHIR::Timing'
             field :asNeededBoolean, type: Boolean
             embeds_one :asNeededCodeableConcept, class_name:'FHIR::CodeableConcept'
@@ -60,11 +67,19 @@ module FHIR
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
+        embeds_one :informationSource, class_name:'FHIR::Reference'
+        field :dateAsserted, type: FHIR::PartialDateTime
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
+        validates_presence_of :status
         field :wasNotGiven, type: Boolean
         embeds_many :reasonNotGiven, class_name:'FHIR::CodeableConcept'
-        embeds_one :whenGiven, class_name:'FHIR::Period'
+        embeds_one :reasonForUseCodeableConcept, class_name:'FHIR::CodeableConcept'
+        embeds_one :reasonForUseReference, class_name:'FHIR::Reference'
+        field :effectiveDateTime, type: FHIR::PartialDateTime
+        embeds_one :effectivePeriod, class_name:'FHIR::Period'
+        field :note, type: String
         embeds_one :medication, class_name:'FHIR::Reference'
-        embeds_many :device, class_name:'FHIR::Reference'
         embeds_many :dosage, class_name:'FHIR::MedicationStatement::MedicationStatementDosageComponent'
         track_history
     end

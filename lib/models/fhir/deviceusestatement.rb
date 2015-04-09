@@ -37,9 +37,11 @@ module FHIR
         
         SEARCH_PARAMS = [
             'subject',
-            'patient'
+            'patient',
+            'device'
             ]
-        embeds_many :bodySite, class_name:'FHIR::CodeableConcept'
+        embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
+        embeds_one :bodySiteReference, class_name:'FHIR::Reference'
         embeds_one :whenUsed, class_name:'FHIR::Period'
         embeds_one :device, class_name:'FHIR::Reference'
         validates_presence_of :device

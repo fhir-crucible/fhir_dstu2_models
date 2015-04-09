@@ -11,11 +11,12 @@
     <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.episodeOfCare().nil? -%><%== render :template => 'reference', :locals => {name: 'episodeOfCare', model: model.episodeOfCare()} %><%- end -%>
+    <%- if (!model.incomingReferralRequest().nil? && !model.incomingReferralRequest.empty?) -%><%- model.incomingReferralRequest().each do |element| -%><%== render :template => 'reference', :locals => {name: 'incomingReferralRequest', model: element} %><%- end -%><%- end -%>
     <%- if (!model.participant().nil? && !model.participant.empty?) -%><%- model.participant().each do |element| -%><%== render :template => 'encounter_encounterparticipantcomponent', :locals => {name: 'participant', model: element} %><%- end -%><%- end -%>
     <%- if !model.fulfills().nil? -%><%== render :template => 'reference', :locals => {name: 'fulfills', model: model.fulfills()} %><%- end -%>
     <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
     <%- if !model.length().nil? -%><%== render :template => 'quantity', :locals => {name: 'length', model: model.length()} %><%- end -%>
-    <%- if !model.reason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: model.reason()} %><%- end -%>
+    <%- if (!model.reason().nil? && !model.reason.empty?) -%><%- model.reason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: element} %><%- end -%><%- end -%>
     <%- if (!model.indication().nil? && !model.indication.empty?) -%><%- model.indication().each do |element| -%><%== render :template => 'reference', :locals => {name: 'indication', model: element} %><%- end -%><%- end -%>
     <%- if !model.priority().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'priority', model: model.priority()} %><%- end -%>
     <%- if !model.hospitalization().nil? -%><%== render :template => 'encounter_encounterhospitalizationcomponent', :locals => {name: 'hospitalization', model: model.hospitalization()} %><%- end -%>

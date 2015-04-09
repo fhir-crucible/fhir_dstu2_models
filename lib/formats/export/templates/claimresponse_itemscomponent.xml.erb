@@ -2,8 +2,8 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.sequenceLinkId().nil? -%><sequenceLinkId value="<%= model.sequenceLinkId() %>"/><%- end -%>
-    <%- if (model.noteNumber() && !model.noteNumber.empty?) -%><%- model.noteNumber().each do |element| -%><noteNumber value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.sequenceLinkId().nil? -%><%== render :template => 'positiveint', :locals => {name: 'sequenceLinkId', model: model.sequenceLinkId()} %><%- end -%>
+    <%- if (!model.noteNumber().nil? && !model.noteNumber.empty?) -%><%- model.noteNumber().each do |element| -%><%== render :template => 'positiveint', :locals => {name: 'noteNumber', model: element} %><%- end -%><%- end -%>
     <%- if (!model.adjudication().nil? && !model.adjudication.empty?) -%><%- model.adjudication().each do |element| -%><%== render :template => 'claimresponse_itemadjudicationcomponent', :locals => {name: 'adjudication', model: element} %><%- end -%><%- end -%>
     <%- if (!model.detail().nil? && !model.detail.empty?) -%><%- model.detail().each do |element| -%><%== render :template => 'claimresponse_itemdetailcomponent', :locals => {name: 'detail', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

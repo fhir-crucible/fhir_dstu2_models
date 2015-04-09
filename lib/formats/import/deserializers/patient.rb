@@ -27,6 +27,15 @@ module FHIR
                 model
             end
             
+            def parse_xml_entry_PatientCommunicationComponent(entry) 
+                return nil unless entry
+                model = FHIR::Patient::PatientCommunicationComponent.new
+                self.parse_element_data(model, entry)
+                set_model_data(model, 'language', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:language')))
+                set_model_data(model, 'preferred', entry.at_xpath('./fhir:preferred/@value').try(:value))
+                model
+            end
+            
             def parse_xml_entry_PatientLinkComponent(entry) 
                 return nil unless entry
                 model = FHIR::Patient::PatientLinkComponent.new
@@ -55,7 +64,7 @@ module FHIR
                 set_model_data(model, 'photo', entry.xpath('./fhir:photo').map {|e| FHIR::Attachment.parse_xml_entry(e)})
                 set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_ContactComponent(e)})
                 set_model_data(model, 'animal', parse_xml_entry_AnimalComponent(entry.at_xpath('./fhir:animal')))
-                set_model_data(model, 'communication', entry.xpath('./fhir:communication').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                set_model_data(model, 'communication', entry.xpath('./fhir:communication').map {|e| parse_xml_entry_PatientCommunicationComponent(e)})
                 set_model_data(model, 'careProvider', entry.xpath('./fhir:careProvider').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'managingOrganization', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:managingOrganization')))
                 set_model_data(model, 'link', entry.xpath('./fhir:link').map {|e| parse_xml_entry_PatientLinkComponent(e)})

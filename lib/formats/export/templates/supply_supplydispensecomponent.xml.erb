@@ -9,7 +9,7 @@
     <%- if !model.suppliedItem().nil? -%><%== render :template => 'reference', :locals => {name: 'suppliedItem', model: model.suppliedItem()} %><%- end -%>
     <%- if !model.supplier().nil? -%><%== render :template => 'reference', :locals => {name: 'supplier', model: model.supplier()} %><%- end -%>
     <%- if !model.whenPrepared().nil? -%><%== render :template => 'period', :locals => {name: 'whenPrepared', model: model.whenPrepared()} %><%- end -%>
-    <%- if !model.whenHandedOver().nil? -%><%== render :template => 'period', :locals => {name: 'whenHandedOver', model: model.whenHandedOver()} %><%- end -%>
+    <%- if !model.whenHandedOver().nil? -%><whenHandedOver value="<%= model.whenHandedOver().iso8601 %>"/><%- end -%>
     <%- if !model.destination().nil? -%><%== render :template => 'reference', :locals => {name: 'destination', model: model.destination()} %><%- end -%>
     <%- if (!model.receiver().nil? && !model.receiver.empty?) -%><%- model.receiver().each do |element| -%><%== render :template => 'reference', :locals => {name: 'receiver', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

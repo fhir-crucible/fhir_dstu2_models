@@ -8,5 +8,6 @@
     <%- if !model.collectedPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'collectedPeriod', model: model.collectedPeriod()} %><%- end -%>
     <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
     <%- if !model.method().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'method', model: model.method()} %><%- end -%>
-    <%- if !model.sourceSite().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'sourceSite', model: model.sourceSite()} %><%- end -%>
+    <%- if !model.bodySiteCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySiteCodeableConcept', model: model.bodySiteCodeableConcept()} %><%- end -%>
+    <%- if !model.bodySiteReference().nil? -%><%== render :template => 'reference', :locals => {name: 'bodySiteReference', model: model.bodySiteReference()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

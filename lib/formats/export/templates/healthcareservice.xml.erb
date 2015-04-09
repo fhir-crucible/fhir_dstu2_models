@@ -5,28 +5,25 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.providedBy().nil? -%><%== render :template => 'reference', :locals => {name: 'providedBy', model: model.providedBy()} %><%- end -%>
     <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
     <%- if !model.serviceCategory().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'serviceCategory', model: model.serviceCategory()} %><%- end -%>
     <%- if (!model.serviceType().nil? && !model.serviceType.empty?) -%><%- model.serviceType().each do |element| -%><%== render :template => 'healthcareservice_servicetypecomponent', :locals => {name: 'serviceType', model: element} %><%- end -%><%- end -%>
     <%- if !model.serviceName().nil? -%><serviceName value="<%= model.serviceName() %>"/><%- end -%>
     <%- if !model.comment().nil? -%><comment value="<%= model.comment() %>"/><%- end -%>
     <%- if !model.extraDetails().nil? -%><extraDetails value="<%= model.extraDetails() %>"/><%- end -%>
-    <%- if !model.freeProvisionCode().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'freeProvisionCode', model: model.freeProvisionCode()} %><%- end -%>
+    <%- if !model.photo().nil? -%><%== render :template => 'attachment', :locals => {name: 'photo', model: model.photo()} %><%- end -%>
+    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.coverageArea().nil? && !model.coverageArea.empty?) -%><%- model.coverageArea().each do |element| -%><%== render :template => 'reference', :locals => {name: 'coverageArea', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.serviceProvisionCode().nil? && !model.serviceProvisionCode.empty?) -%><%- model.serviceProvisionCode().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'serviceProvisionCode', model: element} %><%- end -%><%- end -%>
     <%- if !model.eligibility().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'eligibility', model: model.eligibility()} %><%- end -%>
     <%- if !model.eligibilityNote().nil? -%><eligibilityNote value="<%= model.eligibilityNote() %>"/><%- end -%>
-    <%- if !model.appointmentRequired().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'appointmentRequired', model: model.appointmentRequired()} %><%- end -%>
-    <%- if !model.imageURI().nil? -%><imageURI value="<%= model.imageURI() %>"/><%- end -%>
-    <%- if (!model.availableTime().nil? && !model.availableTime.empty?) -%><%- model.availableTime().each do |element| -%><%== render :template => 'healthcareservice_healthcareserviceavailabletimecomponent', :locals => {name: 'availableTime', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.notAvailableTime().nil? && !model.notAvailableTime.empty?) -%><%- model.notAvailableTime().each do |element| -%><%== render :template => 'healthcareservice_healthcareservicenotavailabletimecomponent', :locals => {name: 'notAvailableTime', model: element} %><%- end -%><%- end -%>
-    <%- if !model.availabilityExceptions().nil? -%><availabilityExceptions value="<%= model.availabilityExceptions() %>"/><%- end -%>
-    <%- if !model.publicKey().nil? -%><publicKey value="<%= model.publicKey() %>"/><%- end -%>
     <%- if (model.programName() && !model.programName.empty?) -%><%- model.programName().each do |element| -%><programName value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if (!model.contactPoint().nil? && !model.contactPoint.empty?) -%><%- model.contactPoint().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'contactPoint', model: element} %><%- end -%><%- end -%>
     <%- if (!model.characteristic().nil? && !model.characteristic.empty?) -%><%- model.characteristic().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'characteristic', model: element} %><%- end -%><%- end -%>
     <%- if (!model.referralMethod().nil? && !model.referralMethod.empty?) -%><%- model.referralMethod().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'referralMethod', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.setting().nil? && !model.setting.empty?) -%><%- model.setting().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'setting', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.targetGroup().nil? && !model.targetGroup.empty?) -%><%- model.targetGroup().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'targetGroup', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.coverageArea().nil? && !model.coverageArea.empty?) -%><%- model.coverageArea().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'coverageArea', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.catchmentArea().nil? && !model.catchmentArea.empty?) -%><%- model.catchmentArea().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'catchmentArea', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.serviceCode().nil? && !model.serviceCode.empty?) -%><%- model.serviceCode().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'serviceCode', model: element} %><%- end -%><%- end -%>
+    <%- if !model.publicKey().nil? -%><publicKey value="<%= model.publicKey() %>"/><%- end -%>
+    <%- if !model.appointmentRequired().nil? -%><appointmentRequired value="<%= model.appointmentRequired() %>"/><%- end -%>
+    <%- if (!model.availableTime().nil? && !model.availableTime.empty?) -%><%- model.availableTime().each do |element| -%><%== render :template => 'healthcareservice_healthcareserviceavailabletimecomponent', :locals => {name: 'availableTime', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.notAvailable().nil? && !model.notAvailable.empty?) -%><%- model.notAvailable().each do |element| -%><%== render :template => 'healthcareservice_healthcareservicenotavailablecomponent', :locals => {name: 'notAvailable', model: element} %><%- end -%><%- end -%>
+    <%- if !model.availabilityExceptions().nil? -%><availabilityExceptions value="<%= model.availabilityExceptions() %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

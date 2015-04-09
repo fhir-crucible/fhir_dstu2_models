@@ -78,7 +78,7 @@ module FHIR
         validates_presence_of :actual
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         field :name, type: String
-        field :quantity, type: Integer
+        embeds_one :quantity, class_name:'FHIR::unsignedInt'
         embeds_many :characteristic, class_name:'FHIR::Group::GroupCharacteristicComponent'
         embeds_many :member, class_name:'FHIR::Reference'
         track_history

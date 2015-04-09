@@ -39,7 +39,6 @@ module FHIR
         field :code, type: String
         field :display, type: String
         field :primary, type: Boolean
-        embeds_one :valueSet, class_name:'FHIR::Reference'
         track_history
     end
 end

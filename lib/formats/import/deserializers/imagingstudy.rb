@@ -7,13 +7,12 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ImagingStudy::ImagingStudySeriesInstanceComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'number', entry.at_xpath('./fhir:number/@value').try(:value))
+                set_model_data(model, 'number', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:number')))
                 set_model_data(model, 'uid', entry.at_xpath('./fhir:uid/@value').try(:value))
                 set_model_data(model, 'sopclass', entry.at_xpath('./fhir:sopclass/@value').try(:value))
                 set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
                 set_model_data(model, 'title', entry.at_xpath('./fhir:title/@value').try(:value))
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'attachment', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:attachment')))
+                set_model_data(model, 'content', entry.xpath('./fhir:content').map {|e| FHIR::Attachment.parse_xml_entry(e)})
                 model
             end
             
@@ -21,14 +20,15 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ImagingStudy::ImagingStudySeriesComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'number', entry.at_xpath('./fhir:number/@value').try(:value))
+                set_model_data(model, 'number', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:number')))
                 set_model_data(model, 'modality', entry.at_xpath('./fhir:modality/@value').try(:value))
                 set_model_data(model, 'uid', entry.at_xpath('./fhir:uid/@value').try(:value))
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'numberOfInstances', entry.at_xpath('./fhir:numberOfInstances/@value').try(:value))
+                set_model_data(model, 'numberOfInstances', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:numberOfInstances')))
                 set_model_data(model, 'availability', entry.at_xpath('./fhir:availability/@value').try(:value))
                 set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
                 set_model_data(model, 'bodySite', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:bodySite')))
+                set_model_data(model, 'laterality', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:laterality')))
                 set_model_data(model, 'dateTime', entry.at_xpath('./fhir:dateTime/@value').try(:value))
                 set_model_data(model, 'instance', entry.xpath('./fhir:instance').map {|e| parse_xml_entry_ImagingStudySeriesInstanceComponent(e)})
                 model
@@ -49,8 +49,8 @@ module FHIR
                 set_model_data(model, 'referrer', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:referrer')))
                 set_model_data(model, 'availability', entry.at_xpath('./fhir:availability/@value').try(:value))
                 set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'numberOfSeries', entry.at_xpath('./fhir:numberOfSeries/@value').try(:value))
-                set_model_data(model, 'numberOfInstances', entry.at_xpath('./fhir:numberOfInstances/@value').try(:value))
+                set_model_data(model, 'numberOfSeries', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:numberOfSeries')))
+                set_model_data(model, 'numberOfInstances', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:numberOfInstances')))
                 set_model_data(model, 'clinicalInformation', entry.at_xpath('./fhir:clinicalInformation/@value').try(:value))
                 set_model_data(model, 'procedure', entry.xpath('./fhir:procedure').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 set_model_data(model, 'interpreter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:interpreter')))

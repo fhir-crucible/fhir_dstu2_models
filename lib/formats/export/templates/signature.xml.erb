@@ -1,0 +1,12 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Signature' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'coding', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
+    <%- if !model.when().nil? -%><when value="<%= model.when().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.whoUri().nil? -%><whoUri value="<%= model.whoUri() %>"/><%- end -%>
+    <%- if !model.whoReference().nil? -%><%== render :template => 'reference', :locals => {name: 'whoReference', model: model.whoReference()} %><%- end -%>
+    <%- if !model.blob().nil? -%><blob value="<%= model.blob() %>"/><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

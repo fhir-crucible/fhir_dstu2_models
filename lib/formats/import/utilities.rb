@@ -75,6 +75,9 @@ module FHIR
          # if the input is a String, convert it into a Hash
         if h.is_a? String
           begin
+            if h.encoding.names.include? 'UTF-8'
+              h.gsub!("\xEF\xBB\xBF".force_encoding('UTF-8'), '') # remove UTF-8 BOM
+            end
             h = JSON.parse(h)
           rescue Exception => e
             $LOG.error "Failed to parse JSON hash as resource: #{e.message} %n #{h} %n #{e.backtrace.join("\n")}"

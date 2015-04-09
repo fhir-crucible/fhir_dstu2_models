@@ -39,6 +39,7 @@ module FHIR
             'identifier',
             'partof',
             'phonetic',
+            'address',
             'name',
             'active',
             'type'
@@ -48,17 +49,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                gender: [ "male", "female", "other", "unknown" ]
-            }
-            
             embeds_one :purpose, class_name:'FHIR::CodeableConcept'
             embeds_one :name, class_name:'FHIR::HumanName'
             embeds_many :telecom, class_name:'FHIR::ContactPoint'
             embeds_one :address, class_name:'FHIR::Address'
-            field :gender, type: String
-            validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -68,7 +62,6 @@ module FHIR
         embeds_many :address, class_name:'FHIR::Address'
         embeds_one :partOf, class_name:'FHIR::Reference'
         embeds_many :contact, class_name:'FHIR::Organization::OrganizationContactComponent'
-        embeds_many :location, class_name:'FHIR::Reference'
         field :active, type: Boolean
         track_history
     end

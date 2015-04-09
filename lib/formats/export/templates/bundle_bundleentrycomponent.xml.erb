@@ -3,9 +3,9 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.search().nil? -%><search value="<%= model.search() %>"/><%- end -%>
-    <%- if !model.score().nil? -%><score value="<%= model.score() %>"/><%- end -%>
-    <%- if !model.fhirDeleted().nil? -%><%== render :template => 'bundle_bundleentrydeletedcomponent', :locals => {name: 'deleted', model: model.fhirDeleted()} %><%- end -%>
+    <%- if (!model.link().nil? && !model.link.empty?) -%><%- model.link().each do |element| -%><%== render :template => 'bundle_bundlelinkcomponent', :locals => {name: 'link', model: element} %><%- end -%><%- end -%>
     <%- if !model.resource().nil? -%><resource><%== model.resource().to_xml(is_root: false, name: "#{model.resourceType()}")%></resource><%- end -%>
+    <%- if !model.search().nil? -%><%== render :template => 'bundle_bundleentrysearchcomponent', :locals => {name: 'search', model: model.search()} %><%- end -%>
+    <%- if !model.transaction().nil? -%><%== render :template => 'bundle_bundleentrytransactioncomponent', :locals => {name: 'transaction', model: model.transaction()} %><%- end -%>
+    <%- if !model.transactionResponse().nil? -%><%== render :template => 'bundle_bundleentrytransactionresponsecomponent', :locals => {name: 'transactionResponse', model: model.transactionResponse()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

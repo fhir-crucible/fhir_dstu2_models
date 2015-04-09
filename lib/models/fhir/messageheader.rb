@@ -36,21 +36,25 @@ module FHIR
         extend FHIR::Deserializer::MessageHeader
         
         SEARCH_PARAMS = [
-            'destination-uri',
             'code',
             'data',
             'receiver',
+            'author',
+            'destination',
+            'source',
+            'target',
+            'destination-uri',
             'src-id',
             'source-uri',
-            'destination',
+            'responsible',
             'response-id',
-            'source',
+            'enterer',
             'event',
             'timestamp'
             ]
         
         VALID_CODES = {
-            event: [ "MedicationAdministration-Complete", "MedicationAdministration-Nullification", "MedicationAdministration-Recording", "MedicationAdministration-Update", "admin-notify", "conceptmap-translate", "diagnosticreport-provide", "observation-provide", "patient-link", "patient-unlink", "valueset-expand", "valueset-validate" ]
+            event: [ "MedicationAdministration-Complete", "MedicationAdministration-Nullification", "MedicationAdministration-Recording", "MedicationAdministration-Update", "admin-notify", "diagnosticreport-provide", "observation-provide", "patient-link", "patient-unlink", "valueset-expand" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec response

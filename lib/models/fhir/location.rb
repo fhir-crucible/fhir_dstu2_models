@@ -67,17 +67,17 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :name, type: String
         field :description, type: String
+        field :mode, type: String
+        validates :mode, :inclusion => { in: VALID_CODES[:mode], :allow_nil => true }
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         embeds_one :address, class_name:'FHIR::Address'
         embeds_one :physicalType, class_name:'FHIR::CodeableConcept'
         embeds_one :position, class_name:'FHIR::Location::LocationPositionComponent'
         embeds_one :managingOrganization, class_name:'FHIR::Reference'
+        embeds_one :partOf, class_name:'FHIR::Reference'
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
-        embeds_one :partOf, class_name:'FHIR::Reference'
-        field :mode, type: String
-        validates :mode, :inclusion => { in: VALID_CODES[:mode], :allow_nil => true }
         track_history
     end
 end

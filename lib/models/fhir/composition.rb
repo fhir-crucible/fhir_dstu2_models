@@ -44,6 +44,7 @@ module FHIR
             'confidentiality',
             'section-code',
             'section',
+            'encounter',
             'type',
             'title',
             'attester',
@@ -54,7 +55,7 @@ module FHIR
             ]
         
         VALID_CODES = {
-            status: [ "preliminary", "final", "appended", "amended", "entered in error" ]
+            status: [ "preliminary", "final", "appended", "amended", "entered-in-error" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec attester
@@ -91,8 +92,8 @@ module FHIR
         include FHIR::Formats::Utilities
             field :title, type: String
             embeds_one :code, class_name:'FHIR::CodeableConcept'
-            embeds_many :section, class_name:'FHIR::Composition::SectionComponent'
             embeds_one :content, class_name:'FHIR::Reference'
+            embeds_many :section, class_name:'FHIR::Composition::SectionComponent'
         end
         
         embeds_one :identifier, class_name:'FHIR::Identifier'
@@ -105,8 +106,7 @@ module FHIR
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        embeds_one :confidentiality, class_name:'FHIR::Coding'
-        validates_presence_of :confidentiality
+        field :confidentiality, type: String
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
         embeds_many :author, class_name:'FHIR::Reference'

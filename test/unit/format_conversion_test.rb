@@ -6,7 +6,7 @@ class RunConversionTest < Test::Unit::TestCase
   ERROR_DIR_JJ = File.join('tmp','errors','format','read-json-write-json')
   ERROR_DIR_XJ = File.join('tmp','errors','format','read-xml-write-json')
   EXAMPLE_ROOT = File.join('..','..','..','..','source')
-  EXAMPLE_JSON_ROOT = File.join('..','..','..','..','temp','json')
+  EXAMPLE_JSON_ROOT = File.join('..','..','..','..','temp')
   XSD_ROOT = File.join('..','..','..','..','schema')
 
   # Automatically generate one test method per example file
@@ -17,24 +17,27 @@ class RunConversionTest < Test::Unit::TestCase
   FileUtils.rm_rf(ERROR_DIR_JJ) if File.directory?(ERROR_DIR_JJ)
   FileUtils.mkdir_p ERROR_DIR_JJ
  
- FileUtils.rm_rf(ERROR_DIR_XJ) if File.directory?(ERROR_DIR_XJ)
+  FileUtils.rm_rf(ERROR_DIR_XJ) if File.directory?(ERROR_DIR_XJ)
   FileUtils.mkdir_p ERROR_DIR_XJ
    
   example_xml_files = Dir.glob(example_xml_files)
   
+  utils = Class.new.extend(FHIR::Formats::Utilities)
+
   Dir.glob(example_json_files).each do | json_file |
     
     json_basename = File.basename(json_file,'.json')
-    json_string = File.open(json_file, 'r:UTF-8', &:read)
+    json_string = File.open(json_file, 'r:bom|UTF-8', &:read)
     
     xml_file = example_xml_files.find {|f| File.basename(f,'.xml') == json_basename }
     next if xml_file.nil?
     
-    xml_string = File.open(xml_file, 'r:UTF-8', &:read)
+    xml_string = File.open(xml_file, 'r:bom|UTF-8', &:read)
     
     # Ignoring examples that aren't FHIR
     root_element = Nokogiri::XML(File.read(xml_file)).root.try(:name)
     next if (root_element.nil? || ['Workbook', 'div'].include?(root_element))
+    next if !utils.is_fhir_class? "FHIR::#{root_element}"
 
     # TODO: probably want these eventually
     next if EXCLUDED_RESOURCES.include?(root_element)
@@ -58,7 +61,7 @@ class RunConversionTest < Test::Unit::TestCase
   # 3. JSON diff (1) and (2)
   def run_json_diff_test(example_name, example_json_file)
     
-    example_json_string = File.open(example_json_file, 'r:UTF-8', &:read)
+    example_json_string = File.open(example_json_file, 'r:bom|UTF-8', &:read)
     example_json_hash = JSON.parse(example_json_string)
     
     # Inflate the resource from Patient... it will inflate any FHIR Resource type
@@ -114,11 +117,11 @@ class RunConversionTest < Test::Unit::TestCase
   # 3. JSON diff (2) with JSON examples (generated w/ Publish)
   def run_xml_json_diff_test(example_name, example_json_file, root_element, example_xml_file)
     
-    example_json_string = File.open(example_json_file, 'r:UTF-8', &:read)
+    example_json_string = File.open(example_json_file, 'r:bom|UTF-8', &:read)
     example_json_hash = JSON.parse(example_json_string)
     
     # Inflate the resource from XML
-    example_xml_string = File.open(example_xml_file, 'r:UTF-8', &:read)
+    example_xml_string = File.open(example_xml_file, 'r:bom|UTF-8', &:read)
     obj = FHIR.const_get(root_element).from_xml example_xml_string
 
     parsed_json_string = obj.to_fhir_json

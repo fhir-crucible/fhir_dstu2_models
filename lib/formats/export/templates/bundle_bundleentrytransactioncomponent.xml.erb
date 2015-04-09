@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.method().nil? -%><method value="<%= model.method() %>"/><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if !model.ifNoneMatch().nil? -%><ifNoneMatch value="<%= model.ifNoneMatch() %>"/><%- end -%>
+    <%- if !model.ifMatch().nil? -%><ifMatch value="<%= model.ifMatch() %>"/><%- end -%>
+    <%- if !model.ifModifiedSince().nil? -%><ifModifiedSince value="<%= model.ifModifiedSince().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.ifNoneExist().nil? -%><ifNoneExist value="<%= model.ifNoneExist() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

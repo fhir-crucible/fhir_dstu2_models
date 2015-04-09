@@ -36,33 +36,35 @@ module FHIR
         extend FHIR::Deserializer::DocumentReference
         
         SEARCH_PARAMS = [
-            'identifier',
-            'period',
-            'custodian',
-            'indexed',
             'subject',
-            'author',
-            'created',
             'confidentiality',
-            'format',
             'description',
             'language',
             'type',
             'relation',
-            'size',
+            'setting',
+            'relatedid',
             'patient',
-            'location',
-            'relatesto',
             'relationship',
             'event',
             'class',
             'authenticator',
+            'identifier',
+            'period',
+            'custodian',
+            'indexed',
+            'author',
+            'created',
+            'format',
+            'relatedref',
+            'location',
+            'relatesto',
             'facility',
             'status'
             ]
         
         VALID_CODES = {
-            status: [ "current", "superceded", "entered in error" ]
+            status: [ "current", "superceded", "entered-in-error" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec relatesTo
@@ -82,25 +84,13 @@ module FHIR
             validates_presence_of :target
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec parameter
-        class DocumentReferenceServiceParameterComponent
+        # This is an ugly hack to deal with embedded structures in the spec related
+        class DocumentReferenceContextRelatedComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :name, type: String
-            validates_presence_of :name
-            field :value, type: String
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec service
-        class DocumentReferenceServiceComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-            validates_presence_of :fhirType
-            field :address, type: String
-            embeds_many :parameter, class_name:'FHIR::DocumentReference::DocumentReferenceServiceParameterComponent'
+            embeds_one :identifier, class_name:'FHIR::Identifier'
+            embeds_one :ref, class_name:'FHIR::Reference'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec context
@@ -111,20 +101,21 @@ module FHIR
             embeds_many :event, class_name:'FHIR::CodeableConcept'
             embeds_one :period, class_name:'FHIR::Period'
             embeds_one :facilityType, class_name:'FHIR::CodeableConcept'
+            embeds_one :practiceSetting, class_name:'FHIR::CodeableConcept'
+            embeds_one :sourcePatientInfo, class_name:'FHIR::Reference'
+            embeds_many :related, class_name:'FHIR::DocumentReference::DocumentReferenceContextRelatedComponent'
         end
         
         embeds_one :masterIdentifier, class_name:'FHIR::Identifier'
-        validates_presence_of :masterIdentifier
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :subject, class_name:'FHIR::Reference'
-        validates_presence_of :subject
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         validates_presence_of :fhirType
         embeds_one :fhirClass, class_name:'FHIR::CodeableConcept'
+        field :format, type: Array # Array of Strings
         embeds_many :author, class_name:'FHIR::Reference'
         validates_presence_of :author
         embeds_one :custodian, class_name:'FHIR::Reference'
-        field :policyManager, type: String
         embeds_one :authenticator, class_name:'FHIR::Reference'
         field :created, type: FHIR::PartialDateTime
         field :indexed, type: DateTime
@@ -136,14 +127,8 @@ module FHIR
         embeds_many :relatesTo, class_name:'FHIR::DocumentReference::DocumentReferenceRelatesToComponent'
         field :description, type: String
         embeds_many :confidentiality, class_name:'FHIR::CodeableConcept'
-        field :primaryLanguage, type: String
-        field :mimeType, type: String
-        validates_presence_of :mimeType
-        field :format, type: Array # Array of Strings
-        field :size, type: Integer
-        field :fhirHash, type: Moped::BSON::Binary
-        field :location, type: String
-        embeds_one :service, class_name:'FHIR::DocumentReference::DocumentReferenceServiceComponent'
+        embeds_many :content, class_name:'FHIR::Attachment'
+        validates_presence_of :content
         embeds_one :context, class_name:'FHIR::DocumentReference::DocumentReferenceContextComponent'
         track_history
     end

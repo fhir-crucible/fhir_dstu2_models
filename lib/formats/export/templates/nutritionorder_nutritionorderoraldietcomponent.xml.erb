@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
+    <%- if !model.scheduled().nil? -%><%== render :template => 'timing', :locals => {name: 'scheduled', model: model.scheduled()} %><%- end -%>
+    <%- if (!model.nutrient().nil? && !model.nutrient.empty?) -%><%- model.nutrient().each do |element| -%><%== render :template => 'nutritionorder_nutritionorderoraldietnutrientcomponent', :locals => {name: 'nutrient', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.texture().nil? && !model.texture.empty?) -%><%- model.texture().each do |element| -%><%== render :template => 'nutritionorder_nutritionorderoraldiettexturecomponent', :locals => {name: 'texture', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.fluidConsistencyType().nil? && !model.fluidConsistencyType.empty?) -%><%- model.fluidConsistencyType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'fluidConsistencyType', model: element} %><%- end -%><%- end -%>
+    <%- if !model.instruction().nil? -%><instruction value="<%= model.instruction() %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

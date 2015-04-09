@@ -29,8 +29,8 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'title', entry.at_xpath('./fhir:title/@value').try(:value))
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
-                set_model_data(model, 'section', entry.xpath('./fhir:section').map {|e| parse_xml_entry_SectionComponent(e)})
                 set_model_data(model, 'content', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:content')))
+                set_model_data(model, 'section', entry.xpath('./fhir:section').map {|e| parse_xml_entry_SectionComponent(e)})
                 model
             end
             
@@ -45,7 +45,7 @@ module FHIR
                 set_model_data(model, 'fhirClass', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:class')))
                 set_model_data(model, 'title', entry.at_xpath('./fhir:title/@value').try(:value))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'confidentiality', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:confidentiality')))
+                set_model_data(model, 'confidentiality', entry.at_xpath('./fhir:confidentiality/@value').try(:value))
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'author', entry.xpath('./fhir:author').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'attester', entry.xpath('./fhir:attester').map {|e| parse_xml_entry_CompositionAttesterComponent(e)})

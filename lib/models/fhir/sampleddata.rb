@@ -41,7 +41,7 @@ module FHIR
         field :factor, type: Float
         field :lowerLimit, type: Float
         field :upperLimit, type: Float
-        field :dimensions, type: Integer
+        embeds_one :dimensions, class_name:'FHIR::positiveInt'
         validates_presence_of :dimensions
         field :data, type: String
         validates_presence_of :data

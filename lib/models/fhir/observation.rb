@@ -37,8 +37,9 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'name-value-[x]',
             'identifier',
+            'code',
+            'code-value-[x]',
             'performer',
             'value-quantity',
             'subject',
@@ -52,15 +53,14 @@ module FHIR
             'related',
             'patient',
             'specimen',
-            'name',
             'value-string',
+            'device',
             'status'
             ]
         
         VALID_CODES = {
-            dataAbsentReason: [ "unknown", "asked", "temp", "notasked", "masked", "unsupported", "astext", "error" ],
             reliability: [ "ok", "ongoing", "early", "questionable", "calibrating", "error", "unknown" ],
-            status: [ "registered", "preliminary", "final", "amended", "cancelled", "entered in error" ]
+            status: [ "registered", "preliminary", "final", "amended", "cancelled", "entered-in-error", "unknown" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec referenceRange
@@ -91,19 +91,19 @@ module FHIR
             validates_presence_of :target
         end
         
-        embeds_one :name, class_name:'FHIR::CodeableConcept'
-        validates_presence_of :name
+        embeds_one :code, class_name:'FHIR::CodeableConcept'
+        validates_presence_of :code
         embeds_one :valueQuantity, class_name:'FHIR::Quantity'
         embeds_one :valueCodeableConcept, class_name:'FHIR::CodeableConcept'
-        embeds_one :valueAttachment, class_name:'FHIR::Attachment'
+        field :valueString, type: String
+        embeds_one :valueRange, class_name:'FHIR::Range'
         embeds_one :valueRatio, class_name:'FHIR::Ratio'
+        embeds_one :valueSampledData, class_name:'FHIR::SampledData'
+        embeds_one :valueAttachment, class_name:'FHIR::Attachment'
+        field :valueTime, type: FHIR::PartialDateTime
         field :valueDateTime, type: FHIR::PartialDateTime
         embeds_one :valuePeriod, class_name:'FHIR::Period'
-        embeds_one :valueSampledData, class_name:'FHIR::SampledData'
-        field :valueString, type: String
-        field :valueTime, type: FHIR::PartialDateTime
-        field :dataAbsentReason, type: String
-        validates :dataAbsentReason, :inclusion => { in: VALID_CODES[:dataAbsentReason], :allow_nil => true }
+        embeds_one :dataAbsentReason, class_name:'FHIR::CodeableConcept'
         embeds_one :interpretation, class_name:'FHIR::CodeableConcept'
         field :comments, type: String
         field :appliesDateTime, type: FHIR::PartialDateTime
@@ -114,12 +114,14 @@ module FHIR
         validates_presence_of :status
         field :reliability, type: String
         validates :reliability, :inclusion => { in: VALID_CODES[:reliability], :allow_nil => true }
-        embeds_one :bodySite, class_name:'FHIR::CodeableConcept'
+        embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
+        embeds_one :bodySiteReference, class_name:'FHIR::Reference'
         embeds_one :method, class_name:'FHIR::CodeableConcept'
-        embeds_one :identifier, class_name:'FHIR::Identifier'
+        embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :specimen, class_name:'FHIR::Reference'
         embeds_many :performer, class_name:'FHIR::Reference'
+        embeds_one :device, class_name:'FHIR::Reference'
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_many :referenceRange, class_name:'FHIR::Observation::ObservationReferenceRangeComponent'
         embeds_many :related, class_name:'FHIR::Observation::ObservationRelatedComponent'

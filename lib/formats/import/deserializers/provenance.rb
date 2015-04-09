@@ -9,7 +9,8 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'role', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:role')))
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
-                set_model_data(model, 'reference', entry.at_xpath('./fhir:reference/@value').try(:value))
+                set_model_data(model, 'referenceUri', entry.at_xpath('./fhir:referenceUri/@value').try(:value))
+                set_model_data(model, 'referenceReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:referenceReference')))
                 set_model_data(model, 'display', entry.at_xpath('./fhir:display/@value').try(:value))
                 model
             end
@@ -39,7 +40,7 @@ module FHIR
                 set_model_data(model, 'policy', entry.xpath('./fhir:policy/@value').map {|e| e.value })
                 set_model_data(model, 'agent', entry.xpath('./fhir:agent').map {|e| parse_xml_entry_ProvenanceAgentComponent(e)})
                 set_model_data(model, 'entity', entry.xpath('./fhir:entity').map {|e| parse_xml_entry_ProvenanceEntityComponent(e)})
-                set_model_data(model, 'integritySignature', entry.at_xpath('./fhir:integritySignature/@value').try(:value))
+                set_model_data(model, 'signature', entry.xpath('./fhir:signature').map {|e| FHIR::Signature.parse_xml_entry(e)})
                 model
             end
         end

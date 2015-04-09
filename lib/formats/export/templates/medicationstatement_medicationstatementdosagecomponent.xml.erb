@@ -2,6 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
     <%- if !model.schedule().nil? -%><%== render :template => 'timing', :locals => {name: 'schedule', model: model.schedule()} %><%- end -%>
     <%- if !model.asNeededBoolean().nil? -%><asNeededBoolean value="<%= model.asNeededBoolean() %>"/><%- end -%>
     <%- if !model.asNeededCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'asNeededCodeableConcept', model: model.asNeededCodeableConcept()} %><%- end -%>

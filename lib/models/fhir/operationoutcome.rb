@@ -45,13 +45,14 @@ module FHIR
             
             VALID_CODES = {
                 severity: [ "fatal", "error", "warning", "information" ],
-                fhirType: [ "invalid", "structure", "required", "value", "invariant", "security", "login", "unknown", "expired", "forbidden", "processing", "not-supported", "duplicate", "not-found", "too-long", "code-unknown", "extension", "too-costly", "business-rule", "conflict", "transient", "lock-error", "no-store", "exception", "timeout", "throttled" ]
+                code: [ "invalid", "structure", "required", "value", "invariant", "security", "login", "unknown", "expired", "forbidden", "suppressed", "processing", "not-supported", "duplicate", "not-found", "too-long", "code-invalid", "extension", "too-costly", "business-rule", "conflict", "incomplete", "transient", "lock-error", "no-store", "exception", "timeout", "throttled", "informational" ]
             }
             
             field :severity, type: String
             validates :severity, :inclusion => { in: VALID_CODES[:severity] }
             validates_presence_of :severity
-            embeds_one :fhirType, class_name:'FHIR::Coding'
+            embeds_one :code, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :code
             field :details, type: String
             field :location, type: Array # Array of Strings
         end

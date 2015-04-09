@@ -59,7 +59,6 @@ module FHIR
         validates_presence_of :end
         field :overbooked, type: Boolean
         field :comment, type: String
-        field :lastModified, type: FHIR::PartialDateTime
         track_history
     end
 end

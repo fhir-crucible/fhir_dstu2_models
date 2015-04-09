@@ -18,7 +18,7 @@
     <%- if (!model.photo().nil? && !model.photo.empty?) -%><%- model.photo().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'photo', model: element} %><%- end -%><%- end -%>
     <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'patient_contactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
     <%- if !model.animal().nil? -%><%== render :template => 'patient_animalcomponent', :locals => {name: 'animal', model: model.animal()} %><%- end -%>
-    <%- if (!model.communication().nil? && !model.communication.empty?) -%><%- model.communication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'communication', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.communication().nil? && !model.communication.empty?) -%><%- model.communication().each do |element| -%><%== render :template => 'patient_patientcommunicationcomponent', :locals => {name: 'communication', model: element} %><%- end -%><%- end -%>
     <%- if (!model.careProvider().nil? && !model.careProvider.empty?) -%><%- model.careProvider().each do |element| -%><%== render :template => 'reference', :locals => {name: 'careProvider', model: element} %><%- end -%><%- end -%>
     <%- if !model.managingOrganization().nil? -%><%== render :template => 'reference', :locals => {name: 'managingOrganization', model: model.managingOrganization()} %><%- end -%>
     <%- if (!model.link().nil? && !model.link.empty?) -%><%- model.link().each do |element| -%><%== render :template => 'patient_patientlinkcomponent', :locals => {name: 'link', model: element} %><%- end -%><%- end -%>

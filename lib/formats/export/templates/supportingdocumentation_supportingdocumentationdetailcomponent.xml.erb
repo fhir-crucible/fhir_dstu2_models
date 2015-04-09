@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.linkId().nil? -%><linkId value="<%= model.linkId() %>"/><%- end -%>
-    <%- if !model.contentReference().nil? -%><%== render :template => 'reference', :locals => {name: 'contentReference', model: model.contentReference()} %><%- end -%>
-    <%- if !model.contentAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'contentAttachment', model: model.contentAttachment()} %><%- end -%>
-    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().iso8601 %>"/><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

@@ -3,7 +3,7 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.min().nil? -%><min value="<%= model.min() %>"/><%- end -%>
+    <%- if !model.min().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'min', model: model.min()} %><%- end -%>
     <%- if !model.max().nil? -%><max value="<%= model.max() %>"/><%- end -%>
     <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>

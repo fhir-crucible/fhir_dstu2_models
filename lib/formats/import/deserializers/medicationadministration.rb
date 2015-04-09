@@ -7,16 +7,12 @@ module FHIR
                 return nil unless entry
                 model = FHIR::MedicationAdministration::MedicationAdministrationDosageComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'timingDateTime', entry.at_xpath('./fhir:timingDateTime/@value').try(:value))
-                set_model_data(model, 'timingPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:timingPeriod')))
-                set_model_data(model, 'asNeededBoolean', entry.at_xpath('./fhir:asNeededBoolean/@value').try(:value))
-                set_model_data(model, 'asNeededCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:asNeededCodeableConcept')))
+                set_model_data(model, 'text', entry.at_xpath('./fhir:text/@value').try(:value))
                 set_model_data(model, 'site', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:site')))
                 set_model_data(model, 'route', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:route')))
                 set_model_data(model, 'method', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:method')))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
                 set_model_data(model, 'rate', FHIR::Ratio.parse_xml_entry(entry.at_xpath('./fhir:rate')))
-                set_model_data(model, 'maxDosePerPeriod', FHIR::Ratio.parse_xml_entry(entry.at_xpath('./fhir:maxDosePerPeriod')))
                 model
             end
             
@@ -33,11 +29,13 @@ module FHIR
                 set_model_data(model, 'prescription', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:prescription')))
                 set_model_data(model, 'wasNotGiven', entry.at_xpath('./fhir:wasNotGiven/@value').try(:value))
                 set_model_data(model, 'reasonNotGiven', entry.xpath('./fhir:reasonNotGiven').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                set_model_data(model, 'reasonGiven', entry.xpath('./fhir:reasonGiven').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'effectiveTimeDateTime', entry.at_xpath('./fhir:effectiveTimeDateTime/@value').try(:value))
                 set_model_data(model, 'effectiveTimePeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:effectiveTimePeriod')))
                 set_model_data(model, 'medication', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:medication')))
                 set_model_data(model, 'device', entry.xpath('./fhir:device').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                set_model_data(model, 'dosage', entry.xpath('./fhir:dosage').map {|e| parse_xml_entry_MedicationAdministrationDosageComponent(e)})
+                set_model_data(model, 'note', entry.at_xpath('./fhir:note/@value').try(:value))
+                set_model_data(model, 'dosage', parse_xml_entry_MedicationAdministrationDosageComponent(entry.at_xpath('./fhir:dosage')))
                 model
             end
         end

@@ -40,11 +40,13 @@ module FHIR
             'given',
             'address',
             'birthdate',
+            'deceased',
             'gender',
             'animal-species',
             'link',
             'active',
             'language',
+            'deathdate',
             'animal-breed',
             'careprovider',
             'phonetic',
@@ -89,6 +91,16 @@ module FHIR
             embeds_one :genderStatus, class_name:'FHIR::CodeableConcept'
         end
         
+        # This is an ugly hack to deal with embedded structures in the spec communication
+        class PatientCommunicationComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :language, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :language
+            field :preferred, type: Boolean
+        end
+        
         # This is an ugly hack to deal with embedded structures in the spec link
         class PatientLinkComponent
         include Mongoid::Document
@@ -121,7 +133,7 @@ module FHIR
         embeds_many :photo, class_name:'FHIR::Attachment'
         embeds_many :contact, class_name:'FHIR::Patient::ContactComponent'
         embeds_one :animal, class_name:'FHIR::Patient::AnimalComponent'
-        embeds_many :communication, class_name:'FHIR::CodeableConcept'
+        embeds_many :communication, class_name:'FHIR::Patient::PatientCommunicationComponent'
         embeds_many :careProvider, class_name:'FHIR::Reference'
         embeds_one :managingOrganization, class_name:'FHIR::Reference'
         embeds_many :link, class_name:'FHIR::Patient::PatientLinkComponent'

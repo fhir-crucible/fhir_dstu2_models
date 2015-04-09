@@ -37,14 +37,13 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'identifier',
             'code',
             'instance',
             'kind',
             'profile',
-            'title',
             'type',
             'version',
+            'url',
             'system',
             'name',
             'publisher',
@@ -54,9 +53,18 @@ module FHIR
         
         VALID_CODES = {
             kind: [ "operation", "query" ],
-            fhirType: [ "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ],
+            fhirType: [ "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ],
             status: [ "draft", "active", "retired" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec contact
+        class OperationDefinitionContactComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :name, type: String
+            embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        end
         
         # This is an ugly hack to deal with embedded structures in the spec part
         class OperationDefinitionParameterPartComponent
@@ -65,7 +73,7 @@ module FHIR
         include FHIR::Formats::Utilities
             field :name, type: String
             validates_presence_of :name
-            field :min, type: Integer
+            embeds_one :min, class_name:'FHIR::unsignedInt'
             validates_presence_of :min
             field :max, type: String
             validates_presence_of :max
@@ -100,14 +108,14 @@ module FHIR
             embeds_many :part, class_name:'FHIR::OperationDefinition::OperationDefinitionParameterPartComponent'
         end
         
-        field :identifier, type: String
+        field :url, type: String
         field :versionNum, type: String
-        field :title, type: String
-        validates_presence_of :title
+        field :name, type: String
+        validates_presence_of :name
         field :publisher, type: String
-        embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        embeds_many :contact, class_name:'FHIR::OperationDefinition::OperationDefinitionContactComponent'
         field :description, type: String
-        embeds_many :code, class_name:'FHIR::Coding'
+        field :requirements, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
@@ -116,8 +124,9 @@ module FHIR
         field :kind, type: String
         validates :kind, :inclusion => { in: VALID_CODES[:kind] }
         validates_presence_of :kind
-        field :name, type: String
-        validates_presence_of :name
+        field :idempotent, type: Boolean
+        field :code, type: String
+        validates_presence_of :code
         field :notes, type: String
         embeds_one :base, class_name:'FHIR::Reference'
         field :system, type: Boolean

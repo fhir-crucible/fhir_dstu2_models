@@ -40,13 +40,17 @@ module FHIR
             'item',
             'empty-reason',
             'code',
+            'notes',
             'subject',
             'patient',
-            'source'
+            'source',
+            'title',
+            'status'
             ]
         
         VALID_CODES = {
-            mode: [ "working", "snapshot", "changes" ]
+            mode: [ "working", "snapshot", "changes" ],
+            status: [ "current", "retired", "entered-in-error" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec entry
@@ -62,14 +66,19 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
+        field :title, type: String
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :source, class_name:'FHIR::Reference'
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
+        validates_presence_of :status
         field :date, type: FHIR::PartialDateTime
-        field :ordered, type: Boolean
+        embeds_one :orderedBy, class_name:'FHIR::CodeableConcept'
         field :mode, type: String
         validates :mode, :inclusion => { in: VALID_CODES[:mode] }
         validates_presence_of :mode
+        field :note, type: String
         embeds_many :entry, class_name:'FHIR::List::ListEntryComponent'
         embeds_one :emptyReason, class_name:'FHIR::CodeableConcept'
         track_history

@@ -16,7 +16,6 @@ module FHIR
                 set_model_data(model, 'end', parse_date_time(entry.at_xpath('./fhir:end/@value').try(:value)))
                 set_model_data(model, 'overbooked', entry.at_xpath('./fhir:overbooked/@value').try(:value))
                 set_model_data(model, 'comment', entry.at_xpath('./fhir:comment/@value').try(:value))
-                set_model_data(model, 'lastModified', entry.at_xpath('./fhir:lastModified/@value').try(:value))
                 model
             end
         end

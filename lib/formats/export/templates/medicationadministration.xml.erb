@@ -12,9 +12,11 @@
     <%- if !model.prescription().nil? -%><%== render :template => 'reference', :locals => {name: 'prescription', model: model.prescription()} %><%- end -%>
     <%- if !model.wasNotGiven().nil? -%><wasNotGiven value="<%= model.wasNotGiven() %>"/><%- end -%>
     <%- if (!model.reasonNotGiven().nil? && !model.reasonNotGiven.empty?) -%><%- model.reasonNotGiven().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonNotGiven', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.reasonGiven().nil? && !model.reasonGiven.empty?) -%><%- model.reasonGiven().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonGiven', model: element} %><%- end -%><%- end -%>
     <%- if !model.effectiveTimeDateTime().nil? -%><effectiveTimeDateTime value="<%= model.effectiveTimeDateTime().iso8601 %>"/><%- end -%>
     <%- if !model.effectiveTimePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'effectiveTimePeriod', model: model.effectiveTimePeriod()} %><%- end -%>
     <%- if !model.medication().nil? -%><%== render :template => 'reference', :locals => {name: 'medication', model: model.medication()} %><%- end -%>
     <%- if (!model.device().nil? && !model.device.empty?) -%><%- model.device().each do |element| -%><%== render :template => 'reference', :locals => {name: 'device', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.dosage().nil? && !model.dosage.empty?) -%><%- model.dosage().each do |element| -%><%== render :template => 'medicationadministration_medicationadministrationdosagecomponent', :locals => {name: 'dosage', model: element} %><%- end -%><%- end -%>
+    <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
+    <%- if !model.dosage().nil? -%><%== render :template => 'medicationadministration_medicationadministrationdosagecomponent', :locals => {name: 'dosage', model: model.dosage()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

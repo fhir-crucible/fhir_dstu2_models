@@ -59,6 +59,15 @@ module FHIR
             embeds_one :amount, class_name:'FHIR::Ratio'
         end
         
+        # This is an ugly hack to deal with embedded structures in the spec batch
+        class MedicationProductBatchComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :lotNumber, type: String
+            field :expirationDate, type: FHIR::PartialDateTime
+        end
+        
         # This is an ugly hack to deal with embedded structures in the spec product
         class MedicationProductComponent
         include Mongoid::Document
@@ -66,6 +75,7 @@ module FHIR
         include FHIR::Formats::Utilities
             embeds_one :form, class_name:'FHIR::CodeableConcept'
             embeds_many :ingredient, class_name:'FHIR::Medication::MedicationProductIngredientComponent'
+            embeds_many :batch, class_name:'FHIR::Medication::MedicationProductBatchComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec content

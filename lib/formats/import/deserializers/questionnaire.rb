@@ -43,6 +43,7 @@ module FHIR
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
                 set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
+                set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
                 set_model_data(model, 'group', parse_xml_entry_GroupComponent(entry.at_xpath('./fhir:group')))
                 model
             end

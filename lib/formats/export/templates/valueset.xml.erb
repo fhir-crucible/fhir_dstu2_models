@@ -4,20 +4,22 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.identifier().nil? -%><identifier value="<%= model.identifier() %>"/><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
     <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.purpose().nil? -%><purpose value="<%= model.purpose() %>"/><%- end -%>
+    <%- if (!model.useContext().nil? && !model.useContext.empty?) -%><%- model.useContext().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'useContext', model: element} %><%- end -%><%- end -%>
     <%- if !model.immutable().nil? -%><immutable value="<%= model.immutable() %>"/><%- end -%>
     <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
-    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'valueset_valuesetcontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
+    <%- if !model.requirements().nil? -%><requirements value="<%= model.requirements() %>"/><%- end -%>
     <%- if !model.copyright().nil? -%><copyright value="<%= model.copyright() %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
     <%- if !model.extensible().nil? -%><extensible value="<%= model.extensible() %>"/><%- end -%>
     <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
-    <%- if !model.stableDate().nil? -%><stableDate value="<%= model.stableDate().iso8601 %>"/><%- end -%>
+    <%- if !model.lockedDate().nil? -%><lockedDate value="<%= model.lockedDate().iso8601 %>"/><%- end -%>
     <%- if !model.define().nil? -%><%== render :template => 'valueset_valuesetdefinecomponent', :locals => {name: 'define', model: model.define()} %><%- end -%>
     <%- if !model.compose().nil? -%><%== render :template => 'valueset_valuesetcomposecomponent', :locals => {name: 'compose', model: model.compose()} %><%- end -%>
     <%- if !model.expansion().nil? -%><%== render :template => 'valueset_valuesetexpansioncomponent', :locals => {name: 'expansion', model: model.expansion()} %><%- end -%>

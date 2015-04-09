@@ -2,7 +2,8 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.identifier().nil? -%><identifier value="<%= model.identifier() %>"/><%- end -%>
     <%- if !model.timestamp().nil? -%><timestamp value="<%= model.timestamp().iso8601 %>"/><%- end -%>
+    <%- if (!model.parameter().nil? && !model.parameter.empty?) -%><%- model.parameter().each do |element| -%><%== render :template => 'valueset_valuesetexpansionparametercomponent', :locals => {name: 'parameter', model: element} %><%- end -%><%- end -%>
     <%- if (!model.contains().nil? && !model.contains.empty?) -%><%- model.contains().each do |element| -%><%== render :template => 'valueset_valuesetexpansioncontainscomponent', :locals => {name: 'contains', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

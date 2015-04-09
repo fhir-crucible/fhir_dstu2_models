@@ -38,9 +38,18 @@ module FHIR
         SEARCH_PARAMS = [
             'servicecategory',
             'servicetype',
+            'organization',
             'name',
-            'location'
+            'programname',
+            'location',
+            'characteristic'
             ]
+        
+        VALID_CODES = {
+            serviceProvisionCode: [ "free", "disc", "cost" ],
+            referralMethod: [ "fax", "phone", "elec", "semail", "mail" ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec serviceType
         class ServiceTypeComponent
         include Mongoid::Document
@@ -56,24 +65,30 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :daysOfWeek, class_name:'FHIR::CodeableConcept'
+            
+            VALID_CODES = {
+                daysOfWeek: [ "mon", "tue", "wed", "thu", "fri", "sat", "sun" ]
+            }
+            
+            field :daysOfWeek, type: Array # Array of Strings
+            validates :daysOfWeek, :inclusion => { in: VALID_CODES[:daysOfWeek], :allow_nil => true }
             field :allDay, type: Boolean
             field :availableStartTime, type: FHIR::PartialDateTime
             field :availableEndTime, type: FHIR::PartialDateTime
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec notAvailableTime
-        class HealthcareServiceNotAvailableTimeComponent
+        # This is an ugly hack to deal with embedded structures in the spec notAvailable
+        class HealthcareServiceNotAvailableComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :description, type: String
             validates_presence_of :description
-            field :startDate, type: FHIR::PartialDateTime
-            field :endDate, type: FHIR::PartialDateTime
+            embeds_one :during, class_name:'FHIR::Period'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
+        embeds_one :providedBy, class_name:'FHIR::Reference'
         embeds_one :location, class_name:'FHIR::Reference'
         validates_presence_of :location
         embeds_one :serviceCategory, class_name:'FHIR::CodeableConcept'
@@ -81,24 +96,20 @@ module FHIR
         field :serviceName, type: String
         field :comment, type: String
         field :extraDetails, type: String
-        embeds_one :freeProvisionCode, class_name:'FHIR::CodeableConcept'
+        embeds_one :photo, class_name:'FHIR::Attachment'
+        embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        embeds_many :coverageArea, class_name:'FHIR::Reference'
+        embeds_many :serviceProvisionCode, class_name:'FHIR::CodeableConcept'
         embeds_one :eligibility, class_name:'FHIR::CodeableConcept'
         field :eligibilityNote, type: String
-        embeds_one :appointmentRequired, class_name:'FHIR::CodeableConcept'
-        field :imageURI, type: String
-        embeds_many :availableTime, class_name:'FHIR::HealthcareService::HealthcareServiceAvailableTimeComponent'
-        embeds_many :notAvailableTime, class_name:'FHIR::HealthcareService::HealthcareServiceNotAvailableTimeComponent'
-        field :availabilityExceptions, type: String
-        field :publicKey, type: String
         field :programName, type: Array # Array of Strings
-        embeds_many :contactPoint, class_name:'FHIR::ContactPoint'
         embeds_many :characteristic, class_name:'FHIR::CodeableConcept'
         embeds_many :referralMethod, class_name:'FHIR::CodeableConcept'
-        embeds_many :setting, class_name:'FHIR::CodeableConcept'
-        embeds_many :targetGroup, class_name:'FHIR::CodeableConcept'
-        embeds_many :coverageArea, class_name:'FHIR::CodeableConcept'
-        embeds_many :catchmentArea, class_name:'FHIR::CodeableConcept'
-        embeds_many :serviceCode, class_name:'FHIR::CodeableConcept'
+        field :publicKey, type: String
+        field :appointmentRequired, type: Boolean
+        embeds_many :availableTime, class_name:'FHIR::HealthcareService::HealthcareServiceAvailableTimeComponent'
+        embeds_many :notAvailable, class_name:'FHIR::HealthcareService::HealthcareServiceNotAvailableComponent'
+        field :availabilityExceptions, type: String
         track_history
     end
 end

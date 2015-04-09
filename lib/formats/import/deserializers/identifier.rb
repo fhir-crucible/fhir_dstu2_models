@@ -8,7 +8,7 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'use', entry.at_xpath('./fhir:use/@value').try(:value))
-                set_model_data(model, 'label', entry.at_xpath('./fhir:label/@value').try(:value))
+                set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'system', entry.at_xpath('./fhir:system/@value').try(:value))
                 set_model_data(model, 'value', entry.at_xpath('./fhir:value/@value').try(:value))
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))

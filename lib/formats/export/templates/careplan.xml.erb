@@ -8,10 +8,13 @@
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+    <%- if (!model.author().nil? && !model.author.empty?) -%><%- model.author().each do |element| -%><%== render :template => 'reference', :locals => {name: 'author', model: element} %><%- end -%><%- end -%>
     <%- if !model.modified().nil? -%><modified value="<%= model.modified().iso8601 %>"/><%- end -%>
+    <%- if (!model.category().nil? && !model.category.empty?) -%><%- model.category().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: element} %><%- end -%><%- end -%>
     <%- if (!model.concern().nil? && !model.concern.empty?) -%><%- model.concern().each do |element| -%><%== render :template => 'reference', :locals => {name: 'concern', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.support().nil? && !model.support.empty?) -%><%- model.support().each do |element| -%><%== render :template => 'reference', :locals => {name: 'support', model: element} %><%- end -%><%- end -%>
     <%- if (!model.participant().nil? && !model.participant.empty?) -%><%- model.participant().each do |element| -%><%== render :template => 'careplan_careplanparticipantcomponent', :locals => {name: 'participant', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.goal().nil? && !model.goal.empty?) -%><%- model.goal().each do |element| -%><%== render :template => 'careplan_careplangoalcomponent', :locals => {name: 'goal', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.goal().nil? && !model.goal.empty?) -%><%- model.goal().each do |element| -%><%== render :template => 'reference', :locals => {name: 'goal', model: element} %><%- end -%><%- end -%>
     <%- if (!model.activity().nil? && !model.activity.empty?) -%><%- model.activity().each do |element| -%><%== render :template => 'careplan_careplanactivitycomponent', :locals => {name: 'activity', model: element} %><%- end -%><%- end -%>
     <%- if !model.notes().nil? -%><notes value="<%= model.notes() %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

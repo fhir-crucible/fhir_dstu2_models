@@ -42,11 +42,12 @@ module FHIR
             'author',
             'patient',
             'encounter',
+            'source',
             'status'
             ]
         
         VALID_CODES = {
-            status: [ "in progress", "completed", "amended" ]
+            status: [ "in-progress", "completed", "amended" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec answer
@@ -62,6 +63,7 @@ module FHIR
             field :valueInstant, type: DateTime
             field :valueTime, type: FHIR::PartialDateTime
             field :valueString, type: String
+            field :valueUri, type: String
             embeds_one :valueAttachment, class_name:'FHIR::Attachment'
             embeds_one :valueCoding, class_name:'FHIR::Coding'
             embeds_one :valueQuantity, class_name:'FHIR::Quantity'
@@ -100,7 +102,6 @@ module FHIR
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :author, class_name:'FHIR::Reference'
         field :authored, type: FHIR::PartialDateTime
-        validates_presence_of :authored
         embeds_one :source, class_name:'FHIR::Reference'
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :group, class_name:'FHIR::QuestionnaireAnswers::GroupComponent'

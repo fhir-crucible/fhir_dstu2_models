@@ -12,6 +12,7 @@
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if !model.reasonCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonCodeableConcept', model: model.reasonCodeableConcept()} %><%- end -%>
     <%- if !model.reasonReference().nil? -%><%== render :template => 'reference', :locals => {name: 'reasonReference', model: model.reasonReference()} %><%- end -%>
+    <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
     <%- if !model.medication().nil? -%><%== render :template => 'reference', :locals => {name: 'medication', model: model.medication()} %><%- end -%>
     <%- if (!model.dosageInstruction().nil? && !model.dosageInstruction.empty?) -%><%- model.dosageInstruction().each do |element| -%><%== render :template => 'medicationprescription_medicationprescriptiondosageinstructioncomponent', :locals => {name: 'dosageInstruction', model: element} %><%- end -%><%- end -%>
     <%- if !model.dispense().nil? -%><%== render :template => 'medicationprescription_medicationprescriptiondispensecomponent', :locals => {name: 'dispense', model: model.dispense()} %><%- end -%>

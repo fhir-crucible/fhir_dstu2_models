@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.managingOrganization().nil? -%><%== render :template => 'reference', :locals => {name: 'managingOrganization', model: model.managingOrganization()} %><%- end -%>
+    <%- if !model.role().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'role', model: model.role()} %><%- end -%>
+    <%- if (!model.specialty().nil? && !model.specialty.empty?) -%><%- model.specialty().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'specialty', model: element} %><%- end -%><%- end -%>
+    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
+    <%- if (!model.location().nil? && !model.location.empty?) -%><%- model.location().each do |element| -%><%== render :template => 'reference', :locals => {name: 'location', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.healthcareService().nil? && !model.healthcareService.empty?) -%><%- model.healthcareService().each do |element| -%><%== render :template => 'reference', :locals => {name: 'healthcareService', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

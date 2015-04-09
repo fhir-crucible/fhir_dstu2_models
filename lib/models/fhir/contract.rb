@@ -36,32 +36,31 @@ module FHIR
         extend FHIR::Deserializer::Contract
         
         SEARCH_PARAMS = [
+            'actor',
+            'identifier',
             'subject',
-            'patient'
+            'patient',
+            'signer'
             ]
-        # This is an ugly hack to deal with embedded structures in the spec signer
-        class ContractSignerComponent
+        # This is an ugly hack to deal with embedded structures in the spec actor
+        class ActorComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :fhirType, class_name:'FHIR::Coding'
-            validates_presence_of :fhirType
-            field :signature, type: String
-            validates_presence_of :signature
+            embeds_one :entity, class_name:'FHIR::Reference'
+            validates_presence_of :entity
+            embeds_many :role, class_name:'FHIR::CodeableConcept'
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec term
-        class ContractTermComponent
+        # This is an ugly hack to deal with embedded structures in the spec valuedItem
+        class ValuedItemComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            embeds_one :entityCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :entityReference, class_name:'FHIR::Reference'
             embeds_one :identifier, class_name:'FHIR::Identifier'
-            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-            embeds_one :subtype, class_name:'FHIR::CodeableConcept'
-            embeds_one :subject, class_name:'FHIR::Reference'
-            field :text, type: String
-            field :issued, type: FHIR::PartialDateTime
-            embeds_one :applies, class_name:'FHIR::Period'
+            field :effectiveTime, type: FHIR::PartialDateTime
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :unitPrice, class_name:'FHIR::Quantity'
             field :factor, type: Float
@@ -69,35 +68,116 @@ module FHIR
             embeds_one :net, class_name:'FHIR::Quantity'
         end
         
-        embeds_many :identifier, class_name:'FHIR::Identifier'
+        # This is an ugly hack to deal with embedded structures in the spec signer
+        class SignatoryComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :fhirType, class_name:'FHIR::Coding'
+            validates_presence_of :fhirType
+            embeds_one :party, class_name:'FHIR::Reference'
+            validates_presence_of :party
+            field :signature, type: String
+            validates_presence_of :signature
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec actor
+        class TermActorComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :entity, class_name:'FHIR::Reference'
+            validates_presence_of :entity
+            embeds_many :role, class_name:'FHIR::CodeableConcept'
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec valuedItem
+        class TermValuedItemComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :entityCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :entityReference, class_name:'FHIR::Reference'
+            embeds_one :identifier, class_name:'FHIR::Identifier'
+            field :effectiveTime, type: FHIR::PartialDateTime
+            embeds_one :quantity, class_name:'FHIR::Quantity'
+            embeds_one :unitPrice, class_name:'FHIR::Quantity'
+            field :factor, type: Float
+            field :points, type: Float
+            embeds_one :net, class_name:'FHIR::Quantity'
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec term
+        class TermComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :identifier, class_name:'FHIR::Identifier'
+            field :issued, type: FHIR::PartialDateTime
+            embeds_one :applies, class_name:'FHIR::Period'
+            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
+            embeds_one :subType, class_name:'FHIR::CodeableConcept'
+            embeds_one :subject, class_name:'FHIR::Reference'
+            embeds_many :action, class_name:'FHIR::CodeableConcept'
+            embeds_many :actionReason, class_name:'FHIR::CodeableConcept'
+            embeds_many :actor, class_name:'FHIR::Contract::TermActorComponent'
+            field :text, type: String
+            embeds_many :valuedItem, class_name:'FHIR::Contract::TermValuedItemComponent'
+            embeds_many :group, class_name:'FHIR::Contract::TermComponent'
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec friendly
+        class FriendlyLanguageComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :contentAttachment, class_name:'FHIR::Attachment'
+            validates_presence_of :contentAttachment
+            embeds_one :contentReference, class_name:'FHIR::Reference'
+            validates_presence_of :contentReference
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec legal
+        class LegalLanguageComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :contentAttachment, class_name:'FHIR::Attachment'
+            validates_presence_of :contentAttachment
+            embeds_one :contentReference, class_name:'FHIR::Reference'
+            validates_presence_of :contentReference
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec rule
+        class ComputableLanguageComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :contentAttachment, class_name:'FHIR::Attachment'
+            validates_presence_of :contentAttachment
+            embeds_one :contentReference, class_name:'FHIR::Reference'
+            validates_presence_of :contentReference
+        end
+        
+        embeds_one :identifier, class_name:'FHIR::Identifier'
+        field :issued, type: FHIR::PartialDateTime
+        embeds_one :applies, class_name:'FHIR::Period'
         embeds_many :subject, class_name:'FHIR::Reference'
         embeds_many :authority, class_name:'FHIR::Reference'
         embeds_many :domain, class_name:'FHIR::Reference'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-        embeds_many :subtype, class_name:'FHIR::CodeableConcept'
-        field :issued, type: FHIR::PartialDateTime
-        embeds_one :applies, class_name:'FHIR::Period'
-        embeds_one :quantity, class_name:'FHIR::Quantity'
-        embeds_one :unitPrice, class_name:'FHIR::Quantity'
-        field :factor, type: Float
-        field :points, type: Float
-        embeds_one :net, class_name:'FHIR::Quantity'
-        embeds_many :author, class_name:'FHIR::Reference'
-        embeds_many :grantor, class_name:'FHIR::Reference'
-        embeds_many :grantee, class_name:'FHIR::Reference'
-        embeds_many :witness, class_name:'FHIR::Reference'
-        embeds_many :executor, class_name:'FHIR::Reference'
-        embeds_many :notary, class_name:'FHIR::Reference'
-        embeds_many :signer, class_name:'FHIR::Contract::ContractSignerComponent'
-        embeds_many :term, class_name:'FHIR::Contract::ContractTermComponent'
-        embeds_one :binding, class_name:'FHIR::Attachment'
-        field :bindingDateTime, type: FHIR::PartialDateTime
-        embeds_many :friendly, class_name:'FHIR::Attachment'
-        field :friendlyDateTime, type: FHIR::PartialDateTime
-        embeds_many :legal, class_name:'FHIR::Attachment'
-        field :legalDateTime, type: FHIR::PartialDateTime
-        embeds_many :rule, class_name:'FHIR::Attachment'
-        field :ruleDateTime, type: FHIR::PartialDateTime
+        embeds_many :subType, class_name:'FHIR::CodeableConcept'
+        embeds_many :action, class_name:'FHIR::CodeableConcept'
+        embeds_many :actionReason, class_name:'FHIR::CodeableConcept'
+        embeds_many :actor, class_name:'FHIR::Contract::ActorComponent'
+        embeds_many :valuedItem, class_name:'FHIR::Contract::ValuedItemComponent'
+        embeds_many :signer, class_name:'FHIR::Contract::SignatoryComponent'
+        embeds_many :term, class_name:'FHIR::Contract::TermComponent'
+        embeds_one :bindingAttachment, class_name:'FHIR::Attachment'
+        embeds_one :bindingReference, class_name:'FHIR::Reference'
+        embeds_many :friendly, class_name:'FHIR::Contract::FriendlyLanguageComponent'
+        embeds_many :legal, class_name:'FHIR::Contract::LegalLanguageComponent'
+        embeds_many :rule, class_name:'FHIR::Contract::ComputableLanguageComponent'
         track_history
     end
 end

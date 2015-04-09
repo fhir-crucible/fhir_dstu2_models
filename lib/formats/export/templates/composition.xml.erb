@@ -10,7 +10,7 @@
     <%- if !model.fhirClass().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'class', model: model.fhirClass()} %><%- end -%>
     <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.confidentiality().nil? -%><%== render :template => 'coding', :locals => {name: 'confidentiality', model: model.confidentiality()} %><%- end -%>
+    <%- if !model.confidentiality().nil? -%><confidentiality value="<%= model.confidentiality() %>"/><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if (!model.author().nil? && !model.author.empty?) -%><%- model.author().each do |element| -%><%== render :template => 'reference', :locals => {name: 'author', model: element} %><%- end -%><%- end -%>
     <%- if (!model.attester().nil? && !model.attester.empty?) -%><%- model.attester().each do |element| -%><%== render :template => 'composition_compositionattestercomponent', :locals => {name: 'attester', model: element} %><%- end -%><%- end -%>

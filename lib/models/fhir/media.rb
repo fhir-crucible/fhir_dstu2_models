@@ -55,15 +55,14 @@ module FHIR
         validates_presence_of :fhirType
         embeds_one :subtype, class_name:'FHIR::CodeableConcept'
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :created, type: FHIR::PartialDateTime
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :operator, class_name:'FHIR::Reference'
         embeds_one :view, class_name:'FHIR::CodeableConcept'
         field :deviceName, type: String
-        field :height, type: Integer
-        field :width, type: Integer
-        field :frames, type: Integer
-        field :duration, type: Integer
+        embeds_one :height, class_name:'FHIR::positiveInt'
+        embeds_one :width, class_name:'FHIR::positiveInt'
+        embeds_one :frames, class_name:'FHIR::positiveInt'
+        embeds_one :duration, class_name:'FHIR::unsignedInt'
         embeds_one :content, class_name:'FHIR::Attachment'
         validates_presence_of :content
         track_history

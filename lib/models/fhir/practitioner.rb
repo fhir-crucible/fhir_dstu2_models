@@ -38,9 +38,11 @@ module FHIR
         SEARCH_PARAMS = [
             'identifier',
             'given',
-            'phonetic',
+            'specialty',
             'address',
+            'role',
             'gender',
+            'phonetic',
             'organization',
             'name',
             'telecom',
@@ -52,6 +54,19 @@ module FHIR
         VALID_CODES = {
             gender: [ "male", "female", "other", "unknown" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec practitionerRole
+        class PractitionerPractitionerRoleComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :managingOrganization, class_name:'FHIR::Reference'
+            embeds_one :role, class_name:'FHIR::CodeableConcept'
+            embeds_many :specialty, class_name:'FHIR::CodeableConcept'
+            embeds_one :period, class_name:'FHIR::Period'
+            embeds_many :location, class_name:'FHIR::Reference'
+            embeds_many :healthcareService, class_name:'FHIR::Reference'
+        end
         
         # This is an ugly hack to deal with embedded structures in the spec qualification
         class PractitionerQualificationComponent
@@ -73,11 +88,7 @@ module FHIR
         validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
         field :birthDate, type: FHIR::PartialDateTime
         embeds_many :photo, class_name:'FHIR::Attachment'
-        embeds_one :organization, class_name:'FHIR::Reference'
-        embeds_many :role, class_name:'FHIR::CodeableConcept'
-        embeds_many :specialty, class_name:'FHIR::CodeableConcept'
-        embeds_one :period, class_name:'FHIR::Period'
-        embeds_many :location, class_name:'FHIR::Reference'
+        embeds_many :practitionerRole, class_name:'FHIR::Practitioner::PractitionerPractitionerRoleComponent'
         embeds_many :qualification, class_name:'FHIR::Practitioner::PractitionerQualificationComponent'
         embeds_many :communication, class_name:'FHIR::CodeableConcept'
         track_history

@@ -20,7 +20,8 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
                 set_model_data(model, 'specimen', entry.xpath('./fhir:specimen').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                set_model_data(model, 'bodySite', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:bodySite')))
+                set_model_data(model, 'bodySiteCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:bodySiteCodeableConcept')))
+                set_model_data(model, 'bodySiteReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:bodySiteReference')))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'event', entry.xpath('./fhir:event').map {|e| parse_xml_entry_DiagnosticOrderEventComponent(e)})
                 model

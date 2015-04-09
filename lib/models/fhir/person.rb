@@ -41,9 +41,13 @@ module FHIR
             'address',
             'birthdate',
             'gender',
+            'practitioner',
+            'patient',
             'organization',
             'name',
-            'telecom'
+            'link',
+            'telecom',
+            'relatedperson'
             ]
         
         VALID_CODES = {
@@ -60,8 +64,8 @@ module FHIR
                 assurance: [ "level1", "level2", "level3", "level4" ]
             }
             
-            embeds_one :other, class_name:'FHIR::Reference'
-            validates_presence_of :other
+            embeds_one :target, class_name:'FHIR::Reference'
+            validates_presence_of :target
             field :assurance, type: String
             validates :assurance, :inclusion => { in: VALID_CODES[:assurance], :allow_nil => true }
         end

@@ -6,6 +6,7 @@
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.country().nil? -%><country value="<%= model.country() %>"/><%- end -%>
     <%- if !model.category().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: model.category()} %><%- end -%>
@@ -13,6 +14,7 @@
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if !model.usage().nil? -%><usage value="<%= model.usage() %>"/><%- end -%>
     <%- if (!model.uniqueId().nil? && !model.uniqueId.empty?) -%><%- model.uniqueId().each do |element| -%><%== render :template => 'namingsystem_namingsystemuniqueidcomponent', :locals => {name: 'uniqueId', model: element} %><%- end -%><%- end -%>
-    <%- if !model.contact().nil? -%><%== render :template => 'namingsystem_namingsystemcontactcomponent', :locals => {name: 'contact', model: model.contact()} %><%- end -%>
+    <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
+    <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'namingsystem_namingsystemcontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>
     <%- if !model.replacedBy().nil? -%><%== render :template => 'reference', :locals => {name: 'replacedBy', model: model.replacedBy()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

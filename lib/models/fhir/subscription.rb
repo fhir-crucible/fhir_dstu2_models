@@ -62,22 +62,10 @@ module FHIR
             field :fhirType, type: String
             validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
-            field :url, type: String
+            field :endpoint, type: String
             field :payload, type: String
             validates_presence_of :payload
             field :header, type: String
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec tag
-        class SubscriptionTagComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            field :term, type: String
-            validates_presence_of :term
-            field :scheme, type: String
-            validates_presence_of :scheme
-            field :description, type: String
         end
         
         field :criteria, type: String
@@ -92,7 +80,7 @@ module FHIR
         embeds_one :channel, class_name:'FHIR::Subscription::SubscriptionChannelComponent'
         validates_presence_of :channel
         field :end, type: DateTime
-        embeds_many :tag, class_name:'FHIR::Subscription::SubscriptionTagComponent'
+        embeds_many :tag, class_name:'FHIR::Coding'
         track_history
     end
 end

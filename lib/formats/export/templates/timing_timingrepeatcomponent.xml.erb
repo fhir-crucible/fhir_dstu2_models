@@ -2,10 +2,14 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.frequency().nil? -%><frequency value="<%= model.frequency() %>"/><%- end -%>
-    <%- if !model.when().nil? -%><when value="<%= model.when() %>"/><%- end -%>
-    <%- if !model.duration().nil? -%><duration value="<%= model.duration() %>"/><%- end -%>
-    <%- if !model.units().nil? -%><units value="<%= model.units() %>"/><%- end -%>
+    <%- if !model.bounds().nil? -%><%== render :template => 'period', :locals => {name: 'bounds', model: model.bounds()} %><%- end -%>
     <%- if !model.count().nil? -%><count value="<%= model.count() %>"/><%- end -%>
-    <%- if !model.end().nil? -%><end value="<%= model.end().iso8601 %>"/><%- end -%>
+    <%- if !model.duration().nil? -%><duration value="<%= model.duration() %>"/><%- end -%>
+    <%- if !model.durationUnits().nil? -%><durationUnits value="<%= model.durationUnits() %>"/><%- end -%>
+    <%- if !model.frequency().nil? -%><frequency value="<%= model.frequency() %>"/><%- end -%>
+    <%- if !model.frequencyMax().nil? -%><frequencyMax value="<%= model.frequencyMax() %>"/><%- end -%>
+    <%- if !model.period().nil? -%><period value="<%= model.period() %>"/><%- end -%>
+    <%- if !model.periodMax().nil? -%><periodMax value="<%= model.periodMax() %>"/><%- end -%>
+    <%- if !model.periodUnits().nil? -%><periodUnits value="<%= model.periodUnits() %>"/><%- end -%>
+    <%- if !model.when().nil? -%><when value="<%= model.when() %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

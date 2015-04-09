@@ -12,7 +12,6 @@ module FHIR
                 set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
                 set_model_data(model, 'display', entry.at_xpath('./fhir:display/@value').try(:value))
                 set_model_data(model, 'primary', entry.at_xpath('./fhir:primary/@value').try(:value))
-                set_model_data(model, 'valueSet', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:valueSet')))
                 model
             end
         end

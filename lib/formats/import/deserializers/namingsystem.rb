@@ -18,7 +18,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::NamingSystem::NamingSystemContactComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', FHIR::HumanName.parse_xml_entry(entry.at_xpath('./fhir:name')))
+                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
                 set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
                 model
             end
@@ -30,6 +30,7 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'country', entry.at_xpath('./fhir:country/@value').try(:value))
                 set_model_data(model, 'category', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:category')))
@@ -37,7 +38,8 @@ module FHIR
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
                 set_model_data(model, 'usage', entry.at_xpath('./fhir:usage/@value').try(:value))
                 set_model_data(model, 'uniqueId', entry.xpath('./fhir:uniqueId').map {|e| parse_xml_entry_NamingSystemUniqueIdComponent(e)})
-                set_model_data(model, 'contact', parse_xml_entry_NamingSystemContactComponent(entry.at_xpath('./fhir:contact')))
+                set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
+                set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_NamingSystemContactComponent(e)})
                 set_model_data(model, 'replacedBy', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:replacedBy')))
                 model
             end

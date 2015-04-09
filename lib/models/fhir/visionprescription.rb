@@ -36,6 +36,7 @@ module FHIR
         extend FHIR::Deserializer::VisionPrescription
         
         SEARCH_PARAMS = [
+            'prescriber',
             'identifier',
             'patient',
             'datewritten',

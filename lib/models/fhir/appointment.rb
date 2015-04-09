@@ -39,7 +39,9 @@ module FHIR
             'date',
             'actor',
             'partstatus',
+            'practitioner',
             'patient',
+            'location',
             'status'
             ]
         
@@ -55,7 +57,7 @@ module FHIR
             
             VALID_CODES = {
                 required: [ "required", "optional", "information-only" ],
-                status: [ "accepted", "declined", "tentative", "in-process", "completed", "needs-action" ]
+                status: [ "accepted", "declined", "tentative", "needs-action" ]
             }
             
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
@@ -68,25 +70,22 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :priority, type: Integer
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :reason, class_name:'FHIR::CodeableConcept'
+        embeds_one :priority, class_name:'FHIR::unsignedInt'
         field :description, type: String
         field :start, type: DateTime
         validates_presence_of :start
         field :end, type: DateTime
         validates_presence_of :end
         embeds_many :slot, class_name:'FHIR::Reference'
-        embeds_one :location, class_name:'FHIR::Reference'
         field :comment, type: String
         embeds_one :order, class_name:'FHIR::Reference'
         embeds_many :participant, class_name:'FHIR::Appointment::AppointmentParticipantComponent'
         validates_presence_of :participant
-        embeds_one :lastModifiedBy, class_name:'FHIR::Reference'
-        field :lastModified, type: FHIR::PartialDateTime
         track_history
     end
 end

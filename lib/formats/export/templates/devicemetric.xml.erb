@@ -9,10 +9,9 @@
     <%- if !model.unit().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'unit', model: model.unit()} %><%- end -%>
     <%- if !model.source().nil? -%><%== render :template => 'reference', :locals => {name: 'source', model: model.source()} %><%- end -%>
     <%- if !model.parent().nil? -%><%== render :template => 'reference', :locals => {name: 'parent', model: model.parent()} %><%- end -%>
-    <%- if !model.operationalState().nil? -%><operationalState value="<%= model.operationalState() %>"/><%- end -%>
-    <%- if !model.measurementMode().nil? -%><%== render :template => 'identifier', :locals => {name: 'measurementMode', model: model.measurementMode()} %><%- end -%>
-    <%- if !model.color().nil? -%><%== render :template => 'identifier', :locals => {name: 'color', model: model.color()} %><%- end -%>
+    <%- if !model.operationalStatus().nil? -%><operationalStatus value="<%= model.operationalStatus() %>"/><%- end -%>
+    <%- if !model.color().nil? -%><color value="<%= model.color() %>"/><%- end -%>
     <%- if !model.category().nil? -%><category value="<%= model.category() %>"/><%- end -%>
     <%- if !model.measurementPeriod().nil? -%><%== render :template => 'timing', :locals => {name: 'measurementPeriod', model: model.measurementPeriod()} %><%- end -%>
-    <%- if (!model.calibrationInfo().nil? && !model.calibrationInfo.empty?) -%><%- model.calibrationInfo().each do |element| -%><%== render :template => 'devicemetric_devicemetriccalibrationinfocomponent', :locals => {name: 'calibrationInfo', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.calibration().nil? && !model.calibration.empty?) -%><%- model.calibration().each do |element| -%><%== render :template => 'devicemetric_devicemetriccalibrationcomponent', :locals => {name: 'calibration', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

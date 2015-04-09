@@ -7,7 +7,8 @@
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.recordedDate().nil? -%><recordedDate value="<%= model.recordedDate().iso8601 %>"/><%- end -%>
     <%- if !model.recorder().nil? -%><%== render :template => 'reference', :locals => {name: 'recorder', model: model.recorder()} %><%- end -%>
-    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
+    <%- if !model.reporter().nil? -%><%== render :template => 'reference', :locals => {name: 'reporter', model: model.reporter()} %><%- end -%>
     <%- if !model.substance().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'substance', model: model.substance()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.criticality().nil? -%><criticality value="<%= model.criticality() %>"/><%- end -%>

@@ -39,20 +39,31 @@ module FHIR
             'date',
             'identifier',
             'product',
-            'system',
             'dependson',
-            'name',
-            'publisher',
             'description',
             'source',
             'version',
-            'status',
-            'target'
+            'url',
+            'target',
+            'system',
+            'name',
+            'context',
+            'publisher',
+            'status'
             ]
         
         VALID_CODES = {
             status: [ "draft", "active", "retired" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec contact
+        class ConceptMapContactComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :name, type: String
+            embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        end
         
         # This is an ugly hack to deal with embedded structures in the spec dependsOn
         class OtherElementComponent
@@ -97,12 +108,15 @@ module FHIR
             embeds_many :map, class_name:'FHIR::ConceptMap::ConceptMapElementMapComponent'
         end
         
-        field :identifier, type: String
+        field :url, type: String
+        embeds_one :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
         field :name, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
         field :publisher, type: String
-        embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        embeds_many :contact, class_name:'FHIR::ConceptMap::ConceptMapContactComponent'
         field :description, type: String
+        field :requirements, type: String
         field :copyright, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }

@@ -1,0 +1,12 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if (!model.subtype().nil? && !model.subtype.empty?) -%><%- model.subtype().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'subtype', model: element} %><%- end -%><%- end -%>
+    <%- if !model.action().nil? -%><action value="<%= model.action() %>"/><%- end -%>
+    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.outcome().nil? -%><outcome value="<%= model.outcome() %>"/><%- end -%>
+    <%- if !model.outcomeDesc().nil? -%><outcomeDesc value="<%= model.outcomeDesc() %>"/><%- end -%>
+    <%- if (!model.purposeOfEvent().nil? && !model.purposeOfEvent.empty?) -%><%- model.purposeOfEvent().each do |element| -%><%== render :template => 'coding', :locals => {name: 'purposeOfEvent', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

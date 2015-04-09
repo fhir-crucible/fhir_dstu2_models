@@ -1,0 +1,8 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.tooth().nil? -%><%== render :template => 'coding', :locals => {name: 'tooth', model: model.tooth()} %><%- end -%>
+    <%- if !model.reason().nil? -%><%== render :template => 'coding', :locals => {name: 'reason', model: model.reason()} %><%- end -%>
+    <%- if !model.extractionDate().nil? -%><extractionDate value="<%= model.extractionDate().iso8601 %>"/><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

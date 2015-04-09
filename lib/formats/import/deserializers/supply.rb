@@ -14,7 +14,7 @@ module FHIR
                 set_model_data(model, 'suppliedItem', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:suppliedItem')))
                 set_model_data(model, 'supplier', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:supplier')))
                 set_model_data(model, 'whenPrepared', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:whenPrepared')))
-                set_model_data(model, 'whenHandedOver', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:whenHandedOver')))
+                set_model_data(model, 'whenHandedOver', entry.at_xpath('./fhir:whenHandedOver/@value').try(:value))
                 set_model_data(model, 'destination', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:destination')))
                 set_model_data(model, 'receiver', entry.xpath('./fhir:receiver').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 model

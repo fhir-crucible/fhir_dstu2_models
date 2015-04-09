@@ -37,15 +37,17 @@ module FHIR
         
         SEARCH_PARAMS = [
             'subject',
-            'patient'
+            'patient',
+            'device'
             ]
         
         VALID_CODES = {
             priority: [ "routine", "urgent", "stat", "asap" ],
-            status: [ "proposed", "planned", "requested", "received", "accepted", "in progress", "completed", "suspended", "rejected", "aborted" ]
+            status: [ "proposed", "planned", "requested", "received", "accepted", "in-progress", "completed", "suspended", "rejected", "aborted" ]
         }
         
-        embeds_many :bodySite, class_name:'FHIR::CodeableConcept'
+        embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
+        embeds_one :bodySiteReference, class_name:'FHIR::Reference'
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_one :device, class_name:'FHIR::Reference'

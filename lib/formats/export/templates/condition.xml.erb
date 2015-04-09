@@ -5,20 +5,25 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
-    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if !model.asserter().nil? -%><%== render :template => 'reference', :locals => {name: 'asserter', model: model.asserter()} %><%- end -%>
     <%- if !model.dateAsserted().nil? -%><dateAsserted value="<%= model.dateAsserted().iso8601 %>"/><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
     <%- if !model.category().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: model.category()} %><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.certainty().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'certainty', model: model.certainty()} %><%- end -%>
+    <%- if !model.clinicalStatus().nil? -%><clinicalStatus value="<%= model.clinicalStatus() %>"/><%- end -%>
     <%- if !model.severity().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'severity', model: model.severity()} %><%- end -%>
     <%- if !model.onsetDateTime().nil? -%><onsetDateTime value="<%= model.onsetDateTime().iso8601 %>"/><%- end -%>
     <%- if !model.onsetAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'onsetAge', model: model.onsetAge()} %><%- end -%>
+    <%- if !model.onsetPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'onsetPeriod', model: model.onsetPeriod()} %><%- end -%>
+    <%- if !model.onsetRange().nil? -%><%== render :template => 'range', :locals => {name: 'onsetRange', model: model.onsetRange()} %><%- end -%>
+    <%- if !model.onsetString().nil? -%><onsetString value="<%= model.onsetString() %>"/><%- end -%>
     <%- if !model.abatementDate().nil? -%><abatementDate value="<%= model.abatementDate().iso8601 %>"/><%- end -%>
     <%- if !model.abatementAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'abatementAge', model: model.abatementAge()} %><%- end -%>
     <%- if !model.abatementBoolean().nil? -%><abatementBoolean value="<%= model.abatementBoolean() %>"/><%- end -%>
+    <%- if !model.abatementPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'abatementPeriod', model: model.abatementPeriod()} %><%- end -%>
+    <%- if !model.abatementRange().nil? -%><%== render :template => 'range', :locals => {name: 'abatementRange', model: model.abatementRange()} %><%- end -%>
+    <%- if !model.abatementString().nil? -%><abatementString value="<%= model.abatementString() %>"/><%- end -%>
     <%- if !model.stage().nil? -%><%== render :template => 'condition_conditionstagecomponent', :locals => {name: 'stage', model: model.stage()} %><%- end -%>
     <%- if (!model.evidence().nil? && !model.evidence.empty?) -%><%- model.evidence().each do |element| -%><%== render :template => 'condition_conditionevidencecomponent', :locals => {name: 'evidence', model: element} %><%- end -%><%- end -%>
     <%- if (!model.location().nil? && !model.location.empty?) -%><%- model.location().each do |element| -%><%== render :template => 'condition_conditionlocationcomponent', :locals => {name: 'location', model: element} %><%- end -%><%- end -%>

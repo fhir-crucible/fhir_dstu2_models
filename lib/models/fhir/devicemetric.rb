@@ -44,12 +44,13 @@ module FHIR
             ]
         
         VALID_CODES = {
-            operationalState: [ "on", "off", "standby" ],
+            operationalStatus: [ "on", "off", "standby" ],
+            color: [ "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white" ],
             category: [ "measurement", "setting", "calculation", "unspecified" ]
         }
         
-        # This is an ugly hack to deal with embedded structures in the spec calibrationInfo
-        class DeviceMetricCalibrationInfoComponent
+        # This is an ugly hack to deal with embedded structures in the spec calibration
+        class DeviceMetricCalibrationComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
@@ -73,15 +74,15 @@ module FHIR
         embeds_one :unit, class_name:'FHIR::CodeableConcept'
         embeds_one :source, class_name:'FHIR::Reference'
         embeds_one :parent, class_name:'FHIR::Reference'
-        field :operationalState, type: String
-        validates :operationalState, :inclusion => { in: VALID_CODES[:operationalState], :allow_nil => true }
-        embeds_one :measurementMode, class_name:'FHIR::Identifier'
-        embeds_one :color, class_name:'FHIR::Identifier'
+        field :operationalStatus, type: String
+        validates :operationalStatus, :inclusion => { in: VALID_CODES[:operationalStatus], :allow_nil => true }
+        field :color, type: String
+        validates :color, :inclusion => { in: VALID_CODES[:color], :allow_nil => true }
         field :category, type: String
         validates :category, :inclusion => { in: VALID_CODES[:category] }
         validates_presence_of :category
         embeds_one :measurementPeriod, class_name:'FHIR::Timing'
-        embeds_many :calibrationInfo, class_name:'FHIR::DeviceMetric::DeviceMetricCalibrationInfoComponent'
+        embeds_many :calibration, class_name:'FHIR::DeviceMetric::DeviceMetricCalibrationComponent'
         track_history
     end
 end

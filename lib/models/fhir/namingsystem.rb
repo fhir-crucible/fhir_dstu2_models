@@ -36,11 +36,25 @@ module FHIR
         extend FHIR::Deserializer::NamingSystem
         
         SEARCH_PARAMS = [
+            'date',
+            'country',
+            'period',
+            'replacedby',
+            'type',
+            'idtype',
+            'responsible',
+            'contact',
+            'name',
+            'publisher',
+            'telecom',
+            'category',
+            'value',
+            'status'
             ]
         
         VALID_CODES = {
             fhirType: [ "codesystem", "identifier", "root" ],
-            status: [ "proposed", "active", "retired" ]
+            status: [ "draft", "active", "retired" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec uniqueId
@@ -67,7 +81,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :name, class_name:'FHIR::HumanName'
+            field :name, type: String
             embeds_many :telecom, class_name:'FHIR::ContactPoint'
         end
         
@@ -76,6 +90,8 @@ module FHIR
         validates_presence_of :fhirType
         field :name, type: String
         validates_presence_of :name
+        field :date, type: FHIR::PartialDateTime
+        validates_presence_of :date
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
@@ -86,7 +102,8 @@ module FHIR
         field :usage, type: String
         embeds_many :uniqueId, class_name:'FHIR::NamingSystem::NamingSystemUniqueIdComponent'
         validates_presence_of :uniqueId
-        embeds_one :contact, class_name:'FHIR::NamingSystem::NamingSystemContactComponent'
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::NamingSystem::NamingSystemContactComponent'
         embeds_one :replacedBy, class_name:'FHIR::Reference'
         track_history
     end

@@ -37,20 +37,32 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'reference',
             'identifier',
-            'system',
             'code',
-            'name',
-            'publisher',
             'description',
             'version',
+            'url',
+            'expansion',
+            'reference',
+            'system',
+            'name',
+            'context',
+            'publisher',
             'status'
             ]
         
         VALID_CODES = {
             status: [ "draft", "active", "retired" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec contact
+        class ValueSetContactComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :name, type: String
+            embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        end
         
         # This is an ugly hack to deal with embedded structures in the spec designation
         class ConceptDefinitionDesignationComponent
@@ -107,7 +119,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                op: [ "=", "is-a", "is-not-a", "regex", "in", "not in" ]
+                op: [ "=", "is-a", "is-not-a", "regex", "in", "not-in" ]
             }
             
             field :property, type: String
@@ -141,6 +153,21 @@ module FHIR
             embeds_many :exclude, class_name:'FHIR::ValueSet::ConceptSetComponent'
         end
         
+        # This is an ugly hack to deal with embedded structures in the spec parameter
+        class ValueSetExpansionParameterComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :name, type: String
+            validates_presence_of :name
+            field :valueString, type: String
+            field :valueBoolean, type: Boolean
+            field :valueInteger, type: Integer
+            field :valueDecimal, type: Float
+            field :valueUri, type: String
+            field :valueCode, type: String
+        end
+        
         # This is an ugly hack to deal with embedded structures in the spec contains
         class ValueSetExpansionContainsComponent
         include Mongoid::Document
@@ -159,20 +186,24 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :identifier, class_name:'FHIR::Identifier'
+            field :identifier, type: String
+            validates_presence_of :identifier
             field :timestamp, type: FHIR::PartialDateTime
             validates_presence_of :timestamp
+            embeds_many :parameter, class_name:'FHIR::ValueSet::ValueSetExpansionParameterComponent'
             embeds_many :contains, class_name:'FHIR::ValueSet::ValueSetExpansionContainsComponent'
         end
         
-        field :identifier, type: String
+        field :url, type: String
+        embeds_one :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
         field :name, type: String
-        field :purpose, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
         field :immutable, type: Boolean
         field :publisher, type: String
-        embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        embeds_many :contact, class_name:'FHIR::ValueSet::ValueSetContactComponent'
         field :description, type: String
+        field :requirements, type: String
         field :copyright, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
@@ -180,7 +211,7 @@ module FHIR
         field :experimental, type: Boolean
         field :extensible, type: Boolean
         field :date, type: FHIR::PartialDateTime
-        field :stableDate, type: FHIR::PartialDateTime
+        field :lockedDate, type: FHIR::PartialDateTime
         embeds_one :define, class_name:'FHIR::ValueSet::ValueSetDefineComponent'
         embeds_one :compose, class_name:'FHIR::ValueSet::ValueSetComposeComponent'
         embeds_one :expansion, class_name:'FHIR::ValueSet::ValueSetExpansionComponent'

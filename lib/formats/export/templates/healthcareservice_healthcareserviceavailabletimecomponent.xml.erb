@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.daysOfWeek().nil? && !model.daysOfWeek.empty?) -%><%- model.daysOfWeek().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'daysOfWeek', model: element} %><%- end -%><%- end -%>
+    <%- if (model.daysOfWeek() && !model.daysOfWeek.empty?) -%><%- model.daysOfWeek().each do |element| -%><daysOfWeek value="<%= element %>"/><%- end -%><%- end -%>
     <%- if !model.allDay().nil? -%><allDay value="<%= model.allDay() %>"/><%- end -%>
     <%- if !model.availableStartTime().nil? -%><availableStartTime value="<%= model.availableStartTime().iso8601 %>"/><%- end -%>
     <%- if !model.availableEndTime().nil? -%><availableEndTime value="<%= model.availableEndTime().iso8601 %>"/><%- end -%>

@@ -4,6 +4,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%== render :template => 'period', :locals => {name: 'event', model: element} %><%- end -%><%- end -%>
+    <%- if !model.event().nil? -%><event value="<%= model.event().iso8601 %>"/><%- end -%>
     <%- if !model.repeat().nil? -%><%== render :template => 'timing_timingrepeatcomponent', :locals => {name: 'repeat', model: model.repeat()} %><%- end -%>
+    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

@@ -9,7 +9,8 @@
     <%- if !model.issued().nil? -%><issued value="<%= model.issued().iso8601 %>"/><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
-    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if (!model.requestDetail().nil? && !model.requestDetail.empty?) -%><%- model.requestDetail().each do |element| -%><%== render :template => 'reference', :locals => {name: 'requestDetail', model: element} %><%- end -%><%- end -%>
     <%- if !model.serviceCategory().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'serviceCategory', model: model.serviceCategory()} %><%- end -%>
     <%- if !model.diagnosticDateTime().nil? -%><diagnosticDateTime value="<%= model.diagnosticDateTime().iso8601 %>"/><%- end -%>

@@ -4,7 +4,8 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if (!model.bodySite().nil? && !model.bodySite.empty?) -%><%- model.bodySite().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySite', model: element} %><%- end -%><%- end -%>
+    <%- if !model.bodySiteCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySiteCodeableConcept', model: model.bodySiteCodeableConcept()} %><%- end -%>
+    <%- if !model.bodySiteReference().nil? -%><%== render :template => 'reference', :locals => {name: 'bodySiteReference', model: model.bodySiteReference()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.device().nil? -%><%== render :template => 'reference', :locals => {name: 'device', model: model.device()} %><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>

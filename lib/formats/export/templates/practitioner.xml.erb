@@ -11,11 +11,7 @@
     <%- if !model.gender().nil? -%><gender value="<%= model.gender() %>"/><%- end -%>
     <%- if !model.birthDate().nil? -%><birthDate value="<%= model.birthDate().iso8601 %>"/><%- end -%>
     <%- if (!model.photo().nil? && !model.photo.empty?) -%><%- model.photo().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'photo', model: element} %><%- end -%><%- end -%>
-    <%- if !model.organization().nil? -%><%== render :template => 'reference', :locals => {name: 'organization', model: model.organization()} %><%- end -%>
-    <%- if (!model.role().nil? && !model.role.empty?) -%><%- model.role().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'role', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.specialty().nil? && !model.specialty.empty?) -%><%- model.specialty().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'specialty', model: element} %><%- end -%><%- end -%>
-    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
-    <%- if (!model.location().nil? && !model.location.empty?) -%><%- model.location().each do |element| -%><%== render :template => 'reference', :locals => {name: 'location', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.practitionerRole().nil? && !model.practitionerRole.empty?) -%><%- model.practitionerRole().each do |element| -%><%== render :template => 'practitioner_practitionerpractitionerrolecomponent', :locals => {name: 'practitionerRole', model: element} %><%- end -%><%- end -%>
     <%- if (!model.qualification().nil? && !model.qualification.empty?) -%><%- model.qualification().each do |element| -%><%== render :template => 'practitioner_practitionerqualificationcomponent', :locals => {name: 'qualification', model: element} %><%- end -%><%- end -%>
     <%- if (!model.communication().nil? && !model.communication.empty?) -%><%- model.communication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'communication', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

@@ -36,6 +36,7 @@ module FHIR
         extend FHIR::Deserializer::Provenance
         
         SEARCH_PARAMS = [
+            'sigtype',
             'patient',
             'start',
             'end',
@@ -53,8 +54,8 @@ module FHIR
             validates_presence_of :role
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
-            field :reference, type: String
-            validates_presence_of :reference
+            field :referenceUri, type: String
+            embeds_one :referenceReference, class_name:'FHIR::Reference'
             field :display, type: String
         end
         
@@ -89,7 +90,7 @@ module FHIR
         field :policy, type: Array # Array of Strings
         embeds_many :agent, class_name:'FHIR::Provenance::ProvenanceAgentComponent'
         embeds_many :entity, class_name:'FHIR::Provenance::ProvenanceEntityComponent'
-        field :integritySignature, type: String
+        embeds_many :signature, class_name:'FHIR::Signature'
         track_history
     end
 end

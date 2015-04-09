@@ -9,5 +9,4 @@
     <%- if !model.actor().nil? -%><%== render :template => 'reference', :locals => {name: 'actor', model: model.actor()} %><%- end -%>
     <%- if !model.planningHorizon().nil? -%><%== render :template => 'period', :locals => {name: 'planningHorizon', model: model.planningHorizon()} %><%- end -%>
     <%- if !model.comment().nil? -%><comment value="<%= model.comment() %>"/><%- end -%>
-    <%- if !model.lastModified().nil? -%><lastModified value="<%= model.lastModified().iso8601 %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

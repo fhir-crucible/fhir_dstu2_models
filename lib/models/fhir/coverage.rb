@@ -46,14 +46,16 @@ module FHIR
             'group'
             ]
         embeds_one :issuer, class_name:'FHIR::Reference'
+        embeds_one :bin, class_name:'FHIR::Identifier'
         embeds_one :period, class_name:'FHIR::Period'
         embeds_one :fhirType, class_name:'FHIR::Coding'
+        embeds_one :subscriberId, class_name:'FHIR::Identifier'
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :group, type: String
         field :plan, type: String
-        field :subplan, type: String
-        field :dependent, type: Integer
-        field :sequence, type: Integer
+        field :subPlan, type: String
+        embeds_one :dependent, class_name:'FHIR::positiveInt'
+        embeds_one :sequence, class_name:'FHIR::positiveInt'
         embeds_one :subscriber, class_name:'FHIR::Reference'
         embeds_one :network, class_name:'FHIR::Identifier'
         embeds_many :contract, class_name:'FHIR::Reference'

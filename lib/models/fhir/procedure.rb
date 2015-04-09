@@ -37,9 +37,28 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
+            'performer',
             'patient',
+            'location',
+            'encounter',
             'type'
             ]
+        
+        VALID_CODES = {
+            status: [ "in-progress", "aborted", "completed", "entered-in-error" ]
+        }
+        
+        # This is an ugly hack to deal with embedded structures in the spec bodySite
+        class ProcedureBodySiteComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :siteCodeableConcept
+            embeds_one :siteReference, class_name:'FHIR::Reference'
+            validates_presence_of :siteReference
+        end
+        
         # This is an ugly hack to deal with embedded structures in the spec performer
         class ProcedurePerformerComponent
         include Mongoid::Document
@@ -64,22 +83,40 @@ module FHIR
             embeds_one :target, class_name:'FHIR::Reference'
         end
         
+        # This is an ugly hack to deal with embedded structures in the spec device
+        class ProcedureDeviceComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :action, class_name:'FHIR::CodeableConcept'
+            embeds_one :manipulated, class_name:'FHIR::Reference'
+            validates_presence_of :manipulated
+        end
+        
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
+        validates_presence_of :status
+        embeds_one :category, class_name:'FHIR::CodeableConcept'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         validates_presence_of :fhirType
-        embeds_many :bodySite, class_name:'FHIR::CodeableConcept'
+        embeds_many :bodySite, class_name:'FHIR::Procedure::ProcedureBodySiteComponent'
         embeds_many :indication, class_name:'FHIR::CodeableConcept'
         embeds_many :performer, class_name:'FHIR::Procedure::ProcedurePerformerComponent'
-        embeds_one :date, class_name:'FHIR::Period'
+        field :performedDateTime, type: FHIR::PartialDateTime
+        embeds_one :performedPeriod, class_name:'FHIR::Period'
         embeds_one :encounter, class_name:'FHIR::Reference'
-        field :outcome, type: String
+        embeds_one :location, class_name:'FHIR::Reference'
+        embeds_one :outcome, class_name:'FHIR::CodeableConcept'
         embeds_many :report, class_name:'FHIR::Reference'
         embeds_many :complication, class_name:'FHIR::CodeableConcept'
-        field :followUp, type: String
+        embeds_many :followUp, class_name:'FHIR::CodeableConcept'
         embeds_many :relatedItem, class_name:'FHIR::Procedure::ProcedureRelatedItemComponent'
         field :notes, type: String
+        embeds_many :device, class_name:'FHIR::Procedure::ProcedureDeviceComponent'
+        embeds_many :used, class_name:'FHIR::Reference'
         track_history
     end
 end

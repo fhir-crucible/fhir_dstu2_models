@@ -10,7 +10,7 @@
     <%- if !model.who().nil? -%><%== render :template => 'reference', :locals => {name: 'who', model: model.who()} %><%- end -%>
     <%- if !model.authorityCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'authorityCodeableConcept', model: model.authorityCodeableConcept()} %><%- end -%>
     <%- if !model.authorityReference().nil? -%><%== render :template => 'reference', :locals => {name: 'authorityReference', model: model.authorityReference()} %><%- end -%>
-    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
+    <%- if !model.orderStatus().nil? -%><orderStatus value="<%= model.orderStatus() %>"/><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if (!model.fulfillment().nil? && !model.fulfillment.empty?) -%><%- model.fulfillment().each do |element| -%><%== render :template => 'reference', :locals => {name: 'fulfillment', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

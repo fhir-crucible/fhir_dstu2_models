@@ -37,7 +37,6 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'identifier',
             'software',
             'resource',
             'profile',
@@ -45,6 +44,7 @@ module FHIR
             'description',
             'fhirversion',
             'version',
+            'url',
             'supported-profile',
             'mode',
             'security',
@@ -57,6 +57,15 @@ module FHIR
         VALID_CODES = {
             status: [ "draft", "active", "retired" ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec contact
+        class ConformanceContactComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :name, type: String
+            embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        end
         
         # This is an ugly hack to deal with embedded structures in the spec software
         class ConformanceSoftwareComponent
@@ -127,8 +136,8 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "number", "date", "string", "token", "reference", "composite", "quantity" ],
-                target: [ "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ]
+                fhirType: [ "number", "date", "string", "token", "reference", "composite", "quantity", "uri" ],
+                target: [ "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ]
             }
             
             field :name, type: String
@@ -151,7 +160,7 @@ module FHIR
             
             VALID_CODES = {
                 versioning: [ "no-version", "versioned", "versioned-update" ],
-                fhirType: [ "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ]
+                fhirType: [ "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ]
             }
             
             field :fhirType, type: String
@@ -164,6 +173,9 @@ module FHIR
             validates :versioning, :inclusion => { in: VALID_CODES[:versioning], :allow_nil => true }
             field :readHistory, type: Boolean
             field :updateCreate, type: Boolean
+            field :conditionalCreate, type: Boolean
+            field :conditionalUpdate, type: Boolean
+            field :conditionalDelete, type: Boolean
             field :searchInclude, type: Array # Array of Strings
             embeds_many :searchParam, class_name:'FHIR::Conformance::ConformanceRestResourceSearchParamComponent'
         end
@@ -215,6 +227,7 @@ module FHIR
             embeds_many :interaction, class_name:'FHIR::Conformance::SystemInteractionComponent'
             embeds_many :operation, class_name:'FHIR::Conformance::ConformanceRestOperationComponent'
             field :documentMailbox, type: Array # Array of Strings
+            field :compartment, type: Array # Array of Strings
         end
         
         # This is an ugly hack to deal with embedded structures in the spec event
@@ -226,8 +239,8 @@ module FHIR
             VALID_CODES = {
                 mode: [ "sender", "receiver" ],
                 protocol: [ "http", "ftp", "mllp" ],
-                code: [ "MedicationAdministration-Complete", "MedicationAdministration-Nullification", "MedicationAdministration-Recording", "MedicationAdministration-Update", "admin-notify", "conceptmap-translate", "diagnosticreport-provide", "observation-provide", "patient-link", "patient-unlink", "valueset-expand", "valueset-validate" ],
-                focus: [ "Alert", "AllergyIntolerance", "Appointment", "AppointmentResponse", "Basic", "Binary", "Bundle", "CarePlan", "CarePlan2", "ClaimResponse", "ClinicalAssessment", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "ExtensionDefinition", "FamilyHistory", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "InstitutionalClaim", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "OralHealthClaim", "Order", "OrderResponse", "Organization", "Other", "Patient", "PaymentNotice", "PaymentReconciliation", "PendedRequest", "Person", "PharmacyClaim", "Practitioner", "Procedure", "ProcedureRequest", "ProfessionalClaim", "Profile", "Provenance", "Questionnaire", "QuestionnaireAnswers", "Readjudicate", "ReferralRequest", "RelatedPerson", "Reversal", "RiskAssessment", "Schedule", "SearchParameter", "SecurityEvent", "Slot", "Specimen", "StatusRequest", "StatusResponse", "Subscription", "Substance", "Supply", "SupportingDocumentation", "TestScript", "ValueSet", "VisionClaim", "VisionPrescription" ],
+                code: [ "MedicationAdministration-Complete", "MedicationAdministration-Nullification", "MedicationAdministration-Recording", "MedicationAdministration-Update", "admin-notify", "diagnosticreport-provide", "observation-provide", "patient-link", "patient-unlink", "valueset-expand" ],
+                focus: [ "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ],
                 category: [ "Consequence", "Currency", "Notification" ]
             }
             
@@ -255,7 +268,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :endpoint, type: String
-            field :reliableCache, type: Integer
+            embeds_one :reliableCache, class_name:'FHIR::unsignedInt'
             field :documentation, type: String
             embeds_many :event, class_name:'FHIR::Conformance::ConformanceMessagingEventComponent'
             validates_presence_of :event
@@ -279,13 +292,14 @@ module FHIR
             validates_presence_of :profile
         end
         
-        field :identifier, type: String
+        field :url, type: String
         field :versionNum, type: String
         field :name, type: String
         field :publisher, type: String
-        validates_presence_of :publisher
-        embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        embeds_many :contact, class_name:'FHIR::Conformance::ConformanceContactComponent'
         field :description, type: String
+        field :requirements, type: String
+        field :copyright, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :experimental, type: Boolean
