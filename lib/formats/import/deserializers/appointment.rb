@@ -23,7 +23,7 @@ module FHIR
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'reason', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:reason')))
-                set_model_data(model, 'priority', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:priority')))
+                set_model_data(model, 'priority', entry.at_xpath('./fhir:priority/@value').try(:value))
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
                 set_model_data(model, 'start', parse_date_time(entry.at_xpath('./fhir:start/@value').try(:value)))
                 set_model_data(model, 'end', parse_date_time(entry.at_xpath('./fhir:end/@value').try(:value)))

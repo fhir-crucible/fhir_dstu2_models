@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -73,7 +73,7 @@ module FHIR
         include FHIR::Formats::Utilities
             field :name, type: String
             validates_presence_of :name
-            embeds_one :min, class_name:'FHIR::unsignedInt'
+            field :min, type: Integer
             validates_presence_of :min
             field :max, type: String
             validates_presence_of :max

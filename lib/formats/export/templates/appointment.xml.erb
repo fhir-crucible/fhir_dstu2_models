@@ -8,7 +8,7 @@
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
     <%- if !model.reason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: model.reason()} %><%- end -%>
-    <%- if !model.priority().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'priority', model: model.priority()} %><%- end -%>
+    <%- if !model.priority().nil? -%><priority value="<%= model.priority() %>"/><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if !model.start().nil? -%><start value="<%= model.start().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
     <%- if !model.end().nil? -%><end value="<%= model.end().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>

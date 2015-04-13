@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -38,7 +38,7 @@ module FHIR
         field :language, type: String
         field :data, type: Moped::BSON::Binary
         field :url, type: String
-        embeds_one :size, class_name:'FHIR::unsignedInt'
+        field :size, type: Integer
         field :fhirHash, type: Moped::BSON::Binary
         field :title, type: String
         field :creation, type: FHIR::PartialDateTime

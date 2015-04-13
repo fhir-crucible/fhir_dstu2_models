@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.sequence().nil? -%><%== render :template => 'positiveint', :locals => {name: 'sequence', model: model.sequence()} %><%- end -%>
+    <%- if !model.sequence().nil? -%><sequence value="<%= model.sequence() %>"/><%- end -%>
     <%- if !model.focal().nil? -%><focal value="<%= model.focal() %>"/><%- end -%>
     <%- if !model.coverage().nil? -%><%== render :template => 'reference', :locals => {name: 'coverage', model: model.coverage()} %><%- end -%>
     <%- if !model.businessArrangement().nil? -%><businessArrangement value="<%= model.businessArrangement() %>"/><%- end -%>

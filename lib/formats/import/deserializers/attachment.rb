@@ -11,7 +11,7 @@ module FHIR
                 set_model_data(model, 'language', entry.at_xpath('./fhir:language/@value').try(:value))
                 set_model_data(model, 'data', entry.at_xpath('./fhir:data/@value').try(:value))
                 set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'size', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:size')))
+                set_model_data(model, 'size', entry.at_xpath('./fhir:size/@value').try(:value))
                 set_model_data(model, 'fhirHash', entry.at_xpath('./fhir:hash/@value').try(:value))
                 set_model_data(model, 'title', entry.at_xpath('./fhir:title/@value').try(:value))
                 set_model_data(model, 'creation', entry.at_xpath('./fhir:creation/@value').try(:value))

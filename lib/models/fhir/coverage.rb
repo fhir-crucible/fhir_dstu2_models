@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -54,8 +54,8 @@ module FHIR
         field :group, type: String
         field :plan, type: String
         field :subPlan, type: String
-        embeds_one :dependent, class_name:'FHIR::positiveInt'
-        embeds_one :sequence, class_name:'FHIR::positiveInt'
+        field :dependent, type: Integer
+        field :sequence, type: Integer
         embeds_one :subscriber, class_name:'FHIR::Reference'
         embeds_one :network, class_name:'FHIR::Identifier'
         embeds_many :contract, class_name:'FHIR::Reference'

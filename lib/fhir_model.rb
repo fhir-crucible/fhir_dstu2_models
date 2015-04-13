@@ -45,6 +45,5 @@ require_relative File.join(root, 'lib','models','extensions','resource.rb')
 Dir.glob(File.join(root, 'lib','models','**','*.rb')).each do |file|
   require file
 end
-require_relative File.join(root, 'lib','models','profiles','profile.rb')
 require_relative File.join('..','config','initializers','mongoid_history.rb')
 require_relative File.join('..','config','initializers','mongo.rb')

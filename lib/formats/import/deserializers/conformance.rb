@@ -144,7 +144,7 @@ module FHIR
                 model = FHIR::Conformance::ConformanceMessagingComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'endpoint', entry.at_xpath('./fhir:endpoint/@value').try(:value))
-                set_model_data(model, 'reliableCache', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:reliableCache')))
+                set_model_data(model, 'reliableCache', entry.at_xpath('./fhir:reliableCache/@value').try(:value))
                 set_model_data(model, 'documentation', entry.at_xpath('./fhir:documentation/@value').try(:value))
                 set_model_data(model, 'event', entry.xpath('./fhir:event').map {|e| parse_xml_entry_ConformanceMessagingEventComponent(e)})
                 model

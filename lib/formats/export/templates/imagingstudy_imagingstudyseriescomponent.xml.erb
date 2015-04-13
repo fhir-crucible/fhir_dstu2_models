@@ -2,11 +2,11 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.number().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'number', model: model.number()} %><%- end -%>
+    <%- if !model.number().nil? -%><number value="<%= model.number() %>"/><%- end -%>
     <%- if !model.modality().nil? -%><modality value="<%= model.modality() %>"/><%- end -%>
     <%- if !model.uid().nil? -%><uid value="<%= model.uid() %>"/><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
-    <%- if !model.numberOfInstances().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'numberOfInstances', model: model.numberOfInstances()} %><%- end -%>
+    <%- if !model.numberOfInstances().nil? -%><numberOfInstances value="<%= model.numberOfInstances() %>"/><%- end -%>
     <%- if !model.availability().nil? -%><availability value="<%= model.availability() %>"/><%- end -%>
     <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
     <%- if !model.bodySite().nil? -%><%== render :template => 'coding', :locals => {name: 'bodySite', model: model.bodySite()} %><%- end -%>

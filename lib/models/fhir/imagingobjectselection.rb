@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -53,7 +53,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :frameNumbers, class_name:'FHIR::unsignedInt'
+            field :frameNumbers, type: Array # Array of Integers
             validates_presence_of :frameNumbers
             field :url, type: String
             validates_presence_of :url

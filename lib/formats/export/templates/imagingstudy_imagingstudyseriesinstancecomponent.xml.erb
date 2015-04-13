@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.number().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'number', model: model.number()} %><%- end -%>
+    <%- if !model.number().nil? -%><number value="<%= model.number() %>"/><%- end -%>
     <%- if !model.uid().nil? -%><uid value="<%= model.uid() %>"/><%- end -%>
     <%- if !model.sopclass().nil? -%><sopclass value="<%= model.sopclass() %>"/><%- end -%>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>

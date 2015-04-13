@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -41,7 +41,7 @@ module FHIR
         field :factor, type: Float
         field :lowerLimit, type: Float
         field :upperLimit, type: Float
-        embeds_one :dimensions, class_name:'FHIR::positiveInt'
+        field :dimensions, type: Integer
         validates_presence_of :dimensions
         field :data, type: String
         validates_presence_of :data

@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -123,7 +123,7 @@ module FHIR
         validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         field :base, type: String
-        embeds_one :total, class_name:'FHIR::unsignedInt'
+        field :total, type: Integer
         embeds_many :link, class_name:'FHIR::Bundle::BundleLinkComponent'
         embeds_many :entry, class_name:'FHIR::Bundle::BundleEntryComponent'
         field :signature, type: Moped::BSON::Binary

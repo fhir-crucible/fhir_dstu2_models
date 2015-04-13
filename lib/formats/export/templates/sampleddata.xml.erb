@@ -9,6 +9,6 @@
     <%- if !model.factor().nil? -%><factor value="<%= model.factor() %>"/><%- end -%>
     <%- if !model.lowerLimit().nil? -%><lowerLimit value="<%= model.lowerLimit() %>"/><%- end -%>
     <%- if !model.upperLimit().nil? -%><upperLimit value="<%= model.upperLimit() %>"/><%- end -%>
-    <%- if !model.dimensions().nil? -%><%== render :template => 'positiveint', :locals => {name: 'dimensions', model: model.dimensions()} %><%- end -%>
+    <%- if !model.dimensions().nil? -%><dimensions value="<%= model.dimensions() %>"/><%- end -%>
     <%- if !model.data().nil? -%><data value="<%= model.data() %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

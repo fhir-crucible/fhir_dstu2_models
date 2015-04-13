@@ -18,7 +18,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Claim::DiagnosisComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequence')))
+                set_model_data(model, 'sequence', entry.at_xpath('./fhir:sequence/@value').try(:value))
                 set_model_data(model, 'diagnosis', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:diagnosis')))
                 model
             end
@@ -27,7 +27,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Claim::CoverageComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequence')))
+                set_model_data(model, 'sequence', entry.at_xpath('./fhir:sequence/@value').try(:value))
                 set_model_data(model, 'focal', entry.at_xpath('./fhir:focal/@value').try(:value))
                 set_model_data(model, 'coverage', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:coverage')))
                 set_model_data(model, 'businessArrangement', entry.at_xpath('./fhir:businessArrangement/@value').try(:value))
@@ -42,7 +42,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Claim::SubDetailComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequence')))
+                set_model_data(model, 'sequence', entry.at_xpath('./fhir:sequence/@value').try(:value))
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'service', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:service')))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
@@ -58,7 +58,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Claim::DetailComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequence')))
+                set_model_data(model, 'sequence', entry.at_xpath('./fhir:sequence/@value').try(:value))
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'service', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:service')))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
@@ -85,10 +85,10 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Claim::ItemsComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequence')))
+                set_model_data(model, 'sequence', entry.at_xpath('./fhir:sequence/@value').try(:value))
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'provider', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:provider')))
-                set_model_data(model, 'diagnosisLinkId', entry.xpath('./fhir:diagnosisLinkId').map {|e| FHIR::positiveInt.parse_xml_entry(e)})
+                set_model_data(model, 'diagnosisLinkId', entry.xpath('./fhir:diagnosisLinkId/@value').map {|e| e.value })
                 set_model_data(model, 'service', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:service')))
                 set_model_data(model, 'serviceDate', entry.at_xpath('./fhir:serviceDate/@value').try(:value))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))

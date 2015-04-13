@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -268,7 +268,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :endpoint, type: String
-            embeds_one :reliableCache, class_name:'FHIR::unsignedInt'
+            field :reliableCache, type: Integer
             field :documentation, type: String
             embeds_many :event, class_name:'FHIR::Conformance::ConformanceMessagingEventComponent'
             validates_presence_of :event

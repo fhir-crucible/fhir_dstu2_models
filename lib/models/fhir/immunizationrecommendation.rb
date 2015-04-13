@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -78,7 +78,7 @@ module FHIR
             validates_presence_of :date
             embeds_one :vaccineType, class_name:'FHIR::CodeableConcept'
             validates_presence_of :vaccineType
-            embeds_one :doseNumber, class_name:'FHIR::positiveInt'
+            field :doseNumber, type: Integer
             embeds_one :forecastStatus, class_name:'FHIR::CodeableConcept'
             validates_presence_of :forecastStatus
             embeds_many :dateCriterion, class_name:'FHIR::ImmunizationRecommendation::ImmunizationRecommendationRecommendationDateCriterionComponent'

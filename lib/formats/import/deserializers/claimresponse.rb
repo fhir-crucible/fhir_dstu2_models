@@ -37,7 +37,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::SubDetailComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequenceLinkId', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequenceLinkId')))
+                set_model_data(model, 'sequenceLinkId', entry.at_xpath('./fhir:sequenceLinkId/@value').try(:value))
                 set_model_data(model, 'adjudication', entry.xpath('./fhir:adjudication').map {|e| parse_xml_entry_SubdetailAdjudicationComponent(e)})
                 model
             end
@@ -46,7 +46,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::ItemDetailComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequenceLinkId', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequenceLinkId')))
+                set_model_data(model, 'sequenceLinkId', entry.at_xpath('./fhir:sequenceLinkId/@value').try(:value))
                 set_model_data(model, 'adjudication', entry.xpath('./fhir:adjudication').map {|e| parse_xml_entry_DetailAdjudicationComponent(e)})
                 set_model_data(model, 'subDetail', entry.xpath('./fhir:subDetail').map {|e| parse_xml_entry_SubDetailComponent(e)})
                 model
@@ -56,8 +56,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::ItemsComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequenceLinkId', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequenceLinkId')))
-                set_model_data(model, 'noteNumber', entry.xpath('./fhir:noteNumber').map {|e| FHIR::positiveInt.parse_xml_entry(e)})
+                set_model_data(model, 'sequenceLinkId', entry.at_xpath('./fhir:sequenceLinkId/@value').try(:value))
+                set_model_data(model, 'noteNumber', entry.xpath('./fhir:noteNumber/@value').map {|e| e.value })
                 set_model_data(model, 'adjudication', entry.xpath('./fhir:adjudication').map {|e| parse_xml_entry_ItemAdjudicationComponent(e)})
                 set_model_data(model, 'detail', entry.xpath('./fhir:detail').map {|e| parse_xml_entry_ItemDetailComponent(e)})
                 model
@@ -97,10 +97,10 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::AddedItemComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequenceLinkId', entry.xpath('./fhir:sequenceLinkId').map {|e| FHIR::positiveInt.parse_xml_entry(e)})
+                set_model_data(model, 'sequenceLinkId', entry.xpath('./fhir:sequenceLinkId/@value').map {|e| e.value })
                 set_model_data(model, 'service', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:service')))
                 set_model_data(model, 'fee', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:fee')))
-                set_model_data(model, 'noteNumberLinkId', entry.xpath('./fhir:noteNumberLinkId').map {|e| FHIR::positiveInt.parse_xml_entry(e)})
+                set_model_data(model, 'noteNumberLinkId', entry.xpath('./fhir:noteNumberLinkId/@value').map {|e| e.value })
                 set_model_data(model, 'adjudication', entry.xpath('./fhir:adjudication').map {|e| parse_xml_entry_AddedItemAdjudicationComponent(e)})
                 set_model_data(model, 'detail', entry.xpath('./fhir:detail').map {|e| parse_xml_entry_AddedItemsDetailComponent(e)})
                 model
@@ -110,9 +110,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::ErrorsComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequenceLinkId', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequenceLinkId')))
-                set_model_data(model, 'detailSequenceLinkId', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:detailSequenceLinkId')))
-                set_model_data(model, 'subdetailSequenceLinkId', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:subdetailSequenceLinkId')))
+                set_model_data(model, 'sequenceLinkId', entry.at_xpath('./fhir:sequenceLinkId/@value').try(:value))
+                set_model_data(model, 'detailSequenceLinkId', entry.at_xpath('./fhir:detailSequenceLinkId/@value').try(:value))
+                set_model_data(model, 'subdetailSequenceLinkId', entry.at_xpath('./fhir:subdetailSequenceLinkId/@value').try(:value))
                 set_model_data(model, 'code', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:code')))
                 model
             end
@@ -121,7 +121,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::NotesComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'number', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:number')))
+                set_model_data(model, 'number', entry.at_xpath('./fhir:number/@value').try(:value))
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'text', entry.at_xpath('./fhir:text/@value').try(:value))
                 model
@@ -131,7 +131,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ClaimResponse::CoverageComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:sequence')))
+                set_model_data(model, 'sequence', entry.at_xpath('./fhir:sequence/@value').try(:value))
                 set_model_data(model, 'focal', entry.at_xpath('./fhir:focal/@value').try(:value))
                 set_model_data(model, 'coverage', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:coverage')))
                 set_model_data(model, 'businessArrangement', entry.at_xpath('./fhir:businessArrangement/@value').try(:value))

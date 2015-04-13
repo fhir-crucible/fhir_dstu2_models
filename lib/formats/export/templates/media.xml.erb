@@ -11,9 +11,9 @@
     <%- if !model.operator().nil? -%><%== render :template => 'reference', :locals => {name: 'operator', model: model.operator()} %><%- end -%>
     <%- if !model.view().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'view', model: model.view()} %><%- end -%>
     <%- if !model.deviceName().nil? -%><deviceName value="<%= model.deviceName() %>"/><%- end -%>
-    <%- if !model.height().nil? -%><%== render :template => 'positiveint', :locals => {name: 'height', model: model.height()} %><%- end -%>
-    <%- if !model.width().nil? -%><%== render :template => 'positiveint', :locals => {name: 'width', model: model.width()} %><%- end -%>
-    <%- if !model.frames().nil? -%><%== render :template => 'positiveint', :locals => {name: 'frames', model: model.frames()} %><%- end -%>
-    <%- if !model.duration().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'duration', model: model.duration()} %><%- end -%>
+    <%- if !model.height().nil? -%><height value="<%= model.height() %>"/><%- end -%>
+    <%- if !model.width().nil? -%><width value="<%= model.width() %>"/><%- end -%>
+    <%- if !model.frames().nil? -%><frames value="<%= model.frames() %>"/><%- end -%>
+    <%- if !model.duration().nil? -%><duration value="<%= model.duration() %>"/><%- end -%>
     <%- if !model.content().nil? -%><%== render :template => 'attachment', :locals => {name: 'content', model: model.content()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

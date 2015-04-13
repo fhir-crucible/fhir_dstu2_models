@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -77,7 +77,7 @@ module FHIR
         include FHIR::Formats::Utilities
             embeds_one :medication, class_name:'FHIR::Reference'
             embeds_one :validityPeriod, class_name:'FHIR::Period'
-            embeds_one :numberOfRepeatsAllowed, class_name:'FHIR::positiveInt'
+            field :numberOfRepeatsAllowed, type: Integer
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :expectedSupplyDuration, class_name:'FHIR::Quantity'
         end

@@ -8,7 +8,7 @@
     <%- if !model.language().nil? -%><language value="<%= model.language() %>"/><%- end -%>
     <%- if !model.data().nil? -%><data value="<%= model.data() %>"/><%- end -%>
     <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
-    <%- if !model.size().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'size', model: model.size()} %><%- end -%>
+    <%- if !model.size().nil? -%><size value="<%= model.size() %>"/><%- end -%>
     <%- if !model.fhirHash().nil? -%><hash value="<%= model.fhirHash() %>"/><%- end -%>
     <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
     <%- if !model.creation().nil? -%><creation value="<%= model.creation().iso8601 %>"/><%- end -%>

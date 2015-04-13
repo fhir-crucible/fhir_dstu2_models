@@ -17,7 +17,7 @@ module FHIR
                 model = FHIR::OperationDefinition::OperationDefinitionParameterPartComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'min', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:min')))
+                set_model_data(model, 'min', entry.at_xpath('./fhir:min/@value').try(:value))
                 set_model_data(model, 'max', entry.at_xpath('./fhir:max/@value').try(:value))
                 set_model_data(model, 'documentation', entry.at_xpath('./fhir:documentation/@value').try(:value))
                 set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))

@@ -26,11 +26,11 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Immunization::ImmunizationVaccinationProtocolComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'doseSequence', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:doseSequence')))
+                set_model_data(model, 'doseSequence', entry.at_xpath('./fhir:doseSequence/@value').try(:value))
                 set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
                 set_model_data(model, 'authority', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:authority')))
                 set_model_data(model, 'series', entry.at_xpath('./fhir:series/@value').try(:value))
-                set_model_data(model, 'seriesDoses', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:seriesDoses')))
+                set_model_data(model, 'seriesDoses', entry.at_xpath('./fhir:seriesDoses/@value').try(:value))
                 set_model_data(model, 'doseTarget', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:doseTarget')))
                 set_model_data(model, 'doseStatus', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:doseStatus')))
                 set_model_data(model, 'doseStatusReason', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:doseStatusReason')))

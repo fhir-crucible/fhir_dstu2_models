@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -59,10 +59,10 @@ module FHIR
         embeds_one :operator, class_name:'FHIR::Reference'
         embeds_one :view, class_name:'FHIR::CodeableConcept'
         field :deviceName, type: String
-        embeds_one :height, class_name:'FHIR::positiveInt'
-        embeds_one :width, class_name:'FHIR::positiveInt'
-        embeds_one :frames, class_name:'FHIR::positiveInt'
-        embeds_one :duration, class_name:'FHIR::unsignedInt'
+        field :height, type: Integer
+        field :width, type: Integer
+        field :frames, type: Integer
+        field :duration, type: Integer
         embeds_one :content, class_name:'FHIR::Attachment'
         validates_presence_of :content
         track_history

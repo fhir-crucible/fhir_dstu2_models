@@ -14,8 +14,8 @@
     <%- if !model.referrer().nil? -%><%== render :template => 'reference', :locals => {name: 'referrer', model: model.referrer()} %><%- end -%>
     <%- if !model.availability().nil? -%><availability value="<%= model.availability() %>"/><%- end -%>
     <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
-    <%- if !model.numberOfSeries().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'numberOfSeries', model: model.numberOfSeries()} %><%- end -%>
-    <%- if !model.numberOfInstances().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'numberOfInstances', model: model.numberOfInstances()} %><%- end -%>
+    <%- if !model.numberOfSeries().nil? -%><numberOfSeries value="<%= model.numberOfSeries() %>"/><%- end -%>
+    <%- if !model.numberOfInstances().nil? -%><numberOfInstances value="<%= model.numberOfInstances() %>"/><%- end -%>
     <%- if !model.clinicalInformation().nil? -%><clinicalInformation value="<%= model.clinicalInformation() %>"/><%- end -%>
     <%- if (!model.procedure().nil? && !model.procedure.empty?) -%><%- model.procedure().each do |element| -%><%== render :template => 'coding', :locals => {name: 'procedure', model: element} %><%- end -%><%- end -%>
     <%- if !model.interpreter().nil? -%><%== render :template => 'reference', :locals => {name: 'interpreter', model: model.interpreter()} %><%- end -%>

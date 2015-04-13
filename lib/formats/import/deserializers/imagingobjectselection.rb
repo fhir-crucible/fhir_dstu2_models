@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ImagingObjectSelection::FramesComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'frameNumbers', entry.xpath('./fhir:frameNumbers').map {|e| FHIR::unsignedInt.parse_xml_entry(e)})
+                set_model_data(model, 'frameNumbers', entry.xpath('./fhir:frameNumbers/@value').map {|e| e.value })
                 set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
                 model
             end

@@ -13,8 +13,8 @@
     <%- if !model.group().nil? -%><group value="<%= model.group() %>"/><%- end -%>
     <%- if !model.plan().nil? -%><plan value="<%= model.plan() %>"/><%- end -%>
     <%- if !model.subPlan().nil? -%><subPlan value="<%= model.subPlan() %>"/><%- end -%>
-    <%- if !model.dependent().nil? -%><%== render :template => 'positiveint', :locals => {name: 'dependent', model: model.dependent()} %><%- end -%>
-    <%- if !model.sequence().nil? -%><%== render :template => 'positiveint', :locals => {name: 'sequence', model: model.sequence()} %><%- end -%>
+    <%- if !model.dependent().nil? -%><dependent value="<%= model.dependent() %>"/><%- end -%>
+    <%- if !model.sequence().nil? -%><sequence value="<%= model.sequence() %>"/><%- end -%>
     <%- if !model.subscriber().nil? -%><%== render :template => 'reference', :locals => {name: 'subscriber', model: model.subscriber()} %><%- end -%>
     <%- if !model.network().nil? -%><%== render :template => 'identifier', :locals => {name: 'network', model: model.network()} %><%- end -%>
     <%- if (!model.contract().nil? && !model.contract.empty?) -%><%- model.contract().each do |element| -%><%== render :template => 'reference', :locals => {name: 'contract', model: element} %><%- end -%><%- end -%>

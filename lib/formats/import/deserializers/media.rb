@@ -15,10 +15,10 @@ module FHIR
                 set_model_data(model, 'operator', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:operator')))
                 set_model_data(model, 'view', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:view')))
                 set_model_data(model, 'deviceName', entry.at_xpath('./fhir:deviceName/@value').try(:value))
-                set_model_data(model, 'height', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:height')))
-                set_model_data(model, 'width', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:width')))
-                set_model_data(model, 'frames', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:frames')))
-                set_model_data(model, 'duration', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:duration')))
+                set_model_data(model, 'height', entry.at_xpath('./fhir:height/@value').try(:value))
+                set_model_data(model, 'width', entry.at_xpath('./fhir:width/@value').try(:value))
+                set_model_data(model, 'frames', entry.at_xpath('./fhir:frames/@value').try(:value))
+                set_model_data(model, 'duration', entry.at_xpath('./fhir:duration/@value').try(:value))
                 set_model_data(model, 'content', FHIR::Attachment.parse_xml_entry(entry.at_xpath('./fhir:content')))
                 model
             end

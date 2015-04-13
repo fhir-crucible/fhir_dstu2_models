@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -81,7 +81,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
+            field :sequenceLinkId, type: Integer
             validates_presence_of :sequenceLinkId
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::SubdetailAdjudicationComponent'
         end
@@ -91,7 +91,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
+            field :sequenceLinkId, type: Integer
             validates_presence_of :sequenceLinkId
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::DetailAdjudicationComponent'
             embeds_many :subDetail, class_name:'FHIR::ClaimResponse::SubDetailComponent'
@@ -102,9 +102,9 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
+            field :sequenceLinkId, type: Integer
             validates_presence_of :sequenceLinkId
-            embeds_many :noteNumber, class_name:'FHIR::positiveInt'
+            field :noteNumber, type: Array # Array of Integers
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::ItemAdjudicationComponent'
             embeds_many :detail, class_name:'FHIR::ClaimResponse::ItemDetailComponent'
         end
@@ -147,11 +147,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :sequenceLinkId, class_name:'FHIR::positiveInt'
+            field :sequenceLinkId, type: Array # Array of Integers
             embeds_one :service, class_name:'FHIR::Coding'
             validates_presence_of :service
             embeds_one :fee, class_name:'FHIR::Quantity'
-            embeds_many :noteNumberLinkId, class_name:'FHIR::positiveInt'
+            field :noteNumberLinkId, type: Array # Array of Integers
             embeds_many :adjudication, class_name:'FHIR::ClaimResponse::AddedItemAdjudicationComponent'
             embeds_many :detail, class_name:'FHIR::ClaimResponse::AddedItemsDetailComponent'
         end
@@ -161,9 +161,9 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequenceLinkId, class_name:'FHIR::positiveInt'
-            embeds_one :detailSequenceLinkId, class_name:'FHIR::positiveInt'
-            embeds_one :subdetailSequenceLinkId, class_name:'FHIR::positiveInt'
+            field :sequenceLinkId, type: Integer
+            field :detailSequenceLinkId, type: Integer
+            field :subdetailSequenceLinkId, type: Integer
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
         end
@@ -178,7 +178,7 @@ module FHIR
                 fhirType: [ "display", "print", "printoper" ]
             }
             
-            embeds_one :number, class_name:'FHIR::positiveInt'
+            field :number, type: Integer
             embeds_one :fhirType, class_name:'FHIR::Coding'
             field :text, type: String
         end
@@ -188,7 +188,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            field :sequence, type: Integer
             validates_presence_of :sequence
             field :focal, type: Boolean
             validates_presence_of :focal

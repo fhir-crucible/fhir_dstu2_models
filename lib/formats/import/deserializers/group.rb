@@ -26,7 +26,7 @@ module FHIR
                 set_model_data(model, 'actual', entry.at_xpath('./fhir:actual/@value').try(:value))
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'quantity', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
+                set_model_data(model, 'quantity', entry.at_xpath('./fhir:quantity/@value').try(:value))
                 set_model_data(model, 'characteristic', entry.xpath('./fhir:characteristic').map {|e| parse_xml_entry_GroupCharacteristicComponent(e)})
                 set_model_data(model, 'member', entry.xpath('./fhir:member').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 model

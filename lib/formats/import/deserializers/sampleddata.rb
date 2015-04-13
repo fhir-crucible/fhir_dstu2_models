@@ -12,7 +12,7 @@ module FHIR
                 set_model_data(model, 'factor', entry.at_xpath('./fhir:factor/@value').try(:value))
                 set_model_data(model, 'lowerLimit', entry.at_xpath('./fhir:lowerLimit/@value').try(:value))
                 set_model_data(model, 'upperLimit', entry.at_xpath('./fhir:upperLimit/@value').try(:value))
-                set_model_data(model, 'dimensions', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:dimensions')))
+                set_model_data(model, 'dimensions', entry.at_xpath('./fhir:dimensions/@value').try(:value))
                 set_model_data(model, 'data', entry.at_xpath('./fhir:data/@value').try(:value))
                 model
             end

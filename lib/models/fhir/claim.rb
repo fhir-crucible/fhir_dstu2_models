@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -64,7 +64,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :diagnosis, class_name:'FHIR::Coding'
             validates_presence_of :diagnosis
@@ -75,7 +75,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            field :sequence, type: Integer
             validates_presence_of :sequence
             field :focal, type: Boolean
             validates_presence_of :focal
@@ -94,7 +94,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
@@ -113,7 +113,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
@@ -143,12 +143,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :sequence, class_name:'FHIR::positiveInt'
+            field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
             embeds_one :provider, class_name:'FHIR::Reference'
-            embeds_many :diagnosisLinkId, class_name:'FHIR::positiveInt'
+            field :diagnosisLinkId, type: Array # Array of Integers
             embeds_one :service, class_name:'FHIR::Coding'
             validates_presence_of :service
             field :serviceDate, type: FHIR::PartialDateTime

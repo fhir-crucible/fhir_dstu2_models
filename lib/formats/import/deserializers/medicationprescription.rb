@@ -30,7 +30,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'medication', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:medication')))
                 set_model_data(model, 'validityPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:validityPeriod')))
-                set_model_data(model, 'numberOfRepeatsAllowed', FHIR::positiveInt.parse_xml_entry(entry.at_xpath('./fhir:numberOfRepeatsAllowed')))
+                set_model_data(model, 'numberOfRepeatsAllowed', entry.at_xpath('./fhir:numberOfRepeatsAllowed/@value').try(:value))
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
                 set_model_data(model, 'expectedSupplyDuration', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:expectedSupplyDuration')))
                 model

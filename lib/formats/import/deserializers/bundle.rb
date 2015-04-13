@@ -70,7 +70,7 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
                 set_model_data(model, 'base', entry.at_xpath('./fhir:base/@value').try(:value))
-                set_model_data(model, 'total', FHIR::unsignedInt.parse_xml_entry(entry.at_xpath('./fhir:total')))
+                set_model_data(model, 'total', entry.at_xpath('./fhir:total/@value').try(:value))
                 set_model_data(model, 'link', entry.xpath('./fhir:link').map {|e| parse_xml_entry_BundleLinkComponent(e)})
                 set_model_data(model, 'entry', entry.xpath('./fhir:entry').map {|e| parse_xml_entry_BundleEntryComponent(e)})
                 set_model_data(model, 'signature', entry.at_xpath('./fhir:signature/@value').try(:value))

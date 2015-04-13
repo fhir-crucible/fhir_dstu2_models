@@ -34,12 +34,12 @@ class ProfileValidationTest < Test::Unit::TestCase
     puts "Skipping #{json_file} (no resourceType)" if (resourceType.nil? || !utils.is_fhir_class?("FHIR::#{resourceType}"))
     next if (resourceType.nil? || !utils.is_fhir_class?("FHIR::#{resourceType}"))
       
-    profile = FHIR::Profile.get_base_profile(resourceType)
-    puts "Skipping #{json_file} (no profile)" if profile.nil?
-    next if profile.nil?
+    definition = FHIR::StructureDefinition.get_base_definition(resourceType)
+    puts "Skipping #{json_file} (no definition)" if definition.nil?
+    next if definition.nil?
     
-    define_method("test_#{json_basename}_profile_validation_json") do
-      run_json_validate(json_basename,example_json_string,example_json_hash,profile)
+    define_method("test_#{json_basename}_definition_validation_json") do
+      run_json_validate(json_basename,example_json_string,example_json_hash,definition)
     end
   end
 
@@ -53,34 +53,46 @@ class ProfileValidationTest < Test::Unit::TestCase
     root_element = Nokogiri::XML(xml_string).root.try(:name)
     next if (root_element.nil? || !utils.is_fhir_class?("FHIR::#{root_element}"))
       
-    profile = FHIR::Profile.get_base_profile(root_element)
-    next if profile.nil?
+    definition = FHIR::StructureDefinition.get_base_definition(root_element)
+    next if definition.nil?
 
-    define_method("test_#{xml_basename}_profile_validation") do
-      run_xml_validate(xml_basename,xml_string,profile)
+    define_method("test_#{xml_basename}_definition_validation") do
+      run_xml_validate(xml_basename,xml_string,definition)
     end
   end
   
-  def run_json_validate(example_name, example_json_string, example_json_hash, profile)
+  def run_json_validate(example_name, example_json_string, example_json_hash, definition)
     
-    valid = profile.is_valid?(example_json_hash,'JSON')
-    if !valid
-      puts profile.errors
-      File.open("#{ERROR_DIR_JSON}/#{example_name}.json", 'w:UTF-8') {|file| file.write(example_json_string)}      
-    end
+    begin
+      valid = definition.is_valid?(example_json_hash,'JSON')
+      if !valid
+        puts definition.errors
+        File.open("#{ERROR_DIR_JSON}/#{example_name}.json", 'w:UTF-8') {|file| file.write(example_json_string)}      
+      end
+    rescue Exception => e
+      puts definition.errors
+      puts "Major Error: #{e.message} %n #{e.backtrace.join("\n")}"
+      binding.pry
+    end 
 
-    assert(valid,"JSON example does not conform to profile: #{profile.name}")
+    assert(valid,"JSON example does not conform to definition: #{definition.name}")
   end
 
-  def run_xml_validate(example_name, example_xml_string, profile)
+  def run_xml_validate(example_name, example_xml_string, definition)
     
-    valid = profile.is_valid?(example_xml_string,'XML')
-    if !valid
-      puts profile.errors
-      File.open("#{ERROR_DIR}/#{example_name}.xml", 'w:UTF-8') {|file| file.write(example_xml_string)}      
-    end
+    begin
+      valid = definition.is_valid?(example_xml_string,'XML')
+      if !valid
+        puts definition.errors
+        File.open("#{ERROR_DIR}/#{example_name}.xml", 'w:UTF-8') {|file| file.write(example_xml_string)}      
+      end
+    rescue Exception => e
+      puts definition.errors
+      puts "Major Error: #{e.message} %n #{e.backtrace.join("\n")}"
+      binding.pry
+    end 
 
-    assert(valid,"XML example does not conform to profile: #{profile.name}")
+    assert(valid,"XML example does not conform to definition: #{definition.name}")
   end
     
 end

@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -58,7 +58,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :number, class_name:'FHIR::unsignedInt'
+            field :number, type: Integer
             field :uid, type: String
             validates_presence_of :uid
             field :sopclass, type: String
@@ -79,14 +79,14 @@ module FHIR
                 availability: [ "ONLINE", "OFFLINE", "NEARLINE", "UNAVAILABLE" ]
             }
             
-            embeds_one :number, class_name:'FHIR::unsignedInt'
+            field :number, type: Integer
             field :modality, type: String
             validates :modality, :inclusion => { in: VALID_CODES[:modality] }
             validates_presence_of :modality
             field :uid, type: String
             validates_presence_of :uid
             field :description, type: String
-            embeds_one :numberOfInstances, class_name:'FHIR::unsignedInt'
+            field :numberOfInstances, type: Integer
             validates_presence_of :numberOfInstances
             field :availability, type: String
             validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
@@ -111,9 +111,9 @@ module FHIR
         field :availability, type: String
         validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
         field :url, type: String
-        embeds_one :numberOfSeries, class_name:'FHIR::unsignedInt'
+        field :numberOfSeries, type: Integer
         validates_presence_of :numberOfSeries
-        embeds_one :numberOfInstances, class_name:'FHIR::unsignedInt'
+        field :numberOfInstances, type: Integer
         validates_presence_of :numberOfInstances
         field :clinicalInformation, type: String
         embeds_many :procedure, class_name:'FHIR::Coding'

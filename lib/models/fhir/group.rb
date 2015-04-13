@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -78,7 +78,7 @@ module FHIR
         validates_presence_of :actual
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         field :name, type: String
-        embeds_one :quantity, class_name:'FHIR::unsignedInt'
+        field :quantity, type: Integer
         embeds_many :characteristic, class_name:'FHIR::Group::GroupCharacteristicComponent'
         embeds_many :member, class_name:'FHIR::Reference'
         track_history

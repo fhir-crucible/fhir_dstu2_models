@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2014, HL7, Inc & The MITRE Corporation
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -77,12 +77,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :doseSequence, class_name:'FHIR::positiveInt'
+            field :doseSequence, type: Integer
             validates_presence_of :doseSequence
             field :description, type: String
             embeds_one :authority, class_name:'FHIR::Reference'
             field :series, type: String
-            embeds_one :seriesDoses, class_name:'FHIR::positiveInt'
+            field :seriesDoses, type: Integer
             embeds_one :doseTarget, class_name:'FHIR::CodeableConcept'
             validates_presence_of :doseTarget
             embeds_one :doseStatus, class_name:'FHIR::CodeableConcept'

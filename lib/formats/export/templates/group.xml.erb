@@ -9,7 +9,7 @@
     <%- if !model.actual().nil? -%><actual value="<%= model.actual() %>"/><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.quantity().nil? -%><%== render :template => 'unsignedint', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.quantity().nil? -%><quantity value="<%= model.quantity() %>"/><%- end -%>
     <%- if (!model.characteristic().nil? && !model.characteristic.empty?) -%><%- model.characteristic().each do |element| -%><%== render :template => 'group_groupcharacteristiccomponent', :locals => {name: 'characteristic', model: element} %><%- end -%><%- end -%>
     <%- if (!model.member().nil? && !model.member.empty?) -%><%- model.member().each do |element| -%><%== render :template => 'reference', :locals => {name: 'member', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

@@ -4,7 +4,7 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
     <%- if !model.vaccineType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'vaccineType', model: model.vaccineType()} %><%- end -%>
-    <%- if !model.doseNumber().nil? -%><%== render :template => 'positiveint', :locals => {name: 'doseNumber', model: model.doseNumber()} %><%- end -%>
+    <%- if !model.doseNumber().nil? -%><doseNumber value="<%= model.doseNumber() %>"/><%- end -%>
     <%- if !model.forecastStatus().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'forecastStatus', model: model.forecastStatus()} %><%- end -%>
     <%- if (!model.dateCriterion().nil? && !model.dateCriterion.empty?) -%><%- model.dateCriterion().each do |element| -%><%== render :template => 'immunizationrecommendation_immunizationrecommendationrecommendationdatecriterioncomponent', :locals => {name: 'dateCriterion', model: element} %><%- end -%><%- end -%>
     <%- if !model.protocol().nil? -%><%== render :template => 'immunizationrecommendation_immunizationrecommendationrecommendationprotocolcomponent', :locals => {name: 'protocol', model: model.protocol()} %><%- end -%>
