@@ -66,7 +66,8 @@ module FHIR
                   'version' => 'versionNum',
                   'class' => 'fhirClass',
                   'xmlId' => 'id',
-                  'id' => 'xmlId' }
+                  'id' => 'xmlId',
+                  'identity' => 'fhirIdentity' }
         keys.merge!(keys.invert)
         if keys.has_key? key
           fixed = keys[key]

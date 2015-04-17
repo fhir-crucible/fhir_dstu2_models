@@ -77,8 +77,8 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :identity, type: String
-            validates_presence_of :identity
+            field :fhirIdentity, type: String
+            validates_presence_of :fhirIdentity
             field :uri, type: String
             field :name, type: String
             field :comments, type: String

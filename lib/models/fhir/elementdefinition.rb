@@ -123,8 +123,8 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :identity, type: String
-            validates_presence_of :identity
+            field :fhirIdentity, type: String
+            validates_presence_of :fhirIdentity
             field :language, type: String
             field :map, type: String
             validates_presence_of :map

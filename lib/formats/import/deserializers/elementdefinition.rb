@@ -52,7 +52,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ElementDefinition::ElementDefinitionMappingComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'identity', entry.at_xpath('./fhir:identity/@value').try(:value))
+                set_model_data(model, 'fhirIdentity', entry.at_xpath('./fhir:identity/@value').try(:value))
                 set_model_data(model, 'language', entry.at_xpath('./fhir:language/@value').try(:value))
                 set_model_data(model, 'map', entry.at_xpath('./fhir:map/@value').try(:value))
                 model

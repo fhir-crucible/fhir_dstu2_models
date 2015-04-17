@@ -16,7 +16,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::StructureDefinition::StructureDefinitionMappingComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'identity', entry.at_xpath('./fhir:identity/@value').try(:value))
+                set_model_data(model, 'fhirIdentity', entry.at_xpath('./fhir:identity/@value').try(:value))
                 set_model_data(model, 'uri', entry.at_xpath('./fhir:uri/@value').try(:value))
                 set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
                 set_model_data(model, 'comments', entry.at_xpath('./fhir:comments/@value').try(:value))
