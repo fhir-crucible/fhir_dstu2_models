@@ -16,7 +16,7 @@
     <%- if !model.udi().nil? -%><%== render :template => 'coding', :locals => {name: 'udi', model: model.udi()} %><%- end -%>
     <%- if !model.bodySite().nil? -%><%== render :template => 'coding', :locals => {name: 'bodySite', model: model.bodySite()} %><%- end -%>
     <%- if (!model.subSite().nil? && !model.subSite.empty?) -%><%- model.subSite().each do |element| -%><%== render :template => 'coding', :locals => {name: 'subSite', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.modifier().nil? && !model.modifier.empty?) -%><%- model.modifier().each do |element| -%><%== render :template => 'coding', :locals => {name: 'modifier', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.fhirModifier().nil? && !model.fhirModifier.empty?) -%><%- model.fhirModifier().each do |element| -%><%== render :template => 'coding', :locals => {name: 'modifier', model: element} %><%- end -%><%- end -%>
     <%- if (!model.detail().nil? && !model.detail.empty?) -%><%- model.detail().each do |element| -%><%== render :template => 'claim_detailcomponent', :locals => {name: 'detail', model: element} %><%- end -%><%- end -%>
     <%- if !model.prosthesis().nil? -%><%== render :template => 'claim_prosthesiscomponent', :locals => {name: 'prosthesis', model: model.prosthesis()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

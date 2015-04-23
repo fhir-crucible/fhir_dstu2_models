@@ -7,7 +7,7 @@
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
-    <%- if (!model.modifier().nil? && !model.modifier.empty?) -%><%- model.modifier().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'modifier', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.fhirModifier().nil? && !model.fhirModifier.empty?) -%><%- model.fhirModifier().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'modifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if (!model.image().nil? && !model.image.empty?) -%><%- model.image().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'image', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

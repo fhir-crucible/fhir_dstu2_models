@@ -43,7 +43,7 @@ module FHIR
         validates_presence_of :patient
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :code, class_name:'FHIR::CodeableConcept'
-        embeds_many :modifier, class_name:'FHIR::CodeableConcept'
+        embeds_many :fhirModifier, class_name:'FHIR::CodeableConcept'
         field :description, type: String
         embeds_many :image, class_name:'FHIR::Attachment'
         track_history

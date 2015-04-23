@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::NutritionOrder::NutritionOrderOralDietNutrientComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'modifier', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:modifier')))
+                set_model_data(model, 'fhirModifier', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:modifier')))
                 set_model_data(model, 'amount', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:amount')))
                 model
             end
@@ -16,7 +16,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::NutritionOrder::NutritionOrderOralDietTextureComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'modifier', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:modifier')))
+                set_model_data(model, 'fhirModifier', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:modifier')))
                 set_model_data(model, 'foodType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:foodType')))
                 model
             end

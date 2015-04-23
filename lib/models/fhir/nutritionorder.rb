@@ -57,7 +57,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :modifier, class_name:'FHIR::CodeableConcept'
+            embeds_one :fhirModifier, class_name:'FHIR::CodeableConcept'
             embeds_one :amount, class_name:'FHIR::Quantity'
         end
         
@@ -66,7 +66,7 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :modifier, class_name:'FHIR::CodeableConcept'
+            embeds_one :fhirModifier, class_name:'FHIR::CodeableConcept'
             embeds_one :foodType, class_name:'FHIR::CodeableConcept'
         end
         

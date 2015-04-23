@@ -160,7 +160,7 @@ module FHIR
             embeds_one :udi, class_name:'FHIR::Coding'
             embeds_one :bodySite, class_name:'FHIR::Coding'
             embeds_many :subSite, class_name:'FHIR::Coding'
-            embeds_many :modifier, class_name:'FHIR::Coding'
+            embeds_many :fhirModifier, class_name:'FHIR::Coding'
             embeds_many :detail, class_name:'FHIR::Claim::DetailComponent'
             embeds_one :prosthesis, class_name:'FHIR::Claim::ProsthesisComponent'
         end

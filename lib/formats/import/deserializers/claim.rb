@@ -99,7 +99,7 @@ module FHIR
                 set_model_data(model, 'udi', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:udi')))
                 set_model_data(model, 'bodySite', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:bodySite')))
                 set_model_data(model, 'subSite', entry.xpath('./fhir:subSite').map {|e| FHIR::Coding.parse_xml_entry(e)})
-                set_model_data(model, 'modifier', entry.xpath('./fhir:modifier').map {|e| FHIR::Coding.parse_xml_entry(e)})
+                set_model_data(model, 'fhirModifier', entry.xpath('./fhir:modifier').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 set_model_data(model, 'detail', entry.xpath('./fhir:detail').map {|e| parse_xml_entry_DetailComponent(e)})
                 set_model_data(model, 'prosthesis', parse_xml_entry_ProsthesisComponent(entry.at_xpath('./fhir:prosthesis')))
                 model
