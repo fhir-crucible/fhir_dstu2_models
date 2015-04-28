@@ -9,7 +9,7 @@
     <%- if (!model.parent().nil? && !model.parent.empty?) -%><%- model.parent().each do |element| -%><%== render :template => 'reference', :locals => {name: 'parent', model: element} %><%- end -%><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if !model.accessionIdentifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'accessionIdentifier', model: model.accessionIdentifier()} %><%- end -%>
-    <%- if !model.receivedTime().nil? -%><receivedTime value="<%= model.receivedTime().iso8601 %>"/><%- end -%>
+    <%- if !model.receivedTime().nil? -%><receivedTime value="<%= model.receivedTime().to_time.strftime("%T") %>"/><%- end -%>
     <%- if !model.fhirCollection().nil? -%><%== render :template => 'specimen_specimencollectioncomponent', :locals => {name: 'collection', model: model.fhirCollection()} %><%- end -%>
     <%- if (!model.treatment().nil? && !model.treatment.empty?) -%><%- model.treatment().each do |element| -%><%== render :template => 'specimen_specimentreatmentcomponent', :locals => {name: 'treatment', model: element} %><%- end -%><%- end -%>
     <%- if (!model.container().nil? && !model.container.empty?) -%><%- model.container().each do |element| -%><%== render :template => 'specimen_specimencontainercomponent', :locals => {name: 'container', model: element} %><%- end -%><%- end -%>

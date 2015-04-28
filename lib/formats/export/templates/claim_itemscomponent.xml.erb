@@ -7,7 +7,7 @@
     <%- if !model.provider().nil? -%><%== render :template => 'reference', :locals => {name: 'provider', model: model.provider()} %><%- end -%>
     <%- if (model.diagnosisLinkId() && !model.diagnosisLinkId.empty?) -%><%- model.diagnosisLinkId().each do |element| -%><diagnosisLinkId value="<%= element %>"/><%- end -%><%- end -%>
     <%- if !model.service().nil? -%><%== render :template => 'coding', :locals => {name: 'service', model: model.service()} %><%- end -%>
-    <%- if !model.serviceDate().nil? -%><serviceDate value="<%= model.serviceDate().iso8601 %>"/><%- end -%>
+    <%- if !model.serviceDate().nil? -%><serviceDate value="<%= model.serviceDate().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
     <%- if !model.unitPrice().nil? -%><%== render :template => 'quantity', :locals => {name: 'unitPrice', model: model.unitPrice()} %><%- end -%>
     <%- if !model.factor().nil? -%><factor value="<%= model.factor() %>"/><%- end -%>

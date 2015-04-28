@@ -1,8 +1,35 @@
+# Copyright (c) 2011-2015, HL7, Inc & The MITRE Corporation
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without modification, 
+# are permitted provided that the following conditions are met:
+# 
+#     * Redistributions of source code must retain the above copyright notice, this 
+#       list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright notice, 
+#       this list of conditions and the following disclaimer in the documentation 
+#       and/or other materials provided with the distribution.
+#     * Neither the name of HL7 nor the names of its contributors may be used to 
+#       endorse or promote products derived from this software without specific 
+#       prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+# POSSIBILITY OF SUCH DAMAGE.
+
 module FHIR
   class StructureDefinition
 
     attr_accessor :errors
     attr_accessor :warnings
+    cattr_accessor :base_definitions
 
     @@base_definitions = nil
     @@other_definitions = nil
@@ -112,10 +139,10 @@ module FHIR
       @warnings = []
 
       if !(another_definition.is_a? FHIR::StructureDefinition)
-        @errors << "StructureDefinition #{name} is not compatible with #{another_definition.class.name}."
+        @errors << "StructureDefinition #{xmlId} is not compatible with #{another_definition.class.name}."
         return false
       elsif another_definition.snapshot.element[0].path!=snapshot.element[0].path
-        @errors << "StructureDefinition #{name} profiles #{snapshot.element[0].path} -- StructureDefinition #{another_definition.name} profiles #{another_definition.snapshot.element[0].path}."
+        @errors << "StructureDefinition #{xmlId} profiles #{snapshot.element[0].path} -- StructureDefinition #{another_definition.xmlId} profiles #{another_definition.snapshot.element[0].path}."
         return false
       end
 
@@ -127,13 +154,16 @@ module FHIR
 
       # StructureDefinitions don't always include all base attributes (for example, of a ContactPoint)
       # if nothing is modified from the base definition, so we have to add them in if they are missing.
+      base_definition = FHIR::StructureDefinition.get_base_definition(snapshot.element[0].path)
+      base_elements = base_definition.snapshot.element
+
       left_missing = right_paths - left_paths
-      left_missing_roots = left_missing.map{|e| e.split('.')[0..-2].join('.') }.uniq
-      add_missing_elements(name,left_missing_roots,left_elements)
+      # left_missing_roots = left_missing.map{|e| e.split('.')[0..-2].join('.') }.uniq
+      add_missing_elements(xmlId,left_missing,left_elements,base_elements)
 
       right_missing = left_paths - right_paths
-      right_missing_roots = right_missing.map{|e| e.split('.')[0..-2].join('.') }.uniq
-      add_missing_elements(another_definition.name,right_missing_roots,right_elements)
+      # right_missing_roots = right_missing.map{|e| e.split('.')[0..-2].join('.') }.uniq
+      add_missing_elements(another_definition.xmlId,right_missing,right_elements,base_elements)
 
       # update paths
       left_paths = left_elements.map { |e| e.path }
@@ -146,12 +176,26 @@ module FHIR
       # generate warnings for missing fields (ignoring extensions)
       left_missing.each do |e|
         if !e.include? 'extension'
-          @warnings << "StructureDefinition #{name} is missing element #{e} from StructureDefinition #{another_definition.name}"
+          elem = get_element_by_path(e,right_elements)
+          if !elem.min.nil? && elem.min > 0
+            @errors << "StructureDefinition #{xmlId} is missing REQUIRED element #{e} from StructureDefinition #{another_definition.xmlId}"
+          elsif elem.isModifier==true
+            @errors << "StructureDefinition #{xmlId} is missing MODIFIER element #{e} from StructureDefinition #{another_definition.xmlId}"
+          else
+            @warnings << "StructureDefinition #{xmlId} is missing element #{e} from StructureDefinition #{another_definition.xmlId}"
+          end
         end
       end
       right_missing.each do |e|
         if !e.include? 'extension'
-          @warnings << "StructureDefinition #{another_definition.name} is missing element #{e} from StructureDefinition #{name}"
+          elem = get_element_by_path(e,left_elements)
+          if !elem.min.nil? && elem.min > 0
+            @errors << "StructureDefinition #{another_definition.xmlId} is missing REQUIRED element #{e} from StructureDefinition #{xmlId}"
+          elsif elem.isModifier==true
+            @errors << "StructureDefinition #{another_definition.xmlId} is missing MODIFIER element #{e} from StructureDefinition #{xmlId}"
+          else
+            @warnings << "StructureDefinition #{another_definition.xmlId} is missing element #{e} from StructureDefinition #{xmlId}"
+          end
         end
       end
 
@@ -217,9 +261,6 @@ module FHIR
       end
       @errors.flatten!
       @warnings.flatten!
-
-      binding.pry
-
       @errors.size==0
     end
 
@@ -240,13 +281,39 @@ module FHIR
     end
 
     #private
-    def add_missing_elements(name,missing_roots,elements)
-      missing_roots.each do |root|
-        next if root.ends_with? "extension"
-        elem = get_element_by_path(root,elements)
+    # name -- name of the profile we're fixing
+    # missing_paths -- list of paths that we're adding
+    # elements -- list of elements currently defined in the profile
+    # base_elements -- list of elements defined in the base resource the profile extends
+    def add_missing_elements(name,missing_paths,elements,base_elements)
+      variable_paths = elements.map{|e|e.path}.grep(/\[x\]/).map{|e|e[0..-4]}
+      variable_paths << base_elements.map{|e|e.path}.grep(/\[x\]/).map{|e|e[0..-4]}
+      variable_paths.flatten!.uniq!
+      
+      missing_paths.each do |path|
+        # Skip extensions
+        next if path.include? "extension"
+
+        # Skip the variable paths that end with "[x]"
+        next if variable_paths.any?{|variable| path.starts_with?(variable)}
+
+        elem = get_element_by_path(path,base_elements)
         if !elem.nil?
+          # _DEEP_ copy
+          elements << FHIR::ElementDefinition.from_fhir_json(elem.to_fhir_json)
+          next
+        end
+
+        x = path.split('.')
+        root = x.first(x.size-1).join('.')
+        if root.include? '.'
+          # get the root element to fill in the details
+          elem = get_element_by_path(root,elements)
+          # get the data type definition to fill in the details
           # assume missing elements are from first data type (gross)
+          next if elem.fhirType.nil? || elem.fhirType.empty?
           type_def = FHIR::StructureDefinition.get_type_definition(elem.fhirType[0].code)
+          next if type_def.nil?
           type_elements = Array.new(type_def.snapshot.element)
           # _DEEP_ copy
           type_elements.map! do |e| #{|e| FHIR::ElementDefinition.from_fhir_json(e.to_fhir_json) }
@@ -261,13 +328,14 @@ module FHIR
             y = get_element_by_path(x.path,elements)
             if y.nil?
               elements << x
-            else
-              @warnings << "StructureDefinition #{name} already contains #{x.path}"
+            # else
+            #   @warnings << "StructureDefinition #{name} already contains #{x.path}"
             end
           end
-          # elements.uniq!
-        else
-          @warnings << "StructureDefinition #{name} missing -- #{root}"
+          elements.uniq!
+        # else
+        #   binding.pry
+        #   @warnings << "StructureDefinition #{name} missing -- #{path}"
         end
       end
     end
@@ -284,7 +352,7 @@ module FHIR
         # same name, but different profiles
         # maybe the profiles are the same, just with different URLs... 
         # ... so we have to compare them, if we can.
-        @warnings << "#{x.path} (#{x.name}) has different extensions:\n\t#{x_profiles} #{name}\n\t#{y_profiles} #{another_definition.name}"
+        @warnings << "#{x.path} (#{x.name}) has different extensions:\n\t#{x_profiles}\n\t#{y_profiles}"
         x_extension = FHIR::StructureDefinition.get_extension_definition(x.fhirType[0].profile)
         y_extension = FHIR::StructureDefinition.get_extension_definition(y.fhirType[0].profile)
         if !x_extension.nil? && !y_extension.nil?
@@ -310,11 +378,11 @@ module FHIR
       y_max = (y.max == '*') ? Float::INFINITY : y.max.to_i
 
       if x_min.nil? || x.max.nil? || y_min.nil? || y.max.nil?
-        @errors << "#{x.path} unknown cardinality:\n\t#{x_min}..#{x.max} (#{name})\n\t#{y_min}..#{y.max} (#{another_definition.name})"
+        @errors << "#{x.path} unknown cardinality:\n\t#{x_min}..#{x.max}\n\t#{y_min}..#{y.max}"
       elsif (x_min > y_max) || (x_max < y_min)
-        @errors << "#{x.path} incompatible cardinality:\n\t#{x_min}..#{x.max} (#{name})\n\t#{y_min}..#{y.max} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible cardinality:\n\t#{x_min}..#{x.max}\n\t#{y_min}..#{y.max}"
       elsif (x_min != y_min) || (x_max != y_max)
-        @warnings << "#{x.path} inconsistent cardinality:\n\t#{x_min}..#{x.max} (#{name})\n\t#{y_min}..#{y.max} (#{another_definition.name})"
+        @warnings << "#{x.path} inconsistent cardinality:\n\t#{x_min}..#{x.max}\n\t#{y_min}..#{y.max}"
       end
 
       # check data types
@@ -324,65 +392,73 @@ module FHIR
       y_only = y_types - x_types
       shared = x_types - x_only
 
-      if !shared.nil? && shared.size==0 && x.constraint.size > 0 && y.constraint.size > 0
-        @errors << "#{x.path} incompatible data types:\n\t#{x_types} (#{name})\n\t#{y_types} (#{another_definition.name})"
+      if !shared.nil? && shared.size==0 && x_types.size>0 && y_types.size>0 && x.constraint.size > 0 && y.constraint.size > 0
+        @errors << "#{x.path} incompatible data types:\n\t#{x_types}\n\t#{y_types}"
       end
       if !x_only.nil? && x_only.size > 0
-        @warnings << "#{x.path} allows data types #{x_only} (not allowed by #{another_definition.name})"
+        @warnings << "#{x.path} allows additional data types:\n\t#{x_only}\n\tnot allowed"
       end
       if !y_only.nil? && y_only.size > 0
-        @warnings << "#{x.path} allows data types #{y_only} (not allowed by #{name})"
+        @warnings << "#{x.path} allows additional data types:\n\tnot allowed\n\t#{y_only}"
       end
 
       # check bindings 
       if x.binding.nil? && !y.binding.nil?
-        @warnings << "#{x.path} inconsistent binding:\n\tnil (#{name})\n\t#{y.binding.name} (#{another_definition.name})"
+        @warnings << "#{x.path} inconsistent binding:\n\tnil\n\t#{y.binding.name}"
       elsif !x.binding.nil? && y.binding.nil?
-        @warnings << "#{x.path} inconsistent binding:\n\t#{x.binding.name} (#{name})\n\tnil (#{another_definition.name})"
+        @warnings << "#{x.path} inconsistent binding:\n\t#{x.binding.name}\n\tnil"
       elsif !x.binding.nil? && !y.binding.nil?
-        x_vs = x.binding.valueSetUri || x.binding.valueSetReference.reference
-        y_vs = y.binding.valueSetUri || y.binding.valueSetReference.reference
+        x_vs = x.binding.valueSetUri
+        x_vs = x.binding.valueSetReference.reference if x_vs.nil? && !x.binding.valueSetReference.nil?
+        y_vs = y.binding.valueSetUri 
+        y_vs = y.binding.valueSetReference.reference if y_vs.nil? && !y.binding.valueSetReference.nil?
         if x_vs != y_vs
           if x.binding.strength=='required' || y.binding.strength=='required'
-            @errors << "#{x.path} incompatible bindings:\n\t#{x.binding.strength} #{x_vs} (#{name})\n\t#{y.binding.strength} #{y_vs} (#{another_definition.name})"
+            @errors << "#{x.path} incompatible bindings:\n\t#{x.binding.strength} #{x_vs}\n\t#{y.binding.strength} #{y_vs}"
           else 
-            @warnings << "#{x.path} potentially inconsistent bindings:\n\t#{x.binding.strength} #{x_vs} (#{name})\n\t#{y.binding.strength} #{y_vs} (#{another_definition.name})"
+            @warnings << "#{x.path} potentially inconsistent bindings:\n\t#{x.binding.strength} #{x_vs}\n\t#{y.binding.strength} #{y_vs}"
           end
         end
       end
 
       # check default values
       if x.defaultValueType != y.defaultValueType
-        @errors << "#{x.path} incompatible default type:\n\t#{x.defaultValueType} (#{name})\n\t#{y.defaultValueType} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible default type:\n\t#{x.defaultValueType}\n\t#{y.defaultValueType}"
       end
       if x.defaultValue != y.defaultValue
-        @errors << "#{x.path} incompatible default value:\n\t#{x.defaultValue} (#{name})\n\t#{y.defaultValue} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible default value:\n\t#{x.defaultValue}\n\t#{y.defaultValue}"
       end
 
       # check meaning when missing
       if x.meaningWhenMissing != y.meaningWhenMissing
-        @errors << "#{x.path} inconsistent missing meaning:\n\t#{x.meaningWhenMissing} (#{name})\n\t#{y.meaningWhenMissing} (#{another_definition.name})"
+        @errors << "#{x.path} inconsistent missing meaning:\n\t#{x.meaningWhenMissing}\n\t#{y.meaningWhenMissing}"
       end        
 
       # check fixed values
       if x.fixedType != y.fixedType
-        @errors << "#{x.path} incompatible fixed type:\n\t#{x.fixedType} (#{name})\n\t#{y.fixedType} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible fixed type:\n\t#{x.fixedType}\n\t#{y.fixedType}"
       end
       if x.fixed != y.fixed
-        @errors << "#{x.path} incompatible fixed value:\n\t#{x.fixed} (#{name})\n\t#{y.fixed} (#{another_definition.name})"
+        xfv = ''
+        yfv = ''
+        xfv = x.fixed[:value] if !x.fixed.nil? && x.fixed[:value]
+        xfv = xfv.to_xml.gsub(/\n/,'') if !x.fixed.nil? && x.fixed[:value].methods.include?(:to_xml)
+        yfv = y.fixed[:value] if !y.fixed.nil? && y.fixed[:value]
+        yfv = yfv.to_xml.gsub(/\n/,'') if !y.fixed.nil? && y.fixed[:value].methods.include?(:to_xml)
+        @errors << "#{x.path} incompatible fixed value:\n\t#{xfv}\n\t#{yfv}"
       end
 
       # check pattern values
       if x.patternType != y.patternType
-        @errors << "#{x.path} incompatible pattern type:\n\t#{x.patternType} (#{name})\n\t#{y.patternType} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible pattern type:\n\t#{x.patternType}\n\t#{y.patternType}"
       end
       if x.pattern != y.pattern
-        @errors << "#{x.path} incompatible pattern:\n\t#{x.pattern} (#{name})\n\t#{y.pattern} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible pattern:\n\t#{x.pattern}\n\t#{y.pattern}"
       end
 
       # maxLength (for Strings)
       if x.maxLength != y.maxLength
-        @warnings << "#{x.path} inconsistent maximum length:\n\t#{x.maxLength} (#{name})\n\t#{y.maxLength} (#{another_definition.name})"
+        @warnings << "#{x.path} inconsistent maximum length:\n\t#{x.maxLength}\n\t#{y.maxLength}"
       end
 
       # constraints
@@ -393,23 +469,23 @@ module FHIR
       shared = x_constraints - x_only
 
       if !shared.nil? && shared.size==0 && x.constraint.size > 0 && y.constraint.size > 0
-        @errors << "#{x.path} incompatible constraints:\n\t#{x_constraints} (#{name})\n\t#{y_constraints} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible constraints:\n\t#{x_constraints}\n\t#{y_constraints}"
       end
       if !x_only.nil? && x_only.size > 0
-        @errors << "#{x.path} additional constraints:\n\t#{x_constraints} (#{name})"
+        @errors << "#{x.path} additional constraints:\n\t#{x_constraints}\n\tN/A"
       end
       if !y_only.nil? && y_only.size > 0
-        @errors << "#{x.path} additional constraints:\n\t#{y_constraints} (#{another_definition.name})"
+        @errors << "#{x.path} additional constraints:\n\tN/A\n\t#{y_constraints}"
       end
 
       # mustSupports
       if x.mustSupport != y.mustSupport
-        @warnings << "#{x.path} inconsistent 'mustSupport':\n\t#{x.mustSupport || false} (#{name})\n\t#{y.mustSupport || false} (#{another_definition.name})"
+        @warnings << "#{x.path} inconsistent 'mustSupport':\n\t#{x.mustSupport || false}\n\t#{y.mustSupport || false}"
       end
 
       # isModifier
       if x.isModifier != y.isModifier
-        @errors << "#{x.path} incompatible 'isModifier':\n\t#{x.isModifier || false} (#{name})\n\t#{y.isModifier || false} (#{another_definition.name})"
+        @errors << "#{x.path} incompatible 'isModifier':\n\t#{x.isModifier || false}\n\t#{y.isModifier || false}"
       end
     end
 

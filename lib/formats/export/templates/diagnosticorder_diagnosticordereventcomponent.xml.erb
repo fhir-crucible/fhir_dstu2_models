@@ -4,6 +4,6 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.description().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'description', model: model.description()} %><%- end -%>
-    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().to_time.strftime("%T") %>"/><%- end -%>
     <%- if !model.actor().nil? -%><%== render :template => 'reference', :locals => {name: 'actor', model: model.actor()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

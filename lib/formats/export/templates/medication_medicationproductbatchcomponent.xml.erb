@@ -3,5 +3,5 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.lotNumber().nil? -%><lotNumber value="<%= model.lotNumber() %>"/><%- end -%>
-    <%- if !model.expirationDate().nil? -%><expirationDate value="<%= model.expirationDate().iso8601 %>"/><%- end -%>
+    <%- if !model.expirationDate().nil? -%><expirationDate value="<%= model.expirationDate().to_date.iso8601 %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

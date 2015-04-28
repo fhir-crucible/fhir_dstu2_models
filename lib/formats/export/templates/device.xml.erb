@@ -10,7 +10,7 @@
     <%- if !model.manufacturer().nil? -%><manufacturer value="<%= model.manufacturer() %>"/><%- end -%>
     <%- if !model.model().nil? -%><model value="<%= model.model() %>"/><%- end -%>
     <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
-    <%- if !model.manufactureDate().nil? -%><manufactureDate value="<%= model.manufactureDate().iso8601 %>"/><%- end -%>
+    <%- if !model.manufactureDate().nil? -%><manufactureDate value="<%= model.manufactureDate().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.expiry().nil? -%><expiry value="<%= model.expiry().iso8601 %>"/><%- end -%>
     <%- if !model.udi().nil? -%><udi value="<%= model.udi() %>"/><%- end -%>
     <%- if !model.lotNumber().nil? -%><lotNumber value="<%= model.lotNumber() %>"/><%- end -%>

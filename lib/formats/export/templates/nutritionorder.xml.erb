@@ -8,7 +8,7 @@
     <%- if !model.orderer().nil? -%><%== render :template => 'reference', :locals => {name: 'orderer', model: model.orderer()} %><%- end -%>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
-    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().to_time.strftime("%T") %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if (!model.allergyIntolerance().nil? && !model.allergyIntolerance.empty?) -%><%- model.allergyIntolerance().each do |element| -%><%== render :template => 'reference', :locals => {name: 'allergyIntolerance', model: element} %><%- end -%><%- end -%>
     <%- if (!model.foodPreferenceModifier().nil? && !model.foodPreferenceModifier.empty?) -%><%- model.foodPreferenceModifier().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'foodPreferenceModifier', model: element} %><%- end -%><%- end -%>

@@ -4,5 +4,5 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
     <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
-    <%- if !model.releaseDate().nil? -%><releaseDate value="<%= model.releaseDate().iso8601 %>"/><%- end -%>
+    <%- if !model.releaseDate().nil? -%><releaseDate value="<%= model.releaseDate().to_date.iso8601 %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -13,7 +13,7 @@
     <%- if !model.requester().nil? -%><%== render :template => 'reference', :locals => {name: 'requester', model: model.requester()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
-    <%- if !model.scheduledTime().nil? -%><scheduledTime value="<%= model.scheduledTime().iso8601 %>"/><%- end -%>
+    <%- if !model.scheduledTime().nil? -%><scheduledTime value="<%= model.scheduledTime().to_time.strftime("%T") %>"/><%- end -%>
     <%- if (!model.reason().nil? && !model.reason.empty?) -%><%- model.reason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: element} %><%- end -%><%- end -%>
     <%- if !model.orderedOn().nil? -%><orderedOn value="<%= model.orderedOn().iso8601 %>"/><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>

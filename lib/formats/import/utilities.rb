@@ -23,13 +23,13 @@ module FHIR
       def parse_element_data(model, entry)
         model.xmlId = entry.at_xpath('./fhir:id/@value').try(:value) || entry.at_xpath('@id').try(:value)
         entry.xpath('./fhir:extension').each do |extension_entry|
-          model.extensions ||= []
-          model.extensions << FHIR::Extension.parse_xml_entry(extension_entry)
+          model.extension ||= []
+          model.extension << FHIR::Extension.parse_xml_entry(extension_entry)
         end
 
         entry.xpath('./fhir:modifierExtension').each do |extension_entry|
-          model.modifierExtensions ||= []
-          model.modifierExtensions << FHIR::Extension.parse_xml_entry(extension_entry)
+          model.modifierExtension ||= []
+          model.modifierExtension << FHIR::Extension.parse_xml_entry(extension_entry)
         end
 
       end
@@ -139,8 +139,25 @@ module FHIR
                     metadata = obj.reflect_on_association(fixed)
                     if !metadata.class_name.nil?
                       # puts ' ' * depth + " -- Array Item is a #{metadata.class_name}"
-                      item['resourceType'] = metadata.class_name
-                      child = decodeHash(item,depth+1)
+                      child = nil
+                      if metadata.class_name=='FHIR::Extension'
+                        child = FHIR::Extension.new
+                        child.url = item['url']
+                        item.keys.each do |ekey|
+                          if ekey.starts_with? 'value'
+                            child.valueType = ekey[5..-1]
+                            if item[ekey].is_a? Hash
+                              item[ekey]['resourceType'] = ekey[5..-1]
+                              child.value = decodeHash(item[ekey],depth)
+                            else
+                              child.value = item[ekey]
+                            end
+                          end
+                        end
+                      else
+                        item['resourceType'] = metadata.class_name
+                        child = decodeHash(item,depth+1)
+                      end
                       next child
                     else
                       raise "Could not discover resourceType for '#{fixed}' inside '#{resourceType}'"
@@ -154,7 +171,7 @@ module FHIR
                 end              
               end
               set_model_data(obj, fixed, value)
-            elsif value.is_a? String or value.is_a? TrueClass or value.is_a? FalseClass
+            elsif value.is_a?(String) || value.is_a?(TrueClass) || value.is_a?(FalseClass) || value.is_a?(Numeric)
               # puts ' ' * depth + "Key: #{key} is a recognized primitive"
               # do nothing, we can set Strings and booleans directly
               obj[fixed] = value

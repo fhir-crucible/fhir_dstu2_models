@@ -23,7 +23,7 @@
     <%- if !model.totalBenefit().nil? -%><%== render :template => 'quantity', :locals => {name: 'totalBenefit', model: model.totalBenefit()} %><%- end -%>
     <%- if !model.paymentAdjustment().nil? -%><%== render :template => 'quantity', :locals => {name: 'paymentAdjustment', model: model.paymentAdjustment()} %><%- end -%>
     <%- if !model.paymentAdjustmentReason().nil? -%><%== render :template => 'coding', :locals => {name: 'paymentAdjustmentReason', model: model.paymentAdjustmentReason()} %><%- end -%>
-    <%- if !model.paymentDate().nil? -%><paymentDate value="<%= model.paymentDate().iso8601 %>"/><%- end -%>
+    <%- if !model.paymentDate().nil? -%><paymentDate value="<%= model.paymentDate().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.paymentAmount().nil? -%><%== render :template => 'quantity', :locals => {name: 'paymentAmount', model: model.paymentAmount()} %><%- end -%>
     <%- if !model.paymentRef().nil? -%><%== render :template => 'identifier', :locals => {name: 'paymentRef', model: model.paymentRef()} %><%- end -%>
     <%- if !model.reserved().nil? -%><%== render :template => 'coding', :locals => {name: 'reserved', model: model.reserved()} %><%- end -%>

@@ -18,7 +18,7 @@
     <%- if !model.onsetPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'onsetPeriod', model: model.onsetPeriod()} %><%- end -%>
     <%- if !model.onsetRange().nil? -%><%== render :template => 'range', :locals => {name: 'onsetRange', model: model.onsetRange()} %><%- end -%>
     <%- if !model.onsetString().nil? -%><onsetString value="<%= model.onsetString() %>"/><%- end -%>
-    <%- if !model.abatementDate().nil? -%><abatementDate value="<%= model.abatementDate().iso8601 %>"/><%- end -%>
+    <%- if !model.abatementDate().nil? -%><abatementDate value="<%= model.abatementDate().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.abatementAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'abatementAge', model: model.abatementAge()} %><%- end -%>
     <%- if !model.abatementBoolean().nil? -%><abatementBoolean value="<%= model.abatementBoolean() %>"/><%- end -%>
     <%- if !model.abatementPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'abatementPeriod', model: model.abatementPeriod()} %><%- end -%>

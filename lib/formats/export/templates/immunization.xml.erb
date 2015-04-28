@@ -16,7 +16,7 @@
     <%- if !model.manufacturer().nil? -%><%== render :template => 'reference', :locals => {name: 'manufacturer', model: model.manufacturer()} %><%- end -%>
     <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
     <%- if !model.lotNumber().nil? -%><lotNumber value="<%= model.lotNumber() %>"/><%- end -%>
-    <%- if !model.expirationDate().nil? -%><expirationDate value="<%= model.expirationDate().iso8601 %>"/><%- end -%>
+    <%- if !model.expirationDate().nil? -%><expirationDate value="<%= model.expirationDate().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.site().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'site', model: model.site()} %><%- end -%>
     <%- if !model.route().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'route', model: model.route()} %><%- end -%>
     <%- if !model.doseQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'doseQuantity', model: model.doseQuantity()} %><%- end -%>

@@ -12,7 +12,7 @@
     <%- if !model.valueRatio().nil? -%><%== render :template => 'ratio', :locals => {name: 'valueRatio', model: model.valueRatio()} %><%- end -%>
     <%- if !model.valueSampledData().nil? -%><%== render :template => 'sampleddata', :locals => {name: 'valueSampledData', model: model.valueSampledData()} %><%- end -%>
     <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>
-    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().iso8601 %>"/><%- end -%>
+    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().to_time.strftime("%T") %>"/><%- end -%>
     <%- if !model.valueDateTime().nil? -%><valueDateTime value="<%= model.valueDateTime().iso8601 %>"/><%- end -%>
     <%- if !model.valuePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'valuePeriod', model: model.valuePeriod()} %><%- end -%>
     <%- if !model.dataAbsentReason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'dataAbsentReason', model: model.dataAbsentReason()} %><%- end -%>
