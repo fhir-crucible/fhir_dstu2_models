@@ -25,7 +25,7 @@ module FHIR
         case object
         when String
           # if we only have a partial date use iso8601 since parse won't work
-          if (object.length < 10)
+          if (object.length < 10) && object.include?('-')
             time = DateTime.iso8601(object)
           else
             # if we have a date and time use DateTime.parse to maintain timezone
