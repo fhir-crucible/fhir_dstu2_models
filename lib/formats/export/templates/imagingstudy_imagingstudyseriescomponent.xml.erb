@@ -11,6 +11,6 @@
     <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
     <%- if !model.bodySite().nil? -%><%== render :template => 'coding', :locals => {name: 'bodySite', model: model.bodySite()} %><%- end -%>
     <%- if !model.laterality().nil? -%><%== render :template => 'coding', :locals => {name: 'laterality', model: model.laterality()} %><%- end -%>
-    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().to_time.strftime("%T") %>"/><%- end -%>
+    <%- if !model.dateTime().nil? -%><dateTime value="<%= model.dateTime().iso8601 %>"/><%- end -%>
     <%- if (!model.instance().nil? && !model.instance.empty?) -%><%- model.instance().each do |element| -%><%== render :template => 'imagingstudy_imagingstudyseriesinstancecomponent', :locals => {name: 'instance', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

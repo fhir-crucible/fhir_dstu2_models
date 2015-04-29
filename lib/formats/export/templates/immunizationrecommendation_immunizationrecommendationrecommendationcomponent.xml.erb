@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.vaccineType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'vaccineType', model: model.vaccineType()} %><%- end -%>
     <%- if !model.doseNumber().nil? -%><doseNumber value="<%= model.doseNumber() %>"/><%- end -%>
     <%- if !model.forecastStatus().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'forecastStatus', model: model.forecastStatus()} %><%- end -%>

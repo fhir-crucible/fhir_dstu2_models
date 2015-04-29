@@ -9,7 +9,7 @@
     <%- if !model.severity().nil? -%><severity value="<%= model.severity() %>"/><%- end -%>
     <%- if (!model.implicated().nil? && !model.implicated.empty?) -%><%- model.implicated().each do |element| -%><%== render :template => 'reference', :locals => {name: 'implicated', model: element} %><%- end -%><%- end -%>
     <%- if !model.detail().nil? -%><detail value="<%= model.detail() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.author().nil? -%><%== render :template => 'reference', :locals => {name: 'author', model: model.author()} %><%- end -%>
     <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
     <%- if !model.reference().nil? -%><reference value="<%= model.reference() %>"/><%- end -%>

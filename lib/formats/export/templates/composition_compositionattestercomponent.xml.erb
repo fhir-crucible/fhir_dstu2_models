@@ -3,6 +3,6 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if (model.mode() && !model.mode.empty?) -%><%- model.mode().each do |element| -%><mode value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if !model.time().nil? -%><time value="<%= model.time().iso8601 %>"/><%- end -%>
+    <%- if !model.time().nil? -%><time value="<%= model.time().to_time.strftime("%T") %>"/><%- end -%>
     <%- if !model.party().nil? -%><%== render :template => 'reference', :locals => {name: 'party', model: model.party()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

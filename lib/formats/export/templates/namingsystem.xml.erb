@@ -6,7 +6,7 @@
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.country().nil? -%><country value="<%= model.country() %>"/><%- end -%>
     <%- if !model.category().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: model.category()} %><%- end -%>

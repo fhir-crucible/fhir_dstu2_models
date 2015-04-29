@@ -7,7 +7,7 @@
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.assessor().nil? -%><%== render :template => 'reference', :locals => {name: 'assessor', model: model.assessor()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if !model.previous().nil? -%><%== render :template => 'reference', :locals => {name: 'previous', model: model.previous()} %><%- end -%>
     <%- if (!model.problem().nil? && !model.problem.empty?) -%><%- model.problem().each do |element| -%><%== render :template => 'reference', :locals => {name: 'problem', model: element} %><%- end -%><%- end -%>

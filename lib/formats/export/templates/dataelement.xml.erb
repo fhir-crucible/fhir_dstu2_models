@@ -11,7 +11,7 @@
     <%- if (!model.useContext().nil? && !model.useContext.empty?) -%><%- model.useContext().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'useContext', model: element} %><%- end -%><%- end -%>
     <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.copyright().nil? -%><copyright value="<%= model.copyright() %>"/><%- end -%>
     <%- if !model.publisher().nil? -%><publisher value="<%= model.publisher() %>"/><%- end -%>
     <%- if (!model.contact().nil? && !model.contact.empty?) -%><%- model.contact().each do |element| -%><%== render :template => 'dataelement_dataelementcontactcomponent', :locals => {name: 'contact', model: element} %><%- end -%><%- end -%>

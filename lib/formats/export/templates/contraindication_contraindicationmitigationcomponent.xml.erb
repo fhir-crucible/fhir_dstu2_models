@@ -3,6 +3,6 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.action().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'action', model: model.action()} %><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.author().nil? -%><%== render :template => 'reference', :locals => {name: 'author', model: model.author()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -18,7 +18,7 @@
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
     <%- if !model.extensible().nil? -%><extensible value="<%= model.extensible() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.lockedDate().nil? -%><lockedDate value="<%= model.lockedDate().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.define().nil? -%><%== render :template => 'valueset_valuesetdefinecomponent', :locals => {name: 'define', model: model.define()} %><%- end -%>
     <%- if !model.compose().nil? -%><%== render :template => 'valueset_valuesetcomposecomponent', :locals => {name: 'compose', model: model.compose()} %><%- end -%>

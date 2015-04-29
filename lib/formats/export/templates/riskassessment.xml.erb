@@ -5,7 +5,7 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.condition().nil? -%><%== render :template => 'reference', :locals => {name: 'condition', model: model.condition()} %><%- end -%>
     <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
     <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>

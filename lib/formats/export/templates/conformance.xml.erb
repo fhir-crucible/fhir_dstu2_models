@@ -14,7 +14,7 @@
     <%- if !model.copyright().nil? -%><copyright value="<%= model.copyright() %>"/><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.experimental().nil? -%><experimental value="<%= model.experimental() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.software().nil? -%><%== render :template => 'conformance_conformancesoftwarecomponent', :locals => {name: 'software', model: model.software()} %><%- end -%>
     <%- if !model.implementation().nil? -%><%== render :template => 'conformance_conformanceimplementationcomponent', :locals => {name: 'implementation', model: model.implementation()} %><%- end -%>
     <%- if !model.fhirVersion().nil? -%><fhirVersion value="<%= model.fhirVersion() %>"/><%- end -%>

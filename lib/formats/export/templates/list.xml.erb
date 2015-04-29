@@ -10,7 +10,7 @@
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if !model.source().nil? -%><%== render :template => 'reference', :locals => {name: 'source', model: model.source()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
     <%- if !model.orderedBy().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'orderedBy', model: model.orderedBy()} %><%- end -%>
     <%- if !model.mode().nil? -%><mode value="<%= model.mode() %>"/><%- end -%>
     <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
