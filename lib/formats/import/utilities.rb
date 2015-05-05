@@ -2,7 +2,11 @@ module FHIR
   module Deserializer
     module Utilities
       def set_model_data(model, typeName, value)
-        model[typeName] = value if value;
+        begin
+          model[typeName] = value if value;
+        rescue Exception => e
+          $LOG.error "Failed to set model data: #{model.class}, #{typeName}, #{value}: #{e.message}" 
+        end
       end
       def from_xml(xml_contents)
         doc = Nokogiri::XML(xml_contents)
