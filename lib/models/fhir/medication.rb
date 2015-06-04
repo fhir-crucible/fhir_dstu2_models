@@ -43,7 +43,7 @@ module FHIR
             'name',
             'content',
             'manufacturer'
-            ]
+        ]
         
         VALID_CODES = {
             kind: [ "product", "package" ]
@@ -65,7 +65,8 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :lotNumber, type: String
-            field :expirationDate, type: FHIR::PartialDateTime
+            field :expirationDate, type: String
+            validates :expirationDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec product

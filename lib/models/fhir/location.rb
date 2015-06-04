@@ -45,7 +45,7 @@ module FHIR
             'near',
             'type',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             mode: [ "instance", "kind" ],

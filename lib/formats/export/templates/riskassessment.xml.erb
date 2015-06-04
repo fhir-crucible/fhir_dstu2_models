@@ -5,7 +5,7 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><%- if (!model.date().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><date value="<%= model.date %>"/><%- end -%><%- end -%>
     <%- if !model.condition().nil? -%><%== render :template => 'reference', :locals => {name: 'condition', model: model.condition()} %><%- end -%>
     <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
     <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>

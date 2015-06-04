@@ -52,7 +52,7 @@ module FHIR
             'publisher',
             'event',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "draft", "active", "retired" ]
@@ -75,7 +75,8 @@ module FHIR
             field :name, type: String
             validates_presence_of :name
             field :versionNum, type: String
-            field :releaseDate, type: FHIR::PartialDateTime
+            field :releaseDate, type: String
+            validates :releaseDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec implementation
@@ -303,7 +304,8 @@ module FHIR
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :experimental, type: Boolean
-        field :date, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :date
         embeds_one :software, class_name:'FHIR::Conformance::ConformanceSoftwareComponent'
         embeds_one :implementation, class_name:'FHIR::Conformance::ConformanceImplementationComponent'

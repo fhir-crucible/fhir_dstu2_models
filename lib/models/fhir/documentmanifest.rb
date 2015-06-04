@@ -49,7 +49,7 @@ module FHIR
             'recipient',
             'status',
             'contentref'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "current", "superceded", "entered-in-error" ]
@@ -60,6 +60,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                p: [ "pAttachment", "pReference" ]
+            }
+            
             embeds_one :pAttachment, class_name:'FHIR::Attachment'
             validates_presence_of :pAttachment
             embeds_one :pReference, class_name:'FHIR::Reference'
@@ -81,7 +85,8 @@ module FHIR
         embeds_many :recipient, class_name:'FHIR::Reference'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_many :author, class_name:'FHIR::Reference'
-        field :created, type: FHIR::PartialDateTime
+        field :created, type: String
+        validates :created, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :source, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }

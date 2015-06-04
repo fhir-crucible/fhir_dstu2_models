@@ -4,7 +4,7 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.started().nil? -%><started value="<%= model.started().iso8601 %>"/><%- end -%>
+    <%- if !model.started().nil? -%><%- if (!model.started().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><started value="<%= model.started %>"/><%- end -%><%- end -%>
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.uid().nil? -%><uid value="<%= model.uid() %>"/><%- end -%>
     <%- if !model.accession().nil? -%><%== render :template => 'identifier', :locals => {name: 'accession', model: model.accession()} %><%- end -%>

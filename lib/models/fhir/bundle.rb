@@ -39,7 +39,7 @@ module FHIR
             'composition',
             'type',
             'message'
-            ]
+        ]
         
         VALID_CODES = {
             fhirType: [ "document", "message", "transaction", "transaction-response", "history", "searchset", "collection" ]
@@ -88,7 +88,8 @@ module FHIR
             validates_presence_of :url
             field :ifNoneMatch, type: String
             field :ifMatch, type: String
-            field :ifModifiedSince, type: DateTime
+            field :ifModifiedSince, type: String
+            validates :ifModifiedSince, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
             field :ifNoneExist, type: String
         end
         
@@ -101,7 +102,8 @@ module FHIR
             validates_presence_of :status
             field :location, type: String
             field :etag, type: String
-            field :lastModified, type: DateTime
+            field :lastModified, type: String
+            validates :lastModified, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec entry

@@ -51,10 +51,14 @@ module FHIR
             'name',
             'issued',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "registered", "partial", "final", "corrected", "appended", "cancelled", "entered-in-error" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            diagnostic: [ "diagnosticDateTime", "diagnosticPeriod" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec image
@@ -72,7 +76,8 @@ module FHIR
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        field :issued, type: FHIR::PartialDateTime
+        field :issued, type: String
+        validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :issued
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
@@ -82,7 +87,8 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_many :requestDetail, class_name:'FHIR::Reference'
         embeds_one :serviceCategory, class_name:'FHIR::CodeableConcept'
-        field :diagnosticDateTime, type: FHIR::PartialDateTime
+        field :diagnosticDateTime, type: String
+        validates :diagnosticDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :diagnosticDateTime
         embeds_one :diagnosticPeriod, class_name:'FHIR::Period'
         validates_presence_of :diagnosticPeriod

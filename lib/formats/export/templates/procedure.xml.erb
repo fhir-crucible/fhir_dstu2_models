@@ -12,7 +12,7 @@
     <%- if (!model.bodySite().nil? && !model.bodySite.empty?) -%><%- model.bodySite().each do |element| -%><%== render :template => 'procedure_procedurebodysitecomponent', :locals => {name: 'bodySite', model: element} %><%- end -%><%- end -%>
     <%- if (!model.indication().nil? && !model.indication.empty?) -%><%- model.indication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'indication', model: element} %><%- end -%><%- end -%>
     <%- if (!model.performer().nil? && !model.performer.empty?) -%><%- model.performer().each do |element| -%><%== render :template => 'procedure_procedureperformercomponent', :locals => {name: 'performer', model: element} %><%- end -%><%- end -%>
-    <%- if !model.performedDateTime().nil? -%><performedDateTime value="<%= model.performedDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.performedDateTime().nil? -%><%- if (!model.performedDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><performedDateTime value="<%= model.performedDateTime %>"/><%- end -%><%- end -%>
     <%- if !model.performedPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'performedPeriod', model: model.performedPeriod()} %><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>

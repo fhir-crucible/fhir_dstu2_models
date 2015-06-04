@@ -54,7 +54,7 @@ module FHIR
             'indication',
             'special-arrangement',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             fhirClass: [ "inpatient", "outpatient", "ambulatory", "emergency", "home", "field", "daytime", "virtual", "other" ],

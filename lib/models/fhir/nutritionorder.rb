@@ -46,7 +46,7 @@ module FHIR
             'oraldiet',
             'status',
             'additive'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "proposed", "draft", "planned", "requested", "active", "on-hold", "completed", "cancelled" ]
@@ -119,7 +119,8 @@ module FHIR
         embeds_one :orderer, class_name:'FHIR::Reference'
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :encounter, class_name:'FHIR::Reference'
-        field :dateTime, type: FHIR::PartialDateTime
+        field :dateTime, type: String
+        validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :dateTime
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }

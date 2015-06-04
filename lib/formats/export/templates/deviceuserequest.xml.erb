@@ -13,11 +13,11 @@
     <%- if (!model.indication().nil? && !model.indication.empty?) -%><%- model.indication().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'indication', model: element} %><%- end -%><%- end -%>
     <%- if (model.notes() && !model.notes.empty?) -%><%- model.notes().each do |element| -%><notes value="<%= element %>"/><%- end -%><%- end -%>
     <%- if (!model.prnReason().nil? && !model.prnReason.empty?) -%><%- model.prnReason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'prnReason', model: element} %><%- end -%><%- end -%>
-    <%- if !model.orderedOn().nil? -%><orderedOn value="<%= model.orderedOn().iso8601 %>"/><%- end -%>
-    <%- if !model.recordedOn().nil? -%><recordedOn value="<%= model.recordedOn().iso8601 %>"/><%- end -%>
+    <%- if !model.orderedOn().nil? -%><%- if (!model.orderedOn().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><orderedOn value="<%= model.orderedOn %>"/><%- end -%><%- end -%>
+    <%- if !model.recordedOn().nil? -%><%- if (!model.recordedOn().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><recordedOn value="<%= model.recordedOn %>"/><%- end -%><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
     <%- if !model.timingTiming().nil? -%><%== render :template => 'timing', :locals => {name: 'timingTiming', model: model.timingTiming()} %><%- end -%>
     <%- if !model.timingPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'timingPeriod', model: model.timingPeriod()} %><%- end -%>
-    <%- if !model.timingDateTime().nil? -%><timingDateTime value="<%= model.timingDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.timingDateTime().nil? -%><%- if (!model.timingDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><timingDateTime value="<%= model.timingDateTime %>"/><%- end -%><%- end -%>
     <%- if !model.priority().nil? -%><priority value="<%= model.priority() %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

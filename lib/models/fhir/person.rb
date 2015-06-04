@@ -48,7 +48,7 @@ module FHIR
             'link',
             'telecom',
             'relatedperson'
-            ]
+        ]
         
         VALID_CODES = {
             gender: [ "male", "female", "other", "unknown" ]
@@ -75,7 +75,8 @@ module FHIR
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         field :gender, type: String
         validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
-        field :birthDate, type: FHIR::PartialDateTime
+        field :birthDate, type: String
+        validates :birthDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_many :address, class_name:'FHIR::Address'
         embeds_one :photo, class_name:'FHIR::Attachment'
         embeds_one :managingOrganization, class_name:'FHIR::Reference'

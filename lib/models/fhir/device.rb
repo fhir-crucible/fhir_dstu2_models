@@ -44,7 +44,7 @@ module FHIR
             'udi',
             'type',
             'manufacturer'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "available", "not-available", "entered-in-error" ]
@@ -58,8 +58,10 @@ module FHIR
         field :manufacturer, type: String
         field :model, type: String
         field :versionNum, type: String
-        field :manufactureDate, type: FHIR::PartialDateTime
-        field :expiry, type: FHIR::PartialDateTime
+        field :manufactureDate, type: String
+        validates :manufactureDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :expiry, type: String
+        validates :expiry, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :udi, type: String
         field :lotNumber, type: String
         embeds_one :owner, class_name:'FHIR::Reference'

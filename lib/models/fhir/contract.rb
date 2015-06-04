@@ -41,7 +41,11 @@ module FHIR
             'subject',
             'patient',
             'signer'
-            ]
+        ]
+        MULTIPLE_TYPES = {
+            binding: [ "bindingAttachment", "bindingReference" ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec actor
         class ActorComponent
         include Mongoid::Document
@@ -57,10 +61,15 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                entity: [ "entityCodeableConcept", "entityReference" ]
+            }
+            
             embeds_one :entityCodeableConcept, class_name:'FHIR::CodeableConcept'
             embeds_one :entityReference, class_name:'FHIR::Reference'
             embeds_one :identifier, class_name:'FHIR::Identifier'
-            field :effectiveTime, type: FHIR::PartialDateTime
+            field :effectiveTime, type: String
+            validates :effectiveTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :unitPrice, class_name:'FHIR::Quantity'
             field :factor, type: Float
@@ -96,10 +105,15 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                entity: [ "entityCodeableConcept", "entityReference" ]
+            }
+            
             embeds_one :entityCodeableConcept, class_name:'FHIR::CodeableConcept'
             embeds_one :entityReference, class_name:'FHIR::Reference'
             embeds_one :identifier, class_name:'FHIR::Identifier'
-            field :effectiveTime, type: FHIR::PartialDateTime
+            field :effectiveTime, type: String
+            validates :effectiveTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :unitPrice, class_name:'FHIR::Quantity'
             field :factor, type: Float
@@ -113,7 +127,8 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_one :identifier, class_name:'FHIR::Identifier'
-            field :issued, type: FHIR::PartialDateTime
+            field :issued, type: String
+            validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :applies, class_name:'FHIR::Period'
             embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
             embeds_one :subType, class_name:'FHIR::CodeableConcept'
@@ -131,6 +146,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                content: [ "contentAttachment", "contentReference" ]
+            }
+            
             embeds_one :contentAttachment, class_name:'FHIR::Attachment'
             validates_presence_of :contentAttachment
             embeds_one :contentReference, class_name:'FHIR::Reference'
@@ -142,6 +161,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                content: [ "contentAttachment", "contentReference" ]
+            }
+            
             embeds_one :contentAttachment, class_name:'FHIR::Attachment'
             validates_presence_of :contentAttachment
             embeds_one :contentReference, class_name:'FHIR::Reference'
@@ -153,6 +176,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                content: [ "contentAttachment", "contentReference" ]
+            }
+            
             embeds_one :contentAttachment, class_name:'FHIR::Attachment'
             validates_presence_of :contentAttachment
             embeds_one :contentReference, class_name:'FHIR::Reference'
@@ -160,7 +187,8 @@ module FHIR
         end
         
         embeds_one :identifier, class_name:'FHIR::Identifier'
-        field :issued, type: FHIR::PartialDateTime
+        field :issued, type: String
+        validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :applies, class_name:'FHIR::Period'
         embeds_many :subject, class_name:'FHIR::Reference'
         embeds_many :authority, class_name:'FHIR::Reference'

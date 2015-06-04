@@ -6,12 +6,12 @@
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><%- if (!model.date().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><date value="<%= model.date %>"/><%- end -%><%- end -%>
     <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
     <%- if !model.relationship().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'relationship', model: model.relationship()} %><%- end -%>
     <%- if !model.gender().nil? -%><gender value="<%= model.gender() %>"/><%- end -%>
     <%- if !model.bornPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'bornPeriod', model: model.bornPeriod()} %><%- end -%>
-    <%- if !model.bornDate().nil? -%><bornDate value="<%= model.bornDate().to_date.iso8601 %>"/><%- end -%>
+    <%- if !model.bornDate().nil? -%><%- if (!model.bornDate().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/).nil?) -%><bornDate value="<%= model.bornDate %>"/><%- end -%><%- end -%>
     <%- if !model.bornString().nil? -%><bornString value="<%= model.bornString() %>"/><%- end -%>
     <%- if !model.ageAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'ageAge', model: model.ageAge()} %><%- end -%>
     <%- if !model.ageRange().nil? -%><%== render :template => 'range', :locals => {name: 'ageRange', model: model.ageRange()} %><%- end -%>
@@ -19,7 +19,7 @@
     <%- if !model.deceasedBoolean().nil? -%><deceasedBoolean value="<%= model.deceasedBoolean() %>"/><%- end -%>
     <%- if !model.deceasedAge().nil? -%><%== render :template => 'quantity', :locals => {name: 'deceasedAge', model: model.deceasedAge()} %><%- end -%>
     <%- if !model.deceasedRange().nil? -%><%== render :template => 'range', :locals => {name: 'deceasedRange', model: model.deceasedRange()} %><%- end -%>
-    <%- if !model.deceasedDate().nil? -%><deceasedDate value="<%= model.deceasedDate().to_date.iso8601 %>"/><%- end -%>
+    <%- if !model.deceasedDate().nil? -%><%- if (!model.deceasedDate().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/).nil?) -%><deceasedDate value="<%= model.deceasedDate %>"/><%- end -%><%- end -%>
     <%- if !model.deceasedString().nil? -%><deceasedString value="<%= model.deceasedString() %>"/><%- end -%>
     <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
     <%- if (!model.condition().nil? && !model.condition.empty?) -%><%- model.condition().each do |element| -%><%== render :template => 'familymemberhistory_familymemberhistoryconditioncomponent', :locals => {name: 'condition', model: element} %><%- end -%><%- end -%>

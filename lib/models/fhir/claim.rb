@@ -41,7 +41,7 @@ module FHIR
             'use',
             'patient',
             'priority'
-            ]
+        ]
         
         VALID_CODES = {
             use: [ "complete", "proposed", "exploratory", "other" ],
@@ -134,7 +134,8 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :initial, type: Boolean
-            field :priorDate, type: FHIR::PartialDateTime
+            field :priorDate, type: String
+            validates :priorDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
             embeds_one :priorMaterial, class_name:'FHIR::Coding'
         end
         
@@ -151,7 +152,8 @@ module FHIR
             field :diagnosisLinkId, type: Array # Array of Integers
             embeds_one :service, class_name:'FHIR::Coding'
             validates_presence_of :service
-            field :serviceDate, type: FHIR::PartialDateTime
+            field :serviceDate, type: String
+            validates :serviceDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :unitPrice, class_name:'FHIR::Quantity'
             field :factor, type: Float
@@ -173,7 +175,8 @@ module FHIR
             embeds_one :tooth, class_name:'FHIR::Coding'
             validates_presence_of :tooth
             embeds_one :reason, class_name:'FHIR::Coding'
-            field :extractionDate, type: FHIR::PartialDateTime
+            field :extractionDate, type: String
+            validates :extractionDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         end
         
         field :fhirType, type: String
@@ -182,7 +185,8 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :ruleset, class_name:'FHIR::Coding'
         embeds_one :originalRuleset, class_name:'FHIR::Coding'
-        field :created, type: FHIR::PartialDateTime
+        field :created, type: String
+        validates :created, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :target, class_name:'FHIR::Reference'
         embeds_one :provider, class_name:'FHIR::Reference'
         embeds_one :organization, class_name:'FHIR::Reference'
@@ -203,7 +207,8 @@ module FHIR
         embeds_many :coverage, class_name:'FHIR::Claim::CoverageComponent'
         embeds_many :exception, class_name:'FHIR::Coding'
         field :school, type: String
-        field :accident, type: FHIR::PartialDateTime
+        field :accident, type: String
+        validates :accident, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_one :accidentType, class_name:'FHIR::Coding'
         embeds_many :interventionException, class_name:'FHIR::Coding'
         embeds_many :item, class_name:'FHIR::Claim::ItemsComponent'

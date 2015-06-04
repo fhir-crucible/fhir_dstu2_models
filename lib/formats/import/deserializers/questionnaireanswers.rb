@@ -12,7 +12,7 @@ module FHIR
                 set_model_data(model, 'valueInteger', entry.at_xpath('./fhir:valueInteger/@value').try(:value))
                 set_model_data(model, 'valueDate', entry.at_xpath('./fhir:valueDate/@value').try(:value))
                 set_model_data(model, 'valueDateTime', entry.at_xpath('./fhir:valueDateTime/@value').try(:value))
-                set_model_data(model, 'valueInstant', parse_date_time(entry.at_xpath('./fhir:valueInstant/@value').try(:value)))
+                set_model_data(model, 'valueInstant', entry.at_xpath('./fhir:valueInstant/@value').try(:value))
                 set_model_data(model, 'valueTime', entry.at_xpath('./fhir:valueTime/@value').try(:value))
                 set_model_data(model, 'valueString', entry.at_xpath('./fhir:valueString/@value').try(:value))
                 set_model_data(model, 'valueUri', entry.at_xpath('./fhir:valueUri/@value').try(:value))

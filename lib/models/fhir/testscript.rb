@@ -42,7 +42,7 @@ module FHIR
             'name',
             'description',
             'requires-operations'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec fixture
         class TestScriptFixtureComponent
         include Mongoid::Document

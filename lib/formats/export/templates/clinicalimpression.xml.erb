@@ -7,7 +7,7 @@
     <%- if !model.patient().nil? -%><%== render :template => 'reference', :locals => {name: 'patient', model: model.patient()} %><%- end -%>
     <%- if !model.assessor().nil? -%><%== render :template => 'reference', :locals => {name: 'assessor', model: model.assessor()} %><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.date().nil? -%><date value="<%= model.date().to_date.iso8601 %>"/><%- end -%>
+    <%- if !model.date().nil? -%><%- if (!model.date().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><date value="<%= model.date %>"/><%- end -%><%- end -%>
     <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
     <%- if !model.previous().nil? -%><%== render :template => 'reference', :locals => {name: 'previous', model: model.previous()} %><%- end -%>
     <%- if (!model.problem().nil? && !model.problem.empty?) -%><%- model.problem().each do |element| -%><%== render :template => 'reference', :locals => {name: 'problem', model: element} %><%- end -%><%- end -%>

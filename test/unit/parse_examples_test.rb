@@ -5,7 +5,7 @@ require_relative '../test_helper'
 class ParseExamplesTest < Test::Unit::TestCase
  
   ERROR_DIR = File.join('tmp','errors','parse')
-  EXAMPLE_ROOT = File.join('..','..','..','..','source')
+  EXAMPLE_ROOT = File.join('..','..','..','..','temp')
   XSD_ROOT = File.join('..','..','..','..','schema')
 
   # Automatically generate one test method per measure file

@@ -12,8 +12,8 @@ module FHIR
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'schedule', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:schedule')))
                 set_model_data(model, 'freeBusyType', entry.at_xpath('./fhir:freeBusyType/@value').try(:value))
-                set_model_data(model, 'start', parse_date_time(entry.at_xpath('./fhir:start/@value').try(:value)))
-                set_model_data(model, 'end', parse_date_time(entry.at_xpath('./fhir:end/@value').try(:value)))
+                set_model_data(model, 'start', entry.at_xpath('./fhir:start/@value').try(:value))
+                set_model_data(model, 'end', entry.at_xpath('./fhir:end/@value').try(:value))
                 set_model_data(model, 'overbooked', entry.at_xpath('./fhir:overbooked/@value').try(:value))
                 set_model_data(model, 'comment', entry.at_xpath('./fhir:comment/@value').try(:value))
                 model

@@ -54,10 +54,15 @@ module FHIR
             'name',
             'telecom',
             'family'
-            ]
+        ]
         
         VALID_CODES = {
             gender: [ "male", "female", "other", "unknown" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            deceased: [ "deceasedBoolean", "deceasedDateTime" ],
+            multipleBirth: [ "multipleBirthBoolean", "multipleBirthInteger" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -123,9 +128,11 @@ module FHIR
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         field :gender, type: String
         validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
-        field :birthDate, type: FHIR::PartialDateTime
+        field :birthDate, type: String
+        validates :birthDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         field :deceasedBoolean, type: Boolean
-        field :deceasedDateTime, type: FHIR::PartialDateTime
+        field :deceasedDateTime, type: String
+        validates :deceasedDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_many :address, class_name:'FHIR::Address'
         embeds_one :maritalStatus, class_name:'FHIR::CodeableConcept'
         field :multipleBirthBoolean, type: Boolean

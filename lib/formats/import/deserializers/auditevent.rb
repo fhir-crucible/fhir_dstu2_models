@@ -10,7 +10,7 @@ module FHIR
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'subtype', entry.xpath('./fhir:subtype').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'action', entry.at_xpath('./fhir:action/@value').try(:value))
-                set_model_data(model, 'dateTime', parse_date_time(entry.at_xpath('./fhir:dateTime/@value').try(:value)))
+                set_model_data(model, 'dateTime', entry.at_xpath('./fhir:dateTime/@value').try(:value))
                 set_model_data(model, 'outcome', entry.at_xpath('./fhir:outcome/@value').try(:value))
                 set_model_data(model, 'outcomeDesc', entry.at_xpath('./fhir:outcomeDesc/@value').try(:value))
                 set_model_data(model, 'purposeOfEvent', entry.xpath('./fhir:purposeOfEvent').map {|e| FHIR::Coding.parse_xml_entry(e)})

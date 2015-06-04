@@ -43,7 +43,7 @@ module FHIR
             'patient',
             'location',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "pending", "booked", "arrived", "fulfilled", "cancelled", "noshow" ]
@@ -77,9 +77,11 @@ module FHIR
         embeds_one :reason, class_name:'FHIR::CodeableConcept'
         field :priority, type: Integer
         field :description, type: String
-        field :start, type: DateTime
+        field :start, type: String
+        validates :start, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :start
-        field :end, type: DateTime
+        field :end, type: String
+        validates :end, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :end
         embeds_many :slot, class_name:'FHIR::Reference'
         field :comment, type: String

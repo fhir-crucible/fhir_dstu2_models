@@ -41,13 +41,14 @@ module FHIR
             'created',
             'patient',
             'author'
-            ]
+        ]
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :author, class_name:'FHIR::Reference'
-        field :created, type: FHIR::PartialDateTime
+        field :created, type: String
+        validates :created, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         track_history
     end
 end

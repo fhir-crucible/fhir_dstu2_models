@@ -40,7 +40,7 @@ module FHIR
             'subject',
             'patient',
             'author'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "active", "inactive", "entered-in-error" ]

@@ -38,7 +38,7 @@ module FHIR
         SEARCH_PARAMS = [
             'code',
             'patient'
-            ]
+        ]
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
         embeds_many :identifier, class_name:'FHIR::Identifier'

@@ -12,15 +12,15 @@
     <%- if !model.valueRatio().nil? -%><%== render :template => 'ratio', :locals => {name: 'valueRatio', model: model.valueRatio()} %><%- end -%>
     <%- if !model.valueSampledData().nil? -%><%== render :template => 'sampleddata', :locals => {name: 'valueSampledData', model: model.valueSampledData()} %><%- end -%>
     <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>
-    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().to_time.strftime("%T") %>"/><%- end -%>
-    <%- if !model.valueDateTime().nil? -%><valueDateTime value="<%= model.valueDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.valueTime().nil? -%><%- if (!model.valueTime().match(/\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/).nil?) -%><valueTime value="<%= model.valueTime %>"/><%- end -%><%- end -%>
+    <%- if !model.valueDateTime().nil? -%><%- if (!model.valueDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><valueDateTime value="<%= model.valueDateTime %>"/><%- end -%><%- end -%>
     <%- if !model.valuePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'valuePeriod', model: model.valuePeriod()} %><%- end -%>
     <%- if !model.dataAbsentReason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'dataAbsentReason', model: model.dataAbsentReason()} %><%- end -%>
     <%- if !model.interpretation().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'interpretation', model: model.interpretation()} %><%- end -%>
     <%- if !model.comments().nil? -%><comments value="<%= model.comments() %>"/><%- end -%>
-    <%- if !model.appliesDateTime().nil? -%><appliesDateTime value="<%= model.appliesDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.appliesDateTime().nil? -%><%- if (!model.appliesDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><appliesDateTime value="<%= model.appliesDateTime %>"/><%- end -%><%- end -%>
     <%- if !model.appliesPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'appliesPeriod', model: model.appliesPeriod()} %><%- end -%>
-    <%- if !model.issued().nil? -%><issued value="<%= model.issued().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.issued().nil? -%><%- if (!model.issued().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><issued value="<%= model.issued %>"/><%- end -%><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.reliability().nil? -%><reliability value="<%= model.reliability() %>"/><%- end -%>
     <%- if !model.bodySiteCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySiteCodeableConcept', model: model.bodySiteCodeableConcept()} %><%- end -%>

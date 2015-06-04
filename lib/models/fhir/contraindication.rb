@@ -42,7 +42,7 @@ module FHIR
             'author',
             'implicated',
             'category'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec mitigation
         class ContraindicationMitigationComponent
         include Mongoid::Document
@@ -50,7 +50,8 @@ module FHIR
         include FHIR::Formats::Utilities
             embeds_one :action, class_name:'FHIR::CodeableConcept'
             validates_presence_of :action
-            field :date, type: FHIR::PartialDateTime
+            field :date, type: String
+            validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :author, class_name:'FHIR::Reference'
         end
         
@@ -59,7 +60,8 @@ module FHIR
         field :severity, type: String
         embeds_many :implicated, class_name:'FHIR::Reference'
         field :detail, type: String
-        field :date, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :author, class_name:'FHIR::Reference'
         embeds_one :identifier, class_name:'FHIR::Identifier'
         field :reference, type: String

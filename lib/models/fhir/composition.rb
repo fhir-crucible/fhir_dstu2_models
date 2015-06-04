@@ -52,7 +52,7 @@ module FHIR
             'context',
             'class',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "preliminary", "final", "appended", "amended", "entered-in-error" ]
@@ -71,7 +71,8 @@ module FHIR
             field :mode, type: Array # Array of Strings
             validates :mode, :inclusion => { in: VALID_CODES[:mode] }
             validates_presence_of :mode
-            field :time, type: FHIR::PartialDateTime
+            field :time, type: String
+            validates :time, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :party, class_name:'FHIR::Reference'
         end
         
@@ -97,7 +98,8 @@ module FHIR
         end
         
         embeds_one :identifier, class_name:'FHIR::Identifier'
-        field :date, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :date
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         validates_presence_of :fhirType

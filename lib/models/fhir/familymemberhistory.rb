@@ -38,10 +38,16 @@ module FHIR
         SEARCH_PARAMS = [
             'date',
             'patient'
-            ]
+        ]
         
         VALID_CODES = {
             gender: [ "male", "female", "other", "unknown" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            deceased: [ "deceasedBoolean", "deceasedAge", "deceasedRange", "deceasedDate", "deceasedString" ],
+            born: [ "bornPeriod", "bornDate", "bornString" ],
+            age: [ "ageAge", "ageRange", "ageString" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec condition
@@ -49,6 +55,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                onset: [ "onsetAge", "onsetRange", "onsetString" ]
+            }
+            
             embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
             validates_presence_of :fhirType
             embeds_one :outcome, class_name:'FHIR::CodeableConcept'
@@ -61,14 +71,16 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
-        field :date, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :name, type: String
         embeds_one :relationship, class_name:'FHIR::CodeableConcept'
         validates_presence_of :relationship
         field :gender, type: String
         validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
         embeds_one :bornPeriod, class_name:'FHIR::Period'
-        field :bornDate, type: FHIR::PartialDateTime
+        field :bornDate, type: String
+        validates :bornDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         field :bornString, type: String
         embeds_one :ageAge, class_name:'FHIR::Quantity'
         embeds_one :ageRange, class_name:'FHIR::Range'
@@ -76,7 +88,8 @@ module FHIR
         field :deceasedBoolean, type: Boolean
         embeds_one :deceasedAge, class_name:'FHIR::Quantity'
         embeds_one :deceasedRange, class_name:'FHIR::Range'
-        field :deceasedDate, type: FHIR::PartialDateTime
+        field :deceasedDate, type: String
+        validates :deceasedDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         field :deceasedString, type: String
         field :note, type: String
         embeds_many :condition, class_name:'FHIR::FamilyMemberHistory::FamilyMemberHistoryConditionComponent'

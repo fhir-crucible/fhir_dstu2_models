@@ -56,11 +56,17 @@ module FHIR
             'value-string',
             'device',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             reliability: [ "ok", "ongoing", "early", "questionable", "calibrating", "error", "unknown" ],
             status: [ "registered", "preliminary", "final", "amended", "cancelled", "entered-in-error", "unknown" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ],
+            applies: [ "appliesDateTime", "appliesPeriod" ],
+            value: [ "valueQuantity", "valueCodeableConcept", "valueString", "valueRange", "valueRatio", "valueSampledData", "valueAttachment", "valueTime", "valueDateTime", "valuePeriod" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec referenceRange
@@ -100,15 +106,19 @@ module FHIR
         embeds_one :valueRatio, class_name:'FHIR::Ratio'
         embeds_one :valueSampledData, class_name:'FHIR::SampledData'
         embeds_one :valueAttachment, class_name:'FHIR::Attachment'
-        field :valueTime, type: FHIR::PartialDateTime
-        field :valueDateTime, type: FHIR::PartialDateTime
+        field :valueTime, type: String
+        validates :valueTime, :allow_nil => true, :format => {  with: /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/ }
+        field :valueDateTime, type: String
+        validates :valueDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :valuePeriod, class_name:'FHIR::Period'
         embeds_one :dataAbsentReason, class_name:'FHIR::CodeableConcept'
         embeds_one :interpretation, class_name:'FHIR::CodeableConcept'
         field :comments, type: String
-        field :appliesDateTime, type: FHIR::PartialDateTime
+        field :appliesDateTime, type: String
+        validates :appliesDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :appliesPeriod, class_name:'FHIR::Period'
-        field :issued, type: DateTime
+        field :issued, type: String
+        validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status

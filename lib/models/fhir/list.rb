@@ -46,7 +46,7 @@ module FHIR
             'source',
             'title',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             mode: [ "working", "snapshot", "changes" ],
@@ -60,7 +60,8 @@ module FHIR
         include FHIR::Formats::Utilities
             embeds_many :flag, class_name:'FHIR::CodeableConcept'
             field :fhirDeleted, type: Boolean
-            field :date, type: FHIR::PartialDateTime
+            field :date, type: String
+            validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :item, class_name:'FHIR::Reference'
             validates_presence_of :item
         end
@@ -73,7 +74,8 @@ module FHIR
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        field :date, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :orderedBy, class_name:'FHIR::CodeableConcept'
         field :mode, type: String
         validates :mode, :inclusion => { in: VALID_CODES[:mode] }

@@ -43,7 +43,7 @@ module FHIR
             'type',
             'priority',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "draft", "requested", "active", "cancelled", "accepted", "rejected", "completed" ]
@@ -60,7 +60,8 @@ module FHIR
         embeds_one :requester, class_name:'FHIR::Reference'
         embeds_many :recipient, class_name:'FHIR::Reference'
         embeds_one :encounter, class_name:'FHIR::Reference'
-        field :dateSent, type: FHIR::PartialDateTime
+        field :dateSent, type: String
+        validates :dateSent, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :reason, class_name:'FHIR::CodeableConcept'
         field :description, type: String
         embeds_many :serviceRequested, class_name:'FHIR::CodeableConcept'

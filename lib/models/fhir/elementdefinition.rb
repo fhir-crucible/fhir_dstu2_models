@@ -108,6 +108,10 @@ module FHIR
                 strength: [ "required", "extensible", "preferred", "example" ]
             }
             
+            MULTIPLE_TYPES = {
+                valueSet: [ "valueSetUri", "valueSetReference" ]
+            }
+            
             field :name, type: String
             validates_presence_of :name
             field :strength, type: String

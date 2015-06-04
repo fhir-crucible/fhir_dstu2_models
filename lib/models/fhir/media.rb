@@ -44,7 +44,7 @@ module FHIR
             'patient',
             'type',
             'operator'
-            ]
+        ]
         
         VALID_CODES = {
             fhirType: [ "photo", "video", "audio" ]

@@ -39,7 +39,7 @@ module FHIR
             'actor',
             'date',
             'type'
-            ]
+        ]
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :actor, class_name:'FHIR::Reference'

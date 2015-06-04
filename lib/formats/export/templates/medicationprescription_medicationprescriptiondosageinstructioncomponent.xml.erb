@@ -4,7 +4,7 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
     <%- if !model.additionalInstructions().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'additionalInstructions', model: model.additionalInstructions()} %><%- end -%>
-    <%- if !model.scheduledDateTime().nil? -%><scheduledDateTime value="<%= model.scheduledDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.scheduledDateTime().nil? -%><%- if (!model.scheduledDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><scheduledDateTime value="<%= model.scheduledDateTime %>"/><%- end -%><%- end -%>
     <%- if !model.scheduledPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'scheduledPeriod', model: model.scheduledPeriod()} %><%- end -%>
     <%- if !model.scheduledTiming().nil? -%><%== render :template => 'timing', :locals => {name: 'scheduledTiming', model: model.scheduledTiming()} %><%- end -%>
     <%- if !model.asNeededBoolean().nil? -%><asNeededBoolean value="<%= model.asNeededBoolean() %>"/><%- end -%>

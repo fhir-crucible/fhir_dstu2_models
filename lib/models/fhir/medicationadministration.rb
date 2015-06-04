@@ -46,10 +46,14 @@ module FHIR
             'device',
             'notgiven',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "in-progress", "on-hold", "completed", "entered-in-error", "stopped" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            effectiveTime: [ "effectiveTimeDateTime", "effectiveTimePeriod" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosage
@@ -77,7 +81,8 @@ module FHIR
         field :wasNotGiven, type: Boolean
         embeds_many :reasonNotGiven, class_name:'FHIR::CodeableConcept'
         embeds_many :reasonGiven, class_name:'FHIR::CodeableConcept'
-        field :effectiveTimeDateTime, type: FHIR::PartialDateTime
+        field :effectiveTimeDateTime, type: String
+        validates :effectiveTimeDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :effectiveTimeDateTime
         embeds_one :effectiveTimePeriod, class_name:'FHIR::Period'
         validates_presence_of :effectiveTimePeriod

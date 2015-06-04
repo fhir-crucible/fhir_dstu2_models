@@ -53,7 +53,7 @@ module FHIR
             'orderer',
             'specimen',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             priority: [ "routine", "urgent", "stat", "asap" ],
@@ -74,7 +74,8 @@ module FHIR
             validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
             embeds_one :description, class_name:'FHIR::CodeableConcept'
-            field :dateTime, type: FHIR::PartialDateTime
+            field :dateTime, type: String
+            validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             validates_presence_of :dateTime
             embeds_one :actor, class_name:'FHIR::Reference'
         end
@@ -87,6 +88,10 @@ module FHIR
             
             VALID_CODES = {
                 status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
+            }
+            
+            MULTIPLE_TYPES = {
+                bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ]
             }
             
             embeds_one :code, class_name:'FHIR::CodeableConcept'

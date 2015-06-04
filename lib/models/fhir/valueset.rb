@@ -49,7 +49,7 @@ module FHIR
             'context',
             'publisher',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "draft", "active", "retired" ]
@@ -158,6 +158,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                value: [ "valueString", "valueBoolean", "valueInteger", "valueDecimal", "valueUri", "valueCode" ]
+            }
+            
             field :name, type: String
             validates_presence_of :name
             field :valueString, type: String
@@ -188,7 +192,8 @@ module FHIR
         include FHIR::Formats::Utilities
             field :identifier, type: String
             validates_presence_of :identifier
-            field :timestamp, type: FHIR::PartialDateTime
+            field :timestamp, type: String
+            validates :timestamp, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             validates_presence_of :timestamp
             embeds_many :parameter, class_name:'FHIR::ValueSet::ValueSetExpansionParameterComponent'
             embeds_many :contains, class_name:'FHIR::ValueSet::ValueSetExpansionContainsComponent'
@@ -210,8 +215,10 @@ module FHIR
         validates_presence_of :status
         field :experimental, type: Boolean
         field :extensible, type: Boolean
-        field :date, type: FHIR::PartialDateTime
-        field :lockedDate, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :lockedDate, type: String
+        validates :lockedDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_one :define, class_name:'FHIR::ValueSet::ValueSetDefineComponent'
         embeds_one :compose, class_name:'FHIR::ValueSet::ValueSetComposeComponent'
         embeds_one :expansion, class_name:'FHIR::ValueSet::ValueSetExpansionComponent'

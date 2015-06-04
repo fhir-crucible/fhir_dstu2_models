@@ -13,7 +13,7 @@
     <%- if !model.wasNotGiven().nil? -%><wasNotGiven value="<%= model.wasNotGiven() %>"/><%- end -%>
     <%- if (!model.reasonNotGiven().nil? && !model.reasonNotGiven.empty?) -%><%- model.reasonNotGiven().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonNotGiven', model: element} %><%- end -%><%- end -%>
     <%- if (!model.reasonGiven().nil? && !model.reasonGiven.empty?) -%><%- model.reasonGiven().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonGiven', model: element} %><%- end -%><%- end -%>
-    <%- if !model.effectiveTimeDateTime().nil? -%><effectiveTimeDateTime value="<%= model.effectiveTimeDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.effectiveTimeDateTime().nil? -%><%- if (!model.effectiveTimeDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><effectiveTimeDateTime value="<%= model.effectiveTimeDateTime %>"/><%- end -%><%- end -%>
     <%- if !model.effectiveTimePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'effectiveTimePeriod', model: model.effectiveTimePeriod()} %><%- end -%>
     <%- if !model.medication().nil? -%><%== render :template => 'reference', :locals => {name: 'medication', model: model.medication()} %><%- end -%>
     <%- if (!model.device().nil? && !model.device.empty?) -%><%- model.device().each do |element| -%><%== render :template => 'reference', :locals => {name: 'device', model: element} %><%- end -%><%- end -%>

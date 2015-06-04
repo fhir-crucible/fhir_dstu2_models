@@ -3,7 +3,11 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.versionId().nil? -%><versionId value="<%= model.versionId() %>"/><%- end -%>
-    <%- if !model.lastUpdated().nil? -%><lastUpdated value="<%= model.lastUpdated().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.lastUpdated().nil? -%>
+      <%- if (!model.lastUpdated().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%>
+        <lastUpdated value="<%= model.lastUpdated() %>"/>
+      <%- end -%>
+    <%- end -%>
     <%- if (model.profile() && !model.profile.empty?) -%><%- model.profile().each do |element| -%><profile value="<%= element %>"/><%- end -%><%- end -%>
     <%- if (!model.security().nil? && !model.security.empty?) -%><%- model.security().each do |element| -%><%== render :template => 'coding', :locals => {name: 'security', model: element} %><%- end -%><%- end -%>
     <%- if (!model.tag().nil? && !model.tag.empty?) -%><%- model.tag().each do |element| -%><%== render :template => 'coding', :locals => {name: 'tag', model: element} %><%- end -%><%- end -%>

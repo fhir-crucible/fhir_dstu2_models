@@ -36,7 +36,7 @@ module FHIR
         extend FHIR::Deserializer::OperationOutcome
         
         SEARCH_PARAMS = [
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec issue
         class OperationOutcomeIssueComponent
         include Mongoid::Document

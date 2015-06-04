@@ -50,10 +50,15 @@ module FHIR
             'context',
             'publisher',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "draft", "active", "retired" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            source: [ "sourceUri", "sourceReference" ],
+            target: [ "targetUri", "targetReference" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -122,7 +127,8 @@ module FHIR
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :experimental, type: Boolean
-        field :date, type: FHIR::PartialDateTime
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :sourceUri, type: String
         validates_presence_of :sourceUri
         embeds_one :sourceReference, class_name:'FHIR::Reference'

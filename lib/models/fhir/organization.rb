@@ -43,7 +43,7 @@ module FHIR
             'name',
             'active',
             'type'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec contact
         class OrganizationContactComponent
         include Mongoid::Document

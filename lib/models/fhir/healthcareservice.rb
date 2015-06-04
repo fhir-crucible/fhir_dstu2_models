@@ -43,7 +43,7 @@ module FHIR
             'programname',
             'location',
             'characteristic'
-            ]
+        ]
         
         VALID_CODES = {
             serviceProvisionCode: [ "free", "disc", "cost" ],
@@ -73,8 +73,10 @@ module FHIR
             field :daysOfWeek, type: Array # Array of Strings
             validates :daysOfWeek, :inclusion => { in: VALID_CODES[:daysOfWeek], :allow_nil => true }
             field :allDay, type: Boolean
-            field :availableStartTime, type: FHIR::PartialDateTime
-            field :availableEndTime, type: FHIR::PartialDateTime
+            field :availableStartTime, type: String
+            validates :availableStartTime, :allow_nil => true, :format => {  with: /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/ }
+            field :availableEndTime, type: String
+            validates :availableEndTime, :allow_nil => true, :format => {  with: /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/ }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec notAvailable

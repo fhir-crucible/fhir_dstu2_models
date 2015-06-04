@@ -40,7 +40,7 @@ module FHIR
             'slottype',
             'start',
             'fbtype'
-            ]
+        ]
         
         VALID_CODES = {
             freeBusyType: [ "BUSY", "FREE", "BUSY-UNAVAILABLE", "BUSY-TENTATIVE" ]
@@ -53,9 +53,11 @@ module FHIR
         field :freeBusyType, type: String
         validates :freeBusyType, :inclusion => { in: VALID_CODES[:freeBusyType] }
         validates_presence_of :freeBusyType
-        field :start, type: DateTime
+        field :start, type: String
+        validates :start, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :start
-        field :end, type: DateTime
+        field :end, type: String
+        validates :end, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :end
         field :overbooked, type: Boolean
         field :comment, type: String

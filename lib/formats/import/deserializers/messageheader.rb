@@ -41,7 +41,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
-                set_model_data(model, 'timestamp', parse_date_time(entry.at_xpath('./fhir:timestamp/@value').try(:value)))
+                set_model_data(model, 'timestamp', entry.at_xpath('./fhir:timestamp/@value').try(:value))
                 set_model_data(model, 'event', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:event')))
                 set_model_data(model, 'response', parse_xml_entry_MessageHeaderResponseComponent(entry.at_xpath('./fhir:response')))
                 set_model_data(model, 'source', parse_xml_entry_MessageSourceComponent(entry.at_xpath('./fhir:source')))

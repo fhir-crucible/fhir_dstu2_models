@@ -41,7 +41,7 @@ module FHIR
             'organization',
             'requestprovider',
             'requestorganization'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec notes
         class ProcessResponseNotesComponent
         include Mongoid::Document
@@ -62,7 +62,8 @@ module FHIR
         field :disposition, type: String
         embeds_one :ruleset, class_name:'FHIR::Coding'
         embeds_one :originalRuleset, class_name:'FHIR::Coding'
-        field :created, type: FHIR::PartialDateTime
+        field :created, type: String
+        validates :created, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :organization, class_name:'FHIR::Reference'
         embeds_one :requestProvider, class_name:'FHIR::Reference'
         embeds_one :requestOrganization, class_name:'FHIR::Reference'

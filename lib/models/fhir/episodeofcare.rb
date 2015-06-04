@@ -46,7 +46,7 @@ module FHIR
             'type',
             'care-manager',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "planned", "waitlist", "active", "onhold", "finished", "cancelled" ]

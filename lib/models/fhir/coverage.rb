@@ -44,7 +44,7 @@ module FHIR
             'dependent',
             'issuer',
             'group'
-            ]
+        ]
         embeds_one :issuer, class_name:'FHIR::Reference'
         embeds_one :bin, class_name:'FHIR::Identifier'
         embeds_one :period, class_name:'FHIR::Period'

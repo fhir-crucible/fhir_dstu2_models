@@ -43,7 +43,7 @@ module FHIR
             'patient',
             'name',
             'telecom'
-            ]
+        ]
         
         VALID_CODES = {
             gender: [ "male", "female", "other", "unknown" ]

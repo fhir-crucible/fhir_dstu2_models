@@ -41,7 +41,11 @@ module FHIR
             'patient',
             'datewritten',
             'encounter'
-            ]
+        ]
+        MULTIPLE_TYPES = {
+            reason: [ "reasonCodeableConcept", "reasonReference" ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec dispense
         class VisionPrescriptionDispenseComponent
         include Mongoid::Document
@@ -74,7 +78,8 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :dateWritten, type: FHIR::PartialDateTime
+        field :dateWritten, type: String
+        validates :dateWritten, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :patient, class_name:'FHIR::Reference'
         embeds_one :prescriber, class_name:'FHIR::Reference'
         embeds_one :encounter, class_name:'FHIR::Reference'

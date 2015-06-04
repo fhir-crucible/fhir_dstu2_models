@@ -8,9 +8,9 @@
     <%- if (!model.name().nil? && !model.name.empty?) -%><%- model.name().each do |element| -%><%== render :template => 'humanname', :locals => {name: 'name', model: element} %><%- end -%><%- end -%>
     <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
     <%- if !model.gender().nil? -%><gender value="<%= model.gender() %>"/><%- end -%>
-    <%- if !model.birthDate().nil? -%><birthDate value="<%= model.birthDate().to_date.iso8601 %>"/><%- end -%>
+    <%- if !model.birthDate().nil? -%><%- if (!model.birthDate().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/).nil?) -%><birthDate value="<%= model.birthDate %>"/><%- end -%><%- end -%>
     <%- if !model.deceasedBoolean().nil? -%><deceasedBoolean value="<%= model.deceasedBoolean() %>"/><%- end -%>
-    <%- if !model.deceasedDateTime().nil? -%><deceasedDateTime value="<%= model.deceasedDateTime().iso8601 %>"/><%- end -%>
+    <%- if !model.deceasedDateTime().nil? -%><%- if (!model.deceasedDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><deceasedDateTime value="<%= model.deceasedDateTime %>"/><%- end -%><%- end -%>
     <%- if (!model.address().nil? && !model.address.empty?) -%><%- model.address().each do |element| -%><%== render :template => 'address', :locals => {name: 'address', model: element} %><%- end -%><%- end -%>
     <%- if !model.maritalStatus().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'maritalStatus', model: model.maritalStatus()} %><%- end -%>
     <%- if !model.multipleBirthBoolean().nil? -%><multipleBirthBoolean value="<%= model.multipleBirthBoolean() %>"/><%- end -%>

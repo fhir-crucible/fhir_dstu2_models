@@ -51,7 +51,7 @@ module FHIR
             'enterer',
             'event',
             'timestamp'
-            ]
+        ]
         
         VALID_CODES = {
             event: [ "MedicationAdministration-Complete", "MedicationAdministration-Nullification", "MedicationAdministration-Recording", "MedicationAdministration-Update", "admin-notify", "diagnosticreport-provide", "observation-provide", "patient-link", "patient-unlink", "valueset-expand" ]
@@ -101,7 +101,8 @@ module FHIR
         
         field :identifier, type: String
         validates_presence_of :identifier
-        field :timestamp, type: DateTime
+        field :timestamp, type: String
+        validates :timestamp, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :timestamp
         embeds_one :event, class_name:'FHIR::Coding'
         validates_presence_of :event

@@ -5,10 +5,10 @@
     <%- if !model.valueBoolean().nil? -%><valueBoolean value="<%= model.valueBoolean() %>"/><%- end -%>
     <%- if !model.valueDecimal().nil? -%><valueDecimal value="<%= model.valueDecimal() %>"/><%- end -%>
     <%- if !model.valueInteger().nil? -%><valueInteger value="<%= model.valueInteger() %>"/><%- end -%>
-    <%- if !model.valueDate().nil? -%><valueDate value="<%= model.valueDate().to_date.iso8601 %>"/><%- end -%>
-    <%- if !model.valueDateTime().nil? -%><valueDateTime value="<%= model.valueDateTime().iso8601 %>"/><%- end -%>
-    <%- if !model.valueInstant().nil? -%><valueInstant value="<%= model.valueInstant().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
-    <%- if !model.valueTime().nil? -%><valueTime value="<%= model.valueTime().to_time.strftime("%T") %>"/><%- end -%>
+    <%- if !model.valueDate().nil? -%><%- if (!model.valueDate().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/).nil?) -%><valueDate value="<%= model.valueDate %>"/><%- end -%><%- end -%>
+    <%- if !model.valueDateTime().nil? -%><%- if (!model.valueDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><valueDateTime value="<%= model.valueDateTime %>"/><%- end -%><%- end -%>
+    <%- if !model.valueInstant().nil? -%><%- if (!model.valueInstant().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><valueInstant value="<%= model.valueInstant %>"/><%- end -%><%- end -%>
+    <%- if !model.valueTime().nil? -%><%- if (!model.valueTime().match(/\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/).nil?) -%><valueTime value="<%= model.valueTime %>"/><%- end -%><%- end -%>
     <%- if !model.valueString().nil? -%><valueString value="<%= model.valueString() %>"/><%- end -%>
     <%- if !model.valueUri().nil? -%><valueUri value="<%= model.valueUri() %>"/><%- end -%>
     <%- if !model.valueAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'valueAttachment', model: model.valueAttachment()} %><%- end -%>

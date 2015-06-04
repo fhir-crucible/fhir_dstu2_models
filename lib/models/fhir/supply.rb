@@ -43,7 +43,7 @@ module FHIR
             'dispenseid',
             'dispensestatus',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "requested", "dispensed", "received", "failed", "cancelled" ]
@@ -67,7 +67,8 @@ module FHIR
             embeds_one :suppliedItem, class_name:'FHIR::Reference'
             embeds_one :supplier, class_name:'FHIR::Reference'
             embeds_one :whenPrepared, class_name:'FHIR::Period'
-            field :whenHandedOver, type: FHIR::PartialDateTime
+            field :whenHandedOver, type: String
+            validates :whenHandedOver, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :destination, class_name:'FHIR::Reference'
             embeds_many :receiver, class_name:'FHIR::Reference'
         end

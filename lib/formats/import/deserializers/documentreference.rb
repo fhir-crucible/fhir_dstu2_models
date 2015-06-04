@@ -49,7 +49,7 @@ module FHIR
                 set_model_data(model, 'custodian', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:custodian')))
                 set_model_data(model, 'authenticator', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:authenticator')))
                 set_model_data(model, 'created', entry.at_xpath('./fhir:created/@value').try(:value))
-                set_model_data(model, 'indexed', parse_date_time(entry.at_xpath('./fhir:indexed/@value').try(:value)))
+                set_model_data(model, 'indexed', entry.at_xpath('./fhir:indexed/@value').try(:value))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'docStatus', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:docStatus')))
                 set_model_data(model, 'relatesTo', entry.xpath('./fhir:relatesTo').map {|e| parse_xml_entry_DocumentReferenceRelatesToComponent(e)})

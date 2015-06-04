@@ -34,9 +34,14 @@ module FHIR
         include FHIR::Serializer::Utilities
         extend FHIR::Deserializer::Signature
         
+        MULTIPLE_TYPES = {
+            who: [ "whoUri", "whoReference" ]
+        }
+        
         embeds_many :fhirType, class_name:'FHIR::Coding'
         validates_presence_of :fhirType
-        field :when, type: DateTime
+        field :when, type: String
+        validates :when, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :when
         field :whoUri, type: String
         validates_presence_of :whoUri

@@ -42,7 +42,7 @@ module FHIR
             'author',
             'patient',
             'title'
-            ]
+        ]
         
         VALID_CODES = {
             title: [ "113000", "113001", "113002", "113003", "113004", "113005", "113006", "113007", "113008", "113009", "113010", "113013", "113018", "113020", "113021", "113030", "113031", "113032", "113033", "113034", "113035", "113036", "113037", "113038", "113039" ]
@@ -104,7 +104,8 @@ module FHIR
         validates_presence_of :title
         field :description, type: String
         embeds_one :author, class_name:'FHIR::Reference'
-        field :authoringTime, type: FHIR::PartialDateTime
+        field :authoringTime, type: String
+        validates :authoringTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_many :study, class_name:'FHIR::ImagingObjectSelection::StudyComponent'
         validates_presence_of :study
         track_history

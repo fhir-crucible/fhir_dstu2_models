@@ -3,7 +3,7 @@
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="types"/>
   <meta>
-    <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+    <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
   </meta>
   <type value="collection"/>
   <base value="http://hl7.org/fhir"/>
@@ -12,7 +12,7 @@
       <StructureDefinition>
         <id value="date"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/date"/>
         <name value="date"/>
@@ -25,7 +25,7 @@
         </contact>
         <description value="Base StructureDefinition for date Resource: A date, or partial date (e.g. just year or year + month). There is no time zone. The format is a union of the schema types gYear, gYearMonth and date.  Dates SHALL be valid dates."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -96,7 +96,7 @@
       <StructureDefinition>
         <id value="dateTime"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/dateTime"/>
         <name value="dateTime"/>
@@ -109,7 +109,7 @@
         </contact>
         <description value="Base StructureDefinition for dateTime Resource: A date, date-time or partial date (e.g. just year or year + month).  If hours and minutes are specified, a time zone SHALL be populated. The format is a union of the schema types gYear, gYearMonth, date and dateTime. Seconds must be provided due to schema type constraints but may be zero-filled and may be ignored.  Dates SHALL be valid dates."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -180,7 +180,7 @@
       <StructureDefinition>
         <id value="code"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/code"/>
         <name value="code"/>
@@ -193,7 +193,7 @@
         </contact>
         <description value="Base StructureDefinition for code Resource: A string which has at least one character and no leading or trailing whitespace and where there is no whitespace other than single spaces in the contents"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -264,7 +264,7 @@
       <StructureDefinition>
         <id value="string"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/string"/>
         <name value="string"/>
@@ -277,7 +277,7 @@
         </contact>
         <description value="Base StructureDefinition for string Resource: A sequence of Unicode characters"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -350,7 +350,7 @@
       <StructureDefinition>
         <id value="integer"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/integer"/>
         <name value="integer"/>
@@ -363,7 +363,7 @@
         </contact>
         <description value="Base StructureDefinition for integer Resource: A whole number"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -436,7 +436,7 @@
       <StructureDefinition>
         <id value="oid"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/oid"/>
         <name value="oid"/>
@@ -449,7 +449,7 @@
         </contact>
         <description value="Base StructureDefinition for oid Resource: An oid represented as a URI"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -522,7 +522,7 @@
       <StructureDefinition>
         <id value="uri"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/uri"/>
         <name value="uri"/>
@@ -535,7 +535,7 @@
         </contact>
         <description value="Base StructureDefinition for uri Resource: String of characters used to identify a name or a resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -608,7 +608,7 @@
       <StructureDefinition>
         <id value="uuid"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/uuid"/>
         <name value="uuid"/>
@@ -621,7 +621,7 @@
         </contact>
         <description value="Base StructureDefinition for uuid Resource: A UUID, represented as a URI"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -694,7 +694,7 @@
       <StructureDefinition>
         <id value="instant"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/instant"/>
         <name value="instant"/>
@@ -707,7 +707,7 @@
         </contact>
         <description value="Base StructureDefinition for instant Resource: An instant in time - known at least to the second"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -780,7 +780,7 @@
       <StructureDefinition>
         <id value="boolean"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/boolean"/>
         <name value="boolean"/>
@@ -793,7 +793,7 @@
         </contact>
         <description value="Base StructureDefinition for boolean Resource: Value of &quot;true&quot; or &quot;false&quot;"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -864,7 +864,7 @@
       <StructureDefinition>
         <id value="base64Binary"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/base64Binary"/>
         <name value="base64Binary"/>
@@ -877,7 +877,7 @@
         </contact>
         <description value="Base StructureDefinition for base64Binary Resource: A stream of bytes"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -950,7 +950,7 @@
       <StructureDefinition>
         <id value="unsignedInt"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/unsignedInt"/>
         <name value="unsignedInt"/>
@@ -963,7 +963,7 @@
         </contact>
         <description value="Base StructureDefinition for unsignedInt Resource: An integer with a value that is not negative (e.g. &gt;= 0)"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -1034,7 +1034,7 @@
       <StructureDefinition>
         <id value="time"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/time"/>
         <name value="time"/>
@@ -1047,7 +1047,7 @@
         </contact>
         <description value="Base StructureDefinition for time Resource: A time during the day, with no date specified"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -1118,7 +1118,7 @@
       <StructureDefinition>
         <id value="id"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/id"/>
         <name value="id"/>
@@ -1131,7 +1131,7 @@
         </contact>
         <description value="Base StructureDefinition for id Resource: Any combination of lowercase letters, numerals, &quot;-&quot; and &quot;.&quot;, with a length limit of 36 characters.  (This might be an integer, an unprefixed OID, UUID or any other identifier pattern that meets these constraints.)  Systems SHALL send ids as lower-case but SHOULD interpret them case-insensitively."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -1204,7 +1204,7 @@
       <StructureDefinition>
         <id value="positiveInt"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/positiveInt"/>
         <name value="positiveInt"/>
@@ -1217,7 +1217,7 @@
         </contact>
         <description value="Base StructureDefinition for positiveInt Resource: An integer with a value that is positive (e.g. &gt;0)"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -1288,7 +1288,7 @@
       <StructureDefinition>
         <id value="decimal"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/decimal"/>
         <name value="decimal"/>
@@ -1301,7 +1301,7 @@
         </contact>
         <description value="Base StructureDefinition for decimal Resource: A rational number with implicit precision"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="type"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Element"/>
@@ -1374,7 +1374,7 @@
       <StructureDefinition>
         <id value="Identifier"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Identifier"/>
         <name value="Identifier"/>
@@ -1388,7 +1388,7 @@
         <description value="Base StructureDefinition for Identifier Resource"/>
         <requirements value="Need to be able to identify things with confidence and be sure that the identification is not subject to misinterpretation."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -1799,7 +1799,7 @@
       <StructureDefinition>
         <id value="Coding"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Coding"/>
         <name value="Coding"/>
@@ -1813,7 +1813,7 @@
         <description value="Base StructureDefinition for Coding Resource"/>
         <requirements value="References to codes are very common in healthcare models."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -2119,7 +2119,7 @@
       <StructureDefinition>
         <id value="Reference"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Reference"/>
         <name value="Reference"/>
@@ -2132,7 +2132,7 @@
         </contact>
         <description value="Base StructureDefinition for Reference Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -2293,7 +2293,7 @@ Absolute URLs do not need to point to a FHIR RESTful server, though this is the 
       <StructureDefinition>
         <id value="Signature"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Signature"/>
         <name value="Signature"/>
@@ -2307,7 +2307,7 @@ Absolute URLs do not need to point to a FHIR RESTful server, though this is the 
         <description value="Base StructureDefinition for Signature Resource"/>
         <requirements value="There are a number of places where content must be signed in healthcare."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -2512,7 +2512,7 @@ Absolute URLs do not need to point to a FHIR RESTful server, though this is the 
       <StructureDefinition>
         <id value="SampledData"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/SampledData"/>
         <name value="SampledData"/>
@@ -2526,7 +2526,7 @@ Absolute URLs do not need to point to a FHIR RESTful server, though this is the 
         <description value="Base StructureDefinition for SampledData Resource"/>
         <requirements value="There is a need for a concise way to handle the data produced by devices that sample a physical state at a high frequency."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -2826,7 +2826,7 @@ Absolute URLs do not need to point to a FHIR RESTful server, though this is the 
       <StructureDefinition>
         <id value="Quantity"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Quantity"/>
         <name value="Quantity"/>
@@ -2840,7 +2840,7 @@ Absolute URLs do not need to point to a FHIR RESTful server, though this is the 
         <description value="Base StructureDefinition for Quantity Resource"/>
         <requirements value="Need to able to capture all sorts of measured values, even if the measured value are not precisely quantified. Values include exact measures such as 3.51g, customary units such as 3 tablets, and currencies such as $100.32USD."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -3172,7 +3172,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Period"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Period"/>
         <name value="Period"/>
@@ -3185,7 +3185,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="Base StructureDefinition for Period Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -3375,7 +3375,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Attachment"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Attachment"/>
         <name value="Attachment"/>
@@ -3389,7 +3389,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for Attachment Resource"/>
         <requirements value="Many models need to include data defined in other specifications that is complex and opaque to the healthcare model. This includes documents, media recordings, structured data, etc."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -3803,7 +3803,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Ratio"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Ratio"/>
         <name value="Ratio"/>
@@ -3817,7 +3817,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for Ratio Resource"/>
         <requirements value="Need to able to capture ratios for some measurements (titers) and some rates (costs)."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -3983,7 +3983,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Range"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Range"/>
         <name value="Range"/>
@@ -3997,7 +3997,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for Range Resource"/>
         <requirements value="Need to be able to specify ranges of values."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -4207,7 +4207,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="CodeableConcept"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/CodeableConcept"/>
         <name value="CodeableConcept"/>
@@ -4221,7 +4221,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for CodeableConcept Resource"/>
         <requirements value="This is a common pattern in healthcare - a concept that may be defined by one or more codes from formal definitions including LOINC and SNOMED CT, and/or defined by the provision of text that captures a human sense of the concept."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -4413,7 +4413,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Extension"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Extension"/>
         <name value="Extension"/>
@@ -4427,7 +4427,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for Extension Resource"/>
         <requirements value="The ability to add extensions in a structured way is what keeps FHIR resources simple."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -4570,7 +4570,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="BackboneElement"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/BackboneElement"/>
         <name value="BackboneElement"/>
@@ -4583,7 +4583,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="Base StructureDefinition for BackboneElement Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -4702,7 +4702,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Narrative"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Narrative"/>
         <name value="Narrative"/>
@@ -4715,7 +4715,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="Base StructureDefinition for Narrative Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -4906,7 +4906,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Element"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Element"/>
         <name value="Element"/>
@@ -4919,7 +4919,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="Base StructureDefinition for Element Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -5032,7 +5032,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="HumanName"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/HumanName"/>
         <name value="HumanName"/>
@@ -5046,7 +5046,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for HumanName Resource"/>
         <requirements value="Need to be able to record names, along with notes about their use."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -5487,7 +5487,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="ContactPoint"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/ContactPoint"/>
         <name value="ContactPoint"/>
@@ -5501,7 +5501,7 @@ The context of use may additionally require a code from a particular system."/>
         <description value="Base StructureDefinition for ContactPoint Resource"/>
         <requirements value="Need to track phone, fax, mobile, sms numbers, email addresses, twitter tags, etc."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -5844,7 +5844,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Meta"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Meta"/>
         <name value="Meta"/>
@@ -5857,7 +5857,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="Base StructureDefinition for Meta Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="rim"/>
           <uri value="http://hl7.org/v3"/>
@@ -6052,7 +6052,7 @@ The list of tags is a set. Uniqueness is based the system/code, and version and 
       <StructureDefinition>
         <id value="Address"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Address"/>
         <name value="Address"/>
@@ -6066,7 +6066,7 @@ The list of tags is a set. Uniqueness is based the system/code, and version and 
         <description value="Base StructureDefinition for Address Resource"/>
         <requirements value="Need to be able to record postal addresses, along with notes about their use."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -6626,7 +6626,7 @@ P.O. Box number, delivery hints, and similar address information."/>
       <StructureDefinition>
         <id value="Timing"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Timing"/>
         <name value="Timing"/>
@@ -6640,7 +6640,7 @@ P.O. Box number, delivery hints, and similar address information."/>
         <description value="Base StructureDefinition for Timing Resource"/>
         <requirements value="Need to able to track proposed timing schedules. There are several different ways to do this: one or more specified times, a simple rules like three times a day, or  before/after meals."/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="v2"/>
           <uri value="http://hl7.org/v2"/>
@@ -7308,7 +7308,7 @@ P.O. Box number, delivery hints, and similar address information."/>
       <StructureDefinition>
         <id value="ElementDefinition"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
         <name value="ElementDefinition"/>
@@ -7321,7 +7321,7 @@ P.O. Box number, delivery hints, and similar address information."/>
         </contact>
         <description value="Base StructureDefinition for ElementDefinition Resource"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <mapping>
           <identity value="dex"/>
           <uri value="http://wiki.ihe.net/index.php?title=Data_Element_Exchange"/>
@@ -9439,7 +9439,7 @@ If the example value are fully populated, the publication tool can generate an i
       <StructureDefinition>
         <id value="Money"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Money"/>
         <name value="Money"/>
@@ -9452,7 +9452,7 @@ If the example value are fully populated, the publication tool can generate an i
         </contact>
         <description value="An amount of money. With regard to precision, see [[X]]"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="constraint"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Quantity"/>
@@ -9662,7 +9662,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Duration"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Duration"/>
         <name value="Duration"/>
@@ -9675,7 +9675,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="A length of time"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="constraint"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Quantity"/>
@@ -9885,7 +9885,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Count"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Count"/>
         <name value="Count"/>
@@ -9898,7 +9898,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="A count of a discrete element (no unit)"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="constraint"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Quantity"/>
@@ -10108,7 +10108,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Distance"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Distance"/>
         <name value="Distance"/>
@@ -10121,7 +10121,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="A measure of distance"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="constraint"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Quantity"/>
@@ -10331,7 +10331,7 @@ The context of use may additionally require a code from a particular system."/>
       <StructureDefinition>
         <id value="Age"/>
         <meta>
-          <lastUpdated value="2015-04-28T08:39:06.953-04:00"/>
+          <lastUpdated value="2015-06-04T11:24:43.609-04:00"/>
         </meta>
         <url value="http://hl7.org/fhir/StructureDefinition/Age"/>
         <name value="Age"/>
@@ -10344,7 +10344,7 @@ The context of use may additionally require a code from a particular system."/>
         </contact>
         <description value="A duration (length of time) with a UCUM code"/>
         <status value="draft"/>
-        <date value="2015-04-28T08:39:06-04:00"/>
+        <date value="2015-06-04T11:24:43-04:00"/>
         <type value="constraint"/>
         <abstract value="false"/>
         <base value="http://hl7.org/fhir/StructureDefinition/Quantity"/>

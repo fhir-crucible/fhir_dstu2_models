@@ -34,7 +34,7 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'target', entry.xpath('./fhir:target').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
-                set_model_data(model, 'recorded', parse_date_time(entry.at_xpath('./fhir:recorded/@value').try(:value)))
+                set_model_data(model, 'recorded', entry.at_xpath('./fhir:recorded/@value').try(:value))
                 set_model_data(model, 'reason', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:reason')))
                 set_model_data(model, 'location', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:location')))
                 set_model_data(model, 'policy', entry.xpath('./fhir:policy/@value').map {|e| e.value })

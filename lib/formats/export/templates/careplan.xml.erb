@@ -9,7 +9,7 @@
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
     <%- if (!model.author().nil? && !model.author.empty?) -%><%- model.author().each do |element| -%><%== render :template => 'reference', :locals => {name: 'author', model: element} %><%- end -%><%- end -%>
-    <%- if !model.modified().nil? -%><modified value="<%= model.modified().iso8601 %>"/><%- end -%>
+    <%- if !model.modified().nil? -%><%- if (!model.modified().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><modified value="<%= model.modified %>"/><%- end -%><%- end -%>
     <%- if (!model.category().nil? && !model.category.empty?) -%><%- model.category().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: element} %><%- end -%><%- end -%>
     <%- if (!model.concern().nil? && !model.concern.empty?) -%><%- model.concern().each do |element| -%><%== render :template => 'reference', :locals => {name: 'concern', model: element} %><%- end -%><%- end -%>
     <%- if (!model.support().nil? && !model.support.empty?) -%><%- model.support().each do |element| -%><%== render :template => 'reference', :locals => {name: 'support', model: element} %><%- end -%><%- end -%>

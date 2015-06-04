@@ -41,7 +41,8 @@ module FHIR
         field :size, type: Integer
         field :fhirHash, type: Moped::BSON::Binary
         field :title, type: String
-        field :creation, type: FHIR::PartialDateTime
+        field :creation, type: String
+        validates :creation, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         track_history
     end
 end

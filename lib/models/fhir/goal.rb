@@ -37,7 +37,7 @@ module FHIR
         
         SEARCH_PARAMS = [
             'patient'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "proposed", "planned", "in-progress", "achieved", "sustaining", "cancelled", "accepted", "rejected" ]
@@ -48,19 +48,25 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                result: [ "resultCodeableConcept", "resultReference" ]
+            }
+            
             embeds_one :resultCodeableConcept, class_name:'FHIR::CodeableConcept'
             embeds_one :resultReference, class_name:'FHIR::Reference'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
-        field :targetDate, type: FHIR::PartialDateTime
+        field :targetDate, type: String
+        validates :targetDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         field :description, type: String
         validates_presence_of :description
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        field :statusDate, type: FHIR::PartialDateTime
+        field :statusDate, type: String
+        validates :statusDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_one :author, class_name:'FHIR::Reference'
         embeds_one :priority, class_name:'FHIR::CodeableConcept'
         embeds_many :concern, class_name:'FHIR::Reference'

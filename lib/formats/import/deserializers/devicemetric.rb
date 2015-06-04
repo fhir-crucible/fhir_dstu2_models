@@ -9,7 +9,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
                 set_model_data(model, 'state', entry.at_xpath('./fhir:state/@value').try(:value))
-                set_model_data(model, 'time', parse_date_time(entry.at_xpath('./fhir:time/@value').try(:value)))
+                set_model_data(model, 'time', entry.at_xpath('./fhir:time/@value').try(:value))
                 model
             end
             

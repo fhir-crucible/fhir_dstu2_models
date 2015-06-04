@@ -4,7 +4,7 @@ module FHIR
     attr_reader :value
 
     PRIMITIVES = ["integer","decimal","string","uri","boolean","code","base64binary"]
-    DATE_TIMES = ["datetime","date","instant"]
+    DATE_TIMES = ["datetime","date","time","instant"]
 
     def initialize(value)
       @value = value
@@ -22,14 +22,9 @@ module FHIR
       def demongoize(object)
         case object
         when Hash
-          if object['precision']
-            FHIR::PartialDateTime.demongoize(object)
-          else
-            type = object['type']
-            value = object['value']
-            type.constantize.create(value)
-          end
-
+          type = object['type']
+          value = object['value']
+          type.constantize.create(value)
         else
           object
         end
@@ -45,8 +40,6 @@ module FHIR
           case object[:type].downcase
           when 'integer', 'decimal', 'boolean'
             v = YAML.load(v)
-          when 'datetime', 'date', 'instant'
-            v = PartialDateTime.mongoize(v)
           end
           convertType(v)
         else

@@ -11,5 +11,5 @@
     <%- if !model.size().nil? -%><size value="<%= model.size() %>"/><%- end -%>
     <%- if !model.fhirHash().nil? -%><hash value="<%= model.fhirHash() %>"/><%- end -%>
     <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
-    <%- if !model.creation().nil? -%><creation value="<%= model.creation().iso8601 %>"/><%- end -%>
+    <%- if !model.creation().nil? -%><%- if (!model.creation().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><creation value="<%= model.creation %>"/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

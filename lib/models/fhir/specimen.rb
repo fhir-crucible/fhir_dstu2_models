@@ -48,15 +48,21 @@ module FHIR
             'containerid',
             'site-code',
             'collector'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec fhirCollection
         class SpecimenCollectionComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ],
+                collected: [ "collectedDateTime", "collectedPeriod" ]
+            }
+            
             embeds_one :collector, class_name:'FHIR::Reference'
             field :comment, type: Array # Array of Strings
-            field :collectedDateTime, type: FHIR::PartialDateTime
+            field :collectedDateTime, type: String
+            validates :collectedDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :collectedPeriod, class_name:'FHIR::Period'
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
@@ -79,6 +85,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                additive: [ "additiveCodeableConcept", "additiveReference" ]
+            }
+            
             embeds_many :identifier, class_name:'FHIR::Identifier'
             field :description, type: String
             embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
@@ -94,7 +104,8 @@ module FHIR
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
         embeds_one :accessionIdentifier, class_name:'FHIR::Identifier'
-        field :receivedTime, type: FHIR::PartialDateTime
+        field :receivedTime, type: String
+        validates :receivedTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :fhirCollection, class_name:'FHIR::Specimen::SpecimenCollectionComponent'
         embeds_many :treatment, class_name:'FHIR::Specimen::SpecimenTreatmentComponent'
         embeds_many :container, class_name:'FHIR::Specimen::SpecimenContainerComponent'

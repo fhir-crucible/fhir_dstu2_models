@@ -44,7 +44,7 @@ module FHIR
             'encounter',
             'source',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "in-progress", "completed", "amended" ]
@@ -55,13 +55,21 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                value: [ "valueBoolean", "valueDecimal", "valueInteger", "valueDate", "valueDateTime", "valueInstant", "valueTime", "valueString", "valueUri", "valueAttachment", "valueCoding", "valueQuantity", "valueReference" ]
+            }
+            
             field :valueBoolean, type: Boolean
             field :valueDecimal, type: Float
             field :valueInteger, type: Integer
-            field :valueDate, type: FHIR::PartialDateTime
-            field :valueDateTime, type: FHIR::PartialDateTime
-            field :valueInstant, type: DateTime
-            field :valueTime, type: FHIR::PartialDateTime
+            field :valueDate, type: String
+            validates :valueDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
+            field :valueDateTime, type: String
+            validates :valueDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+            field :valueInstant, type: String
+            validates :valueInstant, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
+            field :valueTime, type: String
+            validates :valueTime, :allow_nil => true, :format => {  with: /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/ }
             field :valueString, type: String
             field :valueUri, type: String
             embeds_one :valueAttachment, class_name:'FHIR::Attachment'
@@ -101,7 +109,8 @@ module FHIR
         validates_presence_of :status
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :author, class_name:'FHIR::Reference'
-        field :authored, type: FHIR::PartialDateTime
+        field :authored, type: String
+        validates :authored, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :source, class_name:'FHIR::Reference'
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :group, class_name:'FHIR::QuestionnaireAnswers::GroupComponent'

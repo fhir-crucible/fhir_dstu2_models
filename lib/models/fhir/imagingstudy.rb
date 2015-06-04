@@ -46,7 +46,7 @@ module FHIR
             'started',
             'accession',
             'order'
-            ]
+        ]
         
         VALID_CODES = {
             modalityList: [ "AR", "BMD", "BDUS", "EPS", "CR", "CT", "DX", "ECG", "ES", "XC", "GM", "HD", "IO", "IVOCT", "IVUS", "KER", "LEN", "MR", "MG", "NM", "OAM", "OCT", "OPM", "OP", "OPR", "OPT", "OPV", "PX", "PT", "RF", "RG", "SM", "SRF", "US", "VA", "XA" ],
@@ -93,11 +93,13 @@ module FHIR
             field :url, type: String
             embeds_one :bodySite, class_name:'FHIR::Coding'
             embeds_one :laterality, class_name:'FHIR::Coding'
-            field :dateTime, type: FHIR::PartialDateTime
+            field :dateTime, type: String
+            validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_many :instance, class_name:'FHIR::ImagingStudy::ImagingStudySeriesInstanceComponent'
         end
         
-        field :started, type: FHIR::PartialDateTime
+        field :started, type: String
+        validates :started, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
         field :uid, type: String

@@ -5,7 +5,7 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
-    <%- if !model.issued().nil? -%><issued value="<%= model.issued().iso8601 %>"/><%- end -%>
+    <%- if !model.issued().nil? -%><%- if (!model.issued().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><issued value="<%= model.issued %>"/><%- end -%><%- end -%>
     <%- if !model.applies().nil? -%><%== render :template => 'period', :locals => {name: 'applies', model: model.applies()} %><%- end -%>
     <%- if (!model.subject().nil? && !model.subject.empty?) -%><%- model.subject().each do |element| -%><%== render :template => 'reference', :locals => {name: 'subject', model: element} %><%- end -%><%- end -%>
     <%- if (!model.authority().nil? && !model.authority.empty?) -%><%- model.authority().each do |element| -%><%== render :template => 'reference', :locals => {name: 'authority', model: element} %><%- end -%><%- end -%>

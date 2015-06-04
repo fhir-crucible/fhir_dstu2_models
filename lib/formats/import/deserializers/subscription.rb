@@ -25,7 +25,7 @@ module FHIR
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'error', entry.at_xpath('./fhir:error/@value').try(:value))
                 set_model_data(model, 'channel', parse_xml_entry_SubscriptionChannelComponent(entry.at_xpath('./fhir:channel')))
-                set_model_data(model, 'end', parse_date_time(entry.at_xpath('./fhir:end/@value').try(:value)))
+                set_model_data(model, 'end', entry.at_xpath('./fhir:end/@value').try(:value))
                 set_model_data(model, 'tag', entry.xpath('./fhir:tag').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 model
             end

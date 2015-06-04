@@ -37,7 +37,7 @@ module FHIR
         
         SEARCH_PARAMS = [
             'contenttype'
-            ]
+        ]
         field :contentType, type: String
         validates_presence_of :contentType
         field :content, type: Moped::BSON::Binary

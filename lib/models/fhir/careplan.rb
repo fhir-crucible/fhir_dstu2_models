@@ -45,7 +45,7 @@ module FHIR
             'goal',
             'patient',
             'participant'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "planned", "active", "completed" ]
@@ -70,6 +70,11 @@ module FHIR
             VALID_CODES = {
                 category: [ "diet", "drug", "encounter", "observation", "procedure", "supply", "other" ],
                 status: [ "not-started", "scheduled", "in-progress", "on-hold", "completed", "cancelled" ]
+            }
+            
+            MULTIPLE_TYPES = {
+                reason: [ "reasonCodeableConcept", "reasonReference" ],
+                scheduled: [ "scheduledTiming", "scheduledPeriod", "scheduledString" ]
             }
             
             field :category, type: String
@@ -113,7 +118,8 @@ module FHIR
         validates_presence_of :status
         embeds_one :period, class_name:'FHIR::Period'
         embeds_many :author, class_name:'FHIR::Reference'
-        field :modified, type: FHIR::PartialDateTime
+        field :modified, type: String
+        validates :modified, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_many :category, class_name:'FHIR::CodeableConcept'
         embeds_many :concern, class_name:'FHIR::Reference'
         embeds_many :support, class_name:'FHIR::Reference'

@@ -20,7 +20,7 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'lastSystemChange', parse_date_time(entry.at_xpath('./fhir:lastSystemChange/@value').try(:value)))
+                set_model_data(model, 'lastSystemChange', entry.at_xpath('./fhir:lastSystemChange/@value').try(:value))
                 set_model_data(model, 'source', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:source')))
                 set_model_data(model, 'parent', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:parent')))
                 set_model_data(model, 'operationalStatus', entry.xpath('./fhir:operationalStatus').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})

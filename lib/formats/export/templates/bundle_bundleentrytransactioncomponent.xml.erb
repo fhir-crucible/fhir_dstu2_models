@@ -6,6 +6,6 @@
     <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
     <%- if !model.ifNoneMatch().nil? -%><ifNoneMatch value="<%= model.ifNoneMatch() %>"/><%- end -%>
     <%- if !model.ifMatch().nil? -%><ifMatch value="<%= model.ifMatch() %>"/><%- end -%>
-    <%- if !model.ifModifiedSince().nil? -%><ifModifiedSince value="<%= model.ifModifiedSince().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.ifModifiedSince().nil? -%><%- if (!model.ifModifiedSince().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><ifModifiedSince value="<%= model.ifModifiedSince %>"/><%- end -%><%- end -%>
     <%- if !model.ifNoneExist().nil? -%><ifNoneExist value="<%= model.ifNoneExist() %>"/><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

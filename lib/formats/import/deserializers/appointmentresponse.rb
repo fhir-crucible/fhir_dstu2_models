@@ -14,8 +14,8 @@ module FHIR
                 set_model_data(model, 'actor', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:actor')))
                 set_model_data(model, 'participantStatus', entry.at_xpath('./fhir:participantStatus/@value').try(:value))
                 set_model_data(model, 'comment', entry.at_xpath('./fhir:comment/@value').try(:value))
-                set_model_data(model, 'start', parse_date_time(entry.at_xpath('./fhir:start/@value').try(:value)))
-                set_model_data(model, 'end', parse_date_time(entry.at_xpath('./fhir:end/@value').try(:value)))
+                set_model_data(model, 'start', entry.at_xpath('./fhir:start/@value').try(:value))
+                set_model_data(model, 'end', entry.at_xpath('./fhir:end/@value').try(:value))
                 model
             end
         end

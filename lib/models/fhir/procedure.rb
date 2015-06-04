@@ -42,10 +42,14 @@ module FHIR
             'location',
             'encounter',
             'type'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "in-progress", "aborted", "completed", "entered-in-error" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            performed: [ "performedDateTime", "performedPeriod" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec bodySite
@@ -53,6 +57,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                site: [ "siteCodeableConcept", "siteReference" ]
+            }
+            
             embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
             validates_presence_of :siteCodeableConcept
             embeds_one :siteReference, class_name:'FHIR::Reference'
@@ -105,7 +113,8 @@ module FHIR
         embeds_many :bodySite, class_name:'FHIR::Procedure::ProcedureBodySiteComponent'
         embeds_many :indication, class_name:'FHIR::CodeableConcept'
         embeds_many :performer, class_name:'FHIR::Procedure::ProcedurePerformerComponent'
-        field :performedDateTime, type: FHIR::PartialDateTime
+        field :performedDateTime, type: String
+        validates :performedDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :performedPeriod, class_name:'FHIR::Period'
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :location, class_name:'FHIR::Reference'

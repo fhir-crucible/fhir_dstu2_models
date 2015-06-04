@@ -39,11 +39,16 @@ module FHIR
             'subject',
             'patient',
             'device'
-            ]
+        ]
         
         VALID_CODES = {
             priority: [ "routine", "urgent", "stat", "asap" ],
             status: [ "proposed", "planned", "requested", "received", "accepted", "in-progress", "completed", "suspended", "rejected", "aborted" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ],
+            timing: [ "timingTiming", "timingPeriod", "timingDateTime" ]
         }
         
         embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
@@ -57,13 +62,16 @@ module FHIR
         embeds_many :indication, class_name:'FHIR::CodeableConcept'
         field :notes, type: Array # Array of Strings
         embeds_many :prnReason, class_name:'FHIR::CodeableConcept'
-        field :orderedOn, type: FHIR::PartialDateTime
-        field :recordedOn, type: FHIR::PartialDateTime
+        field :orderedOn, type: String
+        validates :orderedOn, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :recordedOn, type: String
+        validates :recordedOn, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
         embeds_one :timingTiming, class_name:'FHIR::Timing'
         embeds_one :timingPeriod, class_name:'FHIR::Period'
-        field :timingDateTime, type: FHIR::PartialDateTime
+        field :timingDateTime, type: String
+        validates :timingDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :priority, type: String
         validates :priority, :inclusion => { in: VALID_CODES[:priority], :allow_nil => true }
         track_history

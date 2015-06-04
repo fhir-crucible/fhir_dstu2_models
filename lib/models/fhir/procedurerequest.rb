@@ -41,11 +41,16 @@ module FHIR
             'patient',
             'orderer',
             'encounter'
-            ]
+        ]
         
         VALID_CODES = {
             priority: [ "routine", "urgent", "stat", "asap" ],
             status: [ "proposed", "draft", "requested", "received", "accepted", "in-progress", "completed", "suspended", "rejected", "aborted" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            asNeeded: [ "asNeededBoolean", "asNeededCodeableConcept" ],
+            timing: [ "timingDateTime", "timingPeriod", "timingTiming" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec bodySite
@@ -53,6 +58,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                site: [ "siteCodeableConcept", "siteReference" ]
+            }
+            
             embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
             validates_presence_of :siteCodeableConcept
             embeds_one :siteReference, class_name:'FHIR::Reference'
@@ -66,7 +75,8 @@ module FHIR
         validates_presence_of :fhirType
         embeds_many :bodySite, class_name:'FHIR::ProcedureRequest::ProcedureRequestBodySiteComponent'
         embeds_many :indication, class_name:'FHIR::CodeableConcept'
-        field :timingDateTime, type: FHIR::PartialDateTime
+        field :timingDateTime, type: String
+        validates :timingDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :timingPeriod, class_name:'FHIR::Period'
         embeds_one :timingTiming, class_name:'FHIR::Timing'
         embeds_one :encounter, class_name:'FHIR::Reference'
@@ -76,7 +86,8 @@ module FHIR
         field :notes, type: Array # Array of Strings
         field :asNeededBoolean, type: Boolean
         embeds_one :asNeededCodeableConcept, class_name:'FHIR::CodeableConcept'
-        field :orderedOn, type: FHIR::PartialDateTime
+        field :orderedOn, type: String
+        validates :orderedOn, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :orderer, class_name:'FHIR::Reference'
         field :priority, type: String
         validates :priority, :inclusion => { in: VALID_CODES[:priority], :allow_nil => true }

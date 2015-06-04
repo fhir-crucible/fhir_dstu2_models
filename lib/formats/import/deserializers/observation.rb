@@ -45,7 +45,7 @@ module FHIR
                 set_model_data(model, 'comments', entry.at_xpath('./fhir:comments/@value').try(:value))
                 set_model_data(model, 'appliesDateTime', entry.at_xpath('./fhir:appliesDateTime/@value').try(:value))
                 set_model_data(model, 'appliesPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:appliesPeriod')))
-                set_model_data(model, 'issued', parse_date_time(entry.at_xpath('./fhir:issued/@value').try(:value)))
+                set_model_data(model, 'issued', entry.at_xpath('./fhir:issued/@value').try(:value))
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'reliability', entry.at_xpath('./fhir:reliability/@value').try(:value))
                 set_model_data(model, 'bodySiteCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:bodySiteCodeableConcept')))

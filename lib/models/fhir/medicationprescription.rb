@@ -43,10 +43,14 @@ module FHIR
             'medication',
             'encounter',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "active", "on-hold", "completed", "entered-in-error", "stopped", "superceded", "draft" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            reason: [ "reasonCodeableConcept", "reasonReference" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosageInstruction
@@ -54,9 +58,16 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                asNeeded: [ "asNeededBoolean", "asNeededCodeableConcept" ],
+                dose: [ "doseRange", "doseQuantity" ],
+                scheduled: [ "scheduledDateTime", "scheduledPeriod", "scheduledTiming" ]
+            }
+            
             field :text, type: String
             embeds_one :additionalInstructions, class_name:'FHIR::CodeableConcept'
-            field :scheduledDateTime, type: FHIR::PartialDateTime
+            field :scheduledDateTime, type: String
+            validates :scheduledDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :scheduledPeriod, class_name:'FHIR::Period'
             embeds_one :scheduledTiming, class_name:'FHIR::Timing'
             field :asNeededBoolean, type: Boolean
@@ -93,7 +104,8 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :dateWritten, type: FHIR::PartialDateTime
+        field :dateWritten, type: String
+        validates :dateWritten, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_one :patient, class_name:'FHIR::Reference'

@@ -45,7 +45,7 @@ module FHIR
             'type',
             'value',
             'characteristic'
-            ]
+        ]
         
         VALID_CODES = {
             fhirType: [ "person", "animal", "practitioner", "device", "medication", "substance" ]
@@ -56,6 +56,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                value: [ "valueCodeableConcept", "valueBoolean", "valueQuantity", "valueRange" ]
+            }
+            
             embeds_one :code, class_name:'FHIR::CodeableConcept'
             validates_presence_of :code
             embeds_one :valueCodeableConcept, class_name:'FHIR::CodeableConcept'

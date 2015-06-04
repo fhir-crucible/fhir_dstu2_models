@@ -66,7 +66,12 @@ module FHIR
             validates :when, :inclusion => { in: VALID_CODES[:when], :allow_nil => true }
         end
         
-        field :event, type: Array # Array of FHIR::PartialDateTimes
+        field :event, type: Array # Array of Strings
+        validates_each :event, allow_nil: true do |record, attr, values|
+            values.each do |value|
+                record.errors.add(attr, "#{value} is not a valid datetime.") if value.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?
+            end
+        end
         embeds_one :repeat, class_name:'FHIR::Timing::TimingRepeatComponent'
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         track_history

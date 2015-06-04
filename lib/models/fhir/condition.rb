@@ -54,10 +54,15 @@ module FHIR
             'location',
             'category',
             'following-code'
-            ]
+        ]
         
         VALID_CODES = {
             clinicalStatus: [ "provisional", "working", "confirmed", "refuted", "entered-in-error", "unknown" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            onset: [ "onsetDateTime", "onsetAge", "onsetPeriod", "onsetRange", "onsetString" ],
+            abatement: [ "abatementDate", "abatementAge", "abatementBoolean", "abatementPeriod", "abatementRange", "abatementString" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec stage
@@ -83,6 +88,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                site: [ "siteCodeableConcept", "siteReference" ]
+            }
+            
             embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
             embeds_one :siteReference, class_name:'FHIR::Reference'
         end
@@ -110,7 +119,8 @@ module FHIR
         validates_presence_of :patient
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :asserter, class_name:'FHIR::Reference'
-        field :dateAsserted, type: FHIR::PartialDateTime
+        field :dateAsserted, type: String
+        validates :dateAsserted, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code
         embeds_one :category, class_name:'FHIR::CodeableConcept'
@@ -118,12 +128,14 @@ module FHIR
         validates :clinicalStatus, :inclusion => { in: VALID_CODES[:clinicalStatus] }
         validates_presence_of :clinicalStatus
         embeds_one :severity, class_name:'FHIR::CodeableConcept'
-        field :onsetDateTime, type: FHIR::PartialDateTime
+        field :onsetDateTime, type: String
+        validates :onsetDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :onsetAge, class_name:'FHIR::Quantity'
         embeds_one :onsetPeriod, class_name:'FHIR::Period'
         embeds_one :onsetRange, class_name:'FHIR::Range'
         field :onsetString, type: String
-        field :abatementDate, type: FHIR::PartialDateTime
+        field :abatementDate, type: String
+        validates :abatementDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_one :abatementAge, class_name:'FHIR::Quantity'
         field :abatementBoolean, type: Boolean
         embeds_one :abatementPeriod, class_name:'FHIR::Period'

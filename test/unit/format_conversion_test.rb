@@ -5,7 +5,7 @@ class RunConversionTest < Test::Unit::TestCase
  
   ERROR_DIR_JJ = File.join('tmp','errors','format','read-json-write-json')
   ERROR_DIR_XJ = File.join('tmp','errors','format','read-xml-write-json')
-  EXAMPLE_ROOT = File.join('..','..','..','..','source')
+  EXAMPLE_ROOT = File.join('..','..','..','..','temp')
   EXAMPLE_JSON_ROOT = File.join('..','..','..','..','temp')
   XSD_ROOT = File.join('..','..','..','..','schema')
 
@@ -77,13 +77,21 @@ class RunConversionTest < Test::Unit::TestCase
     shorter = nil
     shorter_name = nil
     if(parsed_json_hash.size > example_json_hash.size)
-      errors = parsed_json_hash.to_a - example_json_hash.to_a
+      begin
+        errors = compare(parsed_json_hash,example_json_hash)
+      rescue Exception => e
+        binding.pry
+      end
       longer = parsed_json_hash
       longer_name = 'PRODUCED'
       shorter = example_json_hash
       shorter_name = 'ORIGINAL'
     else
-      errors = example_json_hash.to_a - parsed_json_hash.to_a
+      begin
+        errors = compare(example_json_hash,parsed_json_hash)
+      rescue Exception => e
+        binding.pry
+      end      
       longer = example_json_hash
       longer_name = 'ORIGINAL'
       shorter = parsed_json_hash
@@ -99,7 +107,7 @@ class RunConversionTest < Test::Unit::TestCase
             file.write(sprintf("%-8d %-8s %-20s %s\n", index, longer_name, error[0], error[1].to_s))
             file.write(sprintf("%-8d %-8s %-20s %s\n", index, shorter_name, error[0], shorter[error[0]].to_s))
           else
-            file.write(sprintf("%-8d %-8s %-20s %-20s %s\n", index, longer_name, '?', error.to_s))          
+            file.write(sprintf("%-8d %-8s %-20s %s\n", index, longer_name, '?', error.to_s))          
           end
         end
       end
@@ -108,6 +116,58 @@ class RunConversionTest < Test::Unit::TestCase
     end
     
     assert errors.empty?, "#{example_name}: #{errors.length} errors"
+  end
+
+  def compare(hasha,hashb)
+    return [hasha] if hashb.nil?
+
+    errors = []
+    hasha.each do |key,value|
+      other = hashb[key]
+      if value.is_a?(Array) && !other.is_a?(Array)
+        errors << [key,value]
+        next
+      end 
+      if other.is_a?(Array) && !value.is_a?(Array)
+        errors << [key,value]
+        next
+      end
+      if value.is_a?(Array)
+        value.each_with_index do |item,index|
+          itemB = other[index]
+          if item.is_a?(Hash)
+            errors += compare(item,itemB)
+          else
+            errors << [key,value] if value!=other
+          end
+        end
+        errors << [key,value] if value.size!=other.size
+      elsif value.is_a?(Hash)
+        errors += compare(value,other)
+      elsif is_a_date_or_time(value) || is_a_date_or_time(other)
+          # ignore date time formatting
+      else
+        errors << [key,value] if value!=other
+      end
+    end
+    errors
+  end
+
+  def is_a_date_or_time(value)
+    return false if !value.is_a?(String)
+    # when 'instant'
+    regex = /-?[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))/
+    return true if !(regex =~ value).nil?
+    # when 'date'
+    regex = /-?[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])))/
+    return true if !(regex =~ value).nil?        
+    # when 'datetime'
+    regex = /-?[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?/
+    return true if !(regex =~ value).nil?
+    # when 'time'
+    regex = /([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?/
+    return true if !(regex =~ value).nil?
+    false
   end
   
   # Test 2 - XML-to-JSON Ruby/Java correctness
@@ -135,13 +195,21 @@ class RunConversionTest < Test::Unit::TestCase
     shorter = nil
     shorter_name = nil
     if(parsed_json_hash.size > example_json_hash.size)
-      errors = parsed_json_hash.to_a - example_json_hash.to_a
+      begin
+        errors = compare(parsed_json_hash,example_json_hash)
+      rescue Exception => e
+        binding.pry
+      end
       longer = parsed_json_hash
       longer_name = 'PRODUCED'
       shorter = example_json_hash
       shorter_name = 'ORIGINAL'
     else
-      errors = example_json_hash.to_a - parsed_json_hash.to_a
+      begin
+        errors = compare(example_json_hash,parsed_json_hash)
+      rescue Exception => e
+        binding.pry
+      end
       longer = example_json_hash
       longer_name = 'ORIGINAL'
       shorter = parsed_json_hash
@@ -157,7 +225,7 @@ class RunConversionTest < Test::Unit::TestCase
             file.write(sprintf("%-8d %-8s %-20s %s\n", index, longer_name, error[0], error[1].to_s))
             file.write(sprintf("%-8d %-8s %-20s %s\n", index, shorter_name, error[0], shorter[error[0]].to_s))
           else
-            file.write(sprintf("%-8d %-8s %-20s %-20s %s\n", index, longer_name, '?', error.to_s))          
+            file.write(sprintf("%-8d %-8s %-20s %s\n", index, longer_name, '?', error.to_s))          
           end
         end
       end

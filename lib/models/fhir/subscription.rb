@@ -43,7 +43,7 @@ module FHIR
             'type',
             'url',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "requested", "active", "error", "off" ]
@@ -79,7 +79,8 @@ module FHIR
         field :error, type: String
         embeds_one :channel, class_name:'FHIR::Subscription::SubscriptionChannelComponent'
         validates_presence_of :channel
-        field :end, type: DateTime
+        field :end, type: String
+        validates :end, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         embeds_many :tag, class_name:'FHIR::Coding'
         track_history
     end

@@ -52,7 +52,7 @@ module FHIR
             'category',
             'last-date',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             criticality: [ "low", "high", "unassessible" ],
@@ -78,7 +78,8 @@ module FHIR
             embeds_many :manifestation, class_name:'FHIR::CodeableConcept'
             validates_presence_of :manifestation
             field :description, type: String
-            field :onset, type: FHIR::PartialDateTime
+            field :onset, type: String
+            validates :onset, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :duration, class_name:'FHIR::Quantity'
             field :severity, type: String
             validates :severity, :inclusion => { in: VALID_CODES[:severity], :allow_nil => true }
@@ -87,7 +88,8 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :recordedDate, type: FHIR::PartialDateTime
+        field :recordedDate, type: String
+        validates :recordedDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :recorder, class_name:'FHIR::Reference'
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
@@ -102,7 +104,8 @@ module FHIR
         validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
         field :category, type: String
         validates :category, :inclusion => { in: VALID_CODES[:category], :allow_nil => true }
-        field :lastOccurence, type: FHIR::PartialDateTime
+        field :lastOccurence, type: String
+        validates :lastOccurence, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :comment, type: String
         embeds_many :event, class_name:'FHIR::AllergyIntolerance::AllergyIntoleranceEventComponent'
         track_history

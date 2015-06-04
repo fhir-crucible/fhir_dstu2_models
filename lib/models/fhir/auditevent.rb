@@ -54,7 +54,7 @@ module FHIR
             'user',
             'desc',
             'policy'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec event
         class AuditEventEventComponent
         include Mongoid::Document
@@ -71,7 +71,8 @@ module FHIR
             embeds_many :subtype, class_name:'FHIR::CodeableConcept'
             field :action, type: String
             validates :action, :inclusion => { in: VALID_CODES[:action], :allow_nil => true }
-            field :dateTime, type: DateTime
+            field :dateTime, type: String
+            validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
             validates_presence_of :dateTime
             field :outcome, type: String
             validates :outcome, :inclusion => { in: VALID_CODES[:outcome], :allow_nil => true }

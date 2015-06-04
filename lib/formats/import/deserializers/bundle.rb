@@ -29,7 +29,7 @@ module FHIR
                 set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
                 set_model_data(model, 'ifNoneMatch', entry.at_xpath('./fhir:ifNoneMatch/@value').try(:value))
                 set_model_data(model, 'ifMatch', entry.at_xpath('./fhir:ifMatch/@value').try(:value))
-                set_model_data(model, 'ifModifiedSince', parse_date_time(entry.at_xpath('./fhir:ifModifiedSince/@value').try(:value)))
+                set_model_data(model, 'ifModifiedSince', entry.at_xpath('./fhir:ifModifiedSince/@value').try(:value))
                 set_model_data(model, 'ifNoneExist', entry.at_xpath('./fhir:ifNoneExist/@value').try(:value))
                 model
             end
@@ -41,7 +41,7 @@ module FHIR
                 set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
                 set_model_data(model, 'location', entry.at_xpath('./fhir:location/@value').try(:value))
                 set_model_data(model, 'etag', entry.at_xpath('./fhir:etag/@value').try(:value))
-                set_model_data(model, 'lastModified', parse_date_time(entry.at_xpath('./fhir:lastModified/@value').try(:value)))
+                set_model_data(model, 'lastModified', entry.at_xpath('./fhir:lastModified/@value').try(:value))
                 model
             end
             

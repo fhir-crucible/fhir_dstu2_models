@@ -27,6 +27,7 @@
 module FHIR
   class StructureDefinition
 
+    attr_accessor :finding
     attr_accessor :errors
     attr_accessor :warnings
     cattr_accessor :base_definitions
@@ -127,7 +128,7 @@ module FHIR
       end
       nil
     end
-    
+
     def self.find_all_flaws
       load_definitions
       all_flaws = []
@@ -156,7 +157,7 @@ module FHIR
       end
       all_flaws
     end
-
+    
     # -------------------------------------------------------------------------
     #                            Profile Comparison
     # -------------------------------------------------------------------------
@@ -167,11 +168,16 @@ module FHIR
       @errors = []
       @warnings = []
 
+      @finding = FHIR::StructureDefinitionFinding.new
+      @finding.resourceType = snapshot.element[0].path
+      @finding.profileIdA = xmlId
+      @finding.profileIdB = another_definition.xmlId if another_definition.respond_to?(:xmlId)
+
       if !(another_definition.is_a? FHIR::StructureDefinition)
-        @errors << "StructureDefinition #{xmlId} is not compatible with #{another_definition.class.name}."
+        @errors << @finding.error('','','Not a StructureDefinition','StructureDefinition',"#{another_definition.class.name}")
         return false
       elsif another_definition.snapshot.element[0].path!=snapshot.element[0].path
-        @errors << "StructureDefinition #{xmlId} profiles #{snapshot.element[0].path} -- StructureDefinition #{another_definition.xmlId} profiles #{another_definition.snapshot.element[0].path}."
+        @errors << @finding.error('','','Incompatible resourceType',@finding.resourceType, "#{another_definition.snapshot.element[0].path}")
         return false
       end
 
@@ -207,11 +213,11 @@ module FHIR
         if !e.include? 'extension'
           elem = get_element_by_path(e,right_elements)
           if !elem.min.nil? && elem.min > 0
-            @errors << "StructureDefinition #{xmlId} is missing REQUIRED element #{e} from StructureDefinition #{another_definition.xmlId}"
+            @errors << @finding.error(e,'min','Missing REQUIRED element','Missing',"#{elem.min}")
           elsif elem.isModifier==true
-            @errors << "StructureDefinition #{xmlId} is missing MODIFIER element #{e} from StructureDefinition #{another_definition.xmlId}"
+            @errors << @finding.error(e,'isModifier','Missing MODIFIER element','Missing',"#{elem.isModifier}")
           else
-            @warnings << "StructureDefinition #{xmlId} is missing element #{e} from StructureDefinition #{another_definition.xmlId}"
+            @warnings << @finding.warning(e,'','Missing element','Missing','Defined')
           end
         end
       end
@@ -219,11 +225,11 @@ module FHIR
         if !e.include? 'extension'
           elem = get_element_by_path(e,left_elements)
           if !elem.min.nil? && elem.min > 0
-            @errors << "StructureDefinition #{another_definition.xmlId} is missing REQUIRED element #{e} from StructureDefinition #{xmlId}"
+            @errors << @finding.error(e,'min','Missing REQUIRED element',"#{elem.min}",'Missing')
           elsif elem.isModifier==true
-            @errors << "StructureDefinition #{another_definition.xmlId} is missing MODIFIER element #{e} from StructureDefinition #{xmlId}"
+            @errors << @finding.error(e,'isModifier','Missing MODIFIER element',"#{elem.isModifier}",'Missing')
           else
-            @warnings << "StructureDefinition #{another_definition.xmlId} is missing element #{e} from StructureDefinition #{xmlId}"
+            @warnings << @finding.warning(e,'','Missing element','Defined','Missing')
           end
         end
       end
@@ -321,7 +327,7 @@ module FHIR
       
       missing_paths.each do |path|
         # Skip extensions
-        next if path.include? "extension"
+        next if path.include? 'extension'
 
         # Skip the variable paths that end with "[x]"
         next if variable_paths.any?{|variable| path.starts_with?(variable)}
@@ -381,7 +387,7 @@ module FHIR
         # same name, but different profiles
         # maybe the profiles are the same, just with different URLs... 
         # ... so we have to compare them, if we can.
-        @warnings << "#{x.path} (#{x.name}) has different extensions:\n\t#{x_profiles}\n\t#{y_profiles}"
+        @warnings << @finding.warning("#{x.path} (#{x.name})",'type.profile','Different Profiles',"#{x_profiles}","#{y_profiles}")
         x_extension = FHIR::StructureDefinition.get_extension_definition(x.fhirType[0].profile)
         y_extension = FHIR::StructureDefinition.get_extension_definition(y.fhirType[0].profile)
         if !x_extension.nil? && !y_extension.nil?
@@ -389,7 +395,7 @@ module FHIR
           @errors << x_extension.errors
           @warnings << x_extension.warnings
         else
-          @warnings << "#{x.path} (#{x.name}) could not find extension definitions to compare."
+          @warnings << @finding.warning("#{x.path} (#{x.name})",'','Could not find extension definitions to compare.','','')
         end
       else
         compare_element_definitions(x,y,another_definition)
@@ -407,11 +413,11 @@ module FHIR
       y_max = (y.max == '*') ? Float::INFINITY : y.max.to_i
 
       if x_min.nil? || x.max.nil? || y_min.nil? || y.max.nil?
-        @errors << "#{x.path} unknown cardinality:\n\t#{x_min}..#{x.max}\n\t#{y_min}..#{y.max}"
+        @errors << @finding.error("#{x.path}",'min/max','Unknown cardinality',"#{x_min}..#{x.max}","#{y_min}..#{y.max}")
       elsif (x_min > y_max) || (x_max < y_min)
-        @errors << "#{x.path} incompatible cardinality:\n\t#{x_min}..#{x.max}\n\t#{y_min}..#{y.max}"
+        @errors << @finding.error("#{x.path}",'min/max','Incompatible cardinality',"#{x_min}..#{x.max}","#{y_min}..#{y.max}")
       elsif (x_min != y_min) || (x_max != y_max)
-        @warnings << "#{x.path} inconsistent cardinality:\n\t#{x_min}..#{x.max}\n\t#{y_min}..#{y.max}"
+        @warnings << @finding.warning("#{x.path}",'min/max','Inconsistent cardinality',"#{x_min}..#{x.max}","#{y_min}..#{y.max}")
       end
 
       # check data types
@@ -422,20 +428,20 @@ module FHIR
       shared = x_types - x_only
 
       if !shared.nil? && shared.size==0 && x_types.size>0 && y_types.size>0 && x.constraint.size > 0 && y.constraint.size > 0
-        @errors << "#{x.path} incompatible data types:\n\t#{x_types}\n\t#{y_types}"
+        @errors << @finding.error("#{x.path}",'type.code','Incompatible data types',"#{x_types}","#{y_types}")
       end
       if !x_only.nil? && x_only.size > 0
-        @warnings << "#{x.path} allows additional data types:\n\t#{x_only}\n\tnot allowed"
+        @warnings << @finding.warning("#{x.path}",'type.code','Allows additional data types',"#{x_only}","not allowed")
       end
       if !y_only.nil? && y_only.size > 0
-        @warnings << "#{x.path} allows additional data types:\n\tnot allowed\n\t#{y_only}"
+        @warnings << @finding.warning("#{x.path}",'type.code','Allows additional data types','not allowed',"#{y_only}")
       end
 
       # check bindings 
       if x.binding.nil? && !y.binding.nil?
-        @warnings << "#{x.path} inconsistent binding:\n\tnil\n\t#{y.binding.name}"
+        @warnings << @finding.warning("#{x.path}",'binding','Inconsistent binding','',"#{y.binding.name}")
       elsif !x.binding.nil? && y.binding.nil?
-        @warnings << "#{x.path} inconsistent binding:\n\t#{x.binding.name}\n\tnil"
+        @warnings << @finding.warning("#{x.path}",'binding','Inconsistent binding',"#{x.binding.name}",'')
       elsif !x.binding.nil? && !y.binding.nil?
         x_vs = x.binding.valueSetUri
         x_vs = x.binding.valueSetReference.reference if x_vs.nil? && !x.binding.valueSetReference.nil?
@@ -443,29 +449,29 @@ module FHIR
         y_vs = y.binding.valueSetReference.reference if y_vs.nil? && !y.binding.valueSetReference.nil?
         if x_vs != y_vs
           if x.binding.strength=='required' || y.binding.strength=='required'
-            @errors << "#{x.path} incompatible bindings:\n\t#{x.binding.strength} #{x_vs}\n\t#{y.binding.strength} #{y_vs}"
+            @errors << @finding.error("#{x.path}",'binding.strength','Incompatible bindings',"#{x.binding.strength} #{x_vs}","#{y.binding.strength} #{y_vs}")
           else 
-            @warnings << "#{x.path} potentially inconsistent bindings:\n\t#{x.binding.strength} #{x_vs}\n\t#{y.binding.strength} #{y_vs}"
+            @warnings << @finding.warning("#{x.path}",'binding.strength','Inconsistent bindings',"#{x.binding.strength} #{x_vs}","#{y.binding.strength} #{y_vs}")
           end
         end
       end
 
       # check default values
       if x.defaultValueType != y.defaultValueType
-        @errors << "#{x.path} incompatible default type:\n\t#{x.defaultValueType}\n\t#{y.defaultValueType}"
+        @errors << @finding.error("#{x.path}",'defaultValue','Incompatible default type',"#{x.defaultValueType}","#{y.defaultValueType}")
       end
       if x.defaultValue != y.defaultValue
-        @errors << "#{x.path} incompatible default value:\n\t#{x.defaultValue}\n\t#{y.defaultValue}"
+        @errors << @finding.error("#{x.path}",'defaultValue','Incompatible default value',"#{x.defaultValue}","#{y.defaultValue}")
       end
 
       # check meaning when missing
       if x.meaningWhenMissing != y.meaningWhenMissing
-        @errors << "#{x.path} inconsistent missing meaning:\n\t#{x.meaningWhenMissing}\n\t#{y.meaningWhenMissing}"
+        @errors << @finding.error("#{x.path}",'meaningWhenMissing','Inconsistent missing meaning',"#{x.meaningWhenMissing.gsub(',',';')}","#{y.meaningWhenMissing.gsub(',',';')}")
       end        
 
       # check fixed values
       if x.fixedType != y.fixedType
-        @errors << "#{x.path} incompatible fixed type:\n\t#{x.fixedType}\n\t#{y.fixedType}"
+        @errors << @finding.error("#{x.path}",'fixed','Incompatible fixed type',"#{x.fixedType}","#{y.fixedType}")
       end
       if x.fixed != y.fixed
         xfv = ''
@@ -474,20 +480,20 @@ module FHIR
         xfv = xfv.to_xml.gsub(/\n/,'') if !x.fixed.nil? && x.fixed[:value].methods.include?(:to_xml)
         yfv = y.fixed[:value] if !y.fixed.nil? && y.fixed[:value]
         yfv = yfv.to_xml.gsub(/\n/,'') if !y.fixed.nil? && y.fixed[:value].methods.include?(:to_xml)
-        @errors << "#{x.path} incompatible fixed value:\n\t#{xfv}\n\t#{yfv}"
+        @errors << @finding.error("#{x.path}",'fixed','Incompatible fixed value',"#{xfv}","#{yfv}")
       end
 
       # check pattern values
       if x.patternType != y.patternType
-        @errors << "#{x.path} incompatible pattern type:\n\t#{x.patternType}\n\t#{y.patternType}"
+        @errors << @finding.error("#{x.path}",'pattern','Incompatible pattern type',"#{x.patternType}","#{y.patternType}")
       end
       if x.pattern != y.pattern
-        @errors << "#{x.path} incompatible pattern:\n\t#{x.pattern}\n\t#{y.pattern}"
+        @errors << @finding.error("#{x.path}",'pattern','Incompatible pattern value',"#{x.pattern}","#{y.pattern}")
       end
 
       # maxLength (for Strings)
       if x.maxLength != y.maxLength
-        @warnings << "#{x.path} inconsistent maximum length:\n\t#{x.maxLength}\n\t#{y.maxLength}"
+        @warnings << @finding.warning("#{x.path}",'maxLength','Inconsistent maximum length',"#{x.maxLength}","#{y.maxLength}")
       end
 
       # constraints
@@ -498,23 +504,23 @@ module FHIR
       shared = x_constraints - x_only
 
       if !shared.nil? && shared.size==0 && x.constraint.size > 0 && y.constraint.size > 0
-        @errors << "#{x.path} incompatible constraints:\n\t#{x_constraints}\n\t#{y_constraints}"
+        @errors << @finding.error("#{x.path}",'constraint.xpath','Incompatible constraints',"#{x_constraints.map{|x|x.gsub(',',';')}.join(' && ')}","#{y_constraints.map{|x|x.gsub(',',';')}.join(' && ')}")
       end
       if !x_only.nil? && x_only.size > 0
-        @errors << "#{x.path} additional constraints:\n\t#{x_constraints}\n\tN/A"
+        @errors << @finding.error("#{x.path}",'constraint.xpath','Additional constraints',"#{x_constraints.map{|x|x.gsub(',',';')}.join(' && ')}",'')
       end
       if !y_only.nil? && y_only.size > 0
-        @errors << "#{x.path} additional constraints:\n\tN/A\n\t#{y_constraints}"
+        @errors << @finding.error("#{x.path}",'constraint.xpath','Additional constraints','',"#{y_constraints.map{|x|x.gsub(',',';')}.join(' && ')}")
       end
 
       # mustSupports
       if x.mustSupport != y.mustSupport
-        @warnings << "#{x.path} inconsistent 'mustSupport':\n\t#{x.mustSupport || false}\n\t#{y.mustSupport || false}"
+        @warnings << @finding.warning("#{x.path}",'mustSupport','Inconsistent mustSupport',"#{x.mustSupport || false}","#{y.mustSupport || false}")
       end
 
       # isModifier
       if x.isModifier != y.isModifier
-        @errors << "#{x.path} incompatible 'isModifier':\n\t#{x.isModifier || false}\n\t#{y.isModifier || false}"
+        @errors << @finding.error("#{x.path}",'isModifier','Incompatible isModifier',"#{x.isModifier || false}","#{y.isModifier || false}")
       end
     end
 
@@ -813,16 +819,16 @@ module FHIR
         end
         is_valid_uri
       when 'instant'
-        regex = /-?[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))/
+        regex = /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/
         value.is_a?(String) && !(regex =~ value).nil?
       when 'date'
-        regex = /-?[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])))/
+        regex = /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/
         value.is_a?(String) && !(regex =~ value).nil?        
       when 'datetime'
-        regex = /-?[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?/
+        regex = /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/
         value.is_a?(String) && !(regex =~ value).nil?
       when 'time'
-        regex = /([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?/
+        regex = /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/
         value.is_a?(String) && !(regex =~ value).nil?
       when 'integer','unsignedint'
         (!Integer(value).nil? rescue false)

@@ -5,7 +5,7 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'coding', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
-    <%- if !model.when().nil? -%><when value="<%= model.when().utc.strftime('%Y-%m-%dT%H:%M:%SZ') %>"/><%- end -%>
+    <%- if !model.when().nil? -%><%- if (!model.when().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><when value="<%= model.when %>"/><%- end -%><%- end -%>
     <%- if !model.whoUri().nil? -%><whoUri value="<%= model.whoUri() %>"/><%- end -%>
     <%- if !model.whoReference().nil? -%><%== render :template => 'reference', :locals => {name: 'whoReference', model: model.whoReference()} %><%- end -%>
     <%- if !model.blob().nil? -%><blob value="<%= model.blob() %>"/><%- end -%>

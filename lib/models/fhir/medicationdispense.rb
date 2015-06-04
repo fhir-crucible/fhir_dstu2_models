@@ -48,7 +48,7 @@ module FHIR
             'whenhandedover',
             'whenprepared',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "in-progress", "on-hold", "completed", "entered-in-error", "stopped" ]
@@ -59,8 +59,15 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                asNeeded: [ "asNeededBoolean", "asNeededCodeableConcept" ],
+                schedule: [ "scheduleDateTime", "schedulePeriod", "scheduleTiming" ],
+                dose: [ "doseRange", "doseQuantity" ]
+            }
+            
             embeds_one :additionalInstructions, class_name:'FHIR::CodeableConcept'
-            field :scheduleDateTime, type: FHIR::PartialDateTime
+            field :scheduleDateTime, type: String
+            validates :scheduleDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_one :schedulePeriod, class_name:'FHIR::Period'
             embeds_one :scheduleTiming, class_name:'FHIR::Timing'
             field :asNeededBoolean, type: Boolean
@@ -95,8 +102,10 @@ module FHIR
         embeds_one :quantity, class_name:'FHIR::Quantity'
         embeds_one :daysSupply, class_name:'FHIR::Quantity'
         embeds_one :medication, class_name:'FHIR::Reference'
-        field :whenPrepared, type: FHIR::PartialDateTime
-        field :whenHandedOver, type: FHIR::PartialDateTime
+        field :whenPrepared, type: String
+        validates :whenPrepared, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :whenHandedOver, type: String
+        validates :whenHandedOver, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :destination, class_name:'FHIR::Reference'
         embeds_many :receiver, class_name:'FHIR::Reference'
         field :note, type: String

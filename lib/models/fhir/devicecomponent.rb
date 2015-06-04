@@ -39,7 +39,7 @@ module FHIR
             'parent',
             'source',
             'type'
-            ]
+        ]
         
         VALID_CODES = {
             measurementPrinciple: [ "other", "chemical", "electrical", "impedance", "nuclear", "optical", "thermal", "biological", "mechanical", "acoustical", "manual" ]
@@ -59,7 +59,8 @@ module FHIR
         validates_presence_of :fhirType
         embeds_one :identifier, class_name:'FHIR::Identifier'
         validates_presence_of :identifier
-        field :lastSystemChange, type: DateTime
+        field :lastSystemChange, type: String
+        validates :lastSystemChange, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :lastSystemChange
         embeds_one :source, class_name:'FHIR::Reference'
         embeds_one :parent, class_name:'FHIR::Reference'

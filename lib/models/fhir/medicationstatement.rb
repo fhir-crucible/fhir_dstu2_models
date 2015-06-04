@@ -42,10 +42,15 @@ module FHIR
             'source',
             'effectivedate',
             'status'
-            ]
+        ]
         
         VALID_CODES = {
             status: [ "in-progress", "completed", "entered-in-error" ]
+        }
+        
+        MULTIPLE_TYPES = {
+            effective: [ "effectiveDateTime", "effectivePeriod" ],
+            reasonForUse: [ "reasonForUseCodeableConcept", "reasonForUseReference" ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosage
@@ -53,6 +58,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                asNeeded: [ "asNeededBoolean", "asNeededCodeableConcept" ]
+            }
+            
             field :text, type: String
             embeds_one :schedule, class_name:'FHIR::Timing'
             field :asNeededBoolean, type: Boolean
@@ -68,7 +77,8 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
         embeds_one :informationSource, class_name:'FHIR::Reference'
-        field :dateAsserted, type: FHIR::PartialDateTime
+        field :dateAsserted, type: String
+        validates :dateAsserted, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
@@ -76,7 +86,8 @@ module FHIR
         embeds_many :reasonNotGiven, class_name:'FHIR::CodeableConcept'
         embeds_one :reasonForUseCodeableConcept, class_name:'FHIR::CodeableConcept'
         embeds_one :reasonForUseReference, class_name:'FHIR::Reference'
-        field :effectiveDateTime, type: FHIR::PartialDateTime
+        field :effectiveDateTime, type: String
+        validates :effectiveDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :effectivePeriod, class_name:'FHIR::Period'
         field :note, type: String
         embeds_one :medication, class_name:'FHIR::Reference'

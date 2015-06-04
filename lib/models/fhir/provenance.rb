@@ -44,12 +44,16 @@ module FHIR
             'partytype',
             'party',
             'target'
-            ]
+        ]
         # This is an ugly hack to deal with embedded structures in the spec agent
         class ProvenanceAgentComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                reference: [ "referenceUri", "referenceReference" ]
+            }
+            
             embeds_one :role, class_name:'FHIR::Coding'
             validates_presence_of :role
             embeds_one :fhirType, class_name:'FHIR::Coding'
@@ -83,7 +87,8 @@ module FHIR
         embeds_many :target, class_name:'FHIR::Reference'
         validates_presence_of :target
         embeds_one :period, class_name:'FHIR::Period'
-        field :recorded, type: DateTime
+        field :recorded, type: String
+        validates :recorded, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :recorded
         embeds_one :reason, class_name:'FHIR::CodeableConcept'
         embeds_one :location, class_name:'FHIR::Reference'

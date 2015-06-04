@@ -12,8 +12,8 @@
     <%- if (!model.medium().nil? && !model.medium.empty?) -%><%- model.medium().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'medium', model: element} %><%- end -%><%- end -%>
     <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
     <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
-    <%- if !model.sent().nil? -%><sent value="<%= model.sent().iso8601 %>"/><%- end -%>
-    <%- if !model.received().nil? -%><received value="<%= model.received().iso8601 %>"/><%- end -%>
+    <%- if !model.sent().nil? -%><%- if (!model.sent().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><sent value="<%= model.sent %>"/><%- end -%><%- end -%>
+    <%- if !model.received().nil? -%><%- if (!model.received().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><received value="<%= model.received %>"/><%- end -%><%- end -%>
     <%- if (!model.reason().nil? && !model.reason.empty?) -%><%- model.reason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: element} %><%- end -%><%- end -%>
     <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

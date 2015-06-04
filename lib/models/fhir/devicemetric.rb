@@ -41,7 +41,7 @@ module FHIR
             'source',
             'type',
             'category'
-            ]
+        ]
         
         VALID_CODES = {
             operationalStatus: [ "on", "off", "standby" ],
@@ -64,7 +64,8 @@ module FHIR
             validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
             field :state, type: String
             validates :state, :inclusion => { in: VALID_CODES[:state], :allow_nil => true }
-            field :time, type: DateTime
+            field :time, type: String
+            validates :time, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         end
         
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
