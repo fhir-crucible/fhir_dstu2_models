@@ -391,7 +391,7 @@ module FHIR
         x_extension = FHIR::StructureDefinition.get_extension_definition(x.fhirType[0].profile)
         y_extension = FHIR::StructureDefinition.get_extension_definition(y.fhirType[0].profile)
         if !x_extension.nil? && !y_extension.nil?
-          x_extension.is_compatible(y_extension)
+          x_extension.is_compatible?(y_extension)
           @errors << x_extension.errors
           @warnings << x_extension.warnings
         else
