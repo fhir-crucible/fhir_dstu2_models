@@ -1,7 +1,59 @@
 fhir_dstu2_models
 =================
 
-Snapshot of generated FHIR DSTU2 Ruby Models
+Snapshot of generated FHIR DSTU2 Ruby Models.
+
+Includes support for:
+* All FHIR Resources
+* XML and JSON
+* Extensions
+* Profile Validation
+* Profile Comparison
+
+### Getting Started
+
+    $ bundle install
+    $ bundle exec rake fhir:console
+
+### Resource Basics
+
+Using XML...
+
+    xml = File.open('patient-example.xml',&:read)
+    patient = FHIR::Patient.from_xml(xml)
+    puts patient.to_xml
+
+Using JSON...
+
+    json = File.open('patient-example.json',&:read)
+    patient = FHIR::Patient.from_fhir_json(json)
+    puts patient.to_fhir_json
+
+### Validation
+
+Using a base resource definition...
+
+     sd = FHIR::StructureDefinition.get_base_definition('Patient')
+    sd.is_valid?(patient) # passing in FHIR::Patient
+    sd.is_valid?(xml)     # passing in String of XML
+    sd.is_valid?(json)    # passing in String of JSON
+
+Validation failed? Get the errors and warnings...
+
+    puts sd.errors
+    puts sd.warnings
+
+### Profile Comparison
+
+We include those profiles built into the FHIR core tools... let's compare them...
+
+    profiles = FHIR::StructureDefinition.get_profiles_for_resource('Patient')
+    profiles[0].is_compatible?(profiles[1])
+
+Profiles not compatible? Get the errors and warnings...
+
+    puts profiles[0].errors
+    puts profiles[1].warnings
 
 # License
 
