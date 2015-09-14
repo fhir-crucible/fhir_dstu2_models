@@ -40,6 +40,7 @@ class ProfileComparisonTest < Test::Unit::TestCase
     profiles.each_with_index do |p0,index|
       profiles.last(profiles.size-1-index).each do |p1|
         define_method("test_profile_comparison_#{resource_name}__#{p0.xmlId.gsub(/\s+/,'')}__#{p1.xmlId.gsub(/\s+/,'')}") do
+          skip('Profile comparisons are not required to pass for a successful build.')
           run_comparison(resource_name,p0,p1)
         end
       end

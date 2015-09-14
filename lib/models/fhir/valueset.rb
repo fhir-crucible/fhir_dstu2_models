@@ -52,7 +52,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "draft", "active", "retired" ]
+            status: [ 'draft', 'active', 'retired' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -89,8 +89,8 @@ module FHIR
             embeds_many :concept, class_name:'FHIR::ValueSet::ConceptDefinitionComponent'
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec define
-        class ValueSetDefineComponent
+        # This is an ugly hack to deal with embedded structures in the spec codeSystem
+        class ValueSetCodeSystemComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
@@ -99,6 +99,7 @@ module FHIR
             field :versionNum, type: String
             field :caseSensitive, type: Boolean
             embeds_many :concept, class_name:'FHIR::ValueSet::ConceptDefinitionComponent'
+            validates_presence_of :concept
         end
         
         # This is an ugly hack to deal with embedded structures in the spec concept
@@ -119,13 +120,12 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                op: [ "=", "is-a", "is-not-a", "regex", "in", "not-in" ]
+                op: [ '=', 'is-a', 'is-not-a', 'regex', 'in', 'not-in' ]
             }
             
             field :property, type: String
             validates_presence_of :property
             field :op, type: String
-            validates :op, :inclusion => { in: VALID_CODES[:op] }
             validates_presence_of :op
             field :value, type: String
             validates_presence_of :value
@@ -159,7 +159,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                value: [ "valueString", "valueBoolean", "valueInteger", "valueDecimal", "valueUri", "valueCode" ]
+                value: [ 'valueString', 'valueBoolean', 'valueInteger', 'valueDecimal', 'valueUri', 'valueCode' ]
             }
             
             field :name, type: String
@@ -195,6 +195,8 @@ module FHIR
             field :timestamp, type: String
             validates :timestamp, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             validates_presence_of :timestamp
+            field :total, type: Integer
+            field :offset, type: Integer
             embeds_many :parameter, class_name:'FHIR::ValueSet::ValueSetExpansionParameterComponent'
             embeds_many :contains, class_name:'FHIR::ValueSet::ValueSetExpansionContainsComponent'
         end
@@ -203,23 +205,23 @@ module FHIR
         embeds_one :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
         field :name, type: String
-        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
-        field :immutable, type: Boolean
-        field :publisher, type: String
-        embeds_many :contact, class_name:'FHIR::ValueSet::ValueSetContactComponent'
-        field :description, type: String
-        field :requirements, type: String
-        field :copyright, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :experimental, type: Boolean
-        field :extensible, type: Boolean
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::ValueSet::ValueSetContactComponent'
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :lockedDate, type: String
         validates :lockedDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
-        embeds_one :define, class_name:'FHIR::ValueSet::ValueSetDefineComponent'
+        field :description, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
+        field :immutable, type: Boolean
+        field :requirements, type: String
+        field :copyright, type: String
+        field :extensible, type: Boolean
+        embeds_one :codeSystem, class_name:'FHIR::ValueSet::ValueSetCodeSystemComponent'
         embeds_one :compose, class_name:'FHIR::ValueSet::ValueSetComposeComponent'
         embeds_one :expansion, class_name:'FHIR::ValueSet::ValueSetExpansionComponent'
         track_history

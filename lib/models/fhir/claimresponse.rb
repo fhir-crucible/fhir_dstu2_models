@@ -40,7 +40,13 @@ module FHIR
         ]
         
         VALID_CODES = {
-            outcome: [ "complete", "error" ]
+            form: [ '1', '2' ],
+            reserved: [ 'patient', 'provider', 'none' ],
+            payeeType: [ 'subscriber', 'provider', 'other' ],
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            paymentAdjustmentReason: [ 'A001', 'A002' ],
+            outcome: [ 'complete', 'error' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec adjudication
@@ -48,6 +54,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'total', 'copay', 'eligible', 'deductable', 'eligpercent', 'tax', 'benefit' ]
+            }
+            
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
             embeds_one :amount, class_name:'FHIR::Quantity'
@@ -59,6 +70,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'total', 'copay', 'eligible', 'deductable', 'eligpercent', 'tax', 'benefit' ]
+            }
+            
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
             embeds_one :amount, class_name:'FHIR::Quantity'
@@ -70,6 +86,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'total', 'copay', 'eligible', 'deductable', 'eligpercent', 'tax', 'benefit' ]
+            }
+            
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
             embeds_one :amount, class_name:'FHIR::Quantity'
@@ -114,6 +135,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'total', 'copay', 'eligible', 'deductable', 'eligpercent', 'tax', 'benefit' ]
+            }
+            
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
             embeds_one :amount, class_name:'FHIR::Quantity'
@@ -125,6 +151,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'total', 'copay', 'eligible', 'deductable', 'eligpercent', 'tax', 'benefit' ]
+            }
+            
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
             embeds_one :amount, class_name:'FHIR::Quantity'
@@ -161,6 +192,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'A001', 'A002' ]
+            }
+            
             field :sequenceLinkId, type: Integer
             field :detailSequenceLinkId, type: Integer
             field :subdetailSequenceLinkId, type: Integer
@@ -175,7 +211,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "display", "print", "printoper" ]
+                fhirType: [ 'display', 'print', 'printoper' ]
             }
             
             field :number, type: Integer
@@ -188,6 +224,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+                relationship: [ '1', '2', '3', '4', '5' ]
+            }
+            
             field :sequence, type: Integer
             validates_presence_of :sequence
             field :focal, type: Boolean

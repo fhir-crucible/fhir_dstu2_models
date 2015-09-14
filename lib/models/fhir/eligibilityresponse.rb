@@ -40,7 +40,9 @@ module FHIR
         ]
         
         VALID_CODES = {
-            outcome: [ "complete", "error" ]
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            outcome: [ 'complete', 'error' ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'

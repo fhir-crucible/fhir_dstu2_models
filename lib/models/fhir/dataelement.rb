@@ -39,6 +39,7 @@ module FHIR
             'date',
             'identifier',
             'code',
+            'stringency',
             'name',
             'context',
             'publisher',
@@ -49,8 +50,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            specificity: [ "comparable", "fully-specified", "equivalent", "convertable", "scaleable", "flexible" ],
-            status: [ "draft", "active", "retired" ]
+            stringency: [ 'comparable', 'fully-specified', 'equivalent', 'convertable', 'scaleable', 'flexible' ],
+            status: [ 'draft', 'active', 'retired' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -75,21 +76,20 @@ module FHIR
         end
         
         field :url, type: String
-        embeds_one :identifier, class_name:'FHIR::Identifier'
+        embeds_many :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
         field :name, type: String
-        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
-        field :experimental, type: Boolean
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        field :date, type: String
-        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-        field :copyright, type: String
+        field :experimental, type: Boolean
         field :publisher, type: String
         embeds_many :contact, class_name:'FHIR::DataElement::DataElementContactComponent'
-        field :specificity, type: String
-        validates :specificity, :inclusion => { in: VALID_CODES[:specificity], :allow_nil => true }
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
+        field :copyright, type: String
+        field :stringency, type: String
         embeds_many :mapping, class_name:'FHIR::DataElement::DataElementMappingComponent'
         embeds_many :element, class_name:'FHIR::ElementDefinition'
         validates_presence_of :element

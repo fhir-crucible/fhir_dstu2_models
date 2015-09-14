@@ -37,22 +37,22 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
+            'related-id',
+            'content-ref',
             'subject',
             'author',
             'created',
-            'relatedref',
             'description',
             'source',
             'type',
-            'relatedid',
+            'related-ref',
             'patient',
             'recipient',
-            'status',
-            'contentref'
+            'status'
         ]
         
         VALID_CODES = {
-            status: [ "current", "superceded", "entered-in-error" ]
+            status: [ 'current', 'superseded', 'entered-in-error' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec content
@@ -61,7 +61,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                p: [ "pAttachment", "pReference" ]
+                p: [ 'pAttachment', 'pReference' ]
             }
             
             embeds_one :pAttachment, class_name:'FHIR::Attachment'

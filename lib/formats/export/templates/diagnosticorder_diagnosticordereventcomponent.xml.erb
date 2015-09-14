@@ -2,8 +2,8 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.description().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'description', model: model.description()} %><%- end -%>
-    <%- if !model.dateTime().nil? -%><%- if (!model.dateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><dateTime value="<%= model.dateTime %>"/><%- end -%><%- end -%>
+    <%- if !model.dateTime.nil? -%><%- if (!model.dateTime.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><dateTime value="<%= model.dateTime %>"<%- if model.has_primitive_extension?('dateTime') -%>><%== model.get_primitive_extension('dateTime').to_xml(is_root: false, is_lowercase: true)  %></dateTime><%- else -%>/><%- end -%><%- end -%><%- end -%>
     <%- if !model.actor().nil? -%><%== render :template => 'reference', :locals => {name: 'actor', model: model.actor()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

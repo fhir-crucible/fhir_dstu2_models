@@ -8,7 +8,7 @@ module FHIR
                 model = FHIR::ImmunizationRecommendation::ImmunizationRecommendationRecommendationDateCriterionComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
-                set_model_data(model, 'value', entry.at_xpath('./fhir:value/@value').try(:value))
+                parse_primitive_field(model,entry,'value','value',false)
                 model
             end
             
@@ -16,10 +16,10 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ImmunizationRecommendation::ImmunizationRecommendationRecommendationProtocolComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'doseSequence', entry.at_xpath('./fhir:doseSequence/@value').try(:value))
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
+                parse_primitive_field(model,entry,'doseSequence','doseSequence',false)
+                parse_primitive_field(model,entry,'description','description',false)
                 set_model_data(model, 'authority', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:authority')))
-                set_model_data(model, 'series', entry.at_xpath('./fhir:series/@value').try(:value))
+                parse_primitive_field(model,entry,'series','series',false)
                 model
             end
             
@@ -27,9 +27,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ImmunizationRecommendation::ImmunizationRecommendationRecommendationComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
-                set_model_data(model, 'vaccineType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:vaccineType')))
-                set_model_data(model, 'doseNumber', entry.at_xpath('./fhir:doseNumber/@value').try(:value))
+                parse_primitive_field(model,entry,'date','date',false)
+                set_model_data(model, 'vaccineCode', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:vaccineCode')))
+                parse_primitive_field(model,entry,'doseNumber','doseNumber',false)
                 set_model_data(model, 'forecastStatus', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:forecastStatus')))
                 set_model_data(model, 'dateCriterion', entry.xpath('./fhir:dateCriterion').map {|e| parse_xml_entry_ImmunizationRecommendationRecommendationDateCriterionComponent(e)})
                 set_model_data(model, 'protocol', parse_xml_entry_ImmunizationRecommendationRecommendationProtocolComponent(entry.at_xpath('./fhir:protocol')))

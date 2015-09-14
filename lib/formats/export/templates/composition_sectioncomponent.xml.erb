@@ -2,8 +2,12 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
+    <%- if !model.title().nil? -%><title value="<%= model.title %>"<%- if model.has_primitive_extension?('title') -%>><%== model.get_primitive_extension('title').to_xml(is_root: false, is_lowercase: true)  %></title><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
-    <%- if !model.content().nil? -%><%== render :template => 'reference', :locals => {name: 'content', model: model.content()} %><%- end -%>
+    <%- if !model.text().nil? -%><%== render :template => 'narrative', :locals => {name: 'text', model: model.text()} %><%- end -%>
+    <%- if !model.mode().nil? -%><mode value="<%= model.mode %>"<%- if model.has_primitive_extension?('mode') -%>><%== model.get_primitive_extension('mode').to_xml(is_root: false, is_lowercase: true)  %></mode><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.orderedBy().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'orderedBy', model: model.orderedBy()} %><%- end -%>
+    <%- if (!model.entry().nil? && !model.entry.empty?) -%><%- model.entry().each do |element| -%><%== render :template => 'reference', :locals => {name: 'entry', model: element} %><%- end -%><%- end -%>
+    <%- if !model.emptyReason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'emptyReason', model: model.emptyReason()} %><%- end -%>
     <%- if (!model.section().nil? && !model.section.empty?) -%><%- model.section().each do |element| -%><%== render :template => 'composition_sectioncomponent', :locals => {name: 'section', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

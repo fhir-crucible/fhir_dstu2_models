@@ -37,32 +37,31 @@ module FHIR
         
         SEARCH_PARAMS = [
             'severity',
+            'identifier',
             'clinicalstatus',
             'onset-info',
             'code',
             'evidence',
-            'date-asserted',
-            'subject',
-            'dueto-item',
             'encounter',
             'onset',
             'asserter',
+            'date-recorded',
             'stage',
-            'following-item',
             'patient',
-            'dueto-code',
-            'location',
             'category',
-            'following-code'
+            'body-site'
         ]
         
         VALID_CODES = {
-            clinicalStatus: [ "provisional", "working", "confirmed", "refuted", "entered-in-error", "unknown" ]
+            severity: [ '399166001', '24484000', '6736007', '255604002' ],
+            verificationStatus: [ 'provisional', 'differential', 'confirmed', 'refuted', 'entered-in-error', 'unknown' ],
+            category: [ 'complaint', 'symptom', 'finding', 'diagnosis' ],
+            clinicalStatus: [ 'active', 'relapse', 'remission', 'resolved' ]
         }
         
         MULTIPLE_TYPES = {
-            onset: [ "onsetDateTime", "onsetAge", "onsetPeriod", "onsetRange", "onsetString" ],
-            abatement: [ "abatementDate", "abatementAge", "abatementBoolean", "abatementPeriod", "abatementRange", "abatementString" ]
+            onset: [ 'onsetDateTime', 'onsetQuantity', 'onsetPeriod', 'onsetRange', 'onsetString' ],
+            abatement: [ 'abatementDateTime', 'abatementQuantity', 'abatementBoolean', 'abatementPeriod', 'abatementRange', 'abatementString' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec stage
@@ -83,69 +82,36 @@ module FHIR
             embeds_many :detail, class_name:'FHIR::Reference'
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec location
-        class ConditionLocationComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            MULTIPLE_TYPES = {
-                site: [ "siteCodeableConcept", "siteReference" ]
-            }
-            
-            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
-            embeds_one :siteReference, class_name:'FHIR::Reference'
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec dueTo
-        class ConditionDueToComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            embeds_one :code, class_name:'FHIR::CodeableConcept'
-            embeds_one :target, class_name:'FHIR::Reference'
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec occurredFollowing
-        class ConditionOccurredFollowingComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            embeds_one :code, class_name:'FHIR::CodeableConcept'
-            embeds_one :target, class_name:'FHIR::Reference'
-        end
-        
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :asserter, class_name:'FHIR::Reference'
-        field :dateAsserted, type: String
-        validates :dateAsserted, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
+        field :dateRecorded, type: String
+        validates :dateRecorded, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code
         embeds_one :category, class_name:'FHIR::CodeableConcept'
         field :clinicalStatus, type: String
-        validates :clinicalStatus, :inclusion => { in: VALID_CODES[:clinicalStatus] }
-        validates_presence_of :clinicalStatus
+        field :verificationStatus, type: String
+        validates_presence_of :verificationStatus
         embeds_one :severity, class_name:'FHIR::CodeableConcept'
         field :onsetDateTime, type: String
         validates :onsetDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-        embeds_one :onsetAge, class_name:'FHIR::Quantity'
+        embeds_one :onsetQuantity, class_name:'FHIR::Quantity'
         embeds_one :onsetPeriod, class_name:'FHIR::Period'
         embeds_one :onsetRange, class_name:'FHIR::Range'
         field :onsetString, type: String
-        field :abatementDate, type: String
-        validates :abatementDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
-        embeds_one :abatementAge, class_name:'FHIR::Quantity'
+        field :abatementDateTime, type: String
+        validates :abatementDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        embeds_one :abatementQuantity, class_name:'FHIR::Quantity'
         field :abatementBoolean, type: Boolean
         embeds_one :abatementPeriod, class_name:'FHIR::Period'
         embeds_one :abatementRange, class_name:'FHIR::Range'
         field :abatementString, type: String
         embeds_one :stage, class_name:'FHIR::Condition::ConditionStageComponent'
         embeds_many :evidence, class_name:'FHIR::Condition::ConditionEvidenceComponent'
-        embeds_many :location, class_name:'FHIR::Condition::ConditionLocationComponent'
-        embeds_many :dueTo, class_name:'FHIR::Condition::ConditionDueToComponent'
-        embeds_many :occurredFollowing, class_name:'FHIR::Condition::ConditionOccurredFollowingComponent'
+        embeds_many :bodySite, class_name:'FHIR::CodeableConcept'
         field :notes, type: String
         track_history
     end

@@ -14,12 +14,12 @@ module FHIR
                 set_model_data(model, 'device', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:device')))
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
                 set_model_data(model, 'indication', entry.xpath('./fhir:indication').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'notes', entry.xpath('./fhir:notes/@value').map {|e| e.value })
-                set_model_data(model, 'recordedOn', entry.at_xpath('./fhir:recordedOn/@value').try(:value))
+                parse_primitive_field(model,entry,'notes','notes',true)
+                parse_primitive_field(model,entry,'recordedOn','recordedOn',false)
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'timingTiming', FHIR::Timing.parse_xml_entry(entry.at_xpath('./fhir:timingTiming')))
                 set_model_data(model, 'timingPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:timingPeriod')))
-                set_model_data(model, 'timingDateTime', entry.at_xpath('./fhir:timingDateTime/@value').try(:value))
+                parse_primitive_field(model,entry,'timingDateTime','timingDateTime',false)
                 model
             end
         end

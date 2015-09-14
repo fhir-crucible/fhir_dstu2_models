@@ -47,11 +47,11 @@ module FHIR
         ]
         
         VALID_CODES = {
-            fhirType: [ "photo", "video", "audio" ]
+            subtype: [ 'diagram', 'fax', 'scan', 'retina', 'fingerprint', 'iris', 'palm', 'face' ],
+            fhirType: [ 'photo', 'video', 'audio' ]
         }
         
         field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         embeds_one :subtype, class_name:'FHIR::CodeableConcept'
         embeds_many :identifier, class_name:'FHIR::Identifier'

@@ -2,5 +2,5 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.operation().nil? && !model.operation.empty?) -%><%- model.operation().each do |element| -%><%== render :template => 'testscript_testscriptteardownoperationcomponent', :locals => {name: 'operation', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.action().nil? && !model.action.empty?) -%><%- model.action().each do |element| -%><%== render :template => 'testscript_testscriptteardownactioncomponent', :locals => {name: 'action', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

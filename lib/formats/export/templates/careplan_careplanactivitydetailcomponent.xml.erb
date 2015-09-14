@@ -2,21 +2,22 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.category().nil? -%><category value="<%= model.category() %>"/><%- end -%>
+    <%- if !model.category().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: model.category()} %><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
-    <%- if !model.reasonCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonCodeableConcept', model: model.reasonCodeableConcept()} %><%- end -%>
-    <%- if !model.reasonReference().nil? -%><%== render :template => 'reference', :locals => {name: 'reasonReference', model: model.reasonReference()} %><%- end -%>
+    <%- if (!model.reasonCode().nil? && !model.reasonCode.empty?) -%><%- model.reasonCode().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reasonCode', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.reasonReference().nil? && !model.reasonReference.empty?) -%><%- model.reasonReference().each do |element| -%><%== render :template => 'reference', :locals => {name: 'reasonReference', model: element} %><%- end -%><%- end -%>
     <%- if (!model.goal().nil? && !model.goal.empty?) -%><%- model.goal().each do |element| -%><%== render :template => 'reference', :locals => {name: 'goal', model: element} %><%- end -%><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.statusReason().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'statusReason', model: model.statusReason()} %><%- end -%>
-    <%- if !model.prohibited().nil? -%><prohibited value="<%= model.prohibited() %>"/><%- end -%>
+    <%- if !model.prohibited().nil? -%><prohibited value="<%= model.prohibited %>"<%- if model.has_primitive_extension?('prohibited') -%>><%== model.get_primitive_extension('prohibited').to_xml(is_root: false, is_lowercase: true)  %></prohibited><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.scheduledTiming().nil? -%><%== render :template => 'timing', :locals => {name: 'scheduledTiming', model: model.scheduledTiming()} %><%- end -%>
     <%- if !model.scheduledPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'scheduledPeriod', model: model.scheduledPeriod()} %><%- end -%>
-    <%- if !model.scheduledString().nil? -%><scheduledString value="<%= model.scheduledString() %>"/><%- end -%>
+    <%- if !model.scheduledString().nil? -%><scheduledString value="<%= model.scheduledString %>"<%- if model.has_primitive_extension?('scheduledString') -%>><%== model.get_primitive_extension('scheduledString').to_xml(is_root: false, is_lowercase: true)  %></scheduledString><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
     <%- if (!model.performer().nil? && !model.performer.empty?) -%><%- model.performer().each do |element| -%><%== render :template => 'reference', :locals => {name: 'performer', model: element} %><%- end -%><%- end -%>
-    <%- if !model.product().nil? -%><%== render :template => 'reference', :locals => {name: 'product', model: model.product()} %><%- end -%>
+    <%- if !model.productCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'productCodeableConcept', model: model.productCodeableConcept()} %><%- end -%>
+    <%- if !model.productReference().nil? -%><%== render :template => 'reference', :locals => {name: 'productReference', model: model.productReference()} %><%- end -%>
     <%- if !model.dailyAmount().nil? -%><%== render :template => 'quantity', :locals => {name: 'dailyAmount', model: model.dailyAmount()} %><%- end -%>
     <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
-    <%- if !model.note().nil? -%><note value="<%= model.note() %>"/><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

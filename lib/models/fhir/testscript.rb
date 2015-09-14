@@ -36,60 +36,30 @@ module FHIR
         extend FHIR::Deserializer::TestScript
         
         SEARCH_PARAMS = [
-            'validates-operations',
-            'validates-type',
-            'requires-type',
+            'identifier',
+            'testscript-test-capability',
+            'testscript-setup-capability',
             'name',
             'description',
-            'requires-operations'
+            'testscript-capability',
+            'url'
         ]
-        # This is an ugly hack to deal with embedded structures in the spec fixture
-        class TestScriptFixtureComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            field :uri, type: String
-            field :resourceType, type: String
-            attr_accessor :resource
-            # field :resource, type: FHIR::AnyType
-            field :autocreate, type: Boolean
-            field :autodelete, type: Boolean
-        end
         
-        # This is an ugly hack to deal with embedded structures in the spec operation
-        class TestScriptSetupOperationComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                contentType: [ "xml", "json" ],
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
-            }
-            
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :source, type: String
-            field :target, type: String
-            field :destination, type: Integer
-            field :parameter, type: Array # Array of Strings
-            field :responseId, type: String
-            field :contentType, type: String
-            validates :contentType, :inclusion => { in: VALID_CODES[:contentType], :allow_nil => true }
-        end
+        VALID_CODES = {
+            status: [ 'draft', 'active', 'retired' ]
+        }
         
-        # This is an ugly hack to deal with embedded structures in the spec setup
-        class TestScriptSetupComponent
+        # This is an ugly hack to deal with embedded structures in the spec contact
+        class TestScriptContactComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :operation, class_name:'FHIR::TestScript::TestScriptSetupOperationComponent'
-            validates_presence_of :operation
+            field :name, type: String
+            embeds_many :telecom, class_name:'FHIR::ContactPoint'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec link
-        class TestScriptTestMetadataLinkComponent
+        class TestScriptMetadataLinkComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
@@ -98,73 +68,150 @@ module FHIR
             field :description, type: String
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec requires
-        class TestScriptTestMetadataRequiresComponent
+        # This is an ugly hack to deal with embedded structures in the spec capability
+        class TestScriptMetadataCapabilityComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Meta", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "positiveInt", "string", "time", "unsignedInt", "uri", "uuid", "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ]
-            }
-            
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :operations, type: String
-            validates_presence_of :operations
+            field :required, type: Boolean
+            field :fhirValidated, type: Boolean
+            field :description, type: String
             field :destination, type: Integer
-        end
-        
-        # This is an ugly hack to deal with embedded structures in the spec validates
-        class TestScriptTestMetadataValidatesComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                fhirType: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Meta", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "positiveInt", "string", "time", "unsignedInt", "uri", "uuid", "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ]
-            }
-            
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :operations, type: String
-            validates_presence_of :operations
-            field :destination, type: Integer
+            field :link, type: Array # Array of Strings
+            embeds_one :conformance, class_name:'FHIR::Reference'
+            validates_presence_of :conformance
         end
         
         # This is an ugly hack to deal with embedded structures in the spec metadata
-        class TestScriptTestMetadataComponent
+        class TestScriptMetadataComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :link, class_name:'FHIR::TestScript::TestScriptTestMetadataLinkComponent'
-            embeds_many :requires, class_name:'FHIR::TestScript::TestScriptTestMetadataRequiresComponent'
-            embeds_many :validates, class_name:'FHIR::TestScript::TestScriptTestMetadataValidatesComponent'
+            embeds_many :link, class_name:'FHIR::TestScript::TestScriptMetadataLinkComponent'
+            embeds_many :capability, class_name:'FHIR::TestScript::TestScriptMetadataCapabilityComponent'
+            validates_presence_of :capability
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec fixture
+        class TestScriptFixtureComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :autocreate, type: Boolean
+            field :autodelete, type: Boolean
+            embeds_one :resource, class_name:'FHIR::Reference'
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec variable
+        class TestScriptVariableComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :name, type: String
+            validates_presence_of :name
+            field :headerField, type: String
+            field :path, type: String
+            field :sourceId, type: String
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec requestHeader
+        class TestScriptSetupActionOperationRequestHeaderComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :field, type: String
+            validates_presence_of :field
+            field :value, type: String
+            validates_presence_of :value
         end
         
         # This is an ugly hack to deal with embedded structures in the spec operation
-        class TestScriptTestOperationComponent
+        class TestScriptSetupActionOperationComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                contentType: [ "xml", "json" ],
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
+                contentType: [ 'xml', 'json' ],
+                fhirType: [ 'read', 'vread', 'update', 'delete', 'history', 'create', 'search', 'transaction', 'conformance', 'closure', 'document', 'everything', 'expand', 'find', 'lookup', 'meta', 'meta-add', 'meta-delete', 'populate', 'process-message', 'questionnaire', 'translate', 'validate', 'validate-code' ],
+                accept: [ 'xml', 'json' ]
             }
             
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :source, type: String
-            field :target, type: String
-            field :destination, type: Integer
-            field :parameter, type: Array # Array of Strings
-            field :responseId, type: String
+            embeds_one :fhirType, class_name:'FHIR::Coding'
+            field :resource, type: String
+            field :label, type: String
+            field :description, type: String
+            field :accept, type: String
             field :contentType, type: String
-            validates :contentType, :inclusion => { in: VALID_CODES[:contentType], :allow_nil => true }
+            field :destination, type: Integer
+            field :encodeRequestUrl, type: Boolean
+            field :params, type: String
+            embeds_many :requestHeader, class_name:'FHIR::TestScript::TestScriptSetupActionOperationRequestHeaderComponent'
+            field :responseId, type: String
+            field :sourceId, type: String
+            field :targetId, type: String
+            field :url, type: String
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec assert
+        class TestScriptSetupActionAssertComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                response: [ 'okay', 'created', 'noContent', 'notModified', 'bad', 'forbidden', 'notFound', 'methodNotAllowed', 'conflict', 'gone', 'preconditionFailed', 'unprocessable' ],
+                contentType: [ 'xml', 'json' ],
+                operator: [ 'equals', 'notEquals', 'in', 'notIn', 'greaterThan', 'lessThan', 'empty', 'notEmpty', 'contains', 'notContains' ],
+                direction: [ 'response', 'request' ]
+            }
+            
+            field :label, type: String
+            field :description, type: String
+            field :direction, type: String
+            field :compareToSourceId, type: String
+            field :compareToSourcePath, type: String
+            field :contentType, type: String
+            field :headerField, type: String
+            field :minimumId, type: String
+            field :navigationLinks, type: Boolean
+            field :operator, type: String
+            field :path, type: String
+            field :resource, type: String
+            field :response, type: String
+            field :responseCode, type: String
+            field :sourceId, type: String
+            field :validateProfileId, type: String
+            field :value, type: String
+            field :warningOnly, type: Boolean
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec action
+        class TestScriptSetupActionComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :operation, class_name:'FHIR::TestScript::TestScriptSetupActionOperationComponent'
+            embeds_one :assert, class_name:'FHIR::TestScript::TestScriptSetupActionAssertComponent'
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec setup
+        class TestScriptSetupComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :metadata, class_name:'FHIR::TestScript::TestScriptMetadataComponent'
+            embeds_many :action, class_name:'FHIR::TestScript::TestScriptSetupActionComponent'
+            validates_presence_of :action
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec action
+        class TestScriptTestActionComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :operation, class_name:'FHIR::TestScript::TestScriptSetupActionOperationComponent'
+            embeds_one :assert, class_name:'FHIR::TestScript::TestScriptSetupActionAssertComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec test
@@ -174,32 +221,17 @@ module FHIR
         include FHIR::Formats::Utilities
             field :name, type: String
             field :description, type: String
-            embeds_one :metadata, class_name:'FHIR::TestScript::TestScriptTestMetadataComponent'
-            embeds_many :operation, class_name:'FHIR::TestScript::TestScriptTestOperationComponent'
-            validates_presence_of :operation
+            embeds_one :metadata, class_name:'FHIR::TestScript::TestScriptMetadataComponent'
+            embeds_many :action, class_name:'FHIR::TestScript::TestScriptTestActionComponent'
+            validates_presence_of :action
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec operation
-        class TestScriptTeardownOperationComponent
+        # This is an ugly hack to deal with embedded structures in the spec action
+        class TestScriptTeardownActionComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                contentType: [ "xml", "json" ],
-                fhirType: [ "read", "vread", "update", "delete", "history", "create", "search", "transaction", "conformance", "tags", "mailbox", "document", "assertion", "assertion_false", "assertion_warning" ]
-            }
-            
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :source, type: String
-            field :target, type: String
-            field :destination, type: Integer
-            field :parameter, type: Array # Array of Strings
-            field :responseId, type: String
-            field :contentType, type: String
-            validates :contentType, :inclusion => { in: VALID_CODES[:contentType], :allow_nil => true }
+            embeds_one :operation, class_name:'FHIR::TestScript::TestScriptSetupActionOperationComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec teardown
@@ -207,14 +239,33 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :operation, class_name:'FHIR::TestScript::TestScriptTeardownOperationComponent'
-            validates_presence_of :operation
+            embeds_many :action, class_name:'FHIR::TestScript::TestScriptTeardownActionComponent'
+            validates_presence_of :action
         end
         
+        field :url, type: String
+        validates_presence_of :url
+        field :versionNum, type: String
         field :name, type: String
+        validates_presence_of :name
+        field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
+        validates_presence_of :status
+        embeds_one :identifier, class_name:'FHIR::Identifier'
+        field :experimental, type: Boolean
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::TestScript::TestScriptContactComponent'
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :description, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
+        field :requirements, type: String
+        field :copyright, type: String
+        embeds_one :metadata, class_name:'FHIR::TestScript::TestScriptMetadataComponent'
         field :multiserver, type: Boolean
         embeds_many :fixture, class_name:'FHIR::TestScript::TestScriptFixtureComponent'
+        embeds_many :profile, class_name:'FHIR::Reference'
+        embeds_many :variable, class_name:'FHIR::TestScript::TestScriptVariableComponent'
         embeds_one :setup, class_name:'FHIR::TestScript::TestScriptSetupComponent'
         embeds_many :test, class_name:'FHIR::TestScript::TestScriptTestComponent'
         embeds_one :teardown, class_name:'FHIR::TestScript::TestScriptTeardownComponent'

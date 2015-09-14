@@ -3,11 +3,10 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.collector().nil? -%><%== render :template => 'reference', :locals => {name: 'collector', model: model.collector()} %><%- end -%>
-    <%- if (model.comment() && !model.comment.empty?) -%><%- model.comment().each do |element| -%><comment value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if !model.collectedDateTime().nil? -%><%- if (!model.collectedDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><collectedDateTime value="<%= model.collectedDateTime %>"/><%- end -%><%- end -%>
+    <%- if (model.comment && !model.comment.empty?) -%><%- model.comment.each_with_index do |element,index| -%><comment value="<%= element %>"<%- if model.has_primitive_extension?('comment',index) -%>><%== model.get_primitive_extension('comment',index).to_xml(is_root: false, is_lowercase: true)  %></comment><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.collectedDateTime.nil? -%><%- if (!model.collectedDateTime.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><collectedDateTime value="<%= model.collectedDateTime %>"<%- if model.has_primitive_extension?('collectedDateTime') -%>><%== model.get_primitive_extension('collectedDateTime').to_xml(is_root: false, is_lowercase: true)  %></collectedDateTime><%- else -%>/><%- end -%><%- end -%><%- end -%>
     <%- if !model.collectedPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'collectedPeriod', model: model.collectedPeriod()} %><%- end -%>
     <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
     <%- if !model.method().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'method', model: model.method()} %><%- end -%>
-    <%- if !model.bodySiteCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySiteCodeableConcept', model: model.bodySiteCodeableConcept()} %><%- end -%>
-    <%- if !model.bodySiteReference().nil? -%><%== render :template => 'reference', :locals => {name: 'bodySiteReference', model: model.bodySiteReference()} %><%- end -%>
+    <%- if !model.bodySite().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'bodySite', model: model.bodySite()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

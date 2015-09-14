@@ -1,0 +1,7 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if (!model.link().nil? && !model.link.empty?) -%><%- model.link().each do |element| -%><%== render :template => 'testscript_testscriptmetadatalinkcomponent', :locals => {name: 'link', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.capability().nil? && !model.capability.empty?) -%><%- model.capability().each do |element| -%><%== render :template => 'testscript_testscriptmetadatacapabilitycomponent', :locals => {name: 'capability', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

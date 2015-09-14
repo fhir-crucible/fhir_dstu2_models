@@ -4,7 +4,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%- if (!element.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><event value="<%= element %>"/><%- end -%><%- end -%><%- end -%>
+    <%- if (!model.event.nil? && !model.event.empty?) -%><%- model.event.each_with_index do |element,index| -%><%- if (!element.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><event value="<%= element %>"<%- if model.has_primitive_extension?('event',index) -%>><%== model.get_primitive_extension('event',index).to_xml(is_root: false, is_lowercase: true)  %></event><%- else -%>/><%- end -%><%- end -%><%- end -%><%- end -%>
     <%- if !model.repeat().nil? -%><%== render :template => 'timing_timingrepeatcomponent', :locals => {name: 'repeat', model: model.repeat()} %><%- end -%>
     <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

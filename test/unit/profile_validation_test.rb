@@ -67,6 +67,7 @@ class ProfileValidationTest < Test::Unit::TestCase
       valid = definition.is_valid?(example_json_hash,'JSON')
       if !valid
         puts definition.errors
+        File.open("#{ERROR_DIR_JSON}/#{example_name}.txt", 'w:UTF-8') {|file| file.write(definition.errors)}      
         File.open("#{ERROR_DIR_JSON}/#{example_name}.json", 'w:UTF-8') {|file| file.write(example_json_string)}      
       end
     rescue Exception => e
@@ -84,6 +85,7 @@ class ProfileValidationTest < Test::Unit::TestCase
       valid = definition.is_valid?(example_xml_string,'XML')
       if !valid
         puts definition.errors
+        File.open("#{ERROR_DIR}/#{example_name}.txt", 'w:UTF-8') {|file| file.write(definition.errors)}      
         File.open("#{ERROR_DIR}/#{example_name}.xml", 'w:UTF-8') {|file| file.write(example_xml_string)}      
       end
     rescue Exception => e

@@ -39,7 +39,6 @@ module FHIR
             'date',
             'identifier',
             'dose-sequence',
-            'subject',
             'patient',
             'vaccine-type',
             'dose-number',
@@ -52,6 +51,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'due', 'recommended', 'earliest', 'overdue', 'latest' ]
+            }
+            
             embeds_one :code, class_name:'FHIR::CodeableConcept'
             validates_presence_of :code
             field :value, type: String
@@ -75,11 +79,16 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                forecastStatus: [ 'due', 'overdue' ]
+            }
+            
             field :date, type: String
             validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             validates_presence_of :date
-            embeds_one :vaccineType, class_name:'FHIR::CodeableConcept'
-            validates_presence_of :vaccineType
+            embeds_one :vaccineCode, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :vaccineCode
             field :doseNumber, type: Integer
             embeds_one :forecastStatus, class_name:'FHIR::CodeableConcept'
             validates_presence_of :forecastStatus

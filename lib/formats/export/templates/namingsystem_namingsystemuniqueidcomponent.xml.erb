@@ -2,8 +2,8 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.value().nil? -%><value value="<%= model.value() %>"/><%- end -%>
-    <%- if !model.preferred().nil? -%><preferred value="<%= model.preferred() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.value().nil? -%><value value="<%= model.value %>"<%- if model.has_primitive_extension?('value') -%>><%== model.get_primitive_extension('value').to_xml(is_root: false, is_lowercase: true)  %></value><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.preferred().nil? -%><preferred value="<%= model.preferred %>"<%- if model.has_primitive_extension?('preferred') -%>><%== model.get_primitive_extension('preferred').to_xml(is_root: false, is_lowercase: true)  %></preferred><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

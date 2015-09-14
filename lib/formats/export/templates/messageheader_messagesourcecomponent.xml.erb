@@ -2,9 +2,9 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.software().nil? -%><software value="<%= model.software() %>"/><%- end -%>
-    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.software().nil? -%><software value="<%= model.software %>"<%- if model.has_primitive_extension?('software') -%>><%== model.get_primitive_extension('software').to_xml(is_root: false, is_lowercase: true)  %></software><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum %>"<%- if model.has_primitive_extension?('versionNum') -%>><%== model.get_primitive_extension('versionNum').to_xml(is_root: false, is_lowercase: true)  %></version><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.contact().nil? -%><%== render :template => 'contactpoint', :locals => {name: 'contact', model: model.contact()} %><%- end -%>
-    <%- if !model.endpoint().nil? -%><endpoint value="<%= model.endpoint() %>"/><%- end -%>
+    <%- if !model.endpoint().nil? -%><endpoint value="<%= model.endpoint %>"<%- if model.has_primitive_extension?('endpoint') -%>><%== model.get_primitive_extension('endpoint').to_xml(is_root: false, is_lowercase: true)  %></endpoint><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

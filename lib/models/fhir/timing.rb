@@ -36,7 +36,7 @@ module FHIR
         
         
         VALID_CODES = {
-            code: [ "BID", "TID", "QID", "AM", "PM" ]
+            code: [ 'QD', 'QOD', 'Q4H', 'Q6H', 'BID', 'TID', 'QID', 'AM', 'PM' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec repeat
@@ -46,24 +46,28 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                periodUnits: [ "s", "min", "h", "d", "wk", "mo", "a" ],
-                durationUnits: [ "s", "min", "h", "d", "wk", "mo", "a" ],
-                when: [ "HS", "WAKE", "C", "CM", "CD", "CV", "AC", "ACM", "ACD", "ACV", "PC", "PCM", "PCD", "PCV" ]
+                periodUnits: [ 's', 'min', 'h', 'd', 'wk', 'mo', 'a' ],
+                durationUnits: [ 's', 'min', 'h', 'd', 'wk', 'mo', 'a' ],
+                when: [ 'HS', 'WAKE', 'C', 'CM', 'CD', 'CV', 'AC', 'ACM', 'ACD', 'ACV', 'PC', 'PCM', 'PCD', 'PCV' ]
             }
             
-            embeds_one :bounds, class_name:'FHIR::Period'
+            MULTIPLE_TYPES = {
+                bounds: [ 'boundsQuantity', 'boundsRange', 'boundsPeriod' ]
+            }
+            
+            embeds_one :boundsQuantity, class_name:'FHIR::Quantity'
+            embeds_one :boundsRange, class_name:'FHIR::Range'
+            embeds_one :boundsPeriod, class_name:'FHIR::Period'
             field :count, type: Integer
             field :duration, type: Float
+            field :durationMax, type: Float
             field :durationUnits, type: String
-            validates :durationUnits, :inclusion => { in: VALID_CODES[:durationUnits], :allow_nil => true }
             field :frequency, type: Integer
             field :frequencyMax, type: Integer
             field :period, type: Float
             field :periodMax, type: Float
             field :periodUnits, type: String
-            validates :periodUnits, :inclusion => { in: VALID_CODES[:periodUnits], :allow_nil => true }
             field :when, type: String
-            validates :when, :inclusion => { in: VALID_CODES[:when], :allow_nil => true }
         end
         
         field :event, type: Array # Array of Strings

@@ -2,12 +2,13 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.mode().nil? -%><mode value="<%= model.mode() %>"/><%- end -%>
-    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
+    <%- if !model.mode().nil? -%><mode value="<%= model.mode %>"<%- if model.has_primitive_extension?('mode') -%>><%== model.get_primitive_extension('mode').to_xml(is_root: false, is_lowercase: true)  %></mode><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation %>"<%- if model.has_primitive_extension?('documentation') -%>><%== model.get_primitive_extension('documentation').to_xml(is_root: false, is_lowercase: true)  %></documentation><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.security().nil? -%><%== render :template => 'conformance_conformancerestsecuritycomponent', :locals => {name: 'security', model: model.security()} %><%- end -%>
     <%- if (!model.resource().nil? && !model.resource.empty?) -%><%- model.resource().each do |element| -%><%== render :template => 'conformance_conformancerestresourcecomponent', :locals => {name: 'resource', model: element} %><%- end -%><%- end -%>
     <%- if (!model.interaction().nil? && !model.interaction.empty?) -%><%- model.interaction().each do |element| -%><%== render :template => 'conformance_systeminteractioncomponent', :locals => {name: 'interaction', model: element} %><%- end -%><%- end -%>
+    <%- if !model.transactionMode().nil? -%><transactionMode value="<%= model.transactionMode %>"<%- if model.has_primitive_extension?('transactionMode') -%>><%== model.get_primitive_extension('transactionMode').to_xml(is_root: false, is_lowercase: true)  %></transactionMode><%- else -%>/><%- end -%><%- end -%>
+    <%- if (!model.searchParam().nil? && !model.searchParam.empty?) -%><%- model.searchParam().each do |element| -%><%== render :template => 'conformance_conformancerestresourcesearchparamcomponent', :locals => {name: 'searchParam', model: element} %><%- end -%><%- end -%>
     <%- if (!model.operation().nil? && !model.operation.empty?) -%><%- model.operation().each do |element| -%><%== render :template => 'conformance_conformancerestoperationcomponent', :locals => {name: 'operation', model: element} %><%- end -%><%- end -%>
-    <%- if (model.documentMailbox() && !model.documentMailbox.empty?) -%><%- model.documentMailbox().each do |element| -%><documentMailbox value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if (model.compartment() && !model.compartment.empty?) -%><%- model.compartment().each do |element| -%><compartment value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (model.compartment && !model.compartment.empty?) -%><%- model.compartment.each_with_index do |element,index| -%><compartment value="<%= element %>"<%- if model.has_primitive_extension?('compartment',index) -%>><%== model.get_primitive_extension('compartment',index).to_xml(is_root: false, is_lowercase: true)  %></compartment><%- else -%>/><%- end -%><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,13 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.substance().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'substance', model: model.substance()} %><%- end -%>
+    <%- if !model.certainty().nil? -%><certainty value="<%= model.certainty %>"<%- if model.has_primitive_extension?('certainty') -%>><%== model.get_primitive_extension('certainty').to_xml(is_root: false, is_lowercase: true)  %></certainty><%- else -%>/><%- end -%><%- end -%>
+    <%- if (!model.manifestation().nil? && !model.manifestation.empty?) -%><%- model.manifestation().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'manifestation', model: element} %><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.onset.nil? -%><%- if (!model.onset.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><onset value="<%= model.onset %>"<%- if model.has_primitive_extension?('onset') -%>><%== model.get_primitive_extension('onset').to_xml(is_root: false, is_lowercase: true)  %></onset><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.severity().nil? -%><severity value="<%= model.severity %>"<%- if model.has_primitive_extension?('severity') -%>><%== model.get_primitive_extension('severity').to_xml(is_root: false, is_lowercase: true)  %></severity><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.exposureRoute().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'exposureRoute', model: model.exposureRoute()} %><%- end -%>
+    <%- if !model.note().nil? -%><%== render :template => 'annotation', :locals => {name: 'note', model: model.note()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -2,12 +2,13 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.use().nil? -%><use value="<%= model.use() %>"/><%- end -%>
-    <%- if !model.min().nil? -%><min value="<%= model.min() %>"/><%- end -%>
-    <%- if !model.max().nil? -%><max value="<%= model.max() %>"/><%- end -%>
-    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.use().nil? -%><use value="<%= model.use %>"<%- if model.has_primitive_extension?('use') -%>><%== model.get_primitive_extension('use').to_xml(is_root: false, is_lowercase: true)  %></use><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.min().nil? -%><min value="<%= model.min %>"<%- if model.has_primitive_extension?('min') -%>><%== model.get_primitive_extension('min').to_xml(is_root: false, is_lowercase: true)  %></min><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.max().nil? -%><max value="<%= model.max %>"<%- if model.has_primitive_extension?('max') -%>><%== model.get_primitive_extension('max').to_xml(is_root: false, is_lowercase: true)  %></max><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation %>"<%- if model.has_primitive_extension?('documentation') -%>><%== model.get_primitive_extension('documentation').to_xml(is_root: false, is_lowercase: true)  %></documentation><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.profile().nil? -%><%== render :template => 'reference', :locals => {name: 'profile', model: model.profile()} %><%- end -%>
-    <%- if (!model.part().nil? && !model.part.empty?) -%><%- model.part().each do |element| -%><%== render :template => 'operationdefinition_operationdefinitionparameterpartcomponent', :locals => {name: 'part', model: element} %><%- end -%><%- end -%>
+    <%- if !model.binding().nil? -%><%== render :template => 'operationdefinition_operationdefinitionparameterbindingcomponent', :locals => {name: 'binding', model: model.binding()} %><%- end -%>
+    <%- if (!model.part().nil? && !model.part.empty?) -%><%- model.part().each do |element| -%><%== render :template => 'operationdefinition_operationdefinitionparametercomponent', :locals => {name: 'part', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

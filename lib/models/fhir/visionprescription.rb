@@ -43,7 +43,7 @@ module FHIR
             'encounter'
         ]
         MULTIPLE_TYPES = {
-            reason: [ "reasonCodeableConcept", "reasonReference" ]
+            reason: [ 'reasonCodeableConcept', 'reasonReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dispense
@@ -53,20 +53,19 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                eye: [ "right", "left" ],
-                base: [ "up", "down", "in", "out" ]
+                eye: [ 'right', 'left' ],
+                product: [ 'lens', 'contact' ],
+                base: [ 'up', 'down', 'in', 'out' ]
             }
             
             embeds_one :product, class_name:'FHIR::Coding'
             validates_presence_of :product
             field :eye, type: String
-            validates :eye, :inclusion => { in: VALID_CODES[:eye], :allow_nil => true }
             field :sphere, type: Float
             field :cylinder, type: Float
             field :axis, type: Integer
             field :prism, type: Float
             field :base, type: String
-            validates :base, :inclusion => { in: VALID_CODES[:base], :allow_nil => true }
             field :add, type: Float
             field :power, type: Float
             field :backCurve, type: Float

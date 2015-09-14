@@ -37,30 +37,30 @@ module FHIR
         
         SEARCH_PARAMS = [
             'actor',
-            'partstatus',
+            'identifier',
             'practitioner',
+            'part-status',
             'patient',
             'appointment',
             'location'
         ]
         
         VALID_CODES = {
-            participantStatus: [ "accepted", "declined", "tentative", "in-process", "completed", "needs-action" ]
+            participantStatus: [ 'accepted', 'declined', 'tentative', 'in-process', 'completed', 'needs-action' ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :appointment, class_name:'FHIR::Reference'
         validates_presence_of :appointment
-        embeds_many :participantType, class_name:'FHIR::CodeableConcept'
-        embeds_one :actor, class_name:'FHIR::Reference'
-        field :participantStatus, type: String
-        validates :participantStatus, :inclusion => { in: VALID_CODES[:participantStatus] }
-        validates_presence_of :participantStatus
-        field :comment, type: String
         field :start, type: String
         validates :start, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         field :end, type: String
         validates :end, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
+        embeds_many :participantType, class_name:'FHIR::CodeableConcept'
+        embeds_one :actor, class_name:'FHIR::Reference'
+        field :participantStatus, type: String
+        validates_presence_of :participantStatus
+        field :comment, type: String
         track_history
     end
 end

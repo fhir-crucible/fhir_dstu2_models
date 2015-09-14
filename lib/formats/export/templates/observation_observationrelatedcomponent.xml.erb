@@ -2,6 +2,6 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.target().nil? -%><%== render :template => 'reference', :locals => {name: 'target', model: model.target()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

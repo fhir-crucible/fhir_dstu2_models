@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.link().nil? && !model.link.empty?) -%><%- model.link().each do |element| -%><%== render :template => 'testscript_testscripttestmetadatalinkcomponent', :locals => {name: 'link', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.requires().nil? && !model.requires.empty?) -%><%- model.requires().each do |element| -%><%== render :template => 'testscript_testscripttestmetadatarequirescomponent', :locals => {name: 'requires', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.validates().nil? && !model.validates.empty?) -%><%- model.validates().each do |element| -%><%== render :template => 'testscript_testscripttestmetadatavalidatescomponent', :locals => {name: 'validates', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

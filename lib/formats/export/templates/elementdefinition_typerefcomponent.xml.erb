@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
-    <%- if !model.profile().nil? -%><profile value="<%= model.profile() %>"/><%- end -%>
-    <%- if (model.aggregation() && !model.aggregation.empty?) -%><%- model.aggregation().each do |element| -%><aggregation value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code %>"<%- if model.has_primitive_extension?('code') -%>><%== model.get_primitive_extension('code').to_xml(is_root: false, is_lowercase: true)  %></code><%- else -%>/><%- end -%><%- end -%>
+    <%- if (model.profile && !model.profile.empty?) -%><%- model.profile.each_with_index do |element,index| -%><profile value="<%= element %>"<%- if model.has_primitive_extension?('profile',index) -%>><%== model.get_primitive_extension('profile',index).to_xml(is_root: false, is_lowercase: true)  %></profile><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if (model.aggregation && !model.aggregation.empty?) -%><%- model.aggregation.each_with_index do |element,index| -%><aggregation value="<%= element %>"<%- if model.has_primitive_extension?('aggregation',index) -%>><%== model.get_primitive_extension('aggregation',index).to_xml(is_root: false, is_lowercase: true)  %></aggregation><%- else -%>/><%- end -%><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

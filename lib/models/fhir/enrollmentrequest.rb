@@ -40,6 +40,13 @@ module FHIR
             'subject',
             'patient'
         ]
+        
+        VALID_CODES = {
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            relationship: [ '1', '2', '3', '4', '5' ]
+        }
+        
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :ruleset, class_name:'FHIR::Coding'
         embeds_one :originalRuleset, class_name:'FHIR::Coding'

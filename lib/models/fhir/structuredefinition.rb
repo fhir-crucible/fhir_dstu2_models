@@ -40,6 +40,7 @@ module FHIR
             'identifier',
             'code',
             'valueset',
+            'kind',
             'display',
             'description',
             'experimental',
@@ -52,15 +53,16 @@ module FHIR
             'ext-context',
             'name',
             'context',
+            'base-path',
             'publisher',
             'status',
             'base'
         ]
         
         VALID_CODES = {
-            contextType: [ "resource", "datatype", "mapping", "extension" ],
-            fhirType: [ "type", "resource", "constraint", "extension" ],
-            status: [ "draft", "active", "retired" ]
+            kind: [ 'datatype', 'resource', 'logical' ],
+            contextType: [ 'resource', 'datatype', 'mapping', 'extension' ],
+            status: [ 'draft', 'active', 'retired' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -108,29 +110,28 @@ module FHIR
         field :versionNum, type: String
         field :name, type: String
         validates_presence_of :name
-        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
         field :display, type: String
-        field :publisher, type: String
-        embeds_many :contact, class_name:'FHIR::StructureDefinition::StructureDefinitionContactComponent'
-        field :description, type: String
-        field :requirements, type: String
-        field :copyright, type: String
-        embeds_many :code, class_name:'FHIR::Coding'
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :experimental, type: Boolean
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::StructureDefinition::StructureDefinitionContactComponent'
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :description, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
+        field :requirements, type: String
+        field :copyright, type: String
+        embeds_many :code, class_name:'FHIR::Coding'
         field :fhirVersion, type: String
         embeds_many :mapping, class_name:'FHIR::StructureDefinition::StructureDefinitionMappingComponent'
-        field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-        validates_presence_of :fhirType
+        field :kind, type: String
+        validates_presence_of :kind
+        field :constrainedType, type: String
         field :abstract, type: Boolean
         validates_presence_of :abstract
         field :contextType, type: String
-        validates :contextType, :inclusion => { in: VALID_CODES[:contextType], :allow_nil => true }
         field :context, type: Array # Array of Strings
         field :base, type: String
         embeds_one :snapshot, class_name:'FHIR::StructureDefinition::StructureDefinitionSnapshotComponent'

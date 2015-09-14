@@ -36,14 +36,16 @@ module FHIR
         
         
         VALID_CODES = {
-            use: [ "home", "work", "temp", "old" ]
+            use: [ 'home', 'work', 'temp', 'old' ],
+            fhirType: [ 'postal', 'physical', 'both' ]
         }
         
         field :use, type: String
-        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
+        field :fhirType, type: String
         field :text, type: String
         field :line, type: Array # Array of Strings
         field :city, type: String
+        field :district, type: String
         field :state, type: String
         field :postalCode, type: String
         field :country, type: String

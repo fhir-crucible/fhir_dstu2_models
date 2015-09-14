@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (model.mode() && !model.mode.empty?) -%><%- model.mode().each do |element| -%><mode value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if !model.time().nil? -%><%- if (!model.time().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><time value="<%= model.time %>"/><%- end -%><%- end -%>
+    <%- if (model.mode && !model.mode.empty?) -%><%- model.mode.each_with_index do |element,index| -%><mode value="<%= element %>"<%- if model.has_primitive_extension?('mode',index) -%>><%== model.get_primitive_extension('mode',index).to_xml(is_root: false, is_lowercase: true)  %></mode><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.time.nil? -%><%- if (!model.time.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><time value="<%= model.time %>"<%- if model.has_primitive_extension?('time') -%>><%== model.get_primitive_extension('time').to_xml(is_root: false, is_lowercase: true)  %></time><%- else -%>/><%- end -%><%- end -%><%- end -%>
     <%- if !model.party().nil? -%><%== render :template => 'reference', :locals => {name: 'party', model: model.party()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

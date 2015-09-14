@@ -8,8 +8,8 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'contentType', entry.at_xpath('./fhir:contentType/@value').try(:value))
-                set_model_data(model, 'content', entry.at_xpath('./fhir:content/@value').try(:value))
+                parse_primitive_field(model,entry,'contentType','contentType',false)
+                parse_primitive_field(model,entry,'content','content',false)
                 model
             end
         end

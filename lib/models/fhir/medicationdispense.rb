@@ -36,22 +36,27 @@ module FHIR
         extend FHIR::Deserializer::MedicationDispense
         
         SEARCH_PARAMS = [
-            'dispenser',
             'identifier',
+            'code',
             'receiver',
-            'prescription',
-            'patient',
             'destination',
             'medication',
             'responsibleparty',
             'type',
             'whenhandedover',
             'whenprepared',
+            'dispenser',
+            'prescription',
+            'patient',
             'status'
         ]
         
         VALID_CODES = {
-            status: [ "in-progress", "on-hold", "completed", "entered-in-error", "stopped" ]
+            status: [ 'in-progress', 'on-hold', 'completed', 'entered-in-error', 'stopped' ]
+        }
+        
+        MULTIPLE_TYPES = {
+            medication: [ 'medicationCodeableConcept', 'medicationReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosageInstruction
@@ -60,24 +65,25 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                asNeeded: [ "asNeededBoolean", "asNeededCodeableConcept" ],
-                schedule: [ "scheduleDateTime", "schedulePeriod", "scheduleTiming" ],
-                dose: [ "doseRange", "doseQuantity" ]
+                asNeeded: [ 'asNeededBoolean', 'asNeededCodeableConcept' ],
+                site: [ 'siteCodeableConcept', 'siteReference' ],
+                dose: [ 'doseRange', 'doseQuantity' ],
+                rate: [ 'rateRatio', 'rateRange' ]
             }
             
+            field :text, type: String
             embeds_one :additionalInstructions, class_name:'FHIR::CodeableConcept'
-            field :scheduleDateTime, type: String
-            validates :scheduleDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-            embeds_one :schedulePeriod, class_name:'FHIR::Period'
-            embeds_one :scheduleTiming, class_name:'FHIR::Timing'
+            embeds_one :timing, class_name:'FHIR::Timing'
             field :asNeededBoolean, type: Boolean
             embeds_one :asNeededCodeableConcept, class_name:'FHIR::CodeableConcept'
-            embeds_one :site, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteReference, class_name:'FHIR::Reference'
             embeds_one :route, class_name:'FHIR::CodeableConcept'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
             embeds_one :doseRange, class_name:'FHIR::Range'
             embeds_one :doseQuantity, class_name:'FHIR::Quantity'
-            embeds_one :rate, class_name:'FHIR::Ratio'
+            embeds_one :rateRatio, class_name:'FHIR::Ratio'
+            embeds_one :rateRange, class_name:'FHIR::Range'
             embeds_one :maxDosePerPeriod, class_name:'FHIR::Ratio'
         end
         
@@ -94,14 +100,16 @@ module FHIR
         
         embeds_one :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_one :patient, class_name:'FHIR::Reference'
         embeds_one :dispenser, class_name:'FHIR::Reference'
         embeds_many :authorizingPrescription, class_name:'FHIR::Reference'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :quantity, class_name:'FHIR::Quantity'
         embeds_one :daysSupply, class_name:'FHIR::Quantity'
-        embeds_one :medication, class_name:'FHIR::Reference'
+        embeds_one :medicationCodeableConcept, class_name:'FHIR::CodeableConcept'
+        validates_presence_of :medicationCodeableConcept
+        embeds_one :medicationReference, class_name:'FHIR::Reference'
+        validates_presence_of :medicationReference
         field :whenPrepared, type: String
         validates :whenPrepared, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :whenHandedOver, type: String

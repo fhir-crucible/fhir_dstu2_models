@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.schedule().nil? -%><%== render :template => 'timing', :locals => {name: 'schedule', model: model.schedule()} %><%- end -%>
+    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.rateQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'rateQuantity', model: model.rateQuantity()} %><%- end -%>
+    <%- if !model.rateRatio().nil? -%><%== render :template => 'ratio', :locals => {name: 'rateRatio', model: model.rateRatio()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

@@ -42,16 +42,22 @@ module FHIR
             'performer',
             'method',
             'subject',
-            'patient'
+            'patient',
+            'encounter'
         ]
         # This is an ugly hack to deal with embedded structures in the spec prediction
         class RiskAssessmentPredictionComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                probabilityDecimal: [ 'negligible', 'low', 'moderate', 'high', 'certain' ]
+            }
+            
             MULTIPLE_TYPES = {
-                probability: [ "probabilityDecimal", "probabilityRange", "probabilityCodeableConcept" ],
-                when: [ "whenPeriod", "whenRange" ]
+                probability: [ 'probabilityDecimal', 'probabilityRange', 'probabilityCodeableConcept' ],
+                when: [ 'whenPeriod', 'whenRange' ]
             }
             
             embeds_one :outcome, class_name:'FHIR::CodeableConcept'
@@ -69,6 +75,7 @@ module FHIR
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :condition, class_name:'FHIR::Reference'
+        embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :performer, class_name:'FHIR::Reference'
         embeds_one :identifier, class_name:'FHIR::Identifier'
         embeds_one :method, class_name:'FHIR::CodeableConcept'

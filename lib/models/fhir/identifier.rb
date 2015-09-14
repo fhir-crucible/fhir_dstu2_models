@@ -36,11 +36,11 @@ module FHIR
         
         
         VALID_CODES = {
-            use: [ "usual", "official", "temp", "secondary" ]
+            use: [ 'usual', 'official', 'temp', 'secondary' ],
+            fhirType: [ 'UDI', 'SNO', 'SB', 'PLAC', 'FILL', 'DL', 'PPN', 'BRN', 'MR', 'MCN', 'EN', 'TAX', 'NIIP', 'PRN', 'MD', 'DR' ]
         }
         
         field :use, type: String
-        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         field :system, type: String
         field :value, type: String

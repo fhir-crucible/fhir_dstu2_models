@@ -37,6 +37,7 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
+            'code',
             'patient',
             'medication',
             'source',
@@ -45,12 +46,13 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "in-progress", "completed", "entered-in-error" ]
+            status: [ 'active', 'completed', 'entered-in-error', 'intended' ]
         }
         
         MULTIPLE_TYPES = {
-            effective: [ "effectiveDateTime", "effectivePeriod" ],
-            reasonForUse: [ "reasonForUseCodeableConcept", "reasonForUseReference" ]
+            effective: [ 'effectiveDateTime', 'effectivePeriod' ],
+            medication: [ 'medicationCodeableConcept', 'medicationReference' ],
+            reasonForUse: [ 'reasonForUseCodeableConcept', 'reasonForUseReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosage
@@ -59,38 +61,48 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                asNeeded: [ "asNeededBoolean", "asNeededCodeableConcept" ]
+                asNeeded: [ 'asNeededBoolean', 'asNeededCodeableConcept' ],
+                site: [ 'siteCodeableConcept', 'siteReference' ],
+                quantity: [ 'quantityQuantity', 'quantityRange' ],
+                rate: [ 'rateRatio', 'rateRange' ]
             }
             
             field :text, type: String
-            embeds_one :schedule, class_name:'FHIR::Timing'
+            embeds_one :timing, class_name:'FHIR::Timing'
             field :asNeededBoolean, type: Boolean
             embeds_one :asNeededCodeableConcept, class_name:'FHIR::CodeableConcept'
-            embeds_one :site, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteReference, class_name:'FHIR::Reference'
             embeds_one :route, class_name:'FHIR::CodeableConcept'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
-            embeds_one :quantity, class_name:'FHIR::Quantity'
-            embeds_one :rate, class_name:'FHIR::Ratio'
+            embeds_one :quantityQuantity, class_name:'FHIR::Quantity'
+            embeds_one :quantityRange, class_name:'FHIR::Range'
+            embeds_one :rateRatio, class_name:'FHIR::Ratio'
+            embeds_one :rateRange, class_name:'FHIR::Range'
             embeds_one :maxDosePerPeriod, class_name:'FHIR::Ratio'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :patient, class_name:'FHIR::Reference'
+        validates_presence_of :patient
         embeds_one :informationSource, class_name:'FHIR::Reference'
         field :dateAsserted, type: String
         validates :dateAsserted, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        field :wasNotGiven, type: Boolean
-        embeds_many :reasonNotGiven, class_name:'FHIR::CodeableConcept'
+        field :wasNotTaken, type: Boolean
+        embeds_many :reasonNotTaken, class_name:'FHIR::CodeableConcept'
         embeds_one :reasonForUseCodeableConcept, class_name:'FHIR::CodeableConcept'
         embeds_one :reasonForUseReference, class_name:'FHIR::Reference'
         field :effectiveDateTime, type: String
         validates :effectiveDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :effectivePeriod, class_name:'FHIR::Period'
         field :note, type: String
-        embeds_one :medication, class_name:'FHIR::Reference'
+        embeds_many :supportingInformation, class_name:'FHIR::Reference'
+        embeds_one :medicationCodeableConcept, class_name:'FHIR::CodeableConcept'
+        validates_presence_of :medicationCodeableConcept
+        embeds_one :medicationReference, class_name:'FHIR::Reference'
+        validates_presence_of :medicationReference
         embeds_many :dosage, class_name:'FHIR::MedicationStatement::MedicationStatementDosageComponent'
         track_history
     end

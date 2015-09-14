@@ -36,11 +36,10 @@ module FHIR
         
         
         VALID_CODES = {
-            status: [ "generated", "extensions", "additional", "empty" ]
+            status: [ 'generated', 'extensions', 'additional', 'empty' ]
         }
         
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :div, type: String
         validates_presence_of :div

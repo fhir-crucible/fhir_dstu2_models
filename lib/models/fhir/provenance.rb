@@ -37,30 +37,42 @@ module FHIR
         
         SEARCH_PARAMS = [
             'sigtype',
+            'agent',
+            'entitytype',
             'patient',
             'start',
             'end',
             'location',
-            'partytype',
-            'party',
+            'userid',
+            'entity',
             'target'
         ]
+        # This is an ugly hack to deal with embedded structures in the spec relatedAgent
+        class ProvenanceAgentRelatedAgentComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :fhirType
+            field :target, type: String
+            validates_presence_of :target
+        end
+        
         # This is an ugly hack to deal with embedded structures in the spec agent
         class ProvenanceAgentComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            MULTIPLE_TYPES = {
-                reference: [ "referenceUri", "referenceReference" ]
+            
+            VALID_CODES = {
+                role: [ 'enterer', 'performer', 'author', 'verifier', 'legal', 'attester', 'informant', 'custodian', 'assembler', 'composer' ]
             }
             
             embeds_one :role, class_name:'FHIR::Coding'
             validates_presence_of :role
-            embeds_one :fhirType, class_name:'FHIR::Coding'
-            validates_presence_of :fhirType
-            field :referenceUri, type: String
-            embeds_one :referenceReference, class_name:'FHIR::Reference'
-            field :display, type: String
+            embeds_one :actor, class_name:'FHIR::Reference'
+            embeds_one :userId, class_name:'FHIR::Identifier'
+            embeds_many :relatedAgent, class_name:'FHIR::Provenance::ProvenanceAgentRelatedAgentComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec entity
@@ -70,11 +82,10 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                role: [ "derivation", "revision", "quotation", "source" ]
+                role: [ 'derivation', 'revision', 'quotation', 'source' ]
             }
             
             field :role, type: String
-            validates :role, :inclusion => { in: VALID_CODES[:role] }
             validates_presence_of :role
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
@@ -90,7 +101,8 @@ module FHIR
         field :recorded, type: String
         validates :recorded, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :recorded
-        embeds_one :reason, class_name:'FHIR::CodeableConcept'
+        embeds_many :reason, class_name:'FHIR::CodeableConcept'
+        embeds_one :activity, class_name:'FHIR::CodeableConcept'
         embeds_one :location, class_name:'FHIR::Reference'
         field :policy, type: Array # Array of Strings
         embeds_many :agent, class_name:'FHIR::Provenance::ProvenanceAgentComponent'

@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = self.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
                 ignored = ""
                 array = entry.xpath("./*[local-name()='div']")
                 array.each { |e| ignored += e.to_s }

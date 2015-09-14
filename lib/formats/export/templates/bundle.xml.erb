@@ -4,10 +4,9 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.base().nil? -%><base value="<%= model.base() %>"/><%- end -%>
-    <%- if !model.total().nil? -%><total value="<%= model.total() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.total().nil? -%><total value="<%= model.total %>"<%- if model.has_primitive_extension?('total') -%>><%== model.get_primitive_extension('total').to_xml(is_root: false, is_lowercase: true)  %></total><%- else -%>/><%- end -%><%- end -%>
     <%- if (!model.link().nil? && !model.link.empty?) -%><%- model.link().each do |element| -%><%== render :template => 'bundle_bundlelinkcomponent', :locals => {name: 'link', model: element} %><%- end -%><%- end -%>
     <%- if (!model.entry().nil? && !model.entry.empty?) -%><%- model.entry().each do |element| -%><%== render :template => 'bundle_bundleentrycomponent', :locals => {name: 'entry', model: element} %><%- end -%><%- end -%>
-    <%- if !model.signature().nil? -%><signature value="<%= model.signature() %>"/><%- end -%>
+    <%- if !model.signature().nil? -%><%== render :template => 'signature', :locals => {name: 'signature', model: model.signature()} %><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

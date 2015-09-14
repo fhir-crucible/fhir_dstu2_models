@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (model.import() && !model.import.empty?) -%><%- model.import().each do |element| -%><import value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if (model.import && !model.import.empty?) -%><%- model.import.each_with_index do |element,index| -%><import value="<%= element %>"<%- if model.has_primitive_extension?('import',index) -%>><%== model.get_primitive_extension('import',index).to_xml(is_root: false, is_lowercase: true)  %></import><%- else -%>/><%- end -%><%- end -%><%- end -%>
     <%- if (!model.include().nil? && !model.include.empty?) -%><%- model.include().each do |element| -%><%== render :template => 'valueset_conceptsetcomponent', :locals => {name: 'include', model: element} %><%- end -%><%- end -%>
     <%- if (!model.exclude().nil? && !model.exclude.empty?) -%><%- model.exclude().each do |element| -%><%== render :template => 'valueset_conceptsetcomponent', :locals => {name: 'exclude', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

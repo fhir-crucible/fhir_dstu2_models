@@ -34,11 +34,11 @@ module FHIR
         include FHIR::Serializer::Utilities
         extend FHIR::Deserializer::Extension
         
+        ANY_TYPES = [ 'value' ]
+        
         field :url, type: String
         validates_presence_of :url
-        field :valueType, type: String
-        attr_accessor :value
-        # field :value, type: FHIR::AnyType
+        field :value, type: FHIR::AnyType
         track_history
     end
 end

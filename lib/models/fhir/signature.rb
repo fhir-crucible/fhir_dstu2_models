@@ -34,8 +34,13 @@ module FHIR
         include FHIR::Serializer::Utilities
         extend FHIR::Deserializer::Signature
         
+        
+        VALID_CODES = {
+            fhirType: [ '1.2.840.10065.1.12.1.1', '1.2.840.10065.1.12.1.2', '1.2.840.10065.1.12.1.3', '1.2.840.10065.1.12.1.4', '1.2.840.10065.1.12.1.5', '1.2.840.10065.1.12.1.6', '1.2.840.10065.1.12.1.7', '1.2.840.10065.1.12.1.8', '1.2.840.10065.1.12.1.9', '1.2.840.10065.1.12.1.10', '1.2.840.10065.1.12.1.11', '1.2.840.10065.1.12.1.12', '1.2.840.10065.1.12.1.13', '1.2.840.10065.1.12.1.14', '1.2.840.10065.1.12.1.15', '1.2.840.10065.1.12.1.16', '1.2.840.10065.1.12.1.17' ]
+        }
+        
         MULTIPLE_TYPES = {
-            who: [ "whoUri", "whoReference" ]
+            who: [ 'whoUri', 'whoReference' ]
         }
         
         embeds_many :fhirType, class_name:'FHIR::Coding'
@@ -47,7 +52,9 @@ module FHIR
         validates_presence_of :whoUri
         embeds_one :whoReference, class_name:'FHIR::Reference'
         validates_presence_of :whoReference
-        field :blob, type: Moped::BSON::Binary
+        field :contentType, type: String
+        validates_presence_of :contentType
+        field :blob, type: String
         validates_presence_of :blob
         track_history
     end

@@ -1,0 +1,18 @@
+<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
+<% local_name = name || 'Account' %>
+<<%= (is_lowercase) ? local_name.downcase : local_name %>
+<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
+    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
+    <%== render :template => 'resource', :locals => {model: model} %>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.activePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'activePeriod', model: model.activePeriod()} %><%- end -%>
+    <%- if !model.currency().nil? -%><%== render :template => 'coding', :locals => {name: 'currency', model: model.currency()} %><%- end -%>
+    <%- if !model.balance().nil? -%><%== render :template => 'quantity', :locals => {name: 'balance', model: model.balance()} %><%- end -%>
+    <%- if !model.coveragePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'coveragePeriod', model: model.coveragePeriod()} %><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.owner().nil? -%><%== render :template => 'reference', :locals => {name: 'owner', model: model.owner()} %><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
+</<%= (is_lowercase) ? local_name.downcase : local_name %>>

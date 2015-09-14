@@ -42,7 +42,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            fhirType: [ "document", "message", "transaction", "transaction-response", "history", "searchset", "collection" ]
+            fhirType: [ 'document', 'message', 'transaction', 'transaction-response', 'batch', 'batch-response', 'history', 'searchset', 'collection' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec link
@@ -63,38 +63,36 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                mode: [ "match", "include" ]
+                mode: [ 'match', 'include', 'outcome' ]
             }
             
             field :mode, type: String
-            validates :mode, :inclusion => { in: VALID_CODES[:mode], :allow_nil => true }
             field :score, type: Float
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec transaction
-        class BundleEntryTransactionComponent
+        # This is an ugly hack to deal with embedded structures in the spec request
+        class BundleEntryRequestComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                method: [ "GET", "POST", "PUT", "DELETE" ]
+                method: [ 'GET', 'POST', 'PUT', 'DELETE' ]
             }
             
             field :method, type: String
-            validates :method, :inclusion => { in: VALID_CODES[:method] }
             validates_presence_of :method
             field :url, type: String
             validates_presence_of :url
             field :ifNoneMatch, type: String
-            field :ifMatch, type: String
             field :ifModifiedSince, type: String
             validates :ifModifiedSince, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
+            field :ifMatch, type: String
             field :ifNoneExist, type: String
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec transactionResponse
-        class BundleEntryTransactionResponseComponent
+        # This is an ugly hack to deal with embedded structures in the spec response
+        class BundleEntryResponseComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
@@ -111,24 +109,22 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :base, type: String
             embeds_many :link, class_name:'FHIR::Bundle::BundleLinkComponent'
+            field :fullUrl, type: String
             field :resourceType, type: String
             attr_accessor :resource
             # field :resource, type: FHIR::AnyType
             embeds_one :search, class_name:'FHIR::Bundle::BundleEntrySearchComponent'
-            embeds_one :transaction, class_name:'FHIR::Bundle::BundleEntryTransactionComponent'
-            embeds_one :transactionResponse, class_name:'FHIR::Bundle::BundleEntryTransactionResponseComponent'
+            embeds_one :request, class_name:'FHIR::Bundle::BundleEntryRequestComponent'
+            embeds_one :response, class_name:'FHIR::Bundle::BundleEntryResponseComponent'
         end
         
         field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
-        field :base, type: String
         field :total, type: Integer
         embeds_many :link, class_name:'FHIR::Bundle::BundleLinkComponent'
         embeds_many :entry, class_name:'FHIR::Bundle::BundleEntryComponent'
-        field :signature, type: Moped::BSON::Binary
+        embeds_one :signature, class_name:'FHIR::Signature'
         track_history
     end
 end

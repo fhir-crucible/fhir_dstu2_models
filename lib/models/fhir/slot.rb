@@ -37,13 +37,14 @@ module FHIR
         
         SEARCH_PARAMS = [
             'schedule',
-            'slottype',
+            'identifier',
             'start',
-            'fbtype'
+            'slot-type',
+            'fb-type'
         ]
         
         VALID_CODES = {
-            freeBusyType: [ "BUSY", "FREE", "BUSY-UNAVAILABLE", "BUSY-TENTATIVE" ]
+            freeBusyType: [ 'busy', 'free', 'busy-unavailable', 'busy-tentative' ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -51,7 +52,6 @@ module FHIR
         embeds_one :schedule, class_name:'FHIR::Reference'
         validates_presence_of :schedule
         field :freeBusyType, type: String
-        validates :freeBusyType, :inclusion => { in: VALID_CODES[:freeBusyType] }
         validates_presence_of :freeBusyType
         field :start, type: String
         validates :start, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }

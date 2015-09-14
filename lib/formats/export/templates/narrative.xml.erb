@@ -4,6 +4,6 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.div().nil? -%><%- if ((model.div() =~ /^<div/) == 0) -%><%== model.div() %><%- else -%><div xmlns="http://www.w3.org/1999/xhtml"><%== model.div() %></div><%- end -%><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.div.nil? -%><%- if ((model.div =~ /^<div/) == 0) -%><%== model.div %><%- else -%><div xmlns="http://www.w3.org/1999/xhtml"><%== model.div() %></div><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

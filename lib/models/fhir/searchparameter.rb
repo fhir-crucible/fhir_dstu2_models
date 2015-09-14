@@ -36,6 +36,7 @@ module FHIR
         extend FHIR::Deserializer::SearchParameter
         
         SEARCH_PARAMS = [
+            'code',
             'name',
             'description',
             'type',
@@ -45,10 +46,9 @@ module FHIR
         ]
         
         VALID_CODES = {
-            fhirType: [ "number", "date", "string", "token", "reference", "composite", "quantity", "uri" ],
-            status: [ "draft", "active", "retired" ],
-            base: [ "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ],
-            target: [ "AllergyIntolerance", "Appointment", "AppointmentResponse", "AuditEvent", "Basic", "Binary", "BodySite", "Bundle", "CarePlan", "Claim", "ClaimResponse", "ClinicalImpression", "Communication", "CommunicationRequest", "Composition", "ConceptMap", "Condition", "Conformance", "Contract", "Contraindication", "Coverage", "DataElement", "Device", "DeviceComponent", "DeviceMetric", "DeviceUseRequest", "DeviceUseStatement", "DiagnosticOrder", "DiagnosticReport", "DocumentManifest", "DocumentReference", "EligibilityRequest", "EligibilityResponse", "Encounter", "EnrollmentRequest", "EnrollmentResponse", "EpisodeOfCare", "ExplanationOfBenefit", "FamilyMemberHistory", "Flag", "Goal", "Group", "HealthcareService", "ImagingObjectSelection", "ImagingStudy", "Immunization", "ImmunizationRecommendation", "List", "Location", "Media", "Medication", "MedicationAdministration", "MedicationDispense", "MedicationPrescription", "MedicationStatement", "MessageHeader", "NamingSystem", "NutritionOrder", "Observation", "OperationDefinition", "OperationOutcome", "Order", "OrderResponse", "Organization", "Patient", "PaymentNotice", "PaymentReconciliation", "Person", "Practitioner", "Procedure", "ProcedureRequest", "ProcessRequest", "ProcessResponse", "Provenance", "Questionnaire", "QuestionnaireAnswers", "ReferralRequest", "RelatedPerson", "RiskAssessment", "Schedule", "SearchParameter", "Slot", "Specimen", "StructureDefinition", "Subscription", "Substance", "Supply", "TestScript", "ValueSet", "VisionPrescription" ]
+            xpathUsage: [ 'normal', 'phonetic', 'nearby', 'distance', 'other' ],
+            fhirType: [ 'number', 'date', 'string', 'token', 'reference', 'composite', 'quantity', 'uri' ],
+            status: [ 'draft', 'active', 'retired' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -64,16 +64,17 @@ module FHIR
         validates_presence_of :url
         field :name, type: String
         validates_presence_of :name
-        field :publisher, type: String
-        embeds_many :contact, class_name:'FHIR::SearchParameter::SearchParameterContactComponent'
-        field :requirements, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :experimental, type: Boolean
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::SearchParameter::SearchParameterContactComponent'
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :requirements, type: String
+        field :code, type: String
+        validates_presence_of :code
         field :base, type: String
-        validates :base, :inclusion => { in: VALID_CODES[:base] }
         validates_presence_of :base
         field :fhirType, type: String
         validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
@@ -81,8 +82,8 @@ module FHIR
         field :description, type: String
         validates_presence_of :description
         field :xpath, type: String
+        field :xpathUsage, type: String
         field :target, type: Array # Array of Strings
-        validates :target, :inclusion => { in: VALID_CODES[:target], :allow_nil => true }
         track_history
     end
 end

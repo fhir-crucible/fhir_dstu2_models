@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.element().nil? -%><element value="<%= model.element() %>"/><%- end -%>
-    <%- if !model.codeSystem().nil? -%><codeSystem value="<%= model.codeSystem() %>"/><%- end -%>
-    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
+    <%- if !model.element().nil? -%><element value="<%= model.element %>"<%- if model.has_primitive_extension?('element') -%>><%== model.get_primitive_extension('element').to_xml(is_root: false, is_lowercase: true)  %></element><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.codeSystem().nil? -%><codeSystem value="<%= model.codeSystem %>"<%- if model.has_primitive_extension?('codeSystem') -%>><%== model.get_primitive_extension('codeSystem').to_xml(is_root: false, is_lowercase: true)  %></codeSystem><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code %>"<%- if model.has_primitive_extension?('code') -%>><%== model.get_primitive_extension('code').to_xml(is_root: false, is_lowercase: true)  %></code><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

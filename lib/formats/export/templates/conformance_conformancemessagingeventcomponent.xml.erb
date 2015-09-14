@@ -3,11 +3,10 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.code().nil? -%><%== render :template => 'coding', :locals => {name: 'code', model: model.code()} %><%- end -%>
-    <%- if !model.category().nil? -%><category value="<%= model.category() %>"/><%- end -%>
-    <%- if !model.mode().nil? -%><mode value="<%= model.mode() %>"/><%- end -%>
-    <%- if (!model.protocol().nil? && !model.protocol.empty?) -%><%- model.protocol().each do |element| -%><%== render :template => 'coding', :locals => {name: 'protocol', model: element} %><%- end -%><%- end -%>
-    <%- if !model.focus().nil? -%><focus value="<%= model.focus() %>"/><%- end -%>
+    <%- if !model.category().nil? -%><category value="<%= model.category %>"<%- if model.has_primitive_extension?('category') -%>><%== model.get_primitive_extension('category').to_xml(is_root: false, is_lowercase: true)  %></category><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.mode().nil? -%><mode value="<%= model.mode %>"<%- if model.has_primitive_extension?('mode') -%>><%== model.get_primitive_extension('mode').to_xml(is_root: false, is_lowercase: true)  %></mode><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.focus().nil? -%><focus value="<%= model.focus %>"<%- if model.has_primitive_extension?('focus') -%>><%== model.get_primitive_extension('focus').to_xml(is_root: false, is_lowercase: true)  %></focus><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.request().nil? -%><%== render :template => 'reference', :locals => {name: 'request', model: model.request()} %><%- end -%>
     <%- if !model.response().nil? -%><%== render :template => 'reference', :locals => {name: 'response', model: model.response()} %><%- end -%>
-    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
+    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation %>"<%- if model.has_primitive_extension?('documentation') -%>><%== model.get_primitive_extension('documentation').to_xml(is_root: false, is_lowercase: true)  %></documentation><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

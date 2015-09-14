@@ -7,14 +7,14 @@ module FHIR
                 return nil unless entry
                 model = self.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'contentType', entry.at_xpath('./fhir:contentType/@value').try(:value))
-                set_model_data(model, 'language', entry.at_xpath('./fhir:language/@value').try(:value))
-                set_model_data(model, 'data', entry.at_xpath('./fhir:data/@value').try(:value))
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'size', entry.at_xpath('./fhir:size/@value').try(:value))
-                set_model_data(model, 'fhirHash', entry.at_xpath('./fhir:hash/@value').try(:value))
-                set_model_data(model, 'title', entry.at_xpath('./fhir:title/@value').try(:value))
-                set_model_data(model, 'creation', entry.at_xpath('./fhir:creation/@value').try(:value))
+                parse_primitive_field(model,entry,'contentType','contentType',false)
+                parse_primitive_field(model,entry,'language','language',false)
+                parse_primitive_field(model,entry,'data','data',false)
+                parse_primitive_field(model,entry,'url','url',false)
+                parse_primitive_field(model,entry,'size','size',false)
+                parse_primitive_field(model,entry,'hash','fhirHash',false)
+                parse_primitive_field(model,entry,'title','title',false)
+                parse_primitive_field(model,entry,'creation','creation',false)
                 model
             end
         end

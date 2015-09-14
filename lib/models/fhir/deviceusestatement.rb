@@ -41,8 +41,8 @@ module FHIR
             'device'
         ]
         MULTIPLE_TYPES = {
-            bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ],
-            timing: [ "timingTiming", "timingPeriod", "timingDateTime" ]
+            bodySite: [ 'bodySiteCodeableConcept', 'bodySiteReference' ],
+            timing: [ 'timingTiming', 'timingPeriod', 'timingDateTime' ]
         }
         
         embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'

@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Encounter::EncounterStatusHistoryComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
                 model
             end
@@ -29,13 +29,14 @@ module FHIR
                 set_model_data(model, 'preAdmissionIdentifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:preAdmissionIdentifier')))
                 set_model_data(model, 'origin', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:origin')))
                 set_model_data(model, 'admitSource', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:admitSource')))
-                set_model_data(model, 'dietPreference', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:dietPreference')))
+                set_model_data(model, 'admittingDiagnosis', entry.xpath('./fhir:admittingDiagnosis').map {|e| FHIR::Reference.parse_xml_entry(e)})
+                set_model_data(model, 'reAdmission', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:reAdmission')))
+                set_model_data(model, 'dietPreference', entry.xpath('./fhir:dietPreference').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'specialCourtesy', entry.xpath('./fhir:specialCourtesy').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'specialArrangement', entry.xpath('./fhir:specialArrangement').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'destination', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:destination')))
                 set_model_data(model, 'dischargeDisposition', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:dischargeDisposition')))
-                set_model_data(model, 'dischargeDiagnosis', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:dischargeDiagnosis')))
-                set_model_data(model, 'reAdmission', entry.at_xpath('./fhir:reAdmission/@value').try(:value))
+                set_model_data(model, 'dischargeDiagnosis', entry.xpath('./fhir:dischargeDiagnosis').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 model
             end
             
@@ -44,7 +45,7 @@ module FHIR
                 model = FHIR::Encounter::EncounterLocationComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'location', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:location')))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
                 model
             end
@@ -55,20 +56,20 @@ module FHIR
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
                 set_model_data(model, 'statusHistory', entry.xpath('./fhir:statusHistory').map {|e| parse_xml_entry_EncounterStatusHistoryComponent(e)})
-                set_model_data(model, 'fhirClass', entry.at_xpath('./fhir:class/@value').try(:value))
+                parse_primitive_field(model,entry,'class','fhirClass',false)
                 set_model_data(model, 'fhirType', entry.xpath('./fhir:type').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                set_model_data(model, 'priority', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:priority')))
                 set_model_data(model, 'patient', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:patient')))
-                set_model_data(model, 'episodeOfCare', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:episodeOfCare')))
-                set_model_data(model, 'incomingReferralRequest', entry.xpath('./fhir:incomingReferralRequest').map {|e| FHIR::Reference.parse_xml_entry(e)})
+                set_model_data(model, 'episodeOfCare', entry.xpath('./fhir:episodeOfCare').map {|e| FHIR::Reference.parse_xml_entry(e)})
+                set_model_data(model, 'incomingReferral', entry.xpath('./fhir:incomingReferral').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'participant', entry.xpath('./fhir:participant').map {|e| parse_xml_entry_EncounterParticipantComponent(e)})
-                set_model_data(model, 'fulfills', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:fulfills')))
+                set_model_data(model, 'appointment', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:appointment')))
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
                 set_model_data(model, 'length', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:length')))
                 set_model_data(model, 'reason', entry.xpath('./fhir:reason').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'indication', entry.xpath('./fhir:indication').map {|e| FHIR::Reference.parse_xml_entry(e)})
-                set_model_data(model, 'priority', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:priority')))
                 set_model_data(model, 'hospitalization', parse_xml_entry_EncounterHospitalizationComponent(entry.at_xpath('./fhir:hospitalization')))
                 set_model_data(model, 'location', entry.xpath('./fhir:location').map {|e| parse_xml_entry_EncounterLocationComponent(e)})
                 set_model_data(model, 'serviceProvider', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:serviceProvider')))

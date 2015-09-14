@@ -37,6 +37,7 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
+            'request',
             'sender',
             'subject',
             'patient',
@@ -50,7 +51,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "in-progress", "completed", "suspended", "rejected", "failed" ]
+            status: [ 'in-progress', 'completed', 'suspended', 'rejected', 'failed' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec payload
@@ -59,7 +60,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                content: [ "contentString", "contentAttachment", "contentReference" ]
+                content: [ 'contentString', 'contentAttachment', 'contentReference' ]
             }
             
             field :contentString, type: String
@@ -77,7 +78,6 @@ module FHIR
         embeds_many :payload, class_name:'FHIR::Communication::CommunicationPayloadComponent'
         embeds_many :medium, class_name:'FHIR::CodeableConcept'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_one :encounter, class_name:'FHIR::Reference'
         field :sent, type: String
         validates :sent, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
@@ -85,6 +85,7 @@ module FHIR
         validates :received, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_many :reason, class_name:'FHIR::CodeableConcept'
         embeds_one :subject, class_name:'FHIR::Reference'
+        embeds_one :requestDetail, class_name:'FHIR::Reference'
         track_history
     end
 end

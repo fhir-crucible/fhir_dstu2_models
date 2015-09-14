@@ -36,12 +36,18 @@ module FHIR
         extend FHIR::Deserializer::Basic
         
         SEARCH_PARAMS = [
+            'identifier',
             'code',
             'subject',
             'created',
             'patient',
             'author'
         ]
+        
+        VALID_CODES = {
+            code: [ 'consent', 'referral', 'advevent', 'aptmtreq', 'transfer', 'diet', 'adminact', 'exposure', 'investigation', 'account', 'invoice', 'adjudicat', 'predetreq', 'predetermine', 'study', 'protocol' ]
+        }
+        
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code

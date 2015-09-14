@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.location().nil? -%><location value="<%= model.location %>"<%- if model.has_primitive_extension?('location') -%>><%== model.get_primitive_extension('location').to_xml(is_root: false, is_lowercase: true)  %></location><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.etag().nil? -%><etag value="<%= model.etag %>"<%- if model.has_primitive_extension?('etag') -%>><%== model.get_primitive_extension('etag').to_xml(is_root: false, is_lowercase: true)  %></etag><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.lastModified.nil? -%><%- if (!model.lastModified.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><lastModified value="<%= model.lastModified %>"<%- if model.has_primitive_extension?('lastModified') -%>><%== model.get_primitive_extension('lastModified').to_xml(is_root: false, is_lowercase: true)  %></lastModified><%- else -%>/><%- end -%><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

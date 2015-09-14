@@ -2,14 +2,17 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.bounds().nil? -%><%== render :template => 'period', :locals => {name: 'bounds', model: model.bounds()} %><%- end -%>
-    <%- if !model.count().nil? -%><count value="<%= model.count() %>"/><%- end -%>
-    <%- if !model.duration().nil? -%><duration value="<%= model.duration() %>"/><%- end -%>
-    <%- if !model.durationUnits().nil? -%><durationUnits value="<%= model.durationUnits() %>"/><%- end -%>
-    <%- if !model.frequency().nil? -%><frequency value="<%= model.frequency() %>"/><%- end -%>
-    <%- if !model.frequencyMax().nil? -%><frequencyMax value="<%= model.frequencyMax() %>"/><%- end -%>
-    <%- if !model.period().nil? -%><period value="<%= model.period() %>"/><%- end -%>
-    <%- if !model.periodMax().nil? -%><periodMax value="<%= model.periodMax() %>"/><%- end -%>
-    <%- if !model.periodUnits().nil? -%><periodUnits value="<%= model.periodUnits() %>"/><%- end -%>
-    <%- if !model.when().nil? -%><when value="<%= model.when() %>"/><%- end -%>
+    <%- if !model.boundsQuantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'boundsQuantity', model: model.boundsQuantity()} %><%- end -%>
+    <%- if !model.boundsRange().nil? -%><%== render :template => 'range', :locals => {name: 'boundsRange', model: model.boundsRange()} %><%- end -%>
+    <%- if !model.boundsPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'boundsPeriod', model: model.boundsPeriod()} %><%- end -%>
+    <%- if !model.count().nil? -%><count value="<%= model.count %>"<%- if model.has_primitive_extension?('count') -%>><%== model.get_primitive_extension('count').to_xml(is_root: false, is_lowercase: true)  %></count><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.duration().nil? -%><duration value="<%= model.duration %>"<%- if model.has_primitive_extension?('duration') -%>><%== model.get_primitive_extension('duration').to_xml(is_root: false, is_lowercase: true)  %></duration><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.durationMax().nil? -%><durationMax value="<%= model.durationMax %>"<%- if model.has_primitive_extension?('durationMax') -%>><%== model.get_primitive_extension('durationMax').to_xml(is_root: false, is_lowercase: true)  %></durationMax><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.durationUnits().nil? -%><durationUnits value="<%= model.durationUnits %>"<%- if model.has_primitive_extension?('durationUnits') -%>><%== model.get_primitive_extension('durationUnits').to_xml(is_root: false, is_lowercase: true)  %></durationUnits><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.frequency().nil? -%><frequency value="<%= model.frequency %>"<%- if model.has_primitive_extension?('frequency') -%>><%== model.get_primitive_extension('frequency').to_xml(is_root: false, is_lowercase: true)  %></frequency><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.frequencyMax().nil? -%><frequencyMax value="<%= model.frequencyMax %>"<%- if model.has_primitive_extension?('frequencyMax') -%>><%== model.get_primitive_extension('frequencyMax').to_xml(is_root: false, is_lowercase: true)  %></frequencyMax><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.period().nil? -%><period value="<%= model.period %>"<%- if model.has_primitive_extension?('period') -%>><%== model.get_primitive_extension('period').to_xml(is_root: false, is_lowercase: true)  %></period><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.periodMax().nil? -%><periodMax value="<%= model.periodMax %>"<%- if model.has_primitive_extension?('periodMax') -%>><%== model.get_primitive_extension('periodMax').to_xml(is_root: false, is_lowercase: true)  %></periodMax><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.periodUnits().nil? -%><periodUnits value="<%= model.periodUnits %>"<%- if model.has_primitive_extension?('periodUnits') -%>><%== model.get_primitive_extension('periodUnits').to_xml(is_root: false, is_lowercase: true)  %></periodUnits><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.when().nil? -%><when value="<%= model.when %>"<%- if model.has_primitive_extension?('when') -%>><%== model.get_primitive_extension('when').to_xml(is_root: false, is_lowercase: true)  %></when><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

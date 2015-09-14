@@ -4,6 +4,6 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.start().nil? -%><%- if (!model.start().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><start value="<%= model.start %>"/><%- end -%><%- end -%>
-    <%- if !model.end().nil? -%><%- if (!model.end().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><end value="<%= model.end %>"/><%- end -%><%- end -%>
+    <%- if !model.start.nil? -%><%- if (!model.start.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><start value="<%= model.start %>"<%- if model.has_primitive_extension?('start') -%>><%== model.get_primitive_extension('start').to_xml(is_root: false, is_lowercase: true)  %></start><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.end.nil? -%><%- if (!model.end.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><end value="<%= model.end %>"<%- if model.has_primitive_extension?('end') -%>><%== model.get_primitive_extension('end').to_xml(is_root: false, is_lowercase: true)  %></end><%- else -%>/><%- end -%><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

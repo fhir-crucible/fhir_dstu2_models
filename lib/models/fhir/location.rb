@@ -40,16 +40,22 @@ module FHIR
             'partof',
             'near-distance',
             'address',
+            'address-state',
+            'type',
+            'address-postalcode',
+            'address-country',
             'organization',
             'name',
+            'address-use',
             'near',
-            'type',
+            'address-city',
             'status'
         ]
         
         VALID_CODES = {
-            mode: [ "instance", "kind" ],
-            status: [ "active", "suspended", "inactive" ]
+            mode: [ 'instance', 'kind' ],
+            physicalType: [ 'bu', 'wi', 'lvl', 'co', 'ro', 'bd', 've', 'ho', 'ca', 'rd', 'jdn', 'area' ],
+            status: [ 'active', 'suspended', 'inactive' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec position
@@ -65,10 +71,10 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
+        field :status, type: String
         field :name, type: String
         field :description, type: String
         field :mode, type: String
-        validates :mode, :inclusion => { in: VALID_CODES[:mode], :allow_nil => true }
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         embeds_one :address, class_name:'FHIR::Address'
@@ -76,8 +82,6 @@ module FHIR
         embeds_one :position, class_name:'FHIR::Location::LocationPositionComponent'
         embeds_one :managingOrganization, class_name:'FHIR::Reference'
         embeds_one :partOf, class_name:'FHIR::Reference'
-        field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         track_history
     end
 end

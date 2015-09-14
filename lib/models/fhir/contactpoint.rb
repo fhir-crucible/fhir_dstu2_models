@@ -36,15 +36,14 @@ module FHIR
         
         
         VALID_CODES = {
-            system: [ "phone", "fax", "email", "url" ],
-            use: [ "home", "work", "temp", "old", "mobile" ]
+            system: [ 'phone', 'fax', 'email', 'pager', 'other' ],
+            use: [ 'home', 'work', 'temp', 'old', 'mobile' ]
         }
         
         field :system, type: String
-        validates :system, :inclusion => { in: VALID_CODES[:system], :allow_nil => true }
         field :value, type: String
         field :use, type: String
-        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
+        field :rank, type: Integer
         embeds_one :period, class_name:'FHIR::Period'
         track_history
     end

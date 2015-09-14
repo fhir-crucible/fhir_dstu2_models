@@ -36,9 +36,15 @@ module FHIR
         extend FHIR::Deserializer::BodySite
         
         SEARCH_PARAMS = [
+            'identifier',
             'code',
             'patient'
         ]
+        
+        VALID_CODES = {
+            fhirModifier: [ '419161000', '419465000', '51440002', '261183002', '261122009', '255561001', '49370004', '264217000', '261089000', '255551008', '351726001', '352730000' ]
+        }
+        
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
         embeds_many :identifier, class_name:'FHIR::Identifier'

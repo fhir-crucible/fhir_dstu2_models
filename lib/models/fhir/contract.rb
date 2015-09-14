@@ -42,8 +42,15 @@ module FHIR
             'patient',
             'signer'
         ]
+        
+        VALID_CODES = {
+            action: [ 'action-a', 'action-b' ],
+            subType: [ 'disclosure-CA', 'disclosure-US' ],
+            fhirType: [ 'privacy', 'disclosure' ]
+        }
+        
         MULTIPLE_TYPES = {
-            binding: [ "bindingAttachment", "bindingReference" ]
+            binding: [ 'bindingAttachment', 'bindingReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec actor
@@ -51,6 +58,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                role: [ 'practitioner', 'patient' ]
+            }
+            
             embeds_one :entity, class_name:'FHIR::Reference'
             validates_presence_of :entity
             embeds_many :role, class_name:'FHIR::CodeableConcept'
@@ -62,7 +74,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                entity: [ "entityCodeableConcept", "entityReference" ]
+                entity: [ 'entityCodeableConcept', 'entityReference' ]
             }
             
             embeds_one :entityCodeableConcept, class_name:'FHIR::CodeableConcept'
@@ -82,6 +94,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ '1.2.840.10065.1.12.1.1', '1.2.840.10065.1.12.1.2', '1.2.840.10065.1.12.1.3', '1.2.840.10065.1.12.1.4', '1.2.840.10065.1.12.1.5', '1.2.840.10065.1.12.1.6', '1.2.840.10065.1.12.1.7', '1.2.840.10065.1.12.1.8', '1.2.840.10065.1.12.1.9', '1.2.840.10065.1.12.1.10', '1.2.840.10065.1.12.1.11', '1.2.840.10065.1.12.1.12', '1.2.840.10065.1.12.1.13', '1.2.840.10065.1.12.1.14', '1.2.840.10065.1.12.1.15', '1.2.840.10065.1.12.1.16', '1.2.840.10065.1.12.1.17' ]
+            }
+            
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
             embeds_one :party, class_name:'FHIR::Reference'
@@ -95,6 +112,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                role: [ 'practitioner', 'patient' ]
+            }
+            
             embeds_one :entity, class_name:'FHIR::Reference'
             validates_presence_of :entity
             embeds_many :role, class_name:'FHIR::CodeableConcept'
@@ -106,7 +128,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                entity: [ "entityCodeableConcept", "entityReference" ]
+                entity: [ 'entityCodeableConcept', 'entityReference' ]
             }
             
             embeds_one :entityCodeableConcept, class_name:'FHIR::CodeableConcept'
@@ -126,6 +148,13 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                action: [ 'action-a', 'action-b' ],
+                subType: [ 'OralHealth-Basic', 'OralHealth-Major', 'OralHealth-Orthodontic' ],
+                fhirType: [ 'OralHealth', 'Vision' ]
+            }
+            
             embeds_one :identifier, class_name:'FHIR::Identifier'
             field :issued, type: String
             validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
@@ -147,7 +176,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                content: [ "contentAttachment", "contentReference" ]
+                content: [ 'contentAttachment', 'contentReference' ]
             }
             
             embeds_one :contentAttachment, class_name:'FHIR::Attachment'
@@ -162,7 +191,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                content: [ "contentAttachment", "contentReference" ]
+                content: [ 'contentAttachment', 'contentReference' ]
             }
             
             embeds_one :contentAttachment, class_name:'FHIR::Attachment'
@@ -177,7 +206,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                content: [ "contentAttachment", "contentReference" ]
+                content: [ 'contentAttachment', 'contentReference' ]
             }
             
             embeds_one :contentAttachment, class_name:'FHIR::Attachment'

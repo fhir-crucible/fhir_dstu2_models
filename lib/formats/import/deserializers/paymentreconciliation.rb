@@ -12,7 +12,7 @@ module FHIR
                 set_model_data(model, 'responce', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:responce')))
                 set_model_data(model, 'submitter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:submitter')))
                 set_model_data(model, 'payee', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:payee')))
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
+                parse_primitive_field(model,entry,'date','date',false)
                 set_model_data(model, 'amount', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:amount')))
                 model
             end
@@ -22,7 +22,7 @@ module FHIR
                 model = FHIR::PaymentReconciliation::NotesComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
-                set_model_data(model, 'text', entry.at_xpath('./fhir:text/@value').try(:value))
+                parse_primitive_field(model,entry,'text','text',false)
                 model
             end
             
@@ -33,11 +33,11 @@ module FHIR
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
                 set_model_data(model, 'request', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:request')))
-                set_model_data(model, 'outcome', entry.at_xpath('./fhir:outcome/@value').try(:value))
-                set_model_data(model, 'disposition', entry.at_xpath('./fhir:disposition/@value').try(:value))
+                parse_primitive_field(model,entry,'outcome','outcome',false)
+                parse_primitive_field(model,entry,'disposition','disposition',false)
                 set_model_data(model, 'ruleset', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:ruleset')))
                 set_model_data(model, 'originalRuleset', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:originalRuleset')))
-                set_model_data(model, 'created', entry.at_xpath('./fhir:created/@value').try(:value))
+                parse_primitive_field(model,entry,'created','created',false)
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
                 set_model_data(model, 'organization', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:organization')))
                 set_model_data(model, 'requestProvider', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:requestProvider')))

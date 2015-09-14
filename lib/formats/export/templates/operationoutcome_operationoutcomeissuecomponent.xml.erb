@@ -2,8 +2,9 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.severity().nil? -%><severity value="<%= model.severity() %>"/><%- end -%>
-    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
-    <%- if !model.details().nil? -%><details value="<%= model.details() %>"/><%- end -%>
-    <%- if (model.location() && !model.location.empty?) -%><%- model.location().each do |element| -%><location value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.severity().nil? -%><severity value="<%= model.severity %>"<%- if model.has_primitive_extension?('severity') -%>><%== model.get_primitive_extension('severity').to_xml(is_root: false, is_lowercase: true)  %></severity><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code %>"<%- if model.has_primitive_extension?('code') -%>><%== model.get_primitive_extension('code').to_xml(is_root: false, is_lowercase: true)  %></code><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.details().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'details', model: model.details()} %><%- end -%>
+    <%- if !model.diagnostics().nil? -%><diagnostics value="<%= model.diagnostics %>"<%- if model.has_primitive_extension?('diagnostics') -%>><%== model.get_primitive_extension('diagnostics').to_xml(is_root: false, is_lowercase: true)  %></diagnostics><%- else -%>/><%- end -%><%- end -%>
+    <%- if (model.location && !model.location.empty?) -%><%- model.location.each_with_index do |element,index| -%><location value="<%= element %>"<%- if model.has_primitive_extension?('location',index) -%>><%== model.get_primitive_extension('location',index).to_xml(is_root: false, is_lowercase: true)  %></location><%- else -%>/><%- end -%><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

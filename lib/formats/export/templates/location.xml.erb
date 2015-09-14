@@ -5,9 +5,10 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
-    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
-    <%- if !model.mode().nil? -%><mode value="<%= model.mode() %>"/><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.mode().nil? -%><mode value="<%= model.mode %>"<%- if model.has_primitive_extension?('mode') -%>><%== model.get_primitive_extension('mode').to_xml(is_root: false, is_lowercase: true)  %></mode><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
     <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
     <%- if !model.address().nil? -%><%== render :template => 'address', :locals => {name: 'address', model: model.address()} %><%- end -%>
@@ -15,5 +16,4 @@
     <%- if !model.position().nil? -%><%== render :template => 'location_locationpositioncomponent', :locals => {name: 'position', model: model.position()} %><%- end -%>
     <%- if !model.managingOrganization().nil? -%><%== render :template => 'reference', :locals => {name: 'managingOrganization', model: model.managingOrganization()} %><%- end -%>
     <%- if !model.partOf().nil? -%><%== render :template => 'reference', :locals => {name: 'partOf', model: model.partOf()} %><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

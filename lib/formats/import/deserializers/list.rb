@@ -7,9 +7,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::List::ListEntryComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'flag', entry.xpath('./fhir:flag').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'fhirDeleted', entry.at_xpath('./fhir:deleted/@value').try(:value))
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
+                set_model_data(model, 'flag', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:flag')))
+                parse_primitive_field(model,entry,'deleted','fhirDeleted',false)
+                parse_primitive_field(model,entry,'date','date',false)
                 set_model_data(model, 'item', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:item')))
                 model
             end
@@ -20,15 +20,16 @@ module FHIR
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
-                set_model_data(model, 'title', entry.at_xpath('./fhir:title/@value').try(:value))
+                parse_primitive_field(model,entry,'title','title',false)
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'source', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:source')))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
+                set_model_data(model, 'encounter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:encounter')))
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'date','date',false)
                 set_model_data(model, 'orderedBy', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:orderedBy')))
-                set_model_data(model, 'mode', entry.at_xpath('./fhir:mode/@value').try(:value))
-                set_model_data(model, 'note', entry.at_xpath('./fhir:note/@value').try(:value))
+                parse_primitive_field(model,entry,'mode','mode',false)
+                parse_primitive_field(model,entry,'note','note',false)
                 set_model_data(model, 'entry', entry.xpath('./fhir:entry').map {|e| parse_xml_entry_ListEntryComponent(e)})
                 set_model_data(model, 'emptyReason', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:emptyReason')))
                 model

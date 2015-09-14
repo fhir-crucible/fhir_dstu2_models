@@ -5,7 +5,7 @@ module FHIR
       def is_fhir_class?(classname)
         fhir_classes = Mongoid.models.select {|c| c.name.include? 'FHIR'}
         fhir_classes.map! {|c| c.to_s }
-        return fhir_classes.include? classname
+        return classname!='FHIR::PrimitiveExtension' && fhir_classes.include?(classname)
       end
 
       def equals?(other, exclude=['_id'])
@@ -60,6 +60,10 @@ module FHIR
       
       def fix_key(key)
         fixed = key
+        if !fixed.nil? && fixed[0]=='_'
+          fixed = fixed[1..-1]
+          underscore = true
+        end
         keys = {  'type' => 'fhirType',
                   'collection' => 'fhirCollection',
                   'deleted' => 'fhirDeleted',
@@ -67,12 +71,15 @@ module FHIR
                   'class' => 'fhirClass',
                   'xmlId' => 'id',
                   'id' => 'xmlId',
+                  'hash' => 'fhirHash',
                   'identity' => 'fhirIdentity',
-                  'modifier' => 'fhirModifier' }
+                  'modifier' => 'fhirModifier',
+                  'validated' => 'fhirValidated' }
         keys.merge!(keys.invert)
         if keys.has_key? key
           fixed = keys[key]
         end
+        fixed = "_#{fixed}" if underscore
         fixed
       end
       

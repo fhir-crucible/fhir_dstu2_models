@@ -41,24 +41,28 @@ module FHIR
             'product',
             'dependson',
             'description',
+            'targetsystem',
             'source',
             'version',
+            'sourcesystem',
             'url',
             'target',
-            'system',
+            'sourcecode',
+            'sourceuri',
             'name',
             'context',
             'publisher',
+            'targetcode',
             'status'
         ]
         
         VALID_CODES = {
-            status: [ "draft", "active", "retired" ]
+            status: [ 'draft', 'active', 'retired' ]
         }
         
         MULTIPLE_TYPES = {
-            source: [ "sourceUri", "sourceReference" ],
-            target: [ "targetUri", "targetReference" ]
+            source: [ 'sourceUri', 'sourceReference' ],
+            target: [ 'targetUri', 'targetReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -83,14 +87,14 @@ module FHIR
             validates_presence_of :code
         end
         
-        # This is an ugly hack to deal with embedded structures in the spec map
-        class ConceptMapElementMapComponent
+        # This is an ugly hack to deal with embedded structures in the spec target
+        class TargetElementComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                equivalence: [ "equivalent", "equal", "wider", "subsumes", "narrower", "specialises", "inexact", "unmatched", "disjoint" ]
+                equivalence: [ 'equivalent', 'equal', 'wider', 'subsumes', 'narrower', 'specializes', 'inexact', 'unmatched', 'disjoint' ]
             }
             
             field :codeSystem, type: String
@@ -99,36 +103,36 @@ module FHIR
             validates :equivalence, :inclusion => { in: VALID_CODES[:equivalence] }
             validates_presence_of :equivalence
             field :comments, type: String
+            embeds_many :dependsOn, class_name:'FHIR::ConceptMap::OtherElementComponent'
             embeds_many :product, class_name:'FHIR::ConceptMap::OtherElementComponent'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec element
-        class ConceptMapElementComponent
+        class SourceElementComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             field :codeSystem, type: String
             field :code, type: String
-            embeds_many :dependsOn, class_name:'FHIR::ConceptMap::OtherElementComponent'
-            embeds_many :map, class_name:'FHIR::ConceptMap::ConceptMapElementMapComponent'
+            embeds_many :target, class_name:'FHIR::ConceptMap::TargetElementComponent'
         end
         
         field :url, type: String
         embeds_one :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
         field :name, type: String
-        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
-        field :publisher, type: String
-        embeds_many :contact, class_name:'FHIR::ConceptMap::ConceptMapContactComponent'
-        field :description, type: String
-        field :requirements, type: String
-        field :copyright, type: String
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :experimental, type: Boolean
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::ConceptMap::ConceptMapContactComponent'
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :description, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
+        field :requirements, type: String
+        field :copyright, type: String
         field :sourceUri, type: String
         validates_presence_of :sourceUri
         embeds_one :sourceReference, class_name:'FHIR::Reference'
@@ -137,7 +141,7 @@ module FHIR
         validates_presence_of :targetUri
         embeds_one :targetReference, class_name:'FHIR::Reference'
         validates_presence_of :targetReference
-        embeds_many :element, class_name:'FHIR::ConceptMap::ConceptMapElementComponent'
+        embeds_many :element, class_name:'FHIR::ConceptMap::SourceElementComponent'
         track_history
     end
 end

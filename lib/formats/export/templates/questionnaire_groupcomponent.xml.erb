@@ -2,12 +2,12 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.linkId().nil? -%><linkId value="<%= model.linkId() %>"/><%- end -%>
-    <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
+    <%- if !model.linkId().nil? -%><linkId value="<%= model.linkId %>"<%- if model.has_primitive_extension?('linkId') -%>><%== model.get_primitive_extension('linkId').to_xml(is_root: false, is_lowercase: true)  %></linkId><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.title().nil? -%><title value="<%= model.title %>"<%- if model.has_primitive_extension?('title') -%>><%== model.get_primitive_extension('title').to_xml(is_root: false, is_lowercase: true)  %></title><%- else -%>/><%- end -%><%- end -%>
     <%- if (!model.concept().nil? && !model.concept.empty?) -%><%- model.concept().each do |element| -%><%== render :template => 'coding', :locals => {name: 'concept', model: element} %><%- end -%><%- end -%>
-    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
-    <%- if !model.required().nil? -%><required value="<%= model.required() %>"/><%- end -%>
-    <%- if !model.repeats().nil? -%><repeats value="<%= model.repeats() %>"/><%- end -%>
+    <%- if !model.text().nil? -%><text value="<%= model.text %>"<%- if model.has_primitive_extension?('text') -%>><%== model.get_primitive_extension('text').to_xml(is_root: false, is_lowercase: true)  %></text><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.required().nil? -%><required value="<%= model.required %>"<%- if model.has_primitive_extension?('required') -%>><%== model.get_primitive_extension('required').to_xml(is_root: false, is_lowercase: true)  %></required><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.repeats().nil? -%><repeats value="<%= model.repeats %>"<%- if model.has_primitive_extension?('repeats') -%>><%== model.get_primitive_extension('repeats').to_xml(is_root: false, is_lowercase: true)  %></repeats><%- else -%>/><%- end -%><%- end -%>
     <%- if (!model.group().nil? && !model.group.empty?) -%><%- model.group().each do |element| -%><%== render :template => 'questionnaire_groupcomponent', :locals => {name: 'group', model: element} %><%- end -%><%- end -%>
     <%- if (!model.question().nil? && !model.question.empty?) -%><%- model.question().each do |element| -%><%== render :template => 'questionnaire_questioncomponent', :locals => {name: 'question', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -19,11 +19,11 @@ module FHIR
                 set_model_data(model, 'entityCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:entityCodeableConcept')))
                 set_model_data(model, 'entityReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:entityReference')))
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'effectiveTime', entry.at_xpath('./fhir:effectiveTime/@value').try(:value))
+                parse_primitive_field(model,entry,'effectiveTime','effectiveTime',false)
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
                 set_model_data(model, 'unitPrice', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:unitPrice')))
-                set_model_data(model, 'factor', entry.at_xpath('./fhir:factor/@value').try(:value))
-                set_model_data(model, 'points', entry.at_xpath('./fhir:points/@value').try(:value))
+                parse_primitive_field(model,entry,'factor','factor',false)
+                parse_primitive_field(model,entry,'points','points',false)
                 set_model_data(model, 'net', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:net')))
                 model
             end
@@ -34,7 +34,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'party', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:party')))
-                set_model_data(model, 'signature', entry.at_xpath('./fhir:signature/@value').try(:value))
+                parse_primitive_field(model,entry,'signature','signature',false)
                 model
             end
             
@@ -54,11 +54,11 @@ module FHIR
                 set_model_data(model, 'entityCodeableConcept', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:entityCodeableConcept')))
                 set_model_data(model, 'entityReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:entityReference')))
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'effectiveTime', entry.at_xpath('./fhir:effectiveTime/@value').try(:value))
+                parse_primitive_field(model,entry,'effectiveTime','effectiveTime',false)
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
                 set_model_data(model, 'unitPrice', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:unitPrice')))
-                set_model_data(model, 'factor', entry.at_xpath('./fhir:factor/@value').try(:value))
-                set_model_data(model, 'points', entry.at_xpath('./fhir:points/@value').try(:value))
+                parse_primitive_field(model,entry,'factor','factor',false)
+                parse_primitive_field(model,entry,'points','points',false)
                 set_model_data(model, 'net', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:net')))
                 model
             end
@@ -68,7 +68,7 @@ module FHIR
                 model = FHIR::Contract::TermComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'issued', entry.at_xpath('./fhir:issued/@value').try(:value))
+                parse_primitive_field(model,entry,'issued','issued',false)
                 set_model_data(model, 'applies', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:applies')))
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'subType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:subType')))
@@ -76,7 +76,7 @@ module FHIR
                 set_model_data(model, 'action', entry.xpath('./fhir:action').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'actionReason', entry.xpath('./fhir:actionReason').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'actor', entry.xpath('./fhir:actor').map {|e| parse_xml_entry_TermActorComponent(e)})
-                set_model_data(model, 'text', entry.at_xpath('./fhir:text/@value').try(:value))
+                parse_primitive_field(model,entry,'text','text',false)
                 set_model_data(model, 'valuedItem', entry.xpath('./fhir:valuedItem').map {|e| parse_xml_entry_TermValuedItemComponent(e)})
                 set_model_data(model, 'group', entry.xpath('./fhir:group').map {|e| parse_xml_entry_TermComponent(e)})
                 model
@@ -115,7 +115,7 @@ module FHIR
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'issued', entry.at_xpath('./fhir:issued/@value').try(:value))
+                parse_primitive_field(model,entry,'issued','issued',false)
                 set_model_data(model, 'applies', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:applies')))
                 set_model_data(model, 'subject', entry.xpath('./fhir:subject').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'authority', entry.xpath('./fhir:authority').map {|e| FHIR::Reference.parse_xml_entry(e)})

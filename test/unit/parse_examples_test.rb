@@ -5,8 +5,9 @@ require_relative '../test_helper'
 class ParseExamplesTest < Test::Unit::TestCase
  
   ERROR_DIR = File.join('tmp','errors','parse')
-  EXAMPLE_ROOT = File.join('..','..','..','..','temp')
+  EXAMPLE_ROOT = File.join('..','..','..','..','publish')
   XSD_ROOT = File.join('..','..','..','..','schema')
+  XSD = Nokogiri::XML::Schema(File.new(File.join(XSD_ROOT, "fhir-single.xsd")))
 
   # Automatically generate one test method per measure file
   example_files = File.join(EXAMPLE_ROOT, '**', '*-example*.xml')
@@ -26,8 +27,10 @@ class ParseExamplesTest < Test::Unit::TestCase
     next if EXCLUDED_RESOURCES.include?(root_element)
 
     example_name = File.basename(example_file, ".xml")
-    define_method("test_#{example_name}") do
-      run_parse_test(root_element, example_file, example_name)
+    dir = File.dirname(example_file)
+    parent = dir[dir.index('publish')+7..-1].gsub('/','_')
+    define_method("test_#{parent}#{example_name}") do
+      run_parse_test(root_element, example_file, "#{parent}#{example_name}")
     end
   end
 
@@ -39,9 +42,8 @@ class ParseExamplesTest < Test::Unit::TestCase
     xml = model.to_xml
     assert xml.length > 0
 
-    xsd = Nokogiri::XML.Schema(File.open(File.join(XSD_ROOT, "#{root_element.downcase}.xsd")))
-    errors_orig = xsd.validate(Nokogiri::XML(orig_xml))
-    errors = xsd.validate(Nokogiri::XML(xml))
+    errors_orig = XSD.validate(Nokogiri::XML(orig_xml))
+    errors = XSD.validate(Nokogiri::XML(xml))
 
     original_errors = false
     if (errors_orig.present?)

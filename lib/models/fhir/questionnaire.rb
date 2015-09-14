@@ -46,7 +46,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "draft", "published", "retired" ]
+            status: [ 'draft', 'published', 'retired' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec question
@@ -56,17 +56,17 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "boolean", "decimal", "integer", "date", "dateTime", "instant", "time", "string", "text", "url", "choice", "open-choice", "attachment", "reference", "quantity" ]
+                fhirType: [ 'boolean', 'decimal', 'integer', 'date', 'dateTime', 'instant', 'time', 'string', 'text', 'url', 'choice', 'open-choice', 'attachment', 'reference', 'quantity' ]
             }
             
             field :linkId, type: String
             embeds_many :concept, class_name:'FHIR::Coding'
             field :text, type: String
             field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
             field :required, type: Boolean
             field :repeats, type: Boolean
             embeds_one :options, class_name:'FHIR::Reference'
+            embeds_many :option, class_name:'FHIR::Coding'
             embeds_many :group, class_name:'FHIR::Questionnaire::GroupComponent', cyclic: true
         end
         
@@ -88,12 +88,12 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :versionNum, type: String
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :publisher, type: String
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
+        field :subjectType, type: Array # Array of Strings
         embeds_one :group, class_name:'FHIR::Questionnaire::GroupComponent'
         validates_presence_of :group
         track_history

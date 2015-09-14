@@ -49,7 +49,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "proposed", "draft", "planned", "requested", "active", "on-hold", "completed", "cancelled" ]
+            status: [ 'proposed', 'draft', 'planned', 'requested', 'active', 'on-hold', 'completed', 'cancelled' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec nutrient
@@ -57,6 +57,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirModifier: [ '33463005', '39972003', '88480006' ]
+            }
+            
             embeds_one :fhirModifier, class_name:'FHIR::CodeableConcept'
             embeds_one :amount, class_name:'FHIR::Quantity'
         end
@@ -66,6 +71,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirModifier: [ '228053002', '439091000124107', '228049004', '441881000124103', '441761000124103', '441751000124100', '228059003', '441791000124106', '228055009', '228056005', '441771000124105', '228057001', '228058006', '228060008' ],
+                foodType: [ '255620007', '28647000', '22836000', '72511004', '226760005', '226887002', '102263004', '74242007', '227415002', '264331002', '227518002', '44027008', '226529007', '227210005' ]
+            }
+            
             embeds_one :fhirModifier, class_name:'FHIR::CodeableConcept'
             embeds_one :foodType, class_name:'FHIR::CodeableConcept'
         end
@@ -75,8 +86,13 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fluidConsistencyType: [ '439031000124108', '439021000124105', '439041000124103', '439081000124109' ]
+            }
+            
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
-            embeds_one :scheduled, class_name:'FHIR::Timing'
+            embeds_many :schedule, class_name:'FHIR::Timing'
             embeds_many :nutrient, class_name:'FHIR::NutritionOrder::NutritionOrderOralDietNutrientComponent'
             embeds_many :texture, class_name:'FHIR::NutritionOrder::NutritionOrderOralDietTextureComponent'
             embeds_many :fluidConsistencyType, class_name:'FHIR::CodeableConcept'
@@ -88,11 +104,31 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ '442901000124106', '443031000124106', '443051000124104', '442911000124109', '443021000124108', '442971000124100', '442981000124102', '442991000124104', '443011000124100', '442961000124107', '442951000124105', '442941000124108', '442921000124101', '442931000124103', '444331000124106', '443361000124100', '443391000124108', '443401000124105', '443491000124103', '443501000124106', '443421000124100', '443471000124104', '444431000124104', '443451000124109', '444321000124108', '441561000124106', '443461000124106', '441531000124102', '443561000124107', '443481000124101', '441571000124104', '441591000124103', '441601000124106', '443351000124102', '443771000124106', '441671000124100', '443111000124101', '443431000124102', '443411000124108', '444361000124102', '444401000124107', '444381000124107', '444371000124109', '443441000124107', '442651000124102' ]
+            }
+            
             embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
             field :productName, type: String
-            embeds_one :scheduled, class_name:'FHIR::Timing'
+            embeds_many :schedule, class_name:'FHIR::Timing'
             embeds_one :quantity, class_name:'FHIR::Quantity'
             field :instruction, type: String
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec administration
+        class NutritionOrderEnteralFormulaAdministrationComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                rate: [ 'rateQuantity', 'rateRatio' ]
+            }
+            
+            embeds_one :schedule, class_name:'FHIR::Timing'
+            embeds_one :quantity, class_name:'FHIR::Quantity'
+            embeds_one :rateQuantity, class_name:'FHIR::Quantity'
+            embeds_one :rateRatio, class_name:'FHIR::Ratio'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec enteralFormula
@@ -100,18 +136,22 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            field :administrationInstructions, type: String
+            
+            VALID_CODES = {
+                additiveType: [ 'lipid', 'protein', 'carbohydrate', 'fiber', 'water' ],
+                baseFormulaType: [ '443031000124106', '443051000124104', '442911000124109', '443021000124108', '442971000124100', '442981000124102', '442991000124104', '443011000124100', '442961000124107', '442951000124105', '442941000124108', '442921000124101', '442931000124103', '443361000124100', '443401000124105', '443491000124103', '443501000124106', '443421000124100', '443471000124104', '444431000124104', '443451000124109', '441561000124106', '443461000124106', '441531000124102', '443561000124107', '443481000124101', '441571000124104', '441591000124103', '441601000124106', '443351000124102', '443771000124106', '441671000124100', '443111000124101', '443431000124102', '443411000124108', '442651000124102' ],
+                routeofAdministration: [ 'PO', 'EFT', 'ENTINSTL', 'GT', 'NGT', 'OGT', 'GJT', 'JJTINSTL', 'OJJ' ]
+            }
+            
             embeds_one :baseFormulaType, class_name:'FHIR::CodeableConcept'
             field :baseFormulaProductName, type: String
-            embeds_one :scheduled, class_name:'FHIR::Timing'
             embeds_one :additiveType, class_name:'FHIR::CodeableConcept'
             field :additiveProductName, type: String
             embeds_one :caloricDensity, class_name:'FHIR::Quantity'
             embeds_one :routeofAdministration, class_name:'FHIR::CodeableConcept'
-            embeds_one :quantity, class_name:'FHIR::Quantity'
-            embeds_one :rate, class_name:'FHIR::Ratio'
-            embeds_one :rateAdjustment, class_name:'FHIR::Quantity'
+            embeds_many :administration, class_name:'FHIR::NutritionOrder::NutritionOrderEnteralFormulaAdministrationComponent'
             embeds_one :maxVolumeToDeliver, class_name:'FHIR::Quantity'
+            field :administrationInstruction, type: String
         end
         
         embeds_one :patient, class_name:'FHIR::Reference'
@@ -123,7 +163,6 @@ module FHIR
         validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :dateTime
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_many :allergyIntolerance, class_name:'FHIR::Reference'
         embeds_many :foodPreferenceModifier, class_name:'FHIR::CodeableConcept'
         embeds_many :excludeFoodModifier, class_name:'FHIR::CodeableConcept'

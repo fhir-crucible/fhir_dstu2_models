@@ -36,6 +36,7 @@ module FHIR
         extend FHIR::Deserializer::HealthcareService
         
         SEARCH_PARAMS = [
+            'identifier',
             'servicecategory',
             'servicetype',
             'organization',
@@ -46,8 +47,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            serviceProvisionCode: [ "free", "disc", "cost" ],
-            referralMethod: [ "fax", "phone", "elec", "semail", "mail" ]
+            serviceProvisionCode: [ 'free', 'disc', 'cost' ],
+            referralMethod: [ 'fax', 'phone', 'elec', 'semail', 'mail' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec serviceType
@@ -67,11 +68,10 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                daysOfWeek: [ "mon", "tue", "wed", "thu", "fri", "sat", "sun" ]
+                daysOfWeek: [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ]
             }
             
             field :daysOfWeek, type: Array # Array of Strings
-            validates :daysOfWeek, :inclusion => { in: VALID_CODES[:daysOfWeek], :allow_nil => true }
             field :allDay, type: Boolean
             field :availableStartTime, type: String
             validates :availableStartTime, :allow_nil => true, :format => {  with: /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/ }
@@ -91,10 +91,10 @@ module FHIR
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :providedBy, class_name:'FHIR::Reference'
-        embeds_one :location, class_name:'FHIR::Reference'
-        validates_presence_of :location
         embeds_one :serviceCategory, class_name:'FHIR::CodeableConcept'
         embeds_many :serviceType, class_name:'FHIR::HealthcareService::ServiceTypeComponent'
+        embeds_one :location, class_name:'FHIR::Reference'
+        validates_presence_of :location
         field :serviceName, type: String
         field :comment, type: String
         field :extraDetails, type: String

@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.method().nil? -%><method value="<%= model.method %>"<%- if model.has_primitive_extension?('method') -%>><%== model.get_primitive_extension('method').to_xml(is_root: false, is_lowercase: true)  %></method><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url %>"<%- if model.has_primitive_extension?('url') -%>><%== model.get_primitive_extension('url').to_xml(is_root: false, is_lowercase: true)  %></url><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.ifNoneMatch().nil? -%><ifNoneMatch value="<%= model.ifNoneMatch %>"<%- if model.has_primitive_extension?('ifNoneMatch') -%>><%== model.get_primitive_extension('ifNoneMatch').to_xml(is_root: false, is_lowercase: true)  %></ifNoneMatch><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.ifModifiedSince.nil? -%><%- if (!model.ifModifiedSince.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><ifModifiedSince value="<%= model.ifModifiedSince %>"<%- if model.has_primitive_extension?('ifModifiedSince') -%>><%== model.get_primitive_extension('ifModifiedSince').to_xml(is_root: false, is_lowercase: true)  %></ifModifiedSince><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.ifMatch().nil? -%><ifMatch value="<%= model.ifMatch %>"<%- if model.has_primitive_extension?('ifMatch') -%>><%== model.get_primitive_extension('ifMatch').to_xml(is_root: false, is_lowercase: true)  %></ifMatch><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.ifNoneExist().nil? -%><ifNoneExist value="<%= model.ifNoneExist %>"<%- if model.has_primitive_extension?('ifNoneExist') -%>><%== model.get_primitive_extension('ifNoneExist').to_xml(is_root: false, is_lowercase: true)  %></ifNoneExist><%- else -%>/><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

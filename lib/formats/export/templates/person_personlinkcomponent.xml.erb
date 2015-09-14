@@ -3,5 +3,5 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.target().nil? -%><%== render :template => 'reference', :locals => {name: 'target', model: model.target()} %><%- end -%>
-    <%- if !model.assurance().nil? -%><assurance value="<%= model.assurance() %>"/><%- end -%>
+    <%- if !model.assurance().nil? -%><assurance value="<%= model.assurance %>"<%- if model.has_primitive_extension?('assurance') -%>><%== model.get_primitive_extension('assurance').to_xml(is_root: false, is_lowercase: true)  %></assurance><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

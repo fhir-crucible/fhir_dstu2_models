@@ -39,21 +39,23 @@ module FHIR
             'date',
             'subject',
             'patient',
-            'author'
+            'author',
+            'encounter'
         ]
         
         VALID_CODES = {
-            status: [ "active", "inactive", "entered-in-error" ]
+            category: [ 'diet', 'drug', 'lab', 'admin', 'contact' ],
+            status: [ 'active', 'inactive', 'entered-in-error' ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :category, class_name:'FHIR::CodeableConcept'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :period, class_name:'FHIR::Period'
-        embeds_one :patient, class_name:'FHIR::Reference'
-        validates_presence_of :patient
+        embeds_one :subject, class_name:'FHIR::Reference'
+        validates_presence_of :subject
+        embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :author, class_name:'FHIR::Reference'
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code

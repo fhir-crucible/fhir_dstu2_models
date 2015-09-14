@@ -1,3 +1,7 @@
+<%- if !model.meta().nil? -%><%== render :template => 'resource_resourcemetacomponent', :locals => {name: 'meta', model: model.meta()} %><%- end -%>
+<%- if !model.implicitRules().nil? -%><implicitRules value="<%= model.implicitRules() %>"/><%- end -%>
+<%- if !model.language().nil? -%><language value="<%= model.language() %>"/><%- end -%>
+
 <%- if !model.text().nil? -%>
   <%== render :template => 'narrative', :locals => {name: 'text', model: model.text()} %>
 <%- end -%>
@@ -10,6 +14,15 @@
     <%end%>
 <% end %>
 
-<%- if !model.meta().nil? -%><%== render :template => 'resource_resourcemetacomponent', :locals => {name: 'meta', model: model.meta()} %><%- end -%>
-<%- if !model.implicitRules().nil? -%><implicitRules value="<%= model.implicitRules() %>"/><%- end -%>
-<%- if !model.language().nil? -%><language value="<%= model.language() %>"/><%- end -%>
+<% if !model.extension.blank? %>
+    <%model.extension.each do |element|%>
+        <%== element.to_xml(is_root: false, is_lowercase: true) %>
+    <%end%>
+<% end %>
+
+<% if !model.modifierExtension.blank? %>
+    <%model.modifierExtension.each do |element|%>
+      <%== element.to_xml(name: 'modifierExtension', is_root: false) %>
+    <%end%>
+<% end %>
+

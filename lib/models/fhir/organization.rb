@@ -40,15 +40,30 @@ module FHIR
             'partof',
             'phonetic',
             'address',
+            'address-state',
             'name',
+            'address-use',
             'active',
-            'type'
+            'type',
+            'address-city',
+            'address-postalcode',
+            'address-country'
         ]
+        
+        VALID_CODES = {
+            fhirType: [ 'prov', 'dept', 'team', 'govt', 'ins', 'edu', 'reli', 'crs', 'cg', 'bus', 'other' ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec contact
         class OrganizationContactComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                purpose: [ 'BILL', 'ADMIN', 'HR', 'PAYOR', 'PATINF', 'PRESS' ]
+            }
+            
             embeds_one :purpose, class_name:'FHIR::CodeableConcept'
             embeds_one :name, class_name:'FHIR::HumanName'
             embeds_many :telecom, class_name:'FHIR::ContactPoint'
@@ -56,13 +71,13 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        field :name, type: String
+        field :active, type: Boolean
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
+        field :name, type: String
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         embeds_many :address, class_name:'FHIR::Address'
         embeds_one :partOf, class_name:'FHIR::Reference'
         embeds_many :contact, class_name:'FHIR::Organization::OrganizationContactComponent'
-        field :active, type: Boolean
         track_history
     end
 end

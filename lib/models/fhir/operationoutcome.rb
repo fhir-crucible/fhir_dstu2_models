@@ -44,16 +44,17 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                severity: [ "fatal", "error", "warning", "information" ],
-                code: [ "invalid", "structure", "required", "value", "invariant", "security", "login", "unknown", "expired", "forbidden", "suppressed", "processing", "not-supported", "duplicate", "not-found", "too-long", "code-invalid", "extension", "too-costly", "business-rule", "conflict", "incomplete", "transient", "lock-error", "no-store", "exception", "timeout", "throttled", "informational" ]
+                severity: [ 'fatal', 'error', 'warning', 'information' ],
+                code: [ 'invalid', 'structure', 'required', 'value', 'invariant', 'security', 'login', 'unknown', 'expired', 'forbidden', 'suppressed', 'processing', 'not-supported', 'duplicate', 'not-found', 'too-long', 'code-invalid', 'extension', 'too-costly', 'business-rule', 'conflict', 'incomplete', 'transient', 'lock-error', 'no-store', 'exception', 'timeout', 'throttled', 'informational' ],
+                details: [ 'MSG_AUTH_REQUIRED', 'MSG_BAD_FORMAT', 'MSG_BAD_SYNTAX', 'MSG_CANT_PARSE_CONTENT', 'MSG_CANT_PARSE_ROOT', 'MSG_CREATED', 'MSG_DATE_FORMAT', 'MSG_DELETED', 'MSG_DELETED_DONE', 'MSG_DELETED_ID', 'MSG_DUPLICATE_ID', 'MSG_ERROR_PARSING', 'MSG_ID_INVALID', 'MSG_ID_TOO_LONG', 'MSG_INVALID_ID', 'MSG_JSON_OBJECT', 'MSG_LOCAL_FAIL', 'MSG_NO_MATCH', 'MSG_NO_EXIST', 'MSG_NO_MODULE', 'MSG_NO_SUMMARY', 'MSG_OP_NOT_ALLOWED', 'MSG_PARAM_CHAINED', 'MSG_PARAM_NO_REPEAT', 'MSG_PARAM_UNKNOWN', 'MSG_RESOURCE_EXAMPLE_PROTECTED', 'MSG_RESOURCE_ID_FAIL', 'MSG_RESOURCE_NOT_ALLOWED', 'MSG_RESOURCE_REQUIRED', 'MSG_RESOURCE_ID_MISMATCH', 'MSG_RESOURCE_ID_MISSING', 'MSG_RESOURCE_TYPE_MISMATCH', 'MSG_SORT_UNKNOWN', 'MSG_TRANSACTION_DUPLICATE_ID', 'MSG_TRANSACTION_MISSING_ID', 'MSG_UNHANDLED_NODE_TYPE', 'MSG_UNKNOWN_CONTENT', 'MSG_UNKNOWN_OPERATION', 'MSG_UNKNOWN_TYPE', 'MSG_UPDATED', 'MSG_VERSION_AWARE', 'MSG_VERSION_AWARE_CONFLICT', 'MSG_VERSION_AWARE_URL', 'MSG_WRONG_NS', 'SEARCH_MULTIPLE', 'UPDATE_MULTIPLE_MATCHES', 'SEARCH_NONE' ]
             }
             
             field :severity, type: String
-            validates :severity, :inclusion => { in: VALID_CODES[:severity] }
             validates_presence_of :severity
-            embeds_one :code, class_name:'FHIR::CodeableConcept'
+            field :code, type: String
             validates_presence_of :code
-            field :details, type: String
+            embeds_one :details, class_name:'FHIR::CodeableConcept'
+            field :diagnostics, type: String
             field :location, type: Array # Array of Strings
         end
         

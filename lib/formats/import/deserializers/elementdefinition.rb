@@ -7,10 +7,20 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ElementDefinition::ElementDefinitionSlicingComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'discriminator', entry.xpath('./fhir:discriminator/@value').map {|e| e.value })
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'ordered', entry.at_xpath('./fhir:ordered/@value').try(:value))
-                set_model_data(model, 'rules', entry.at_xpath('./fhir:rules/@value').try(:value))
+                parse_primitive_field(model,entry,'discriminator','discriminator',true)
+                parse_primitive_field(model,entry,'description','description',false)
+                parse_primitive_field(model,entry,'ordered','ordered',false)
+                parse_primitive_field(model,entry,'rules','rules',false)
+                model
+            end
+            
+            def parse_xml_entry_ElementDefinitionBaseComponent(entry) 
+                return nil unless entry
+                model = FHIR::ElementDefinition::ElementDefinitionBaseComponent.new
+                self.parse_element_data(model, entry)
+                parse_primitive_field(model,entry,'path','path',false)
+                parse_primitive_field(model,entry,'min','min',false)
+                parse_primitive_field(model,entry,'max','max',false)
                 model
             end
             
@@ -18,9 +28,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ElementDefinition::TypeRefComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
-                set_model_data(model, 'profile', entry.at_xpath('./fhir:profile/@value').try(:value))
-                set_model_data(model, 'aggregation', entry.xpath('./fhir:aggregation/@value').map {|e| e.value })
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'profile','profile',true)
+                parse_primitive_field(model,entry,'aggregation','aggregation',true)
                 model
             end
             
@@ -28,11 +38,11 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ElementDefinition::ElementDefinitionConstraintComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'key', entry.at_xpath('./fhir:key/@value').try(:value))
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'severity', entry.at_xpath('./fhir:severity/@value').try(:value))
-                set_model_data(model, 'human', entry.at_xpath('./fhir:human/@value').try(:value))
-                set_model_data(model, 'xpath', entry.at_xpath('./fhir:xpath/@value').try(:value))
+                parse_primitive_field(model,entry,'key','key',false)
+                parse_primitive_field(model,entry,'requirements','requirements',false)
+                parse_primitive_field(model,entry,'severity','severity',false)
+                parse_primitive_field(model,entry,'human','human',false)
+                parse_primitive_field(model,entry,'xpath','xpath',false)
                 model
             end
             
@@ -40,10 +50,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ElementDefinition::ElementDefinitionBindingComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'strength', entry.at_xpath('./fhir:strength/@value').try(:value))
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'valueSetUri', entry.at_xpath('./fhir:valueSetUri/@value').try(:value))
+                parse_primitive_field(model,entry,'strength','strength',false)
+                parse_primitive_field(model,entry,'description','description',false)
+                parse_primitive_field(model,entry,'valueSetUri','valueSetUri',false)
                 set_model_data(model, 'valueSetReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:valueSetReference')))
                 model
             end
@@ -52,9 +61,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ElementDefinition::ElementDefinitionMappingComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'fhirIdentity', entry.at_xpath('./fhir:identity/@value').try(:value))
-                set_model_data(model, 'language', entry.at_xpath('./fhir:language/@value').try(:value))
-                set_model_data(model, 'map', entry.at_xpath('./fhir:map/@value').try(:value))
+                parse_primitive_field(model,entry,'identity','fhirIdentity',false)
+                parse_primitive_field(model,entry,'language','language',false)
+                parse_primitive_field(model,entry,'map','map',false)
                 model
             end
             
@@ -62,60 +71,77 @@ module FHIR
                 return nil unless entry
                 model = self.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'path', entry.at_xpath('./fhir:path/@value').try(:value))
-                set_model_data(model, 'representation', entry.xpath('./fhir:representation/@value').map {|e| e.value })
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'label', entry.at_xpath('./fhir:label/@value').try(:value))
+                parse_primitive_field(model,entry,'path','path',false)
+                parse_primitive_field(model,entry,'representation','representation',true)
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'label','label',false)
                 set_model_data(model, 'code', entry.xpath('./fhir:code').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 set_model_data(model, 'slicing', parse_xml_entry_ElementDefinitionSlicingComponent(entry.at_xpath('./fhir:slicing')))
-                set_model_data(model, 'short', entry.at_xpath('./fhir:short/@value').try(:value))
-                set_model_data(model, 'definition', entry.at_xpath('./fhir:definition/@value').try(:value))
-                set_model_data(model, 'comments', entry.at_xpath('./fhir:comments/@value').try(:value))
-                set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
-                set_model_data(model, 'alias', entry.xpath('./fhir:alias/@value').map {|e| e.value })
-                set_model_data(model, 'min', entry.at_xpath('./fhir:min/@value').try(:value))
-                set_model_data(model, 'max', entry.at_xpath('./fhir:max/@value').try(:value))
+                parse_primitive_field(model,entry,'short','short',false)
+                parse_primitive_field(model,entry,'definition','definition',false)
+                parse_primitive_field(model,entry,'comments','comments',false)
+                parse_primitive_field(model,entry,'requirements','requirements',false)
+                parse_primitive_field(model,entry,'alias','alias',true)
+                parse_primitive_field(model,entry,'min','min',false)
+                parse_primitive_field(model,entry,'max','max',false)
+                set_model_data(model, 'base', parse_xml_entry_ElementDefinitionBaseComponent(entry.at_xpath('./fhir:base')))
                 set_model_data(model, 'fhirType', entry.xpath('./fhir:type').map {|e| parse_xml_entry_TypeRefComponent(e)})
-                set_model_data(model, 'nameReference', entry.at_xpath('./fhir:nameReference/@value').try(:value))
+                parse_primitive_field(model,entry,'nameReference','nameReference',false)
                 entry.xpath("./*[contains(local-name(),'defaultValue')]").each do |e| 
-                  model.defaultValueType = e.name.gsub('defaultValue','')
+                  datatype = e.name.gsub('defaultValue','')
                   v = e.at_xpath('@value').try(:value)
-                  if v.nil? && is_fhir_class?("FHIR::#{model.defaultValueType}")
-                    v = "FHIR::#{model.defaultValueType}".constantize.parse_xml_entry(e)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
                   end
-                  model.defaultValue = {type: model.defaultValueType, value: v}
+                  model.defaultValue = FHIR::AnyType.new(datatype,v)
                 end
-                set_model_data(model, 'meaningWhenMissing', entry.at_xpath('./fhir:meaningWhenMissing/@value').try(:value))
+                parse_primitive_field(model,entry,'meaningWhenMissing','meaningWhenMissing',false)
                 entry.xpath("./*[contains(local-name(),'fixed')]").each do |e| 
-                  model.fixedType = e.name.gsub('fixed','')
+                  datatype = e.name.gsub('fixed','')
                   v = e.at_xpath('@value').try(:value)
-                  if v.nil? && is_fhir_class?("FHIR::#{model.fixedType}")
-                    v = "FHIR::#{model.fixedType}".constantize.parse_xml_entry(e)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
                   end
-                  model.fixed = {type: model.fixedType, value: v}
+                  model.fixed = FHIR::AnyType.new(datatype,v)
                 end
                 entry.xpath("./*[contains(local-name(),'pattern')]").each do |e| 
-                  model.patternType = e.name.gsub('pattern','')
+                  datatype = e.name.gsub('pattern','')
                   v = e.at_xpath('@value').try(:value)
-                  if v.nil? && is_fhir_class?("FHIR::#{model.patternType}")
-                    v = "FHIR::#{model.patternType}".constantize.parse_xml_entry(e)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
                   end
-                  model.pattern = {type: model.patternType, value: v}
+                  model.pattern = FHIR::AnyType.new(datatype,v)
                 end
                 entry.xpath("./*[contains(local-name(),'example')]").each do |e| 
-                  model.exampleType = e.name.gsub('example','')
+                  datatype = e.name.gsub('example','')
                   v = e.at_xpath('@value').try(:value)
-                  if v.nil? && is_fhir_class?("FHIR::#{model.exampleType}")
-                    v = "FHIR::#{model.exampleType}".constantize.parse_xml_entry(e)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
                   end
-                  model.example = {type: model.exampleType, value: v}
+                  model.example = FHIR::AnyType.new(datatype,v)
                 end
-                set_model_data(model, 'maxLength', entry.at_xpath('./fhir:maxLength/@value').try(:value))
-                set_model_data(model, 'condition', entry.xpath('./fhir:condition/@value').map {|e| e.value })
+                entry.xpath("./*[contains(local-name(),'minValue')]").each do |e| 
+                  datatype = e.name.gsub('minValue','')
+                  v = e.at_xpath('@value').try(:value)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
+                  end
+                  model.minValue = FHIR::AnyType.new(datatype,v)
+                end
+                entry.xpath("./*[contains(local-name(),'maxValue')]").each do |e| 
+                  datatype = e.name.gsub('maxValue','')
+                  v = e.at_xpath('@value').try(:value)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
+                  end
+                  model.maxValue = FHIR::AnyType.new(datatype,v)
+                end
+                parse_primitive_field(model,entry,'maxLength','maxLength',false)
+                parse_primitive_field(model,entry,'condition','condition',true)
                 set_model_data(model, 'constraint', entry.xpath('./fhir:constraint').map {|e| parse_xml_entry_ElementDefinitionConstraintComponent(e)})
-                set_model_data(model, 'mustSupport', entry.at_xpath('./fhir:mustSupport/@value').try(:value))
-                set_model_data(model, 'isModifier', entry.at_xpath('./fhir:isModifier/@value').try(:value))
-                set_model_data(model, 'isSummary', entry.at_xpath('./fhir:isSummary/@value').try(:value))
+                parse_primitive_field(model,entry,'mustSupport','mustSupport',false)
+                parse_primitive_field(model,entry,'isModifier','isModifier',false)
+                parse_primitive_field(model,entry,'isSummary','isSummary',false)
                 set_model_data(model, 'binding', parse_xml_entry_ElementDefinitionBindingComponent(entry.at_xpath('./fhir:binding')))
                 set_model_data(model, 'mapping', entry.xpath('./fhir:mapping').map {|e| parse_xml_entry_ElementDefinitionMappingComponent(e)})
                 model

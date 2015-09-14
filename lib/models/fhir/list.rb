@@ -44,13 +44,17 @@ module FHIR
             'subject',
             'patient',
             'source',
+            'encounter',
             'title',
             'status'
         ]
         
         VALID_CODES = {
-            mode: [ "working", "snapshot", "changes" ],
-            status: [ "current", "retired", "entered-in-error" ]
+            mode: [ 'working', 'snapshot', 'changes' ],
+            code: [ 'alerts', 'adverserxns', 'allergies', 'medications', 'problems', 'worklist', 'waiting', 'protocols', 'plans' ],
+            orderedBy: [ 'user', 'system', 'event-date', 'entry-date', 'priority', 'alphabetic', 'category', 'patient' ],
+            emptyReason: [ 'nilknown', 'notasked', 'withheld', 'unavailable', 'notstarted', 'closed' ],
+            status: [ 'current', 'retired', 'entered-in-error' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec entry
@@ -58,7 +62,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_many :flag, class_name:'FHIR::CodeableConcept'
+            
+            VALID_CODES = {
+                flag: [ '01', '02', '03', '04', '05', '06' ]
+            }
+            
+            embeds_one :flag, class_name:'FHIR::CodeableConcept'
             field :fhirDeleted, type: Boolean
             field :date, type: String
             validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
@@ -71,14 +80,13 @@ module FHIR
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :source, class_name:'FHIR::Reference'
+        embeds_one :encounter, class_name:'FHIR::Reference'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :orderedBy, class_name:'FHIR::CodeableConcept'
         field :mode, type: String
-        validates :mode, :inclusion => { in: VALID_CODES[:mode] }
         validates_presence_of :mode
         field :note, type: String
         embeds_many :entry, class_name:'FHIR::List::ListEntryComponent'

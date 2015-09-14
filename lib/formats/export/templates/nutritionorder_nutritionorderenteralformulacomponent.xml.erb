@@ -2,16 +2,13 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.administrationInstructions().nil? -%><administrationInstructions value="<%= model.administrationInstructions() %>"/><%- end -%>
     <%- if !model.baseFormulaType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'baseFormulaType', model: model.baseFormulaType()} %><%- end -%>
-    <%- if !model.baseFormulaProductName().nil? -%><baseFormulaProductName value="<%= model.baseFormulaProductName() %>"/><%- end -%>
-    <%- if !model.scheduled().nil? -%><%== render :template => 'timing', :locals => {name: 'scheduled', model: model.scheduled()} %><%- end -%>
+    <%- if !model.baseFormulaProductName().nil? -%><baseFormulaProductName value="<%= model.baseFormulaProductName %>"<%- if model.has_primitive_extension?('baseFormulaProductName') -%>><%== model.get_primitive_extension('baseFormulaProductName').to_xml(is_root: false, is_lowercase: true)  %></baseFormulaProductName><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.additiveType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'additiveType', model: model.additiveType()} %><%- end -%>
-    <%- if !model.additiveProductName().nil? -%><additiveProductName value="<%= model.additiveProductName() %>"/><%- end -%>
+    <%- if !model.additiveProductName().nil? -%><additiveProductName value="<%= model.additiveProductName %>"<%- if model.has_primitive_extension?('additiveProductName') -%>><%== model.get_primitive_extension('additiveProductName').to_xml(is_root: false, is_lowercase: true)  %></additiveProductName><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.caloricDensity().nil? -%><%== render :template => 'quantity', :locals => {name: 'caloricDensity', model: model.caloricDensity()} %><%- end -%>
     <%- if !model.routeofAdministration().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'routeofAdministration', model: model.routeofAdministration()} %><%- end -%>
-    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
-    <%- if !model.rate().nil? -%><%== render :template => 'ratio', :locals => {name: 'rate', model: model.rate()} %><%- end -%>
-    <%- if !model.rateAdjustment().nil? -%><%== render :template => 'quantity', :locals => {name: 'rateAdjustment', model: model.rateAdjustment()} %><%- end -%>
+    <%- if (!model.administration().nil? && !model.administration.empty?) -%><%- model.administration().each do |element| -%><%== render :template => 'nutritionorder_nutritionorderenteralformulaadministrationcomponent', :locals => {name: 'administration', model: element} %><%- end -%><%- end -%>
     <%- if !model.maxVolumeToDeliver().nil? -%><%== render :template => 'quantity', :locals => {name: 'maxVolumeToDeliver', model: model.maxVolumeToDeliver()} %><%- end -%>
+    <%- if !model.administrationInstruction().nil? -%><administrationInstruction value="<%= model.administrationInstruction %>"<%- if model.has_primitive_extension?('administrationInstruction') -%>><%== model.get_primitive_extension('administrationInstruction').to_xml(is_root: false, is_lowercase: true)  %></administrationInstruction><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -4,12 +4,12 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
     <%- if !model.reference().nil? -%><%== render :template => 'reference', :locals => {name: 'reference', model: model.reference()} %><%- end -%>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.role().nil? -%><role value="<%= model.role() %>"/><%- end -%>
-    <%- if !model.lifecycle().nil? -%><lifecycle value="<%= model.lifecycle() %>"/><%- end -%>
-    <%- if !model.sensitivity().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'sensitivity', model: model.sensitivity()} %><%- end -%>
-    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
-    <%- if !model.query().nil? -%><query value="<%= model.query() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if !model.role().nil? -%><%== render :template => 'coding', :locals => {name: 'role', model: model.role()} %><%- end -%>
+    <%- if !model.lifecycle().nil? -%><%== render :template => 'coding', :locals => {name: 'lifecycle', model: model.lifecycle()} %><%- end -%>
+    <%- if (!model.securityLabel().nil? && !model.securityLabel.empty?) -%><%- model.securityLabel().each do |element| -%><%== render :template => 'coding', :locals => {name: 'securityLabel', model: element} %><%- end -%><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.query().nil? -%><query value="<%= model.query %>"<%- if model.has_primitive_extension?('query') -%>><%== model.get_primitive_extension('query').to_xml(is_root: false, is_lowercase: true)  %></query><%- else -%>/><%- end -%><%- end -%>
     <%- if (!model.detail().nil? && !model.detail.empty?) -%><%- model.detail().each do |element| -%><%== render :template => 'auditevent_auditeventobjectdetailcomponent', :locals => {name: 'detail', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -7,14 +7,14 @@ module FHIR
                 return nil unless entry
                 model = self.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'url', entry.at_xpath('./@url').try(:value))
+                set_model_data(model, 'url', entry.at_xpath('./@url').try(:value) )
                 entry.xpath("./*[contains(local-name(),'value')]").each do |e| 
-                  model.valueType = e.name.gsub('value','')
+                  datatype = e.name.gsub('value','')
                   v = e.at_xpath('@value').try(:value)
-                  if v.nil? && is_fhir_class?("FHIR::#{model.valueType}")
-                    v = "FHIR::#{model.valueType}".constantize.parse_xml_entry(e)
+                  if v.nil? && is_fhir_class?("FHIR::#{datatype}")
+                    v = "FHIR::#{datatype}".constantize.parse_xml_entry(e)
                   end
-                  model.value = {type: model.valueType, value: v}
+                  model.value = FHIR::AnyType.new(datatype,v)
                 end
                 model
             end

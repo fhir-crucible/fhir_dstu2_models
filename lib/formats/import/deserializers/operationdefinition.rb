@@ -7,21 +7,18 @@ module FHIR
                 return nil unless entry
                 model = FHIR::OperationDefinition::OperationDefinitionContactComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
                 set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
                 model
             end
             
-            def parse_xml_entry_OperationDefinitionParameterPartComponent(entry) 
+            def parse_xml_entry_OperationDefinitionParameterBindingComponent(entry) 
                 return nil unless entry
-                model = FHIR::OperationDefinition::OperationDefinitionParameterPartComponent.new
+                model = FHIR::OperationDefinition::OperationDefinitionParameterBindingComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'min', entry.at_xpath('./fhir:min/@value').try(:value))
-                set_model_data(model, 'max', entry.at_xpath('./fhir:max/@value').try(:value))
-                set_model_data(model, 'documentation', entry.at_xpath('./fhir:documentation/@value').try(:value))
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'profile', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:profile')))
+                parse_primitive_field(model,entry,'strength','strength',false)
+                parse_primitive_field(model,entry,'valueSetUri','valueSetUri',false)
+                set_model_data(model, 'valueSetReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:valueSetReference')))
                 model
             end
             
@@ -29,14 +26,15 @@ module FHIR
                 return nil unless entry
                 model = FHIR::OperationDefinition::OperationDefinitionParameterComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'use', entry.at_xpath('./fhir:use/@value').try(:value))
-                set_model_data(model, 'min', entry.at_xpath('./fhir:min/@value').try(:value))
-                set_model_data(model, 'max', entry.at_xpath('./fhir:max/@value').try(:value))
-                set_model_data(model, 'documentation', entry.at_xpath('./fhir:documentation/@value').try(:value))
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'use','use',false)
+                parse_primitive_field(model,entry,'min','min',false)
+                parse_primitive_field(model,entry,'max','max',false)
+                parse_primitive_field(model,entry,'documentation','documentation',false)
+                parse_primitive_field(model,entry,'type','fhirType',false)
                 set_model_data(model, 'profile', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:profile')))
-                set_model_data(model, 'part', entry.xpath('./fhir:part').map {|e| parse_xml_entry_OperationDefinitionParameterPartComponent(e)})
+                set_model_data(model, 'binding', parse_xml_entry_OperationDefinitionParameterBindingComponent(entry.at_xpath('./fhir:binding')))
+                set_model_data(model, 'part', entry.xpath('./fhir:part').map {|e| parse_xml_entry_OperationDefinitionParameterComponent(e)})
                 model
             end
             
@@ -45,24 +43,24 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
+                parse_primitive_field(model,entry,'url','url',false)
+                parse_primitive_field(model,entry,'version','versionNum',false)
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'kind','kind',false)
+                parse_primitive_field(model,entry,'experimental','experimental',false)
+                parse_primitive_field(model,entry,'publisher','publisher',false)
                 set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_OperationDefinitionContactComponent(e)})
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'experimental', entry.at_xpath('./fhir:experimental/@value').try(:value))
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
-                set_model_data(model, 'kind', entry.at_xpath('./fhir:kind/@value').try(:value))
-                set_model_data(model, 'idempotent', entry.at_xpath('./fhir:idempotent/@value').try(:value))
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
-                set_model_data(model, 'notes', entry.at_xpath('./fhir:notes/@value').try(:value))
+                parse_primitive_field(model,entry,'date','date',false)
+                parse_primitive_field(model,entry,'description','description',false)
+                parse_primitive_field(model,entry,'requirements','requirements',false)
+                parse_primitive_field(model,entry,'idempotent','idempotent',false)
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'notes','notes',false)
                 set_model_data(model, 'base', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:base')))
-                set_model_data(model, 'system', entry.at_xpath('./fhir:system/@value').try(:value))
-                set_model_data(model, 'fhirType', entry.xpath('./fhir:type/@value').map {|e| e.value })
-                set_model_data(model, 'instance', entry.at_xpath('./fhir:instance/@value').try(:value))
+                parse_primitive_field(model,entry,'system','system',false)
+                parse_primitive_field(model,entry,'type','fhirType',true)
+                parse_primitive_field(model,entry,'instance','instance',false)
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter').map {|e| parse_xml_entry_OperationDefinitionParameterComponent(e)})
                 model
             end

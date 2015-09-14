@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Communication::CommunicationPayloadComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'contentString', entry.at_xpath('./fhir:contentString/@value').try(:value))
+                parse_primitive_field(model,entry,'contentString','contentString',false)
                 set_model_data(model, 'contentAttachment', FHIR::Attachment.parse_xml_entry(entry.at_xpath('./fhir:contentAttachment')))
                 set_model_data(model, 'contentReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:contentReference')))
                 model
@@ -24,12 +24,13 @@ module FHIR
                 set_model_data(model, 'recipient', entry.xpath('./fhir:recipient').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'payload', entry.xpath('./fhir:payload').map {|e| parse_xml_entry_CommunicationPayloadComponent(e)})
                 set_model_data(model, 'medium', entry.xpath('./fhir:medium').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
                 set_model_data(model, 'encounter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:encounter')))
-                set_model_data(model, 'sent', entry.at_xpath('./fhir:sent/@value').try(:value))
-                set_model_data(model, 'received', entry.at_xpath('./fhir:received/@value').try(:value))
+                parse_primitive_field(model,entry,'sent','sent',false)
+                parse_primitive_field(model,entry,'received','received',false)
                 set_model_data(model, 'reason', entry.xpath('./fhir:reason').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
+                set_model_data(model, 'requestDetail', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:requestDetail')))
                 model
             end
         end

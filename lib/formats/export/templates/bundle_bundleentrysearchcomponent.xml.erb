@@ -2,6 +2,6 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.mode().nil? -%><mode value="<%= model.mode() %>"/><%- end -%>
-    <%- if !model.score().nil? -%><score value="<%= model.score() %>"/><%- end -%>
+    <%- if !model.mode().nil? -%><mode value="<%= model.mode %>"<%- if model.has_primitive_extension?('mode') -%>><%== model.get_primitive_extension('mode').to_xml(is_root: false, is_lowercase: true)  %></mode><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.score().nil? -%><score value="<%= model.score %>"<%- if model.has_primitive_extension?('score') -%>><%== model.get_primitive_extension('score').to_xml(is_root: false, is_lowercase: true)  %></score><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

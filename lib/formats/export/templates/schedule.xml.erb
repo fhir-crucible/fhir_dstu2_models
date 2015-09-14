@@ -8,5 +8,5 @@
     <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
     <%- if !model.actor().nil? -%><%== render :template => 'reference', :locals => {name: 'actor', model: model.actor()} %><%- end -%>
     <%- if !model.planningHorizon().nil? -%><%== render :template => 'period', :locals => {name: 'planningHorizon', model: model.planningHorizon()} %><%- end -%>
-    <%- if !model.comment().nil? -%><comment value="<%= model.comment() %>"/><%- end -%>
+    <%- if !model.comment().nil? -%><comment value="<%= model.comment %>"<%- if model.has_primitive_extension?('comment') -%>><%== model.get_primitive_extension('comment').to_xml(is_root: false, is_lowercase: true)  %></comment><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

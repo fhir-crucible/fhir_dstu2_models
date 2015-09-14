@@ -37,9 +37,9 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
+            'identifier',
             'subject',
             'patient',
-            'authority',
             'source',
             'detail',
             'when',
@@ -47,7 +47,7 @@ module FHIR
             'when_code'
         ]
         MULTIPLE_TYPES = {
-            reason: [ "reasonCodeableConcept", "reasonReference" ]
+            reason: [ 'reasonCodeableConcept', 'reasonReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec when
@@ -67,7 +67,6 @@ module FHIR
         embeds_one :target, class_name:'FHIR::Reference'
         embeds_one :reasonCodeableConcept, class_name:'FHIR::CodeableConcept'
         embeds_one :reasonReference, class_name:'FHIR::Reference'
-        embeds_one :authority, class_name:'FHIR::Reference'
         embeds_one :when, class_name:'FHIR::Order::OrderWhenComponent'
         embeds_many :detail, class_name:'FHIR::Reference'
         validates_presence_of :detail

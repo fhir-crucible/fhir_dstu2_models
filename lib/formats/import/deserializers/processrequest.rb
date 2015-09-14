@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ProcessRequest::ItemsComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'sequenceLinkId', entry.at_xpath('./fhir:sequenceLinkId/@value').try(:value))
+                parse_primitive_field(model,entry,'sequenceLinkId','sequenceLinkId',false)
                 model
             end
             
@@ -16,21 +16,21 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'action', entry.at_xpath('./fhir:action/@value').try(:value))
+                parse_primitive_field(model,entry,'action','action',false)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
                 set_model_data(model, 'ruleset', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:ruleset')))
                 set_model_data(model, 'originalRuleset', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:originalRuleset')))
-                set_model_data(model, 'created', entry.at_xpath('./fhir:created/@value').try(:value))
+                parse_primitive_field(model,entry,'created','created',false)
                 set_model_data(model, 'target', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:target')))
                 set_model_data(model, 'provider', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:provider')))
                 set_model_data(model, 'organization', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:organization')))
                 set_model_data(model, 'request', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:request')))
                 set_model_data(model, 'response', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:response')))
-                set_model_data(model, 'nullify', entry.at_xpath('./fhir:nullify/@value').try(:value))
-                set_model_data(model, 'reference', entry.at_xpath('./fhir:reference/@value').try(:value))
+                parse_primitive_field(model,entry,'nullify','nullify',false)
+                parse_primitive_field(model,entry,'reference','reference',false)
                 set_model_data(model, 'item', entry.xpath('./fhir:item').map {|e| parse_xml_entry_ItemsComponent(e)})
-                set_model_data(model, 'include', entry.xpath('./fhir:include/@value').map {|e| e.value })
-                set_model_data(model, 'exclude', entry.xpath('./fhir:exclude/@value').map {|e| e.value })
+                parse_primitive_field(model,entry,'include','include',true)
+                parse_primitive_field(model,entry,'exclude','exclude',true)
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
                 model
             end

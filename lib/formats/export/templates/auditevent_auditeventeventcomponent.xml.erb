@@ -2,11 +2,11 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if (!model.subtype().nil? && !model.subtype.empty?) -%><%- model.subtype().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'subtype', model: element} %><%- end -%><%- end -%>
-    <%- if !model.action().nil? -%><action value="<%= model.action() %>"/><%- end -%>
-    <%- if !model.dateTime().nil? -%><%- if (!model.dateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><dateTime value="<%= model.dateTime %>"/><%- end -%><%- end -%>
-    <%- if !model.outcome().nil? -%><outcome value="<%= model.outcome() %>"/><%- end -%>
-    <%- if !model.outcomeDesc().nil? -%><outcomeDesc value="<%= model.outcomeDesc() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
+    <%- if (!model.subtype().nil? && !model.subtype.empty?) -%><%- model.subtype().each do |element| -%><%== render :template => 'coding', :locals => {name: 'subtype', model: element} %><%- end -%><%- end -%>
+    <%- if !model.action().nil? -%><action value="<%= model.action %>"<%- if model.has_primitive_extension?('action') -%>><%== model.get_primitive_extension('action').to_xml(is_root: false, is_lowercase: true)  %></action><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.dateTime.nil? -%><%- if (!model.dateTime.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><dateTime value="<%= model.dateTime %>"<%- if model.has_primitive_extension?('dateTime') -%>><%== model.get_primitive_extension('dateTime').to_xml(is_root: false, is_lowercase: true)  %></dateTime><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.outcome().nil? -%><outcome value="<%= model.outcome %>"<%- if model.has_primitive_extension?('outcome') -%>><%== model.get_primitive_extension('outcome').to_xml(is_root: false, is_lowercase: true)  %></outcome><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.outcomeDesc().nil? -%><outcomeDesc value="<%= model.outcomeDesc %>"<%- if model.has_primitive_extension?('outcomeDesc') -%>><%== model.get_primitive_extension('outcomeDesc').to_xml(is_root: false, is_lowercase: true)  %></outcomeDesc><%- else -%>/><%- end -%><%- end -%>
     <%- if (!model.purposeOfEvent().nil? && !model.purposeOfEvent.empty?) -%><%- model.purposeOfEvent().each do |element| -%><%== render :template => 'coding', :locals => {name: 'purposeOfEvent', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

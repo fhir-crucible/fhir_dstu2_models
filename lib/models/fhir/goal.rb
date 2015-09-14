@@ -36,11 +36,25 @@ module FHIR
         extend FHIR::Deserializer::Goal
         
         SEARCH_PARAMS = [
-            'patient'
+            'identifier',
+            'patient',
+            'subject',
+            'targetdate',
+            'category',
+            'status'
         ]
         
         VALID_CODES = {
-            status: [ "proposed", "planned", "in-progress", "achieved", "sustaining", "cancelled", "accepted", "rejected" ]
+            statusReason: [ 'surgery', 'life-event', 'replaced', 'patient-request' ],
+            category: [ 'dietary', 'safety', 'behavioral', 'nursing', 'physiotherapy' ],
+            priority: [ 'high', 'medium', 'low' ],
+            startDate: [ '32485007', '308283009', '442137000', '386216000' ],
+            status: [ 'proposed', 'planned', 'accepted', 'rejected', 'in-progress', 'achieved', 'sustaining', 'on-hold', 'cancelled' ]
+        }
+        
+        MULTIPLE_TYPES = {
+            start: [ 'startDate', 'startCodeableConcept' ],
+            target: [ 'targetDate', 'targetQuantity' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec outcome
@@ -49,7 +63,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                result: [ "resultCodeableConcept", "resultReference" ]
+                result: [ 'resultCodeableConcept', 'resultReference' ]
             }
             
             embeds_one :resultCodeableConcept, class_name:'FHIR::CodeableConcept'
@@ -57,20 +71,25 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        embeds_one :patient, class_name:'FHIR::Reference'
+        embeds_one :subject, class_name:'FHIR::Reference'
+        field :startDate, type: String
+        validates :startDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
+        embeds_one :startCodeableConcept, class_name:'FHIR::CodeableConcept'
         field :targetDate, type: String
         validates :targetDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
+        embeds_one :targetQuantity, class_name:'FHIR::Quantity'
+        embeds_many :category, class_name:'FHIR::CodeableConcept'
         field :description, type: String
         validates_presence_of :description
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :statusDate, type: String
         validates :statusDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
+        embeds_one :statusReason, class_name:'FHIR::CodeableConcept'
         embeds_one :author, class_name:'FHIR::Reference'
         embeds_one :priority, class_name:'FHIR::CodeableConcept'
-        embeds_many :concern, class_name:'FHIR::Reference'
-        field :notes, type: String
+        embeds_many :addresses, class_name:'FHIR::Reference'
+        embeds_many :note, class_name:'FHIR::Annotation'
         embeds_many :outcome, class_name:'FHIR::Goal::GoalOutcomeComponent'
         track_history
     end

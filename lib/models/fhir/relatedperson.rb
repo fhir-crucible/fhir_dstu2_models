@@ -37,16 +37,24 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
-            'phonetic',
             'address',
+            'birthdate',
+            'address-state',
             'gender',
+            'address-postalcode',
+            'address-country',
+            'phonetic',
+            'phone',
             'patient',
             'name',
-            'telecom'
+            'address-use',
+            'telecom',
+            'address-city',
+            'email'
         ]
         
         VALID_CODES = {
-            gender: [ "male", "female", "other", "unknown" ]
+            gender: [ 'male', 'female', 'other', 'unknown' ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -57,7 +65,9 @@ module FHIR
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         field :gender, type: String
         validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
-        embeds_one :address, class_name:'FHIR::Address'
+        field :birthDate, type: String
+        validates :birthDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
+        embeds_many :address, class_name:'FHIR::Address'
         embeds_many :photo, class_name:'FHIR::Attachment'
         embeds_one :period, class_name:'FHIR::Period'
         track_history

@@ -37,21 +37,28 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
-            'phonetic',
             'address',
             'birthdate',
+            'address-state',
             'gender',
             'practitioner',
+            'link',
+            'relatedperson',
+            'address-postalcode',
+            'address-country',
+            'phonetic',
+            'phone',
             'patient',
             'organization',
             'name',
-            'link',
+            'address-use',
             'telecom',
-            'relatedperson'
+            'address-city',
+            'email'
         ]
         
         VALID_CODES = {
-            gender: [ "male", "female", "other", "unknown" ]
+            gender: [ 'male', 'female', 'other', 'unknown' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec link
@@ -61,13 +68,12 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                assurance: [ "level1", "level2", "level3", "level4" ]
+                assurance: [ 'level1', 'level2', 'level3', 'level4' ]
             }
             
             embeds_one :target, class_name:'FHIR::Reference'
             validates_presence_of :target
             field :assurance, type: String
-            validates :assurance, :inclusion => { in: VALID_CODES[:assurance], :allow_nil => true }
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -76,7 +82,7 @@ module FHIR
         field :gender, type: String
         validates :gender, :inclusion => { in: VALID_CODES[:gender], :allow_nil => true }
         field :birthDate, type: String
-        validates :birthDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        validates :birthDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         embeds_many :address, class_name:'FHIR::Address'
         embeds_one :photo, class_name:'FHIR::Attachment'
         embeds_one :managingOrganization, class_name:'FHIR::Reference'

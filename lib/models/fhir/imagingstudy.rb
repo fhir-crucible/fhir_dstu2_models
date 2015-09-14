@@ -49,8 +49,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            modalityList: [ "AR", "BMD", "BDUS", "EPS", "CR", "CT", "DX", "ECG", "ES", "XC", "GM", "HD", "IO", "IVOCT", "IVUS", "KER", "LEN", "MR", "MG", "NM", "OAM", "OCT", "OPM", "OP", "OPR", "OPT", "OPV", "PX", "PT", "RF", "RG", "SM", "SRF", "US", "VA", "XA" ],
-            availability: [ "ONLINE", "OFFLINE", "NEARLINE", "UNAVAILABLE" ]
+            modalityList: [ 'AR', 'BMD', 'BDUS', 'EPS', 'CR', 'CT', 'DX', 'ECG', 'ES', 'XC', 'GM', 'HD', 'IO', 'IVOCT', 'IVUS', 'KER', 'LEN', 'MR', 'MG', 'NM', 'OAM', 'OCT', 'OPM', 'OP', 'OPR', 'OPT', 'OPV', 'OSS', 'PX', 'PT', 'RF', 'RG', 'SM', 'SRF', 'US', 'VA', 'XA' ],
+            availability: [ 'ONLINE', 'OFFLINE', 'NEARLINE', 'UNAVAILABLE' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec instance
@@ -61,8 +61,8 @@ module FHIR
             field :number, type: Integer
             field :uid, type: String
             validates_presence_of :uid
-            field :sopclass, type: String
-            validates_presence_of :sopclass
+            field :sopClass, type: String
+            validates_presence_of :sopClass
             field :fhirType, type: String
             field :title, type: String
             embeds_many :content, class_name:'FHIR::Attachment'
@@ -75,13 +75,12 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                modality: [ "AR", "AU", "BDUS", "BI", "BMD", "CR", "CT", "DG", "DX", "ECG", "EPS", "ES", "GM", "HC", "HD", "IO", "IVOCT", "IVUS", "KER", "KO", "LEN", "LS", "MG", "MR", "NM", "OAM", "OCT", "OP", "OPM", "OPT", "OPV", "OT", "PR", "PT", "PX", "REG", "RF", "RG", "RTDOSE", "RTIMAGE", "RTPLAN", "RTRECORD", "RTSTRUCT", "SEG", "SM", "SMR", "SR", "SRF", "TG", "US", "VA", "XA", "XC" ],
-                availability: [ "ONLINE", "OFFLINE", "NEARLINE", "UNAVAILABLE" ]
+                modality: [ 'AR', 'BMD', 'BDUS', 'EPS', 'CR', 'CT', 'DX', 'ECG', 'ES', 'XC', 'GM', 'HD', 'IO', 'IVOCT', 'IVUS', 'KER', 'LEN', 'MR', 'MG', 'NM', 'OAM', 'OCT', 'OPM', 'OP', 'OPR', 'OPT', 'OPV', 'OSS', 'PX', 'PT', 'RF', 'RG', 'SM', 'SRF', 'US', 'VA', 'XA' ],
+                availability: [ 'ONLINE', 'OFFLINE', 'NEARLINE', 'UNAVAILABLE' ]
             }
             
             field :number, type: Integer
-            field :modality, type: String
-            validates :modality, :inclusion => { in: VALID_CODES[:modality] }
+            embeds_one :modality, class_name:'FHIR::Coding'
             validates_presence_of :modality
             field :uid, type: String
             validates_presence_of :uid
@@ -89,12 +88,11 @@ module FHIR
             field :numberOfInstances, type: Integer
             validates_presence_of :numberOfInstances
             field :availability, type: String
-            validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
             field :url, type: String
             embeds_one :bodySite, class_name:'FHIR::Coding'
             embeds_one :laterality, class_name:'FHIR::Coding'
-            field :dateTime, type: String
-            validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+            field :started, type: String
+            validates :started, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
             embeds_many :instance, class_name:'FHIR::ImagingStudy::ImagingStudySeriesInstanceComponent'
         end
         
@@ -107,18 +105,15 @@ module FHIR
         embeds_one :accession, class_name:'FHIR::Identifier'
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_many :order, class_name:'FHIR::Reference'
-        field :modalityList, type: Array # Array of Strings
-        validates :modalityList, :inclusion => { in: VALID_CODES[:modalityList], :allow_nil => true }
+        embeds_many :modalityList, class_name:'FHIR::Coding'
         embeds_one :referrer, class_name:'FHIR::Reference'
         field :availability, type: String
-        validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
         field :url, type: String
         field :numberOfSeries, type: Integer
         validates_presence_of :numberOfSeries
         field :numberOfInstances, type: Integer
         validates_presence_of :numberOfInstances
-        field :clinicalInformation, type: String
-        embeds_many :procedure, class_name:'FHIR::Coding'
+        embeds_many :procedure, class_name:'FHIR::Reference'
         embeds_one :interpreter, class_name:'FHIR::Reference'
         field :description, type: String
         embeds_many :series, class_name:'FHIR::ImagingStudy::ImagingStudySeriesComponent'

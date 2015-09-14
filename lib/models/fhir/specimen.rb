@@ -39,24 +39,32 @@ module FHIR
             'container',
             'identifier',
             'parent',
+            'container-id',
+            'bodysite',
             'subject',
             'patient',
-            'site-reference',
             'collected',
             'accession',
             'type',
-            'containerid',
-            'site-code',
             'collector'
         ]
+        
+        VALID_CODES = {
+            status: [ 'available', 'unavailable', 'unsatisfactory', 'entered-in-error' ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec fhirCollection
         class SpecimenCollectionComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                method: [ '119295008', '413651001', '360020006', '430823004', '16404004', '67889009', '29240004', '45710003', '7800008', '258431006', '20255002', '386147002', '278450005' ]
+            }
+            
             MULTIPLE_TYPES = {
-                bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ],
-                collected: [ "collectedDateTime", "collectedPeriod" ]
+                collected: [ 'collectedDateTime', 'collectedPeriod' ]
             }
             
             embeds_one :collector, class_name:'FHIR::Reference'
@@ -66,8 +74,7 @@ module FHIR
             embeds_one :collectedPeriod, class_name:'FHIR::Period'
             embeds_one :quantity, class_name:'FHIR::Quantity'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
-            embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
-            embeds_one :bodySiteReference, class_name:'FHIR::Reference'
+            embeds_one :bodySite, class_name:'FHIR::CodeableConcept'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec treatment
@@ -86,7 +93,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                additive: [ "additiveCodeableConcept", "additiveReference" ]
+                additive: [ 'additiveCodeableConcept', 'additiveReference' ]
             }
             
             embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -99,6 +106,7 @@ module FHIR
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
+        field :status, type: String
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_many :parent, class_name:'FHIR::Reference'
         embeds_one :subject, class_name:'FHIR::Reference'

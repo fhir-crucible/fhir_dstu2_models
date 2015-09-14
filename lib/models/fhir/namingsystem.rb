@@ -37,44 +37,26 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'country',
             'period',
-            'replacedby',
+            'kind',
             'type',
-            'idtype',
+            'id-type',
             'responsible',
             'contact',
             'name',
+            'context',
             'publisher',
             'telecom',
-            'category',
             'value',
+            'replaced-by',
             'status'
         ]
         
         VALID_CODES = {
-            fhirType: [ "codesystem", "identifier", "root" ],
-            status: [ "draft", "active", "retired" ]
+            kind: [ 'codesystem', 'identifier', 'root' ],
+            fhirType: [ 'UDI', 'SNO', 'SB', 'PLAC', 'FILL', 'DL', 'PPN', 'BRN', 'MR', 'MCN', 'EN', 'TAX', 'NIIP', 'PRN', 'MD', 'DR' ],
+            status: [ 'draft', 'active', 'retired' ]
         }
-        
-        # This is an ugly hack to deal with embedded structures in the spec uniqueId
-        class NamingSystemUniqueIdComponent
-        include Mongoid::Document
-        include FHIR::Element
-        include FHIR::Formats::Utilities
-            
-            VALID_CODES = {
-                fhirType: [ "oid", "uuid", "uri", "other" ]
-            }
-            
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-            validates_presence_of :fhirType
-            field :value, type: String
-            validates_presence_of :value
-            field :preferred, type: Boolean
-            embeds_one :period, class_name:'FHIR::Period'
-        end
         
         # This is an ugly hack to deal with embedded structures in the spec contact
         class NamingSystemContactComponent
@@ -85,26 +67,43 @@ module FHIR
             embeds_many :telecom, class_name:'FHIR::ContactPoint'
         end
         
-        field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
-        validates_presence_of :fhirType
+        # This is an ugly hack to deal with embedded structures in the spec uniqueId
+        class NamingSystemUniqueIdComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ 'oid', 'uuid', 'uri', 'other' ]
+            }
+            
+            field :fhirType, type: String
+            validates_presence_of :fhirType
+            field :value, type: String
+            validates_presence_of :value
+            field :preferred, type: Boolean
+            embeds_one :period, class_name:'FHIR::Period'
+        end
+        
         field :name, type: String
         validates_presence_of :name
-        field :date, type: String
-        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-        validates_presence_of :date
         field :status, type: String
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
-        field :country, type: String
-        embeds_one :category, class_name:'FHIR::CodeableConcept'
+        field :kind, type: String
+        validates_presence_of :kind
+        field :publisher, type: String
+        embeds_many :contact, class_name:'FHIR::NamingSystem::NamingSystemContactComponent'
         field :responsible, type: String
+        field :date, type: String
+        validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        validates_presence_of :date
+        embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         field :description, type: String
+        embeds_many :useContext, class_name:'FHIR::CodeableConcept'
         field :usage, type: String
         embeds_many :uniqueId, class_name:'FHIR::NamingSystem::NamingSystemUniqueIdComponent'
         validates_presence_of :uniqueId
-        field :publisher, type: String
-        embeds_many :contact, class_name:'FHIR::NamingSystem::NamingSystemContactComponent'
         embeds_one :replacedBy, class_name:'FHIR::Reference'
         track_history
     end

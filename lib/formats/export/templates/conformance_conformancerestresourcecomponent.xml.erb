@@ -2,15 +2,16 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.profile().nil? -%><%== render :template => 'reference', :locals => {name: 'profile', model: model.profile()} %><%- end -%>
     <%- if (!model.interaction().nil? && !model.interaction.empty?) -%><%- model.interaction().each do |element| -%><%== render :template => 'conformance_resourceinteractioncomponent', :locals => {name: 'interaction', model: element} %><%- end -%><%- end -%>
-    <%- if !model.versioning().nil? -%><versioning value="<%= model.versioning() %>"/><%- end -%>
-    <%- if !model.readHistory().nil? -%><readHistory value="<%= model.readHistory() %>"/><%- end -%>
-    <%- if !model.updateCreate().nil? -%><updateCreate value="<%= model.updateCreate() %>"/><%- end -%>
-    <%- if !model.conditionalCreate().nil? -%><conditionalCreate value="<%= model.conditionalCreate() %>"/><%- end -%>
-    <%- if !model.conditionalUpdate().nil? -%><conditionalUpdate value="<%= model.conditionalUpdate() %>"/><%- end -%>
-    <%- if !model.conditionalDelete().nil? -%><conditionalDelete value="<%= model.conditionalDelete() %>"/><%- end -%>
-    <%- if (model.searchInclude() && !model.searchInclude.empty?) -%><%- model.searchInclude().each do |element| -%><searchInclude value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.versioning().nil? -%><versioning value="<%= model.versioning %>"<%- if model.has_primitive_extension?('versioning') -%>><%== model.get_primitive_extension('versioning').to_xml(is_root: false, is_lowercase: true)  %></versioning><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.readHistory().nil? -%><readHistory value="<%= model.readHistory %>"<%- if model.has_primitive_extension?('readHistory') -%>><%== model.get_primitive_extension('readHistory').to_xml(is_root: false, is_lowercase: true)  %></readHistory><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.updateCreate().nil? -%><updateCreate value="<%= model.updateCreate %>"<%- if model.has_primitive_extension?('updateCreate') -%>><%== model.get_primitive_extension('updateCreate').to_xml(is_root: false, is_lowercase: true)  %></updateCreate><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.conditionalCreate().nil? -%><conditionalCreate value="<%= model.conditionalCreate %>"<%- if model.has_primitive_extension?('conditionalCreate') -%>><%== model.get_primitive_extension('conditionalCreate').to_xml(is_root: false, is_lowercase: true)  %></conditionalCreate><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.conditionalUpdate().nil? -%><conditionalUpdate value="<%= model.conditionalUpdate %>"<%- if model.has_primitive_extension?('conditionalUpdate') -%>><%== model.get_primitive_extension('conditionalUpdate').to_xml(is_root: false, is_lowercase: true)  %></conditionalUpdate><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.conditionalDelete().nil? -%><conditionalDelete value="<%= model.conditionalDelete %>"<%- if model.has_primitive_extension?('conditionalDelete') -%>><%== model.get_primitive_extension('conditionalDelete').to_xml(is_root: false, is_lowercase: true)  %></conditionalDelete><%- else -%>/><%- end -%><%- end -%>
+    <%- if (model.searchInclude && !model.searchInclude.empty?) -%><%- model.searchInclude.each_with_index do |element,index| -%><searchInclude value="<%= element %>"<%- if model.has_primitive_extension?('searchInclude',index) -%>><%== model.get_primitive_extension('searchInclude',index).to_xml(is_root: false, is_lowercase: true)  %></searchInclude><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if (model.searchRevInclude && !model.searchRevInclude.empty?) -%><%- model.searchRevInclude.each_with_index do |element,index| -%><searchRevInclude value="<%= element %>"<%- if model.has_primitive_extension?('searchRevInclude',index) -%>><%== model.get_primitive_extension('searchRevInclude',index).to_xml(is_root: false, is_lowercase: true)  %></searchRevInclude><%- else -%>/><%- end -%><%- end -%><%- end -%>
     <%- if (!model.searchParam().nil? && !model.searchParam.empty?) -%><%- model.searchParam().each do |element| -%><%== render :template => 'conformance_conformancerestresourcesearchparamcomponent', :locals => {name: 'searchParam', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,9 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.headerField().nil? -%><headerField value="<%= model.headerField %>"<%- if model.has_primitive_extension?('headerField') -%>><%== model.get_primitive_extension('headerField').to_xml(is_root: false, is_lowercase: true)  %></headerField><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.path().nil? -%><path value="<%= model.path %>"<%- if model.has_primitive_extension?('path') -%>><%== model.get_primitive_extension('path').to_xml(is_root: false, is_lowercase: true)  %></path><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.sourceId().nil? -%><sourceId value="<%= model.sourceId %>"<%- if model.has_primitive_extension?('sourceId') -%>><%== model.get_primitive_extension('sourceId').to_xml(is_root: false, is_lowercase: true)  %></sourceId><%- else -%>/><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

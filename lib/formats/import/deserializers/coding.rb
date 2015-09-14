@@ -7,11 +7,11 @@ module FHIR
                 return nil unless entry
                 model = self.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'system', entry.at_xpath('./fhir:system/@value').try(:value))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
-                set_model_data(model, 'display', entry.at_xpath('./fhir:display/@value').try(:value))
-                set_model_data(model, 'primary', entry.at_xpath('./fhir:primary/@value').try(:value))
+                parse_primitive_field(model,entry,'system','system',false)
+                parse_primitive_field(model,entry,'version','versionNum',false)
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'display','display',false)
+                parse_primitive_field(model,entry,'userSelected','userSelected',false)
                 model
             end
         end

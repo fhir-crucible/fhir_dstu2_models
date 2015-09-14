@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.date().nil? -%><%- if (!model.date().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><date value="<%= model.date %>"/><%- end -%><%- end -%>
+    <%- if !model.date.nil? -%><%- if (!model.date.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><date value="<%= model.date %>"<%- if model.has_primitive_extension?('date') -%>><%== model.get_primitive_extension('date').to_xml(is_root: false, is_lowercase: true)  %></date><%- else -%>/><%- end -%><%- end -%><%- end -%>
     <%- if !model.detail().nil? -%><%== render :template => 'reference', :locals => {name: 'detail', model: model.detail()} %><%- end -%>
-    <%- if !model.reported().nil? -%><reported value="<%= model.reported() %>"/><%- end -%>
+    <%- if !model.reported().nil? -%><reported value="<%= model.reported %>"<%- if model.has_primitive_extension?('reported') -%>><%== model.get_primitive_extension('reported').to_xml(is_root: false, is_lowercase: true)  %></reported><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

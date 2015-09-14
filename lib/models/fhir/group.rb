@@ -48,7 +48,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            fhirType: [ "person", "animal", "practitioner", "device", "medication", "substance" ]
+            fhirType: [ 'person', 'animal', 'practitioner', 'device', 'medication', 'substance' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec characteristic
@@ -57,7 +57,7 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                value: [ "valueCodeableConcept", "valueBoolean", "valueQuantity", "valueRange" ]
+                value: [ 'valueCodeableConcept', 'valueBoolean', 'valueQuantity', 'valueRange' ]
             }
             
             embeds_one :code, class_name:'FHIR::CodeableConcept'
@@ -72,11 +72,22 @@ module FHIR
             validates_presence_of :valueRange
             field :exclude, type: Boolean
             validates_presence_of :exclude
+            embeds_one :period, class_name:'FHIR::Period'
         end
         
-        embeds_one :identifier, class_name:'FHIR::Identifier'
+        # This is an ugly hack to deal with embedded structures in the spec member
+        class GroupMemberComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            embeds_one :entity, class_name:'FHIR::Reference'
+            validates_presence_of :entity
+            embeds_one :period, class_name:'FHIR::Period'
+            field :inactive, type: Boolean
+        end
+        
+        embeds_many :identifier, class_name:'FHIR::Identifier'
         field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         field :actual, type: Boolean
         validates_presence_of :actual
@@ -84,7 +95,7 @@ module FHIR
         field :name, type: String
         field :quantity, type: Integer
         embeds_many :characteristic, class_name:'FHIR::Group::GroupCharacteristicComponent'
-        embeds_many :member, class_name:'FHIR::Reference'
+        embeds_many :member, class_name:'FHIR::Group::GroupMemberComponent'
         track_history
     end
 end

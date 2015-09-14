@@ -46,7 +46,6 @@ module FHIR
             'reporter',
             'type',
             'onset',
-            'duration',
             'route',
             'patient',
             'category',
@@ -55,39 +54,39 @@ module FHIR
         ]
         
         VALID_CODES = {
-            criticality: [ "low", "high", "unassessible" ],
-            category: [ "food", "medication", "environment" ],
-            fhirType: [ "immune", "non-immune" ],
-            status: [ "unconfirmed", "confirmed", "resolved", "refuted", "entered-in-error" ]
+            substance: [ '160244002', '429625007', '409137002', '428607008' ],
+            criticality: [ 'CRITL', 'CRITH', 'CRITU' ],
+            category: [ 'food', 'medication', 'environment', 'other' ],
+            fhirType: [ 'allergy', 'intolerance' ],
+            status: [ 'active', 'unconfirmed', 'confirmed', 'inactive', 'resolved', 'refuted', 'entered-in-error' ]
         }
         
-        # This is an ugly hack to deal with embedded structures in the spec event
-        class AllergyIntoleranceEventComponent
+        # This is an ugly hack to deal with embedded structures in the spec reaction
+        class AllergyIntoleranceReactionComponent
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                severity: [ "mild", "moderate", "severe" ],
-                certainty: [ "unlikely", "likely", "confirmed" ]
+                severity: [ 'mild', 'moderate', 'severe' ],
+                certainty: [ 'unlikely', 'likely', 'confirmed' ]
             }
             
             embeds_one :substance, class_name:'FHIR::CodeableConcept'
             field :certainty, type: String
-            validates :certainty, :inclusion => { in: VALID_CODES[:certainty], :allow_nil => true }
             embeds_many :manifestation, class_name:'FHIR::CodeableConcept'
             validates_presence_of :manifestation
             field :description, type: String
             field :onset, type: String
             validates :onset, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-            embeds_one :duration, class_name:'FHIR::Quantity'
             field :severity, type: String
-            validates :severity, :inclusion => { in: VALID_CODES[:severity], :allow_nil => true }
             embeds_one :exposureRoute, class_name:'FHIR::CodeableConcept'
-            field :comment, type: String
+            embeds_one :note, class_name:'FHIR::Annotation'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
+        field :onset, type: String
+        validates :onset, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         field :recordedDate, type: String
         validates :recordedDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :recorder, class_name:'FHIR::Reference'
@@ -97,17 +96,13 @@ module FHIR
         embeds_one :substance, class_name:'FHIR::CodeableConcept'
         validates_presence_of :substance
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :criticality, type: String
-        validates :criticality, :inclusion => { in: VALID_CODES[:criticality], :allow_nil => true }
         field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
         field :category, type: String
-        validates :category, :inclusion => { in: VALID_CODES[:category], :allow_nil => true }
         field :lastOccurence, type: String
         validates :lastOccurence, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-        field :comment, type: String
-        embeds_many :event, class_name:'FHIR::AllergyIntolerance::AllergyIntoleranceEventComponent'
+        embeds_one :note, class_name:'FHIR::Annotation'
+        embeds_many :reaction, class_name:'FHIR::AllergyIntolerance::AllergyIntoleranceReactionComponent'
         track_history
     end
 end

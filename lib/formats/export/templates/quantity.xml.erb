@@ -4,9 +4,9 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.value().nil? -%><value value="<%= model.value() %>"/><%- end -%>
-    <%- if !model.comparator().nil? -%><comparator value="<%= model.comparator() %>"/><%- end -%>
-    <%- if !model.units().nil? -%><units value="<%= model.units() %>"/><%- end -%>
-    <%- if !model.system().nil? -%><system value="<%= model.system() %>"/><%- end -%>
-    <%- if !model.code().nil? -%><code value="<%= model.code() %>"/><%- end -%>
+    <%- if !model.value().nil? -%><value value="<%= model.value %>"<%- if model.has_primitive_extension?('value') -%>><%== model.get_primitive_extension('value').to_xml(is_root: false, is_lowercase: true)  %></value><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.comparator().nil? -%><comparator value="<%= model.comparator %>"<%- if model.has_primitive_extension?('comparator') -%>><%== model.get_primitive_extension('comparator').to_xml(is_root: false, is_lowercase: true)  %></comparator><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.unit().nil? -%><unit value="<%= model.unit %>"<%- if model.has_primitive_extension?('unit') -%>><%== model.get_primitive_extension('unit').to_xml(is_root: false, is_lowercase: true)  %></unit><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.system().nil? -%><system value="<%= model.system %>"<%- if model.has_primitive_extension?('system') -%>><%== model.get_primitive_extension('system').to_xml(is_root: false, is_lowercase: true)  %></system><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code %>"<%- if model.has_primitive_extension?('code') -%>><%== model.get_primitive_extension('code').to_xml(is_root: false, is_lowercase: true)  %></code><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

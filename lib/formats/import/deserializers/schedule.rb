@@ -12,7 +12,7 @@ module FHIR
                 set_model_data(model, 'fhirType', entry.xpath('./fhir:type').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'actor', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:actor')))
                 set_model_data(model, 'planningHorizon', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:planningHorizon')))
-                set_model_data(model, 'comment', entry.at_xpath('./fhir:comment/@value').try(:value))
+                parse_primitive_field(model,entry,'comment','comment',false)
                 model
             end
         end

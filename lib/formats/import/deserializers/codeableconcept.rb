@@ -8,7 +8,7 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'coding', entry.xpath('./fhir:coding').map {|e| FHIR::Coding.parse_xml_entry(e)})
-                set_model_data(model, 'text', entry.at_xpath('./fhir:text/@value').try(:value))
+                parse_primitive_field(model,entry,'text','text',false)
                 model
             end
         end

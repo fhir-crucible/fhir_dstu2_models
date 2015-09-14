@@ -45,7 +45,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            title: [ "113000", "113001", "113002", "113003", "113004", "113005", "113006", "113007", "113008", "113009", "113010", "113013", "113018", "113020", "113021", "113030", "113031", "113032", "113033", "113034", "113035", "113036", "113037", "113038", "113039" ]
+            title: [ '113000', '113001', '113002', '113003', '113004', '113005', '113006', '113007', '113008', '113009', '113010', '113013', '113018', '113020', '113021', '113030', '113031', '113032', '113033', '113034', '113035', '113036', '113037', '113038', '113039' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec frames
@@ -92,6 +92,7 @@ module FHIR
             field :uid, type: String
             validates_presence_of :uid
             field :url, type: String
+            embeds_one :imagingStudy, class_name:'FHIR::Reference'
             embeds_many :series, class_name:'FHIR::ImagingObjectSelection::SeriesComponent'
             validates_presence_of :series
         end

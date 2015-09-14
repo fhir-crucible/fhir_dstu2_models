@@ -3,8 +3,8 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if !model.productName().nil? -%><productName value="<%= model.productName() %>"/><%- end -%>
-    <%- if !model.scheduled().nil? -%><%== render :template => 'timing', :locals => {name: 'scheduled', model: model.scheduled()} %><%- end -%>
+    <%- if !model.productName().nil? -%><productName value="<%= model.productName %>"<%- if model.has_primitive_extension?('productName') -%>><%== model.get_primitive_extension('productName').to_xml(is_root: false, is_lowercase: true)  %></productName><%- else -%>/><%- end -%><%- end -%>
+    <%- if (!model.schedule().nil? && !model.schedule.empty?) -%><%- model.schedule().each do |element| -%><%== render :template => 'timing', :locals => {name: 'schedule', model: element} %><%- end -%><%- end -%>
     <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
-    <%- if !model.instruction().nil? -%><instruction value="<%= model.instruction() %>"/><%- end -%>
+    <%- if !model.instruction().nil? -%><instruction value="<%= model.instruction %>"<%- if model.has_primitive_extension?('instruction') -%>><%== model.get_primitive_extension('instruction').to_xml(is_root: false, is_lowercase: true)  %></instruction><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

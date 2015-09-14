@@ -44,11 +44,13 @@ module FHIR
             'incomingreferral',
             'practitioner',
             'length',
+            'appointment',
             'part-of',
+            'procedure',
             'type',
             'participant',
+            'condition',
             'patient',
-            'fulfills',
             'location-period',
             'location',
             'indication',
@@ -57,8 +59,10 @@ module FHIR
         ]
         
         VALID_CODES = {
-            fhirClass: [ "inpatient", "outpatient", "ambulatory", "emergency", "home", "field", "daytime", "virtual", "other" ],
-            status: [ "planned", "arrived", "in-progress", "onleave", "finished", "cancelled" ]
+            fhirClass: [ 'inpatient', 'outpatient', 'ambulatory', 'emergency', 'home', 'field', 'daytime', 'virtual', 'other' ],
+            priority: [ 'imm', 'emg', 'urg', 's-urg', 'no-urg' ],
+            fhirType: [ 'ADMS', 'BD/BM-clin', 'CCS60', 'OKI' ],
+            status: [ 'planned', 'arrived', 'in-progress', 'onleave', 'finished', 'cancelled' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec statusHistory
@@ -68,11 +72,10 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "planned", "arrived", "in-progress", "onleave", "finished", "cancelled" ]
+                status: [ 'planned', 'arrived', 'in-progress', 'onleave', 'finished', 'cancelled' ]
             }
             
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
             embeds_one :period, class_name:'FHIR::Period'
             validates_presence_of :period
@@ -83,6 +86,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ 'translator', 'emergency', 'SPRF', 'PPRF', 'PART' ]
+            }
+            
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
             embeds_one :period, class_name:'FHIR::Period'
             embeds_one :individual, class_name:'FHIR::Reference'
@@ -93,16 +101,26 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                specialArrangement: [ 'wheel', 'stret', 'int', 'att', 'dog' ],
+                dietPreference: [ 'vegetarian', 'dairy-free', 'nut-free', 'gluten-free', 'vegan', 'halal', 'kosher' ],
+                specialCourtesy: [ 'EXT', 'NRM', 'PRF', 'STF', 'VIP', 'UNK' ],
+                dischargeDisposition: [ 'home', 'other-hcf', 'hosp', 'long', 'aadvice', 'exp', 'psy', 'rehab', 'oth' ],
+                admitSource: [ 'hosp-trans', 'emd', 'outp', 'born', 'gp', 'mp', 'nursing', 'psych', 'rehab', 'other' ]
+            }
+            
             embeds_one :preAdmissionIdentifier, class_name:'FHIR::Identifier'
             embeds_one :origin, class_name:'FHIR::Reference'
             embeds_one :admitSource, class_name:'FHIR::CodeableConcept'
-            embeds_one :dietPreference, class_name:'FHIR::CodeableConcept'
+            embeds_many :admittingDiagnosis, class_name:'FHIR::Reference'
+            embeds_one :reAdmission, class_name:'FHIR::CodeableConcept'
+            embeds_many :dietPreference, class_name:'FHIR::CodeableConcept'
             embeds_many :specialCourtesy, class_name:'FHIR::CodeableConcept'
             embeds_many :specialArrangement, class_name:'FHIR::CodeableConcept'
             embeds_one :destination, class_name:'FHIR::Reference'
             embeds_one :dischargeDisposition, class_name:'FHIR::CodeableConcept'
-            embeds_one :dischargeDiagnosis, class_name:'FHIR::Reference'
-            field :reAdmission, type: Boolean
+            embeds_many :dischargeDiagnosis, class_name:'FHIR::Reference'
         end
         
         # This is an ugly hack to deal with embedded structures in the spec location
@@ -112,34 +130,31 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "planned", "present", "reserved" ]
+                status: [ 'planned', 'active', 'reserved', 'completed' ]
             }
             
             embeds_one :location, class_name:'FHIR::Reference'
             validates_presence_of :location
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_one :period, class_name:'FHIR::Period'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_many :statusHistory, class_name:'FHIR::Encounter::EncounterStatusHistoryComponent'
         field :fhirClass, type: String
-        validates :fhirClass, :inclusion => { in: VALID_CODES[:fhirClass], :allow_nil => true }
         embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
+        embeds_one :priority, class_name:'FHIR::CodeableConcept'
         embeds_one :patient, class_name:'FHIR::Reference'
-        embeds_one :episodeOfCare, class_name:'FHIR::Reference'
-        embeds_many :incomingReferralRequest, class_name:'FHIR::Reference'
+        embeds_many :episodeOfCare, class_name:'FHIR::Reference'
+        embeds_many :incomingReferral, class_name:'FHIR::Reference'
         embeds_many :participant, class_name:'FHIR::Encounter::EncounterParticipantComponent'
-        embeds_one :fulfills, class_name:'FHIR::Reference'
+        embeds_one :appointment, class_name:'FHIR::Reference'
         embeds_one :period, class_name:'FHIR::Period'
         embeds_one :length, class_name:'FHIR::Quantity'
         embeds_many :reason, class_name:'FHIR::CodeableConcept'
         embeds_many :indication, class_name:'FHIR::Reference'
-        embeds_one :priority, class_name:'FHIR::CodeableConcept'
         embeds_one :hospitalization, class_name:'FHIR::Encounter::EncounterHospitalizationComponent'
         embeds_many :location, class_name:'FHIR::Encounter::EncounterLocationComponent'
         embeds_one :serviceProvider, class_name:'FHIR::Reference'

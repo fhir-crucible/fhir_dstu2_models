@@ -38,15 +38,16 @@ module FHIR
         SEARCH_PARAMS = [
             'date',
             'actor',
-            'partstatus',
+            'identifier',
             'practitioner',
+            'part-status',
             'patient',
             'location',
             'status'
         ]
         
         VALID_CODES = {
-            status: [ "pending", "booked", "arrived", "fulfilled", "cancelled", "noshow" ]
+            status: [ 'proposed', 'pending', 'booked', 'arrived', 'fulfilled', 'cancelled', 'noshow' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec participant
@@ -56,22 +57,19 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                required: [ "required", "optional", "information-only" ],
-                status: [ "accepted", "declined", "tentative", "needs-action" ]
+                required: [ 'required', 'optional', 'information-only' ],
+                status: [ 'accepted', 'declined', 'tentative', 'needs-action' ]
             }
             
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
             embeds_one :actor, class_name:'FHIR::Reference'
             field :required, type: String
-            validates :required, :inclusion => { in: VALID_CODES[:required], :allow_nil => true }
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :reason, class_name:'FHIR::CodeableConcept'
@@ -79,13 +77,11 @@ module FHIR
         field :description, type: String
         field :start, type: String
         validates :start, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
-        validates_presence_of :start
         field :end, type: String
         validates :end, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
-        validates_presence_of :end
+        field :minutesDuration, type: Integer
         embeds_many :slot, class_name:'FHIR::Reference'
         field :comment, type: String
-        embeds_one :order, class_name:'FHIR::Reference'
         embeds_many :participant, class_name:'FHIR::Appointment::AppointmentParticipantComponent'
         validates_presence_of :participant
         track_history

@@ -3,8 +3,7 @@
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.role().nil? -%><%== render :template => 'coding', :locals => {name: 'role', model: model.role()} %><%- end -%>
-    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if !model.referenceUri().nil? -%><referenceUri value="<%= model.referenceUri() %>"/><%- end -%>
-    <%- if !model.referenceReference().nil? -%><%== render :template => 'reference', :locals => {name: 'referenceReference', model: model.referenceReference()} %><%- end -%>
-    <%- if !model.display().nil? -%><display value="<%= model.display() %>"/><%- end -%>
+    <%- if !model.actor().nil? -%><%== render :template => 'reference', :locals => {name: 'actor', model: model.actor()} %><%- end -%>
+    <%- if !model.userId().nil? -%><%== render :template => 'identifier', :locals => {name: 'userId', model: model.userId()} %><%- end -%>
+    <%- if (!model.relatedAgent().nil? && !model.relatedAgent.empty?) -%><%- model.relatedAgent().each do |element| -%><%== render :template => 'provenance_provenanceagentrelatedagentcomponent', :locals => {name: 'relatedAgent', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

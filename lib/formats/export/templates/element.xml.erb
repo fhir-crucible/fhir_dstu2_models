@@ -2,13 +2,13 @@
 	<id value="<%= model.xmlId%>"/>
 <% end %>
 
-<% if !model.extension.blank? %>
+<% if !model.extension.blank? && !is_resource %>
     <%model.extension.each do |element|%>
         <%== element.to_xml(is_root: false, is_lowercase: true) %>
     <%end%>
 <% end %>
 
-<% if !model.modifierExtension.blank? %>
+<% if !model.modifierExtension.blank? && !is_resource %>
     <%model.modifierExtension.each do |element|%>
       <%== element.to_xml(name: 'modifierExtension', is_root: false) %>
     <%end%>

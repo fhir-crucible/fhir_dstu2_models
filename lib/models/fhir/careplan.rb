@@ -39,17 +39,36 @@ module FHIR
             'date',
             'activitycode',
             'activitydate',
-            'condition',
             'activityreference',
             'performer',
             'goal',
-            'patient',
-            'participant'
+            'subject',
+            'relatedcode',
+            'participant',
+            'relatedplan',
+            'condition',
+            'related',
+            'patient'
         ]
         
         VALID_CODES = {
-            status: [ "planned", "active", "completed" ]
+            status: [ 'proposed', 'draft', 'active', 'completed', 'cancelled' ]
         }
+        
+        # This is an ugly hack to deal with embedded structures in the spec relatedPlan
+        class CarePlanRelatedPlanComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ 'includes', 'replaces', 'fulfills' ]
+            }
+            
+            field :code, type: String
+            embeds_one :plan, class_name:'FHIR::Reference'
+            validates_presence_of :plan
+        end
         
         # This is an ugly hack to deal with embedded structures in the spec participant
         class CarePlanParticipantComponent
@@ -58,7 +77,6 @@ module FHIR
         include FHIR::Formats::Utilities
             embeds_one :role, class_name:'FHIR::CodeableConcept'
             embeds_one :member, class_name:'FHIR::Reference'
-            validates_presence_of :member
         end
         
         # This is an ugly hack to deal with embedded structures in the spec detail
@@ -68,24 +86,21 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                category: [ "diet", "drug", "encounter", "observation", "procedure", "supply", "other" ],
-                status: [ "not-started", "scheduled", "in-progress", "on-hold", "completed", "cancelled" ]
+                category: [ 'diet', 'drug', 'encounter', 'observation', 'procedure', 'supply', 'other' ],
+                status: [ 'not-started', 'scheduled', 'in-progress', 'on-hold', 'completed', 'cancelled' ]
             }
             
             MULTIPLE_TYPES = {
-                reason: [ "reasonCodeableConcept", "reasonReference" ],
-                scheduled: [ "scheduledTiming", "scheduledPeriod", "scheduledString" ]
+                product: [ 'productCodeableConcept', 'productReference' ],
+                scheduled: [ 'scheduledTiming', 'scheduledPeriod', 'scheduledString' ]
             }
             
-            field :category, type: String
-            validates :category, :inclusion => { in: VALID_CODES[:category] }
-            validates_presence_of :category
+            embeds_one :category, class_name:'FHIR::CodeableConcept'
             embeds_one :code, class_name:'FHIR::CodeableConcept'
-            embeds_one :reasonCodeableConcept, class_name:'FHIR::CodeableConcept'
-            embeds_one :reasonReference, class_name:'FHIR::Reference'
+            embeds_many :reasonCode, class_name:'FHIR::CodeableConcept'
+            embeds_many :reasonReference, class_name:'FHIR::Reference'
             embeds_many :goal, class_name:'FHIR::Reference'
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_one :statusReason, class_name:'FHIR::CodeableConcept'
             field :prohibited, type: Boolean
             validates_presence_of :prohibited
@@ -94,10 +109,11 @@ module FHIR
             field :scheduledString, type: String
             embeds_one :location, class_name:'FHIR::Reference'
             embeds_many :performer, class_name:'FHIR::Reference'
-            embeds_one :product, class_name:'FHIR::Reference'
+            embeds_one :productCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :productReference, class_name:'FHIR::Reference'
             embeds_one :dailyAmount, class_name:'FHIR::Quantity'
             embeds_one :quantity, class_name:'FHIR::Quantity'
-            field :note, type: String
+            field :description, type: String
         end
         
         # This is an ugly hack to deal with embedded structures in the spec activity
@@ -106,27 +122,29 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             embeds_many :actionResulting, class_name:'FHIR::Reference'
-            field :notes, type: String
+            embeds_many :progress, class_name:'FHIR::Annotation'
             embeds_one :reference, class_name:'FHIR::Reference'
             embeds_one :detail, class_name:'FHIR::CarePlan::CarePlanActivityDetailComponent'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
-        embeds_one :patient, class_name:'FHIR::Reference'
+        embeds_one :subject, class_name:'FHIR::Reference'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
+        embeds_one :context, class_name:'FHIR::Reference'
         embeds_one :period, class_name:'FHIR::Period'
         embeds_many :author, class_name:'FHIR::Reference'
         field :modified, type: String
         validates :modified, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_many :category, class_name:'FHIR::CodeableConcept'
-        embeds_many :concern, class_name:'FHIR::Reference'
+        field :description, type: String
+        embeds_many :addresses, class_name:'FHIR::Reference'
         embeds_many :support, class_name:'FHIR::Reference'
+        embeds_many :relatedPlan, class_name:'FHIR::CarePlan::CarePlanRelatedPlanComponent'
         embeds_many :participant, class_name:'FHIR::CarePlan::CarePlanParticipantComponent'
         embeds_many :goal, class_name:'FHIR::Reference'
         embeds_many :activity, class_name:'FHIR::CarePlan::CarePlanActivityComponent'
-        field :notes, type: String
+        embeds_one :note, class_name:'FHIR::Annotation'
         track_history
     end
 end

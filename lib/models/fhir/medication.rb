@@ -40,15 +40,9 @@ module FHIR
             'code',
             'ingredient',
             'form',
-            'name',
             'content',
             'manufacturer'
         ]
-        
-        VALID_CODES = {
-            kind: [ "product", "package" ]
-        }
-        
         # This is an ugly hack to deal with embedded structures in the spec ingredient
         class MedicationProductIngredientComponent
         include Mongoid::Document
@@ -98,12 +92,9 @@ module FHIR
             embeds_many :content, class_name:'FHIR::Medication::MedicationPackageContentComponent'
         end
         
-        field :name, type: String
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         field :isBrand, type: Boolean
         embeds_one :manufacturer, class_name:'FHIR::Reference'
-        field :kind, type: String
-        validates :kind, :inclusion => { in: VALID_CODES[:kind], :allow_nil => true }
         embeds_one :product, class_name:'FHIR::Medication::MedicationProductComponent'
         embeds_one :package, class_name:'FHIR::Medication::MedicationPackageComponent'
         track_history

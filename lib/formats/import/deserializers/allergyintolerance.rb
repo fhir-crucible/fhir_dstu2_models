@@ -3,19 +3,18 @@ module FHIR
         module AllergyIntolerance
         include FHIR::Formats::Utilities
         include FHIR::Deserializer::Utilities
-            def parse_xml_entry_AllergyIntoleranceEventComponent(entry) 
+            def parse_xml_entry_AllergyIntoleranceReactionComponent(entry) 
                 return nil unless entry
-                model = FHIR::AllergyIntolerance::AllergyIntoleranceEventComponent.new
+                model = FHIR::AllergyIntolerance::AllergyIntoleranceReactionComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'substance', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:substance')))
-                set_model_data(model, 'certainty', entry.at_xpath('./fhir:certainty/@value').try(:value))
+                parse_primitive_field(model,entry,'certainty','certainty',false)
                 set_model_data(model, 'manifestation', entry.xpath('./fhir:manifestation').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'onset', entry.at_xpath('./fhir:onset/@value').try(:value))
-                set_model_data(model, 'duration', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:duration')))
-                set_model_data(model, 'severity', entry.at_xpath('./fhir:severity/@value').try(:value))
+                parse_primitive_field(model,entry,'description','description',false)
+                parse_primitive_field(model,entry,'onset','onset',false)
+                parse_primitive_field(model,entry,'severity','severity',false)
                 set_model_data(model, 'exposureRoute', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:exposureRoute')))
-                set_model_data(model, 'comment', entry.at_xpath('./fhir:comment/@value').try(:value))
+                set_model_data(model, 'note', FHIR::Annotation.parse_xml_entry(entry.at_xpath('./fhir:note')))
                 model
             end
             
@@ -25,18 +24,19 @@ module FHIR
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
-                set_model_data(model, 'recordedDate', entry.at_xpath('./fhir:recordedDate/@value').try(:value))
+                parse_primitive_field(model,entry,'onset','onset',false)
+                parse_primitive_field(model,entry,'recordedDate','recordedDate',false)
                 set_model_data(model, 'recorder', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:recorder')))
                 set_model_data(model, 'patient', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:patient')))
                 set_model_data(model, 'reporter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:reporter')))
                 set_model_data(model, 'substance', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:substance')))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'criticality', entry.at_xpath('./fhir:criticality/@value').try(:value))
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'category', entry.at_xpath('./fhir:category/@value').try(:value))
-                set_model_data(model, 'lastOccurence', entry.at_xpath('./fhir:lastOccurence/@value').try(:value))
-                set_model_data(model, 'comment', entry.at_xpath('./fhir:comment/@value').try(:value))
-                set_model_data(model, 'event', entry.xpath('./fhir:event').map {|e| parse_xml_entry_AllergyIntoleranceEventComponent(e)})
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'criticality','criticality',false)
+                parse_primitive_field(model,entry,'type','fhirType',false)
+                parse_primitive_field(model,entry,'category','category',false)
+                parse_primitive_field(model,entry,'lastOccurence','lastOccurence',false)
+                set_model_data(model, 'note', FHIR::Annotation.parse_xml_entry(entry.at_xpath('./fhir:note')))
+                set_model_data(model, 'reaction', entry.xpath('./fhir:reaction').map {|e| parse_xml_entry_AllergyIntoleranceReactionComponent(e)})
                 model
             end
         end

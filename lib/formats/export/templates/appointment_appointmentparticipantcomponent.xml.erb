@@ -4,6 +4,6 @@
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if (!model.fhirType().nil? && !model.fhirType.empty?) -%><%- model.fhirType().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: element} %><%- end -%><%- end -%>
     <%- if !model.actor().nil? -%><%== render :template => 'reference', :locals => {name: 'actor', model: model.actor()} %><%- end -%>
-    <%- if !model.required().nil? -%><required value="<%= model.required() %>"/><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
+    <%- if !model.required().nil? -%><required value="<%= model.required %>"<%- if model.has_primitive_extension?('required') -%>><%== model.get_primitive_extension('required').to_xml(is_root: false, is_lowercase: true)  %></required><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

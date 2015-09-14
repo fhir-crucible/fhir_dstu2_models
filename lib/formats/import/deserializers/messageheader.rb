@@ -7,8 +7,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::MessageHeader::MessageHeaderResponseComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
+                parse_primitive_field(model,entry,'identifier','identifier',false)
+                parse_primitive_field(model,entry,'code','code',false)
                 set_model_data(model, 'details', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:details')))
                 model
             end
@@ -17,11 +17,11 @@ module FHIR
                 return nil unless entry
                 model = FHIR::MessageHeader::MessageSourceComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'software', entry.at_xpath('./fhir:software/@value').try(:value))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'software','software',false)
+                parse_primitive_field(model,entry,'version','versionNum',false)
                 set_model_data(model, 'contact', FHIR::ContactPoint.parse_xml_entry(entry.at_xpath('./fhir:contact')))
-                set_model_data(model, 'endpoint', entry.at_xpath('./fhir:endpoint/@value').try(:value))
+                parse_primitive_field(model,entry,'endpoint','endpoint',false)
                 model
             end
             
@@ -29,9 +29,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::MessageHeader::MessageDestinationComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
                 set_model_data(model, 'target', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:target')))
-                set_model_data(model, 'endpoint', entry.at_xpath('./fhir:endpoint/@value').try(:value))
+                parse_primitive_field(model,entry,'endpoint','endpoint',false)
                 model
             end
             
@@ -40,8 +40,7 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
-                set_model_data(model, 'timestamp', entry.at_xpath('./fhir:timestamp/@value').try(:value))
+                parse_primitive_field(model,entry,'timestamp','timestamp',false)
                 set_model_data(model, 'event', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:event')))
                 set_model_data(model, 'response', parse_xml_entry_MessageHeaderResponseComponent(entry.at_xpath('./fhir:response')))
                 set_model_data(model, 'source', parse_xml_entry_MessageSourceComponent(entry.at_xpath('./fhir:source')))

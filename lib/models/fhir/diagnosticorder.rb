@@ -56,8 +56,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            priority: [ "routine", "urgent", "stat", "asap" ],
-            status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
+            priority: [ 'routine', 'urgent', 'stat', 'asap' ],
+            status: [ 'proposed', 'draft', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'review', 'completed', 'cancelled', 'suspended', 'rejected', 'failed' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec event
@@ -67,11 +67,11 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
+                description: [ '440622005', '394838008', '26895000' ],
+                status: [ 'proposed', 'draft', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'review', 'completed', 'cancelled', 'suspended', 'rejected', 'failed' ]
             }
             
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
             embeds_one :description, class_name:'FHIR::CodeableConcept'
             field :dateTime, type: String
@@ -87,20 +87,14 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "proposed", "draft", "planned", "requested", "received", "accepted", "in-progress", "review", "completed", "cancelled", "suspended", "rejected", "failed" ]
-            }
-            
-            MULTIPLE_TYPES = {
-                bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ]
+                status: [ 'proposed', 'draft', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'review', 'completed', 'cancelled', 'suspended', 'rejected', 'failed' ]
             }
             
             embeds_one :code, class_name:'FHIR::CodeableConcept'
             validates_presence_of :code
             embeds_many :specimen, class_name:'FHIR::Reference'
-            embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
-            embeds_one :bodySiteReference, class_name:'FHIR::Reference'
+            embeds_one :bodySite, class_name:'FHIR::CodeableConcept'
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_many :event, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderEventComponent'
         end
         
@@ -109,15 +103,14 @@ module FHIR
         embeds_one :orderer, class_name:'FHIR::Reference'
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :encounter, class_name:'FHIR::Reference'
-        field :clinicalNotes, type: String
+        embeds_many :reason, class_name:'FHIR::CodeableConcept'
         embeds_many :supportingInformation, class_name:'FHIR::Reference'
         embeds_many :specimen, class_name:'FHIR::Reference'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :priority, type: String
-        validates :priority, :inclusion => { in: VALID_CODES[:priority], :allow_nil => true }
         embeds_many :event, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderEventComponent'
         embeds_many :item, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderItemComponent'
+        embeds_many :note, class_name:'FHIR::Annotation'
         track_history
     end
 end

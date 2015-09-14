@@ -49,7 +49,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "planned", "waitlist", "active", "onhold", "finished", "cancelled" ]
+            status: [ 'planned', 'waitlist', 'active', 'onhold', 'finished', 'cancelled' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec statusHistory
@@ -59,11 +59,10 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                status: [ "planned", "waitlist", "active", "onhold", "finished", "cancelled" ]
+                status: [ 'planned', 'waitlist', 'active', 'onhold', 'finished', 'cancelled' ]
             }
             
             field :status, type: String
-            validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
             embeds_one :period, class_name:'FHIR::Period'
             validates_presence_of :period
@@ -74,22 +73,21 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
-            embeds_one :member, class_name:'FHIR::Reference'
             embeds_many :role, class_name:'FHIR::CodeableConcept'
             embeds_one :period, class_name:'FHIR::Period'
+            embeds_one :member, class_name:'FHIR::Reference'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_many :statusHistory, class_name:'FHIR::EpisodeOfCare::EpisodeOfCareStatusHistoryComponent'
         embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
+        embeds_many :condition, class_name:'FHIR::Reference'
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
         embeds_one :managingOrganization, class_name:'FHIR::Reference'
         embeds_one :period, class_name:'FHIR::Period'
-        embeds_many :condition, class_name:'FHIR::Reference'
         embeds_many :referralRequest, class_name:'FHIR::Reference'
         embeds_one :careManager, class_name:'FHIR::Reference'
         embeds_many :careTeam, class_name:'FHIR::EpisodeOfCare::EpisodeOfCareCareTeamComponent'

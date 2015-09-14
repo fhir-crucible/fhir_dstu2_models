@@ -38,7 +38,7 @@ module FHIR
         field :versionNum, type: String
         field :code, type: String
         field :display, type: String
-        field :primary, type: Boolean
+        field :userSelected, type: Boolean
         track_history
     end
 end

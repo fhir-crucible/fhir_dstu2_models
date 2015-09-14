@@ -43,7 +43,9 @@ module FHIR
         ]
         
         VALID_CODES = {
-            action: [ "cancel", "poll", "reprocess", "status" ]
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            action: [ 'cancel', 'poll', 'reprocess', 'status' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec item
@@ -56,7 +58,6 @@ module FHIR
         end
         
         field :action, type: String
-        validates :action, :inclusion => { in: VALID_CODES[:action] }
         validates_presence_of :action
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :ruleset, class_name:'FHIR::Coding'

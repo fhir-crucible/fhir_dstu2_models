@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetContactComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
                 set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
                 model
             end
@@ -16,9 +16,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ConceptDefinitionDesignationComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'language', entry.at_xpath('./fhir:language/@value').try(:value))
+                parse_primitive_field(model,entry,'language','language',false)
                 set_model_data(model, 'use', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:use')))
-                set_model_data(model, 'value', entry.at_xpath('./fhir:value/@value').try(:value))
+                parse_primitive_field(model,entry,'value','value',false)
                 model
             end
             
@@ -26,22 +26,22 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ConceptDefinitionComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
-                set_model_data(model, 'abstract', entry.at_xpath('./fhir:abstract/@value').try(:value))
-                set_model_data(model, 'display', entry.at_xpath('./fhir:display/@value').try(:value))
-                set_model_data(model, 'definition', entry.at_xpath('./fhir:definition/@value').try(:value))
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'abstract','abstract',false)
+                parse_primitive_field(model,entry,'display','display',false)
+                parse_primitive_field(model,entry,'definition','definition',false)
                 set_model_data(model, 'designation', entry.xpath('./fhir:designation').map {|e| parse_xml_entry_ConceptDefinitionDesignationComponent(e)})
                 set_model_data(model, 'concept', entry.xpath('./fhir:concept').map {|e| parse_xml_entry_ConceptDefinitionComponent(e)})
                 model
             end
             
-            def parse_xml_entry_ValueSetDefineComponent(entry) 
+            def parse_xml_entry_ValueSetCodeSystemComponent(entry) 
                 return nil unless entry
-                model = FHIR::ValueSet::ValueSetDefineComponent.new
+                model = FHIR::ValueSet::ValueSetCodeSystemComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'system', entry.at_xpath('./fhir:system/@value').try(:value))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
-                set_model_data(model, 'caseSensitive', entry.at_xpath('./fhir:caseSensitive/@value').try(:value))
+                parse_primitive_field(model,entry,'system','system',false)
+                parse_primitive_field(model,entry,'version','versionNum',false)
+                parse_primitive_field(model,entry,'caseSensitive','caseSensitive',false)
                 set_model_data(model, 'concept', entry.xpath('./fhir:concept').map {|e| parse_xml_entry_ConceptDefinitionComponent(e)})
                 model
             end
@@ -50,8 +50,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ConceptReferenceComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
-                set_model_data(model, 'display', entry.at_xpath('./fhir:display/@value').try(:value))
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'display','display',false)
                 set_model_data(model, 'designation', entry.xpath('./fhir:designation').map {|e| parse_xml_entry_ConceptDefinitionDesignationComponent(e)})
                 model
             end
@@ -60,9 +60,9 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ConceptSetFilterComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'property', entry.at_xpath('./fhir:property/@value').try(:value))
-                set_model_data(model, 'op', entry.at_xpath('./fhir:op/@value').try(:value))
-                set_model_data(model, 'value', entry.at_xpath('./fhir:value/@value').try(:value))
+                parse_primitive_field(model,entry,'property','property',false)
+                parse_primitive_field(model,entry,'op','op',false)
+                parse_primitive_field(model,entry,'value','value',false)
                 model
             end
             
@@ -70,8 +70,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ConceptSetComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'system', entry.at_xpath('./fhir:system/@value').try(:value))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
+                parse_primitive_field(model,entry,'system','system',false)
+                parse_primitive_field(model,entry,'version','versionNum',false)
                 set_model_data(model, 'concept', entry.xpath('./fhir:concept').map {|e| parse_xml_entry_ConceptReferenceComponent(e)})
                 set_model_data(model, 'filter', entry.xpath('./fhir:filter').map {|e| parse_xml_entry_ConceptSetFilterComponent(e)})
                 model
@@ -81,7 +81,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetComposeComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'import', entry.xpath('./fhir:import/@value').map {|e| e.value })
+                parse_primitive_field(model,entry,'import','import',true)
                 set_model_data(model, 'include', entry.xpath('./fhir:include').map {|e| parse_xml_entry_ConceptSetComponent(e)})
                 set_model_data(model, 'exclude', entry.xpath('./fhir:exclude').map {|e| parse_xml_entry_ConceptSetComponent(e)})
                 model
@@ -91,13 +91,13 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetExpansionParameterComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'valueString', entry.at_xpath('./fhir:valueString/@value').try(:value))
-                set_model_data(model, 'valueBoolean', entry.at_xpath('./fhir:valueBoolean/@value').try(:value))
-                set_model_data(model, 'valueInteger', entry.at_xpath('./fhir:valueInteger/@value').try(:value))
-                set_model_data(model, 'valueDecimal', entry.at_xpath('./fhir:valueDecimal/@value').try(:value))
-                set_model_data(model, 'valueUri', entry.at_xpath('./fhir:valueUri/@value').try(:value))
-                set_model_data(model, 'valueCode', entry.at_xpath('./fhir:valueCode/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'valueString','valueString',false)
+                parse_primitive_field(model,entry,'valueBoolean','valueBoolean',false)
+                parse_primitive_field(model,entry,'valueInteger','valueInteger',false)
+                parse_primitive_field(model,entry,'valueDecimal','valueDecimal',false)
+                parse_primitive_field(model,entry,'valueUri','valueUri',false)
+                parse_primitive_field(model,entry,'valueCode','valueCode',false)
                 model
             end
             
@@ -105,11 +105,11 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetExpansionContainsComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'system', entry.at_xpath('./fhir:system/@value').try(:value))
-                set_model_data(model, 'abstract', entry.at_xpath('./fhir:abstract/@value').try(:value))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
-                set_model_data(model, 'display', entry.at_xpath('./fhir:display/@value').try(:value))
+                parse_primitive_field(model,entry,'system','system',false)
+                parse_primitive_field(model,entry,'abstract','abstract',false)
+                parse_primitive_field(model,entry,'version','versionNum',false)
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'display','display',false)
                 set_model_data(model, 'contains', entry.xpath('./fhir:contains').map {|e| parse_xml_entry_ValueSetExpansionContainsComponent(e)})
                 model
             end
@@ -118,8 +118,10 @@ module FHIR
                 return nil unless entry
                 model = FHIR::ValueSet::ValueSetExpansionComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
-                set_model_data(model, 'timestamp', entry.at_xpath('./fhir:timestamp/@value').try(:value))
+                parse_primitive_field(model,entry,'identifier','identifier',false)
+                parse_primitive_field(model,entry,'timestamp','timestamp',false)
+                parse_primitive_field(model,entry,'total','total',false)
+                parse_primitive_field(model,entry,'offset','offset',false)
                 set_model_data(model, 'parameter', entry.xpath('./fhir:parameter').map {|e| parse_xml_entry_ValueSetExpansionParameterComponent(e)})
                 set_model_data(model, 'contains', entry.xpath('./fhir:contains').map {|e| parse_xml_entry_ValueSetExpansionContainsComponent(e)})
                 model
@@ -130,23 +132,23 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
+                parse_primitive_field(model,entry,'url','url',false)
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'versionNum', entry.at_xpath('./fhir:version/@value').try(:value))
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'useContext', entry.xpath('./fhir:useContext').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'immutable', entry.at_xpath('./fhir:immutable/@value').try(:value))
-                set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
+                parse_primitive_field(model,entry,'version','versionNum',false)
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'experimental','experimental',false)
+                parse_primitive_field(model,entry,'publisher','publisher',false)
                 set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_ValueSetContactComponent(e)})
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
-                set_model_data(model, 'copyright', entry.at_xpath('./fhir:copyright/@value').try(:value))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'experimental', entry.at_xpath('./fhir:experimental/@value').try(:value))
-                set_model_data(model, 'extensible', entry.at_xpath('./fhir:extensible/@value').try(:value))
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
-                set_model_data(model, 'lockedDate', entry.at_xpath('./fhir:lockedDate/@value').try(:value))
-                set_model_data(model, 'define', parse_xml_entry_ValueSetDefineComponent(entry.at_xpath('./fhir:define')))
+                parse_primitive_field(model,entry,'date','date',false)
+                parse_primitive_field(model,entry,'lockedDate','lockedDate',false)
+                parse_primitive_field(model,entry,'description','description',false)
+                set_model_data(model, 'useContext', entry.xpath('./fhir:useContext').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                parse_primitive_field(model,entry,'immutable','immutable',false)
+                parse_primitive_field(model,entry,'requirements','requirements',false)
+                parse_primitive_field(model,entry,'copyright','copyright',false)
+                parse_primitive_field(model,entry,'extensible','extensible',false)
+                set_model_data(model, 'codeSystem', parse_xml_entry_ValueSetCodeSystemComponent(entry.at_xpath('./fhir:codeSystem')))
                 set_model_data(model, 'compose', parse_xml_entry_ValueSetComposeComponent(entry.at_xpath('./fhir:compose')))
                 set_model_data(model, 'expansion', parse_xml_entry_ValueSetExpansionComponent(entry.at_xpath('./fhir:expansion')))
                 model

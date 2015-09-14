@@ -44,7 +44,6 @@ module FHIR
             'source',
             'target',
             'destination-uri',
-            'src-id',
             'source-uri',
             'responsible',
             'response-id',
@@ -54,7 +53,7 @@ module FHIR
         ]
         
         VALID_CODES = {
-            event: [ "MedicationAdministration-Complete", "MedicationAdministration-Nullification", "MedicationAdministration-Recording", "MedicationAdministration-Update", "admin-notify", "diagnosticreport-provide", "observation-provide", "patient-link", "patient-unlink", "valueset-expand" ]
+            reason: [ 'admit', 'discharge', 'absent', 'return', 'moved', 'edit' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec response
@@ -64,13 +63,12 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                code: [ "ok", "transient-error", "fatal-error" ]
+                code: [ 'ok', 'transient-error', 'fatal-error' ]
             }
             
             field :identifier, type: String
             validates_presence_of :identifier
             field :code, type: String
-            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
             embeds_one :details, class_name:'FHIR::Reference'
         end
@@ -99,8 +97,6 @@ module FHIR
             validates_presence_of :endpoint
         end
         
-        field :identifier, type: String
-        validates_presence_of :identifier
         field :timestamp, type: String
         validates :timestamp, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         validates_presence_of :timestamp

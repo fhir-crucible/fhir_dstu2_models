@@ -40,7 +40,10 @@ module FHIR
         ]
         
         VALID_CODES = {
-            outcome: [ "complete", "error" ]
+            form: [ '1', '2' ],
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            outcome: [ 'complete', 'error' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec detail
@@ -48,6 +51,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ 'payment', 'adjustment', 'advance' ]
+            }
+            
             embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
             embeds_one :request, class_name:'FHIR::Reference'
@@ -66,7 +74,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "display", "print", "printoper" ]
+                fhirType: [ 'display', 'print', 'printoper' ]
             }
             
             embeds_one :fhirType, class_name:'FHIR::Coding'

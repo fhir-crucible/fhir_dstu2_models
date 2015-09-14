@@ -36,8 +36,10 @@ module FHIR
         
         
         VALID_CODES = {
-            representation: [ "xmlAttr" ]
+            representation: [ 'xmlAttr' ]
         }
+        
+        ANY_TYPES = [ 'defaultValue', 'fixed', 'pattern', 'example', 'minValue', 'maxValue' ]
         
         # This is an ugly hack to deal with embedded structures in the spec slicing
         class ElementDefinitionSlicingComponent
@@ -46,15 +48,27 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                rules: [ "closed", "open", "openAtEnd" ]
+                rules: [ 'closed', 'open', 'openAtEnd' ]
             }
             
             field :discriminator, type: Array # Array of Strings
             field :description, type: String
             field :ordered, type: Boolean
             field :rules, type: String
-            validates :rules, :inclusion => { in: VALID_CODES[:rules] }
             validates_presence_of :rules
+        end
+        
+        # This is an ugly hack to deal with embedded structures in the spec base
+        class ElementDefinitionBaseComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            field :path, type: String
+            validates_presence_of :path
+            field :min, type: Integer
+            validates_presence_of :min
+            field :max, type: String
+            validates_presence_of :max
         end
         
         # This is an ugly hack to deal with embedded structures in the spec fhirType
@@ -64,16 +78,13 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                code: [ "Address", "Age", "Attachment", "BackboneElement", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "Element", "ElementDefinition", "Extension", "HumanName", "Identifier", "Meta", "Money", "Narrative", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "base64Binary", "boolean", "code", "date", "dateTime", "decimal", "id", "instant", "integer", "oid", "positiveInt", "string", "time", "unsignedInt", "uri", "uuid" ],
-                aggregation: [ "contained", "referenced", "bundled" ]
+                aggregation: [ 'contained', 'referenced', 'bundled' ]
             }
             
             field :code, type: String
-            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
-            field :profile, type: String
+            field :profile, type: Array # Array of Strings
             field :aggregation, type: Array # Array of Strings
-            validates :aggregation, :inclusion => { in: VALID_CODES[:aggregation], :allow_nil => true }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec constraint
@@ -83,14 +94,13 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                severity: [ "error", "warning" ]
+                severity: [ 'error', 'warning' ]
             }
             
             field :key, type: String
             validates_presence_of :key
-            field :name, type: String
+            field :requirements, type: String
             field :severity, type: String
-            validates :severity, :inclusion => { in: VALID_CODES[:severity] }
             validates_presence_of :severity
             field :human, type: String
             validates_presence_of :human
@@ -105,15 +115,13 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                strength: [ "required", "extensible", "preferred", "example" ]
+                strength: [ 'required', 'extensible', 'preferred', 'example' ]
             }
             
             MULTIPLE_TYPES = {
-                valueSet: [ "valueSetUri", "valueSetReference" ]
+                valueSet: [ 'valueSetUri', 'valueSetReference' ]
             }
             
-            field :name, type: String
-            validates_presence_of :name
             field :strength, type: String
             validates :strength, :inclusion => { in: VALID_CODES[:strength] }
             validates_presence_of :strength
@@ -137,7 +145,6 @@ module FHIR
         field :path, type: String
         validates_presence_of :path
         field :representation, type: Array # Array of Strings
-        validates :representation, :inclusion => { in: VALID_CODES[:representation], :allow_nil => true }
         field :name, type: String
         field :label, type: String
         embeds_many :code, class_name:'FHIR::Coding'
@@ -149,21 +156,16 @@ module FHIR
         field :alias, type: Array # Array of Strings
         field :min, type: Integer
         field :max, type: String
+        embeds_one :base, class_name:'FHIR::ElementDefinition::ElementDefinitionBaseComponent'
         embeds_many :fhirType, class_name:'FHIR::ElementDefinition::TypeRefComponent'
         field :nameReference, type: String
-        field :defaultValueType, type: String
-        attr_accessor :defaultValue
-        # field :defaultValue, type: FHIR::AnyType
+        field :defaultValue, type: FHIR::AnyType
         field :meaningWhenMissing, type: String
-        field :fixedType, type: String
-        attr_accessor :fixed
-        # field :fixed, type: FHIR::AnyType
-        field :patternType, type: String
-        attr_accessor :pattern
-        # field :pattern, type: FHIR::AnyType
-        field :exampleType, type: String
-        attr_accessor :example
-        # field :example, type: FHIR::AnyType
+        field :fixed, type: FHIR::AnyType
+        field :pattern, type: FHIR::AnyType
+        field :example, type: FHIR::AnyType
+        field :minValue, type: FHIR::AnyType
+        field :maxValue, type: FHIR::AnyType
         field :maxLength, type: Integer
         field :condition, type: Array # Array of Strings
         embeds_many :constraint, class_name:'FHIR::ElementDefinition::ElementDefinitionConstraintComponent'

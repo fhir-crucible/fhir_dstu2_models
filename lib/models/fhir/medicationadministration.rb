@@ -37,6 +37,7 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
+            'code',
             'prescription',
             'effectivetime',
             'practitioner',
@@ -49,11 +50,14 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "in-progress", "on-hold", "completed", "entered-in-error", "stopped" ]
+            reasonGiven: [ 'a', 'b', 'c' ],
+            reasonNotGiven: [ 'a', 'b', 'c', 'd' ],
+            status: [ 'in-progress', 'on-hold', 'completed', 'entered-in-error', 'stopped' ]
         }
         
         MULTIPLE_TYPES = {
-            effectiveTime: [ "effectiveTimeDateTime", "effectiveTimePeriod" ]
+            effectiveTime: [ 'effectiveTimeDateTime', 'effectiveTimePeriod' ],
+            medication: [ 'medicationCodeableConcept', 'medicationReference' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec dosage
@@ -61,17 +65,23 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                site: [ 'siteCodeableConcept', 'siteReference' ],
+                rate: [ 'rateRatio', 'rateRange' ]
+            }
+            
             field :text, type: String
-            embeds_one :site, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteCodeableConcept, class_name:'FHIR::CodeableConcept'
+            embeds_one :siteReference, class_name:'FHIR::Reference'
             embeds_one :route, class_name:'FHIR::CodeableConcept'
             embeds_one :method, class_name:'FHIR::CodeableConcept'
             embeds_one :quantity, class_name:'FHIR::Quantity'
-            embeds_one :rate, class_name:'FHIR::Ratio'
+            embeds_one :rateRatio, class_name:'FHIR::Ratio'
+            embeds_one :rateRange, class_name:'FHIR::Range'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient
@@ -86,7 +96,10 @@ module FHIR
         validates_presence_of :effectiveTimeDateTime
         embeds_one :effectiveTimePeriod, class_name:'FHIR::Period'
         validates_presence_of :effectiveTimePeriod
-        embeds_one :medication, class_name:'FHIR::Reference'
+        embeds_one :medicationCodeableConcept, class_name:'FHIR::CodeableConcept'
+        validates_presence_of :medicationCodeableConcept
+        embeds_one :medicationReference, class_name:'FHIR::Reference'
+        validates_presence_of :medicationReference
         embeds_many :device, class_name:'FHIR::Reference'
         field :note, type: String
         embeds_one :dosage, class_name:'FHIR::MedicationAdministration::MedicationAdministrationDosageComponent'

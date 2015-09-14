@@ -44,8 +44,16 @@ module FHIR
         ]
         
         VALID_CODES = {
-            use: [ "complete", "proposed", "exploratory", "other" ],
-            fhirType: [ "institutional", "oral", "pharmacy", "professional", "vision" ]
+            exception: [ 'student', 'disabled' ],
+            condition: [ '123987' ],
+            additionalMaterials: [ 'xray', 'image', 'email', 'model', 'document', 'other' ],
+            fundsReserve: [ 'patient', 'provider', 'none' ],
+            interventionException: [ 'unknown', 'other' ],
+            use: [ 'complete', 'proposed', 'exploratory', 'other' ],
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            priority: [ 'stat', 'normal', 'deferred' ],
+            fhirType: [ 'institutional', 'oral', 'pharmacy', 'professional', 'vision' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec payee
@@ -53,6 +61,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ 'subscriber', 'provider', 'other' ]
+            }
+            
             embeds_one :fhirType, class_name:'FHIR::Coding'
             embeds_one :provider, class_name:'FHIR::Reference'
             embeds_one :organization, class_name:'FHIR::Reference'
@@ -64,6 +77,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                diagnosis: [ '123456', '123457', '987654', '123987', '112233', '997755', '321789' ]
+            }
+            
             field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :diagnosis, class_name:'FHIR::Coding'
@@ -75,6 +93,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+                relationship: [ '1', '2', '3', '4', '5' ]
+            }
+            
             field :sequence, type: Integer
             validates_presence_of :sequence
             field :focal, type: Boolean
@@ -94,6 +118,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                service: [ '1101', '1102', '1103', '1201', '1205', '2101', '2102', '2141', '2601', '11101', '11102', '11103', '11104', '21211', '21212', '27211', '99111', '99333', '99555' ],
+                udi: [ '{01}123456789' ]
+            }
+            
             field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :fhirType, class_name:'FHIR::Coding'
@@ -113,6 +143,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                service: [ '1101', '1102', '1103', '1201', '1205', '2101', '2102', '2141', '2601', '11101', '11102', '11103', '11104', '21211', '21212', '27211', '99111', '99333', '99555' ],
+                udi: [ '{01}123456789' ]
+            }
+            
             field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :fhirType, class_name:'FHIR::Coding'
@@ -133,6 +169,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                priorMaterial: [ '1', '2', '3', '4' ]
+            }
+            
             field :initial, type: Boolean
             field :priorDate, type: String
             validates :priorDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
@@ -144,6 +185,15 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirModifier: [ 'A', 'B', 'C', 'E', 'X' ],
+                bodySite: [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '11', '12', '13', '14', '15', '16', '17', '18', '21', '22', '23', '24', '25', '26', '27', '28', '31', '32', '33', '34', '35', '36', '37', '38', '41', '42', '43', '44', '45', '46', '47', '48' ],
+                service: [ '1101', '1102', '1103', '1201', '1205', '2101', '2102', '2141', '2601', '11101', '11102', '11103', '11104', '21211', '21212', '27211', '99111', '99333', '99555' ],
+                subSite: [ 'M', 'O', 'I', 'D', 'B', 'V', 'L', 'MO', 'DO', 'DI', 'MOD' ],
+                udi: [ '{01}123456789' ]
+            }
+            
             field :sequence, type: Integer
             validates_presence_of :sequence
             embeds_one :fhirType, class_name:'FHIR::Coding'
@@ -172,6 +222,12 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                reason: [ 'E', 'C', 'U', 'O' ],
+                tooth: [ '11', '12', '13', '14', '15', '16', '17', '18', '21', '22', '23', '24', '25', '26', '27', '28', '31', '32', '33', '34', '35', '36', '37', '38', '41', '42', '43', '44', '45', '46', '47', '48' ]
+            }
+            
             embeds_one :tooth, class_name:'FHIR::Coding'
             validates_presence_of :tooth
             embeds_one :reason, class_name:'FHIR::Coding'
@@ -180,7 +236,6 @@ module FHIR
         end
         
         field :fhirType, type: String
-        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :ruleset, class_name:'FHIR::Coding'
@@ -191,7 +246,6 @@ module FHIR
         embeds_one :provider, class_name:'FHIR::Reference'
         embeds_one :organization, class_name:'FHIR::Reference'
         field :use, type: String
-        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
         embeds_one :priority, class_name:'FHIR::Coding'
         embeds_one :fundsReserve, class_name:'FHIR::Coding'
         embeds_one :enterer, class_name:'FHIR::Reference'

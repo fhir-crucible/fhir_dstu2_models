@@ -37,11 +37,18 @@ module FHIR
         
         SEARCH_PARAMS = [
             'identifier',
+            'container-identifier',
+            'code',
             'quantity',
             'substance',
             'expiry',
-            'type'
+            'category'
         ]
+        
+        VALID_CODES = {
+            category: [ 'allergen', 'biological', 'body', 'chemical', 'food', 'drug', 'material' ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec instance
         class SubstanceInstanceComponent
         include Mongoid::Document
@@ -63,10 +70,12 @@ module FHIR
             validates_presence_of :substance
         end
         
-        embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-        validates_presence_of :fhirType
+        embeds_many :identifier, class_name:'FHIR::Identifier'
+        embeds_many :category, class_name:'FHIR::CodeableConcept'
+        embeds_one :code, class_name:'FHIR::CodeableConcept'
+        validates_presence_of :code
         field :description, type: String
-        embeds_one :instance, class_name:'FHIR::Substance::SubstanceInstanceComponent'
+        embeds_many :instance, class_name:'FHIR::Substance::SubstanceInstanceComponent'
         embeds_many :ingredient, class_name:'FHIR::Substance::SubstanceIngredientComponent'
         track_history
     end

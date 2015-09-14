@@ -37,36 +37,41 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'identifier',
             'code',
+            'subject',
+            'component-data-absent-reason',
+            'value-concept',
+            'value-date',
+            'related',
+            'patient',
+            'specimen',
+            'component-code',
+            'value-string',
+            'identifier',
+            'component-code-value-[x]',
             'code-value-[x]',
             'performer',
             'value-quantity',
-            'subject',
-            'reliability',
-            'value-concept',
-            'value-date',
+            'component-value-quantity',
             'data-absent-reason',
             'encounter',
             'related-type',
             'related-target',
-            'related',
-            'patient',
-            'specimen',
-            'value-string',
+            'component-value-string',
+            'component-value-concept',
+            'category',
             'device',
             'status'
         ]
         
         VALID_CODES = {
-            reliability: [ "ok", "ongoing", "early", "questionable", "calibrating", "error", "unknown" ],
-            status: [ "registered", "preliminary", "final", "amended", "cancelled", "entered-in-error", "unknown" ]
+            category: [ 'social-history', 'vital-signs', 'imaging', 'laboratory', 'procedure', 'survey', 'exam', 'therapy' ],
+            status: [ 'registered', 'preliminary', 'final', 'amended', 'cancelled', 'entered-in-error', 'unknown' ]
         }
         
         MULTIPLE_TYPES = {
-            bodySite: [ "bodySiteCodeableConcept", "bodySiteReference" ],
-            applies: [ "appliesDateTime", "appliesPeriod" ],
-            value: [ "valueQuantity", "valueCodeableConcept", "valueString", "valueRange", "valueRatio", "valueSampledData", "valueAttachment", "valueTime", "valueDateTime", "valuePeriod" ]
+            effective: [ 'effectiveDateTime', 'effectivePeriod' ],
+            value: [ 'valueQuantity', 'valueCodeableConcept', 'valueString', 'valueRange', 'valueRatio', 'valueSampledData', 'valueAttachment', 'valueTime', 'valueDateTime', 'valuePeriod' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec referenceRange
@@ -74,6 +79,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                meaning: [ 'type', 'normal', 'recommended', 'treatment', 'therapeutic', 'pre', 'post', 'endocrine', 'pre-puberty', 'follicular', 'midcycle', 'luteal', 'postmeopausal', '248153007', '248152002', '77386006' ]
+            }
+            
             embeds_one :low, class_name:'FHIR::Quantity'
             embeds_one :high, class_name:'FHIR::Quantity'
             embeds_one :meaning, class_name:'FHIR::CodeableConcept'
@@ -88,17 +98,55 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "has-component", "has-member", "derived-from", "sequel-to", "replaces", "qualified-by", "interfered-by" ]
+                fhirType: [ 'has-member', 'derived-from', 'sequel-to', 'replaces', 'qualified-by', 'interfered-by' ]
             }
             
             field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
             embeds_one :target, class_name:'FHIR::Reference'
             validates_presence_of :target
         end
         
+        # This is an ugly hack to deal with embedded structures in the spec component
+        class ObservationComponentComponent
+        include Mongoid::Document
+        include FHIR::Element
+        include FHIR::Formats::Utilities
+            MULTIPLE_TYPES = {
+                value: [ 'valueQuantity', 'valueCodeableConcept', 'valueString', 'valueRange', 'valueRatio', 'valueSampledData', 'valueAttachment', 'valueTime', 'valueDateTime', 'valuePeriod' ]
+            }
+            
+            embeds_one :code, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :code
+            embeds_one :valueQuantity, class_name:'FHIR::Quantity'
+            embeds_one :valueCodeableConcept, class_name:'FHIR::CodeableConcept'
+            field :valueString, type: String
+            embeds_one :valueRange, class_name:'FHIR::Range'
+            embeds_one :valueRatio, class_name:'FHIR::Ratio'
+            embeds_one :valueSampledData, class_name:'FHIR::SampledData'
+            embeds_one :valueAttachment, class_name:'FHIR::Attachment'
+            field :valueTime, type: String
+            validates :valueTime, :allow_nil => true, :format => {  with: /\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/ }
+            field :valueDateTime, type: String
+            validates :valueDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+            embeds_one :valuePeriod, class_name:'FHIR::Period'
+            embeds_one :dataAbsentReason, class_name:'FHIR::CodeableConcept'
+            embeds_many :referenceRange, class_name:'FHIR::Observation::ObservationReferenceRangeComponent'
+        end
+        
+        embeds_many :identifier, class_name:'FHIR::Identifier'
+        field :status, type: String
+        validates_presence_of :status
+        embeds_one :category, class_name:'FHIR::CodeableConcept'
         embeds_one :code, class_name:'FHIR::CodeableConcept'
         validates_presence_of :code
+        embeds_one :subject, class_name:'FHIR::Reference'
+        embeds_one :encounter, class_name:'FHIR::Reference'
+        field :effectiveDateTime, type: String
+        validates :effectiveDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        embeds_one :effectivePeriod, class_name:'FHIR::Period'
+        field :issued, type: String
+        validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
+        embeds_many :performer, class_name:'FHIR::Reference'
         embeds_one :valueQuantity, class_name:'FHIR::Quantity'
         embeds_one :valueCodeableConcept, class_name:'FHIR::CodeableConcept'
         field :valueString, type: String
@@ -114,27 +162,13 @@ module FHIR
         embeds_one :dataAbsentReason, class_name:'FHIR::CodeableConcept'
         embeds_one :interpretation, class_name:'FHIR::CodeableConcept'
         field :comments, type: String
-        field :appliesDateTime, type: String
-        validates :appliesDateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
-        embeds_one :appliesPeriod, class_name:'FHIR::Period'
-        field :issued, type: String
-        validates :issued, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
-        field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
-        validates_presence_of :status
-        field :reliability, type: String
-        validates :reliability, :inclusion => { in: VALID_CODES[:reliability], :allow_nil => true }
-        embeds_one :bodySiteCodeableConcept, class_name:'FHIR::CodeableConcept'
-        embeds_one :bodySiteReference, class_name:'FHIR::Reference'
+        embeds_one :bodySite, class_name:'FHIR::CodeableConcept'
         embeds_one :method, class_name:'FHIR::CodeableConcept'
-        embeds_many :identifier, class_name:'FHIR::Identifier'
-        embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :specimen, class_name:'FHIR::Reference'
-        embeds_many :performer, class_name:'FHIR::Reference'
         embeds_one :device, class_name:'FHIR::Reference'
-        embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_many :referenceRange, class_name:'FHIR::Observation::ObservationReferenceRangeComponent'
         embeds_many :related, class_name:'FHIR::Observation::ObservationRelatedComponent'
+        embeds_many :component, class_name:'FHIR::Observation::ObservationComponentComponent'
         track_history
     end
 end

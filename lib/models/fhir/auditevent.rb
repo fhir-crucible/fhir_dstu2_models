@@ -38,7 +38,6 @@ module FHIR
         SEARCH_PARAMS = [
             'date',
             'address',
-            'patientid',
             'source',
             'type',
             'altid',
@@ -62,20 +61,20 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                action: [ "C", "R", "U", "D", "E" ],
-                outcome: [ "0", "4", "8", "12" ]
+                subtype: [ '110120', '110121', '110122', '110123', '110124', '110125', '110126', '110127', '110128', '110129', '110130', '110131', '110132', '110133', '110134', '110135', '110136', '110137', '110138', '110139', '110140', '110141', '110142' ],
+                action: [ 'C', 'R', 'U', 'D', 'E' ],
+                fhirType: [ 'rest', '110100', '110101', '110102', '110103', '110104', '110105', '110106', '110107', '110108', '110109', '110110', '110111', '110112', '110113', '110114' ],
+                outcome: [ '0', '4', '8', '12' ]
             }
             
-            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
+            embeds_one :fhirType, class_name:'FHIR::Coding'
             validates_presence_of :fhirType
-            embeds_many :subtype, class_name:'FHIR::CodeableConcept'
+            embeds_many :subtype, class_name:'FHIR::Coding'
             field :action, type: String
-            validates :action, :inclusion => { in: VALID_CODES[:action], :allow_nil => true }
             field :dateTime, type: String
             validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
             validates_presence_of :dateTime
             field :outcome, type: String
-            validates :outcome, :inclusion => { in: VALID_CODES[:outcome], :allow_nil => true }
             field :outcomeDesc, type: String
             embeds_many :purposeOfEvent, class_name:'FHIR::Coding'
         end
@@ -87,12 +86,11 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "1", "2", "3", "4", "5" ]
+                fhirType: [ '1', '2', '3', '4', '5' ]
             }
             
-            field :identifier, type: String
+            field :address, type: String
             field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec participant
@@ -100,9 +98,15 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                role: [ '110150', '110151', '110152', '110153', '110154', '110155' ],
+                media: [ '110030', '110031', '110032', '110033', '110034', '110035', '110036', '110037', '110010', '110038' ]
+            }
+            
             embeds_many :role, class_name:'FHIR::CodeableConcept'
             embeds_one :reference, class_name:'FHIR::Reference'
-            field :userId, type: String
+            embeds_one :userId, class_name:'FHIR::Identifier'
             field :altId, type: String
             field :name, type: String
             field :requestor, type: Boolean
@@ -119,8 +123,13 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                fhirType: [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+            }
+            
             field :site, type: String
-            field :identifier, type: String
+            embeds_one :identifier, class_name:'FHIR::Identifier'
             validates_presence_of :identifier
             embeds_many :fhirType, class_name:'FHIR::Coding'
         end
@@ -132,7 +141,7 @@ module FHIR
         include FHIR::Formats::Utilities
             field :fhirType, type: String
             validates_presence_of :fhirType
-            field :value, type: Moped::BSON::Binary
+            field :value, type: String
             validates_presence_of :value
         end
         
@@ -143,23 +152,20 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                lifecycle: [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" ],
-                role: [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" ],
-                fhirType: [ "1", "2", "3", "4" ]
+                lifecycle: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15' ],
+                role: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24' ],
+                fhirType: [ '1', '2', '3', '4' ]
             }
             
             embeds_one :identifier, class_name:'FHIR::Identifier'
             embeds_one :reference, class_name:'FHIR::Reference'
-            field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
-            field :role, type: String
-            validates :role, :inclusion => { in: VALID_CODES[:role], :allow_nil => true }
-            field :lifecycle, type: String
-            validates :lifecycle, :inclusion => { in: VALID_CODES[:lifecycle], :allow_nil => true }
-            embeds_one :sensitivity, class_name:'FHIR::CodeableConcept'
+            embeds_one :fhirType, class_name:'FHIR::Coding'
+            embeds_one :role, class_name:'FHIR::Coding'
+            embeds_one :lifecycle, class_name:'FHIR::Coding'
+            embeds_many :securityLabel, class_name:'FHIR::Coding'
             field :name, type: String
             field :description, type: String
-            field :query, type: Moped::BSON::Binary
+            field :query, type: String
             embeds_many :detail, class_name:'FHIR::AuditEvent::AuditEventObjectDetailComponent'
         end
         

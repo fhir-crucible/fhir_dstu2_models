@@ -46,7 +46,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "requested", "active", "error", "off" ]
+            tag: [ 'queued', 'delivered' ],
+            status: [ 'requested', 'active', 'error', 'off' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec channel
@@ -56,11 +57,10 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "rest-hook", "websocket", "email", "sms", "message" ]
+                fhirType: [ 'rest-hook', 'websocket', 'email', 'sms', 'message' ]
             }
             
             field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
             field :endpoint, type: String
             field :payload, type: String
@@ -74,7 +74,6 @@ module FHIR
         field :reason, type: String
         validates_presence_of :reason
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :error, type: String
         embeds_one :channel, class_name:'FHIR::Subscription::SubscriptionChannelComponent'

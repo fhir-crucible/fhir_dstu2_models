@@ -36,13 +36,12 @@ module FHIR
         
         
         VALID_CODES = {
-            comparator: [ "<", "<=", ">=", ">" ]
+            comparator: [ '<', '<=', '>=', '>' ]
         }
         
         field :value, type: Float
         field :comparator, type: String
-        validates :comparator, :inclusion => { in: VALID_CODES[:comparator], :allow_nil => true }
-        field :units, type: String
+        field :unit, type: String
         field :system, type: String
         field :code, type: String
         track_history

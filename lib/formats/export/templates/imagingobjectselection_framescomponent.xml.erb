@@ -2,6 +2,6 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (model.frameNumbers() && !model.frameNumbers.empty?) -%><%- model.frameNumbers().each do |element| -%><frameNumbers value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
+    <%- if (model.frameNumbers && !model.frameNumbers.empty?) -%><%- model.frameNumbers.each_with_index do |element,index| -%><frameNumbers value="<%= element %>"<%- if model.has_primitive_extension?('frameNumbers',index) -%>><%== model.get_primitive_extension('frameNumbers',index).to_xml(is_root: false, is_lowercase: true)  %></frameNumbers><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url %>"<%- if model.has_primitive_extension?('url') -%>><%== model.get_primitive_extension('url').to_xml(is_root: false, is_lowercase: true)  %></url><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

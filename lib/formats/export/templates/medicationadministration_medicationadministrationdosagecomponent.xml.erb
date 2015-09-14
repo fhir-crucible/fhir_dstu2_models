@@ -2,10 +2,12 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.text().nil? -%><text value="<%= model.text() %>"/><%- end -%>
-    <%- if !model.site().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'site', model: model.site()} %><%- end -%>
+    <%- if !model.text().nil? -%><text value="<%= model.text %>"<%- if model.has_primitive_extension?('text') -%>><%== model.get_primitive_extension('text').to_xml(is_root: false, is_lowercase: true)  %></text><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.siteCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'siteCodeableConcept', model: model.siteCodeableConcept()} %><%- end -%>
+    <%- if !model.siteReference().nil? -%><%== render :template => 'reference', :locals => {name: 'siteReference', model: model.siteReference()} %><%- end -%>
     <%- if !model.route().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'route', model: model.route()} %><%- end -%>
     <%- if !model.method().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'method', model: model.method()} %><%- end -%>
     <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
-    <%- if !model.rate().nil? -%><%== render :template => 'ratio', :locals => {name: 'rate', model: model.rate()} %><%- end -%>
+    <%- if !model.rateRatio().nil? -%><%== render :template => 'ratio', :locals => {name: 'rateRatio', model: model.rateRatio()} %><%- end -%>
+    <%- if !model.rateRange().nil? -%><%== render :template => 'range', :locals => {name: 'rateRange', model: model.rateRange()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

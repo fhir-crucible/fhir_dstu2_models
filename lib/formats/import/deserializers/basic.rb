@@ -12,7 +12,7 @@ module FHIR
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'author', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:author')))
-                set_model_data(model, 'created', entry.at_xpath('./fhir:created/@value').try(:value))
+                parse_primitive_field(model,entry,'created','created',false)
                 model
             end
         end

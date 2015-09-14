@@ -38,18 +38,14 @@ module FHIR
         SEARCH_PARAMS = [
             'date',
             'request',
+            'identifier',
             'code',
-            'patient',
             'fulfillment',
             'who'
         ]
         
         VALID_CODES = {
-            orderStatus: [ "pending", "review", "rejected", "error", "accepted", "cancelled", "replaced", "aborted", "completed" ]
-        }
-        
-        MULTIPLE_TYPES = {
-            authority: [ "authorityCodeableConcept", "authorityReference" ]
+            orderStatus: [ 'pending', 'review', 'rejected', 'error', 'accepted', 'cancelled', 'replaced', 'aborted', 'completed' ]
         }
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -58,10 +54,7 @@ module FHIR
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :who, class_name:'FHIR::Reference'
-        embeds_one :authorityCodeableConcept, class_name:'FHIR::CodeableConcept'
-        embeds_one :authorityReference, class_name:'FHIR::Reference'
         field :orderStatus, type: String
-        validates :orderStatus, :inclusion => { in: VALID_CODES[:orderStatus] }
         validates_presence_of :orderStatus
         field :description, type: String
         embeds_many :fulfillment, class_name:'FHIR::Reference'

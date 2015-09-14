@@ -7,10 +7,11 @@ module FHIR
                 return nil unless entry
                 model = FHIR::OperationOutcome::OperationOutcomeIssueComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'severity', entry.at_xpath('./fhir:severity/@value').try(:value))
-                set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
-                set_model_data(model, 'details', entry.at_xpath('./fhir:details/@value').try(:value))
-                set_model_data(model, 'location', entry.xpath('./fhir:location/@value').map {|e| e.value })
+                parse_primitive_field(model,entry,'severity','severity',false)
+                parse_primitive_field(model,entry,'code','code',false)
+                set_model_data(model, 'details', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:details')))
+                parse_primitive_field(model,entry,'diagnostics','diagnostics',false)
+                parse_primitive_field(model,entry,'location','location',true)
                 model
             end
             

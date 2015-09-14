@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.medicationCodeableConcept().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'medicationCodeableConcept', model: model.medicationCodeableConcept()} %><%- end -%>
+    <%- if !model.medicationReference().nil? -%><%== render :template => 'reference', :locals => {name: 'medicationReference', model: model.medicationReference()} %><%- end -%>
+    <%- if !model.validityPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'validityPeriod', model: model.validityPeriod()} %><%- end -%>
+    <%- if !model.numberOfRepeatsAllowed().nil? -%><numberOfRepeatsAllowed value="<%= model.numberOfRepeatsAllowed %>"<%- if model.has_primitive_extension?('numberOfRepeatsAllowed') -%>><%== model.get_primitive_extension('numberOfRepeatsAllowed').to_xml(is_root: false, is_lowercase: true)  %></numberOfRepeatsAllowed><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
+    <%- if !model.expectedSupplyDuration().nil? -%><%== render :template => 'quantity', :locals => {name: 'expectedSupplyDuration', model: model.expectedSupplyDuration()} %><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

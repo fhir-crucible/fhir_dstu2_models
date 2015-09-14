@@ -7,12 +7,12 @@ module FHIR
                 return nil unless entry
                 model = FHIR::AuditEvent::AuditEventEventComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
-                set_model_data(model, 'subtype', entry.xpath('./fhir:subtype').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'action', entry.at_xpath('./fhir:action/@value').try(:value))
-                set_model_data(model, 'dateTime', entry.at_xpath('./fhir:dateTime/@value').try(:value))
-                set_model_data(model, 'outcome', entry.at_xpath('./fhir:outcome/@value').try(:value))
-                set_model_data(model, 'outcomeDesc', entry.at_xpath('./fhir:outcomeDesc/@value').try(:value))
+                set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
+                set_model_data(model, 'subtype', entry.xpath('./fhir:subtype').map {|e| FHIR::Coding.parse_xml_entry(e)})
+                parse_primitive_field(model,entry,'action','action',false)
+                parse_primitive_field(model,entry,'dateTime','dateTime',false)
+                parse_primitive_field(model,entry,'outcome','outcome',false)
+                parse_primitive_field(model,entry,'outcomeDesc','outcomeDesc',false)
                 set_model_data(model, 'purposeOfEvent', entry.xpath('./fhir:purposeOfEvent').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 model
             end
@@ -21,8 +21,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::AuditEvent::AuditEventParticipantNetworkComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
+                parse_primitive_field(model,entry,'address','address',false)
+                parse_primitive_field(model,entry,'type','fhirType',false)
                 model
             end
             
@@ -32,12 +32,12 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'role', entry.xpath('./fhir:role').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'reference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:reference')))
-                set_model_data(model, 'userId', entry.at_xpath('./fhir:userId/@value').try(:value))
-                set_model_data(model, 'altId', entry.at_xpath('./fhir:altId/@value').try(:value))
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'requestor', entry.at_xpath('./fhir:requestor/@value').try(:value))
+                set_model_data(model, 'userId', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:userId')))
+                parse_primitive_field(model,entry,'altId','altId',false)
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'requestor','requestor',false)
                 set_model_data(model, 'location', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:location')))
-                set_model_data(model, 'policy', entry.xpath('./fhir:policy/@value').map {|e| e.value })
+                parse_primitive_field(model,entry,'policy','policy',true)
                 set_model_data(model, 'media', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:media')))
                 set_model_data(model, 'network', parse_xml_entry_AuditEventParticipantNetworkComponent(entry.at_xpath('./fhir:network')))
                 set_model_data(model, 'purposeOfUse', entry.xpath('./fhir:purposeOfUse').map {|e| FHIR::Coding.parse_xml_entry(e)})
@@ -48,8 +48,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::AuditEvent::AuditEventSourceComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'site', entry.at_xpath('./fhir:site/@value').try(:value))
-                set_model_data(model, 'identifier', entry.at_xpath('./fhir:identifier/@value').try(:value))
+                parse_primitive_field(model,entry,'site','site',false)
+                set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
                 set_model_data(model, 'fhirType', entry.xpath('./fhir:type').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 model
             end
@@ -58,8 +58,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::AuditEvent::AuditEventObjectDetailComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'value', entry.at_xpath('./fhir:value/@value').try(:value))
+                parse_primitive_field(model,entry,'type','fhirType',false)
+                parse_primitive_field(model,entry,'value','value',false)
                 model
             end
             
@@ -69,13 +69,13 @@ module FHIR
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
                 set_model_data(model, 'reference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:reference')))
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'role', entry.at_xpath('./fhir:role/@value').try(:value))
-                set_model_data(model, 'lifecycle', entry.at_xpath('./fhir:lifecycle/@value').try(:value))
-                set_model_data(model, 'sensitivity', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:sensitivity')))
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'query', entry.at_xpath('./fhir:query/@value').try(:value))
+                set_model_data(model, 'fhirType', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:type')))
+                set_model_data(model, 'role', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:role')))
+                set_model_data(model, 'lifecycle', FHIR::Coding.parse_xml_entry(entry.at_xpath('./fhir:lifecycle')))
+                set_model_data(model, 'securityLabel', entry.xpath('./fhir:securityLabel').map {|e| FHIR::Coding.parse_xml_entry(e)})
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'description','description',false)
+                parse_primitive_field(model,entry,'query','query',false)
                 set_model_data(model, 'detail', entry.xpath('./fhir:detail').map {|e| parse_xml_entry_AuditEventObjectDetailComponent(e)})
                 model
             end

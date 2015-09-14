@@ -7,8 +7,8 @@ module FHIR
                 return nil unless entry
                 model = self.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'start', entry.at_xpath('./fhir:start/@value').try(:value))
-                set_model_data(model, 'end', entry.at_xpath('./fhir:end/@value').try(:value))
+                parse_primitive_field(model,entry,'start','start',false)
+                parse_primitive_field(model,entry,'end','end',false)
                 model
             end
         end

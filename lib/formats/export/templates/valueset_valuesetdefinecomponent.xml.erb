@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.system().nil? -%><system value="<%= model.system() %>"/><%- end -%>
-    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum() %>"/><%- end -%>
-    <%- if !model.caseSensitive().nil? -%><caseSensitive value="<%= model.caseSensitive() %>"/><%- end -%>
-    <%- if (!model.concept().nil? && !model.concept.empty?) -%><%- model.concept().each do |element| -%><%== render :template => 'valueset_conceptdefinitioncomponent', :locals => {name: 'concept', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

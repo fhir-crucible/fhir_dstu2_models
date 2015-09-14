@@ -37,17 +37,22 @@ module FHIR
         
         SEARCH_PARAMS = [
             'date',
-            'patient'
+            'identifier',
+            'code',
+            'gender',
+            'patient',
+            'relationship'
         ]
         
         VALID_CODES = {
-            gender: [ "male", "female", "other", "unknown" ]
+            gender: [ 'male', 'female', 'other', 'unknown' ],
+            status: [ 'partial', 'completed', 'entered-in-error', 'health-unknown' ]
         }
         
         MULTIPLE_TYPES = {
-            deceased: [ "deceasedBoolean", "deceasedAge", "deceasedRange", "deceasedDate", "deceasedString" ],
-            born: [ "bornPeriod", "bornDate", "bornString" ],
-            age: [ "ageAge", "ageRange", "ageString" ]
+            deceased: [ 'deceasedBoolean', 'deceasedQuantity', 'deceasedRange', 'deceasedDate', 'deceasedString' ],
+            born: [ 'bornPeriod', 'bornDate', 'bornString' ],
+            age: [ 'ageQuantity', 'ageRange', 'ageString' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec condition
@@ -56,16 +61,17 @@ module FHIR
         include FHIR::Element
         include FHIR::Formats::Utilities
             MULTIPLE_TYPES = {
-                onset: [ "onsetAge", "onsetRange", "onsetString" ]
+                onset: [ 'onsetQuantity', 'onsetRange', 'onsetPeriod', 'onsetString' ]
             }
             
-            embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
-            validates_presence_of :fhirType
+            embeds_one :code, class_name:'FHIR::CodeableConcept'
+            validates_presence_of :code
             embeds_one :outcome, class_name:'FHIR::CodeableConcept'
-            embeds_one :onsetAge, class_name:'FHIR::Quantity'
+            embeds_one :onsetQuantity, class_name:'FHIR::Quantity'
             embeds_one :onsetRange, class_name:'FHIR::Range'
+            embeds_one :onsetPeriod, class_name:'FHIR::Period'
             field :onsetString, type: String
-            field :note, type: String
+            embeds_one :note, class_name:'FHIR::Annotation'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
@@ -73,6 +79,8 @@ module FHIR
         validates_presence_of :patient
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
+        field :status, type: String
+        validates_presence_of :status
         field :name, type: String
         embeds_one :relationship, class_name:'FHIR::CodeableConcept'
         validates_presence_of :relationship
@@ -82,16 +90,16 @@ module FHIR
         field :bornDate, type: String
         validates :bornDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         field :bornString, type: String
-        embeds_one :ageAge, class_name:'FHIR::Quantity'
+        embeds_one :ageQuantity, class_name:'FHIR::Quantity'
         embeds_one :ageRange, class_name:'FHIR::Range'
         field :ageString, type: String
         field :deceasedBoolean, type: Boolean
-        embeds_one :deceasedAge, class_name:'FHIR::Quantity'
+        embeds_one :deceasedQuantity, class_name:'FHIR::Quantity'
         embeds_one :deceasedRange, class_name:'FHIR::Range'
         field :deceasedDate, type: String
         validates :deceasedDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
         field :deceasedString, type: String
-        field :note, type: String
+        embeds_one :note, class_name:'FHIR::Annotation'
         embeds_many :condition, class_name:'FHIR::FamilyMemberHistory::FamilyMemberHistoryConditionComponent'
         track_history
     end

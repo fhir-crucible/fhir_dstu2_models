@@ -29,7 +29,6 @@ module FHIR
           model.modifierExtension ||= []
           model.modifierExtension << FHIR::Extension.parse_xml_entry(extension_entry)
         end
-
       end
 
       # parse elements from the base resource
@@ -52,17 +51,57 @@ module FHIR
       end
 
       def parse_resource_metadata(entry) 
-          return nil unless entry
-          model = FHIR::Resource::ResourceMetaComponent.new
-          self.parse_element_data(model, entry)
-          set_model_data(model, 'versionId', entry.at_xpath('./fhir:versionId/@value').try(:value))
-          set_model_data(model, 'lastUpdated', entry.at_xpath('./fhir:lastUpdated/@value').try(:value))
-          set_model_data(model, 'profile', entry.xpath('./fhir:profile/@value').map {|e| e.value })
-          set_model_data(model, 'security', entry.xpath('./fhir:security').map {|e| FHIR::Coding.parse_xml_entry(e)})
-          set_model_data(model, 'tag', entry.xpath('./fhir:tag').map {|e| FHIR::Coding.parse_xml_entry(e)})
-          model
+        return nil unless entry
+        model = FHIR::Resource::ResourceMetaComponent.new
+        self.parse_element_data(model, entry)
+        set_model_data(model, 'versionId', entry.at_xpath('./fhir:versionId/@value').try(:value))
+        set_model_data(model, 'lastUpdated', entry.at_xpath('./fhir:lastUpdated/@value').try(:value))
+        set_model_data(model, 'profile', entry.xpath('./fhir:profile/@value').map {|e| e.value })
+        set_model_data(model, 'security', entry.xpath('./fhir:security').map {|e| FHIR::Coding.parse_xml_entry(e)})
+        set_model_data(model, 'tag', entry.xpath('./fhir:tag').map {|e| FHIR::Coding.parse_xml_entry(e)})
+        model
       end
 
+      def parse_primitive_field(model,entry,xmlField,modelField,multipleCardinality=false)
+        return nil unless entry && xmlField && modelField
+
+        selector = "./fhir:#{xmlField}"
+        extension_selector = "./fhir:extension"
+
+        if multipleCardinality
+          data = []
+          extensions = []
+          entry.xpath(selector).each do |e|
+            data << e.at_xpath('@value').try(:value)
+            extension = e.at_xpath(extension_selector)
+            if extension
+              extensions << FHIR::Extension.parse_xml_entry(extension)
+            else
+              extensions << nil
+            end
+          end
+          set_model_data(model,modelField,data)
+          if extensions.select{|x|!x.nil?}.any?
+            pext = FHIR::PrimitiveExtension.new
+            pext['path'] = "_#{xmlField}"
+            pext['extension'] = extensions
+            model['primitiveExtension'] ||= []
+            model['primitiveExtension'] << pext
+          end
+        else
+          element = entry.at_xpath(selector)
+          data = element.at_xpath('@value').try(:value) if element
+          set_model_data(model,modelField,data)
+          extension = FHIR::Extension.parse_xml_entry( element.at_xpath(extension_selector) ) if element
+          if extension
+            pext = FHIR::PrimitiveExtension.new
+            pext['path'] = "_#{xmlField}"
+            pext['extension'] = [ extension ]
+            model['primitiveExtension'] ||= []
+            model['primitiveExtension'] << pext 
+          end
+        end
+      end
 
       # Deserialize JSON into a single FHIR Resource
       def from_fhir_json(json)
@@ -98,8 +137,56 @@ module FHIR
         
         h.each do |key,value| 
           fixed = fix_key(key)
+
+          if fixed[0]=='_'
+            r = Regexp.new "^#{fixed[1..-1]}="
+            s = objClass.instance_methods.grep r
+            if !s.empty?
+              # this should be a hash holding with one property 'extension'
+              # which contains an array of extensions
+              begin
+                pext = FHIR::PrimitiveExtension.new
+                pext['path'] = fixed
+                if value.is_a? Hash
+                  pext['extension'] = [ decodeExtension( value['extension'].first, depth+1 ) ] if value['extension'].try(:first)
+                elsif value.is_a? Array
+                  pext['extension'] = value.map do | extension |
+                    ext = nil
+                    ext = decodeExtension( extension['extension'].first, depth+1 ) if !extension.nil?
+                    ext
+                  end
+                end
+                if pext['extension']
+                  obj['primitiveExtension'] = [] if obj['primitiveExtension'].nil?
+                 obj['primitiveExtension'] << pext
+                end
+              rescue Exception => e
+                # binding.pry
+              end
+            end
+            next
+          end
+
           regex = Regexp.new "^#{fixed}="
           setter = objClass.instance_methods.grep regex
+          if setter.empty?
+            # AnyType check, looking for a method of the format 'prefix=' where our
+            # current fixed/key is something like prefixDecimal (e.g. prefix[x] of AnyType)
+            begin
+              prefixes = objClass::ANY_TYPES.select{|x| fixed.starts_with?(x)}
+              prefixes.each do |prefix|
+                regex = Regexp.new "^#{prefix}="
+                temp = objClass.instance_methods.grep(regex) 
+                if !temp.empty?
+                  datatype = fixed.gsub(prefix,'')
+                  obj[prefix] = FHIR::AnyType.new(datatype,value)
+                end
+              end
+            rescue Exception => e
+              # this class does not have any attributes with type=='*'
+            end
+          end
+
           if !setter.empty?
             if value.is_a? Hash
               # puts ' ' * depth + "Key: #{key} is a Hash"
@@ -139,19 +226,7 @@ module FHIR
                       # puts ' ' * depth + " -- Array Item is a #{metadata.class_name}"
                       child = nil
                       if metadata.class_name=='FHIR::Extension'
-                        child = FHIR::Extension.new
-                        child.url = item['url']
-                        item.keys.each do |ekey|
-                          if ekey.starts_with? 'value'
-                            child.valueType = ekey[5..-1]
-                            if item[ekey].is_a? Hash
-                              item[ekey]['resourceType'] = ekey[5..-1]
-                              child.value = decodeHash(item[ekey],depth)
-                            else
-                              child.value = item[ekey]
-                            end
-                          end
-                        end
+                        child = decodeExtension(item,depth+1)
                       else
                         item['resourceType'] = metadata.class_name
                         child = decodeHash(item,depth+1)
@@ -182,9 +257,42 @@ module FHIR
             # puts ' ' * depth + "Ignoring '#{key}', no associated setter."
           end
         end
-         
+
         obj
       end # eof decodeHash function
+
+      def decodeExtension(item,depth)
+        child = FHIR::Extension.new
+        begin
+          child.url = item['url']
+        rescue Exception => e
+          puts e.message
+          # binding.pry
+        end
+        item.keys.each do |ekey|
+          if ekey.starts_with? 'value'
+            d = ekey[5..-1]
+            if item[ekey].is_a? Hash
+              item[ekey]['resourceType'] = ekey[5..-1]
+              v = decodeHash(item[ekey],depth+1)
+            else
+              v = item[ekey]
+            end
+            child.value = FHIR::AnyType.new(d,v)
+          elsif ekey == 'extension'
+            child.extension = [] if child.extension.nil?
+            item[ekey].each do |x|
+              child.extension << decodeExtension(x,depth+1)
+            end
+          elsif ekey == 'modifierExtension'
+            child.modifierExtension = [] if child.modifierExtension.nil?
+            item[ekey].each do |x|
+              child.modifierExtension << decodeExtension(x,depth+1)
+            end  
+          end
+        end
+        child
+      end
 
     end
   end

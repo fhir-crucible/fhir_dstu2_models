@@ -7,8 +7,17 @@ module FHIR
                 return nil unless entry
                 model = FHIR::DocumentReference::DocumentReferenceRelatesToComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'code', entry.at_xpath('./fhir:code/@value').try(:value))
+                parse_primitive_field(model,entry,'code','code',false)
                 set_model_data(model, 'target', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:target')))
+                model
+            end
+            
+            def parse_xml_entry_DocumentReferenceContentComponent(entry) 
+                return nil unless entry
+                model = FHIR::DocumentReference::DocumentReferenceContentComponent.new
+                self.parse_element_data(model, entry)
+                set_model_data(model, 'attachment', FHIR::Attachment.parse_xml_entry(entry.at_xpath('./fhir:attachment')))
+                set_model_data(model, 'format', entry.xpath('./fhir:format').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 model
             end
             
@@ -25,6 +34,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::DocumentReference::DocumentReferenceContextComponent.new
                 self.parse_element_data(model, entry)
+                set_model_data(model, 'encounter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:encounter')))
                 set_model_data(model, 'event', entry.xpath('./fhir:event').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'period', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:period')))
                 set_model_data(model, 'facilityType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:facilityType')))
@@ -44,18 +54,17 @@ module FHIR
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
                 set_model_data(model, 'fhirClass', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:class')))
-                set_model_data(model, 'format', entry.xpath('./fhir:format/@value').map {|e| e.value })
                 set_model_data(model, 'author', entry.xpath('./fhir:author').map {|e| FHIR::Reference.parse_xml_entry(e)})
                 set_model_data(model, 'custodian', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:custodian')))
                 set_model_data(model, 'authenticator', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:authenticator')))
-                set_model_data(model, 'created', entry.at_xpath('./fhir:created/@value').try(:value))
-                set_model_data(model, 'indexed', entry.at_xpath('./fhir:indexed/@value').try(:value))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'created','created',false)
+                parse_primitive_field(model,entry,'indexed','indexed',false)
+                parse_primitive_field(model,entry,'status','status',false)
                 set_model_data(model, 'docStatus', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:docStatus')))
                 set_model_data(model, 'relatesTo', entry.xpath('./fhir:relatesTo').map {|e| parse_xml_entry_DocumentReferenceRelatesToComponent(e)})
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'confidentiality', entry.xpath('./fhir:confidentiality').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'content', entry.xpath('./fhir:content').map {|e| FHIR::Attachment.parse_xml_entry(e)})
+                parse_primitive_field(model,entry,'description','description',false)
+                set_model_data(model, 'securityLabel', entry.xpath('./fhir:securityLabel').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                set_model_data(model, 'content', entry.xpath('./fhir:content').map {|e| parse_xml_entry_DocumentReferenceContentComponent(e)})
                 set_model_data(model, 'context', parse_xml_entry_DocumentReferenceContextComponent(entry.at_xpath('./fhir:context')))
                 model
             end

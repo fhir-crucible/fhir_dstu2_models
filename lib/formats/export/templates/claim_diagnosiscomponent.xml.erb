@@ -2,6 +2,6 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.sequence().nil? -%><sequence value="<%= model.sequence() %>"/><%- end -%>
+    <%- if !model.sequence().nil? -%><sequence value="<%= model.sequence %>"<%- if model.has_primitive_extension?('sequence') -%>><%== model.get_primitive_extension('sequence').to_xml(is_root: false, is_lowercase: true)  %></sequence><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.diagnosis().nil? -%><%== render :template => 'coding', :locals => {name: 'diagnosis', model: model.diagnosis()} %><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

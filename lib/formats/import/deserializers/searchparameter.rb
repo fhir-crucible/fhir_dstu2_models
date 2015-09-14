@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::SearchParameter::SearchParameterContactComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
+                parse_primitive_field(model,entry,'name','name',false)
                 set_model_data(model, 'telecom', entry.xpath('./fhir:telecom').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
                 model
             end
@@ -17,19 +17,21 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'name', entry.at_xpath('./fhir:name/@value').try(:value))
-                set_model_data(model, 'publisher', entry.at_xpath('./fhir:publisher/@value').try(:value))
+                parse_primitive_field(model,entry,'url','url',false)
+                parse_primitive_field(model,entry,'name','name',false)
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'experimental','experimental',false)
+                parse_primitive_field(model,entry,'publisher','publisher',false)
                 set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| parse_xml_entry_SearchParameterContactComponent(e)})
-                set_model_data(model, 'requirements', entry.at_xpath('./fhir:requirements/@value').try(:value))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'experimental', entry.at_xpath('./fhir:experimental/@value').try(:value))
-                set_model_data(model, 'date', entry.at_xpath('./fhir:date/@value').try(:value))
-                set_model_data(model, 'base', entry.at_xpath('./fhir:base/@value').try(:value))
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'xpath', entry.at_xpath('./fhir:xpath/@value').try(:value))
-                set_model_data(model, 'target', entry.xpath('./fhir:target/@value').map {|e| e.value })
+                parse_primitive_field(model,entry,'date','date',false)
+                parse_primitive_field(model,entry,'requirements','requirements',false)
+                parse_primitive_field(model,entry,'code','code',false)
+                parse_primitive_field(model,entry,'base','base',false)
+                parse_primitive_field(model,entry,'type','fhirType',false)
+                parse_primitive_field(model,entry,'description','description',false)
+                parse_primitive_field(model,entry,'xpath','xpath',false)
+                parse_primitive_field(model,entry,'xpathUsage','xpathUsage',false)
+                parse_primitive_field(model,entry,'target','target',true)
                 model
             end
         end

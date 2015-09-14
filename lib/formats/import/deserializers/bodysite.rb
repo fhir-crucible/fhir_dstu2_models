@@ -12,7 +12,7 @@ module FHIR
                 set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
                 set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
                 set_model_data(model, 'fhirModifier', entry.xpath('./fhir:modifier').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
+                parse_primitive_field(model,entry,'description','description',false)
                 set_model_data(model, 'image', entry.xpath('./fhir:image').map {|e| FHIR::Attachment.parse_xml_entry(e)})
                 model
             end

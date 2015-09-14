@@ -38,6 +38,7 @@ module FHIR
         SEARCH_PARAMS = [
             'actor',
             'date',
+            'identifier',
             'type'
         ]
         embeds_many :identifier, class_name:'FHIR::Identifier'

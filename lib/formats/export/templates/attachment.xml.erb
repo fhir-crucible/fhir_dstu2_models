@@ -4,12 +4,12 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.contentType().nil? -%><contentType value="<%= model.contentType() %>"/><%- end -%>
-    <%- if !model.language().nil? -%><language value="<%= model.language() %>"/><%- end -%>
-    <%- if !model.data().nil? -%><data value="<%= model.data() %>"/><%- end -%>
-    <%- if !model.url().nil? -%><url value="<%= model.url() %>"/><%- end -%>
-    <%- if !model.size().nil? -%><size value="<%= model.size() %>"/><%- end -%>
-    <%- if !model.fhirHash().nil? -%><hash value="<%= model.fhirHash() %>"/><%- end -%>
-    <%- if !model.title().nil? -%><title value="<%= model.title() %>"/><%- end -%>
-    <%- if !model.creation().nil? -%><%- if (!model.creation().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><creation value="<%= model.creation %>"/><%- end -%><%- end -%>
+    <%- if !model.contentType().nil? -%><contentType value="<%= model.contentType %>"<%- if model.has_primitive_extension?('contentType') -%>><%== model.get_primitive_extension('contentType').to_xml(is_root: false, is_lowercase: true)  %></contentType><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.language().nil? -%><language value="<%= model.language %>"<%- if model.has_primitive_extension?('language') -%>><%== model.get_primitive_extension('language').to_xml(is_root: false, is_lowercase: true)  %></language><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.data().nil? -%><data value="<%= model.data %>"<%- if model.has_primitive_extension?('data') -%>><%== model.get_primitive_extension('data').to_xml(is_root: false, is_lowercase: true)  %></data><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.url().nil? -%><url value="<%= model.url %>"<%- if model.has_primitive_extension?('url') -%>><%== model.get_primitive_extension('url').to_xml(is_root: false, is_lowercase: true)  %></url><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.size().nil? -%><size value="<%= model.size %>"<%- if model.has_primitive_extension?('size') -%>><%== model.get_primitive_extension('size').to_xml(is_root: false, is_lowercase: true)  %></size><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.fhirHash().nil? -%><hash value="<%= model.fhirHash %>"<%- if model.has_primitive_extension?('fhirHash') -%>><%== model.get_primitive_extension('fhirHash').to_xml(is_root: false, is_lowercase: true)  %></hash><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.title().nil? -%><title value="<%= model.title %>"<%- if model.has_primitive_extension?('title') -%>><%== model.get_primitive_extension('title').to_xml(is_root: false, is_lowercase: true)  %></title><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.creation.nil? -%><%- if (!model.creation.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><creation value="<%= model.creation %>"<%- if model.has_primitive_extension?('creation') -%>><%== model.get_primitive_extension('creation').to_xml(is_root: false, is_lowercase: true)  %></creation><%- else -%>/><%- end -%><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

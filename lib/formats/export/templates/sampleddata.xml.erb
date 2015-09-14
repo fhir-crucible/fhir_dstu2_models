@@ -5,10 +5,10 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
     <%- if !model.origin().nil? -%><%== render :template => 'quantity', :locals => {name: 'origin', model: model.origin()} %><%- end -%>
-    <%- if !model.period().nil? -%><period value="<%= model.period() %>"/><%- end -%>
-    <%- if !model.factor().nil? -%><factor value="<%= model.factor() %>"/><%- end -%>
-    <%- if !model.lowerLimit().nil? -%><lowerLimit value="<%= model.lowerLimit() %>"/><%- end -%>
-    <%- if !model.upperLimit().nil? -%><upperLimit value="<%= model.upperLimit() %>"/><%- end -%>
-    <%- if !model.dimensions().nil? -%><dimensions value="<%= model.dimensions() %>"/><%- end -%>
-    <%- if !model.data().nil? -%><data value="<%= model.data() %>"/><%- end -%>
+    <%- if !model.period().nil? -%><period value="<%= model.period %>"<%- if model.has_primitive_extension?('period') -%>><%== model.get_primitive_extension('period').to_xml(is_root: false, is_lowercase: true)  %></period><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.factor().nil? -%><factor value="<%= model.factor %>"<%- if model.has_primitive_extension?('factor') -%>><%== model.get_primitive_extension('factor').to_xml(is_root: false, is_lowercase: true)  %></factor><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.lowerLimit().nil? -%><lowerLimit value="<%= model.lowerLimit %>"<%- if model.has_primitive_extension?('lowerLimit') -%>><%== model.get_primitive_extension('lowerLimit').to_xml(is_root: false, is_lowercase: true)  %></lowerLimit><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.upperLimit().nil? -%><upperLimit value="<%= model.upperLimit %>"<%- if model.has_primitive_extension?('upperLimit') -%>><%== model.get_primitive_extension('upperLimit').to_xml(is_root: false, is_lowercase: true)  %></upperLimit><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.dimensions().nil? -%><dimensions value="<%= model.dimensions %>"<%- if model.has_primitive_extension?('dimensions') -%>><%== model.get_primitive_extension('dimensions').to_xml(is_root: false, is_lowercase: true)  %></dimensions><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.data().nil? -%><data value="<%= model.data %>"<%- if model.has_primitive_extension?('data') -%>><%== model.get_primitive_extension('data').to_xml(is_root: false, is_lowercase: true)  %></data><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

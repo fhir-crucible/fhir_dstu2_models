@@ -7,10 +7,10 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Subscription::SubscriptionChannelComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'endpoint', entry.at_xpath('./fhir:endpoint/@value').try(:value))
-                set_model_data(model, 'payload', entry.at_xpath('./fhir:payload/@value').try(:value))
-                set_model_data(model, 'header', entry.at_xpath('./fhir:header/@value').try(:value))
+                parse_primitive_field(model,entry,'type','fhirType',false)
+                parse_primitive_field(model,entry,'endpoint','endpoint',false)
+                parse_primitive_field(model,entry,'payload','payload',false)
+                parse_primitive_field(model,entry,'header','header',false)
                 model
             end
             
@@ -19,13 +19,13 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'criteria', entry.at_xpath('./fhir:criteria/@value').try(:value))
+                parse_primitive_field(model,entry,'criteria','criteria',false)
                 set_model_data(model, 'contact', entry.xpath('./fhir:contact').map {|e| FHIR::ContactPoint.parse_xml_entry(e)})
-                set_model_data(model, 'reason', entry.at_xpath('./fhir:reason/@value').try(:value))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'error', entry.at_xpath('./fhir:error/@value').try(:value))
+                parse_primitive_field(model,entry,'reason','reason',false)
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'error','error',false)
                 set_model_data(model, 'channel', parse_xml_entry_SubscriptionChannelComponent(entry.at_xpath('./fhir:channel')))
-                set_model_data(model, 'end', entry.at_xpath('./fhir:end/@value').try(:value))
+                parse_primitive_field(model,entry,'end','end',false)
                 set_model_data(model, 'tag', entry.xpath('./fhir:tag').map {|e| FHIR::Coding.parse_xml_entry(e)})
                 model
             end

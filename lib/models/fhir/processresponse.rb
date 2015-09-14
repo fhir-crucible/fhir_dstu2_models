@@ -42,6 +42,15 @@ module FHIR
             'requestprovider',
             'requestorganization'
         ]
+        
+        VALID_CODES = {
+            form: [ '1', '2' ],
+            ruleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            originalRuleset: [ 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3' ],
+            error: [ 'A001', 'A002' ],
+            outcome: [ 'complete', 'pended', 'error' ]
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec notes
         class ProcessResponseNotesComponent
         include Mongoid::Document
@@ -49,7 +58,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "display", "print", "printoper" ]
+                fhirType: [ 'display', 'print', 'printoper' ]
             }
             
             embeds_one :fhirType, class_name:'FHIR::Coding'

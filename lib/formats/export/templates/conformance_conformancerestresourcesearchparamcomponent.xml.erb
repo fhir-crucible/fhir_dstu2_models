@@ -2,10 +2,11 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.name().nil? -%><name value="<%= model.name() %>"/><%- end -%>
-    <%- if !model.definition().nil? -%><definition value="<%= model.definition() %>"/><%- end -%>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType() %>"/><%- end -%>
-    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation() %>"/><%- end -%>
-    <%- if (model.target() && !model.target.empty?) -%><%- model.target().each do |element| -%><target value="<%= element %>"/><%- end -%><%- end -%>
-    <%- if (model.chain() && !model.chain.empty?) -%><%- model.chain().each do |element| -%><chain value="<%= element %>"/><%- end -%><%- end -%>
+    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.definition().nil? -%><definition value="<%= model.definition %>"<%- if model.has_primitive_extension?('definition') -%>><%== model.get_primitive_extension('definition').to_xml(is_root: false, is_lowercase: true)  %></definition><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation %>"<%- if model.has_primitive_extension?('documentation') -%>><%== model.get_primitive_extension('documentation').to_xml(is_root: false, is_lowercase: true)  %></documentation><%- else -%>/><%- end -%><%- end -%>
+    <%- if (model.target && !model.target.empty?) -%><%- model.target.each_with_index do |element,index| -%><target value="<%= element %>"<%- if model.has_primitive_extension?('target',index) -%>><%== model.get_primitive_extension('target',index).to_xml(is_root: false, is_lowercase: true)  %></target><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if (model.fhirModifier && !model.fhirModifier.empty?) -%><%- model.fhirModifier.each_with_index do |element,index| -%><modifier value="<%= element %>"<%- if model.has_primitive_extension?('fhirModifier',index) -%>><%== model.get_primitive_extension('fhirModifier',index).to_xml(is_root: false, is_lowercase: true)  %></modifier><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if (model.chain && !model.chain.empty?) -%><%- model.chain.each_with_index do |element,index| -%><chain value="<%= element %>"<%- if model.has_primitive_extension?('chain',index) -%>><%== model.get_primitive_extension('chain',index).to_xml(is_root: false, is_lowercase: true)  %></chain><%- else -%>/><%- end -%><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,0 +1,11 @@
+<<%= (is_lowercase) ? name.downcase : name %>
+<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
+>
+    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
+    <%- if !model.codeSystem().nil? -%><codeSystem value="<%= model.codeSystem %>"<%- if model.has_primitive_extension?('codeSystem') -%>><%== model.get_primitive_extension('codeSystem').to_xml(is_root: false, is_lowercase: true)  %></codeSystem><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.code().nil? -%><code value="<%= model.code %>"<%- if model.has_primitive_extension?('code') -%>><%== model.get_primitive_extension('code').to_xml(is_root: false, is_lowercase: true)  %></code><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.equivalence().nil? -%><equivalence value="<%= model.equivalence %>"<%- if model.has_primitive_extension?('equivalence') -%>><%== model.get_primitive_extension('equivalence').to_xml(is_root: false, is_lowercase: true)  %></equivalence><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.comments().nil? -%><comments value="<%= model.comments %>"<%- if model.has_primitive_extension?('comments') -%>><%== model.get_primitive_extension('comments').to_xml(is_root: false, is_lowercase: true)  %></comments><%- else -%>/><%- end -%><%- end -%>
+    <%- if (!model.dependsOn().nil? && !model.dependsOn.empty?) -%><%- model.dependsOn().each do |element| -%><%== render :template => 'conceptmap_otherelementcomponent', :locals => {name: 'dependsOn', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.product().nil? && !model.product.empty?) -%><%- model.product().each do |element| -%><%== render :template => 'conceptmap_otherelementcomponent', :locals => {name: 'product', model: element} %><%- end -%><%- end -%>
+</<%= (is_lowercase) ? name.downcase : name %>>

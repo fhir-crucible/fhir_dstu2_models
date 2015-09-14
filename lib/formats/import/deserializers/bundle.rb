@@ -7,8 +7,8 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Bundle::BundleLinkComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'relation', entry.at_xpath('./fhir:relation/@value').try(:value))
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
+                parse_primitive_field(model,entry,'relation','relation',false)
+                parse_primitive_field(model,entry,'url','url',false)
                 model
             end
             
@@ -16,32 +16,32 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Bundle::BundleEntrySearchComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'mode', entry.at_xpath('./fhir:mode/@value').try(:value))
-                set_model_data(model, 'score', entry.at_xpath('./fhir:score/@value').try(:value))
+                parse_primitive_field(model,entry,'mode','mode',false)
+                parse_primitive_field(model,entry,'score','score',false)
                 model
             end
             
-            def parse_xml_entry_BundleEntryTransactionComponent(entry) 
+            def parse_xml_entry_BundleEntryRequestComponent(entry) 
                 return nil unless entry
-                model = FHIR::Bundle::BundleEntryTransactionComponent.new
+                model = FHIR::Bundle::BundleEntryRequestComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'method', entry.at_xpath('./fhir:method/@value').try(:value))
-                set_model_data(model, 'url', entry.at_xpath('./fhir:url/@value').try(:value))
-                set_model_data(model, 'ifNoneMatch', entry.at_xpath('./fhir:ifNoneMatch/@value').try(:value))
-                set_model_data(model, 'ifMatch', entry.at_xpath('./fhir:ifMatch/@value').try(:value))
-                set_model_data(model, 'ifModifiedSince', entry.at_xpath('./fhir:ifModifiedSince/@value').try(:value))
-                set_model_data(model, 'ifNoneExist', entry.at_xpath('./fhir:ifNoneExist/@value').try(:value))
+                parse_primitive_field(model,entry,'method','method',false)
+                parse_primitive_field(model,entry,'url','url',false)
+                parse_primitive_field(model,entry,'ifNoneMatch','ifNoneMatch',false)
+                parse_primitive_field(model,entry,'ifModifiedSince','ifModifiedSince',false)
+                parse_primitive_field(model,entry,'ifMatch','ifMatch',false)
+                parse_primitive_field(model,entry,'ifNoneExist','ifNoneExist',false)
                 model
             end
             
-            def parse_xml_entry_BundleEntryTransactionResponseComponent(entry) 
+            def parse_xml_entry_BundleEntryResponseComponent(entry) 
                 return nil unless entry
-                model = FHIR::Bundle::BundleEntryTransactionResponseComponent.new
+                model = FHIR::Bundle::BundleEntryResponseComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
-                set_model_data(model, 'location', entry.at_xpath('./fhir:location/@value').try(:value))
-                set_model_data(model, 'etag', entry.at_xpath('./fhir:etag/@value').try(:value))
-                set_model_data(model, 'lastModified', entry.at_xpath('./fhir:lastModified/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
+                parse_primitive_field(model,entry,'location','location',false)
+                parse_primitive_field(model,entry,'etag','etag',false)
+                parse_primitive_field(model,entry,'lastModified','lastModified',false)
                 model
             end
             
@@ -49,17 +49,16 @@ module FHIR
                 return nil unless entry
                 model = FHIR::Bundle::BundleEntryComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'base', entry.at_xpath('./fhir:base/@value').try(:value))
                 set_model_data(model, 'link', entry.xpath('./fhir:link').map {|e| parse_xml_entry_BundleLinkComponent(e)})
+                parse_primitive_field(model,entry,'fullUrl','fullUrl',false)
                 entry.xpath("./fhir:resource/*").each do |e|
                   model.resourceType = e.name
                   v = "FHIR::#{model.resourceType}".constantize.parse_xml_entry(e) unless v
                   model.resource = v
-                  #model.resource = {type: model.resourceType, value: v}
                 end
                 set_model_data(model, 'search', parse_xml_entry_BundleEntrySearchComponent(entry.at_xpath('./fhir:search')))
-                set_model_data(model, 'transaction', parse_xml_entry_BundleEntryTransactionComponent(entry.at_xpath('./fhir:transaction')))
-                set_model_data(model, 'transactionResponse', parse_xml_entry_BundleEntryTransactionResponseComponent(entry.at_xpath('./fhir:transactionResponse')))
+                set_model_data(model, 'request', parse_xml_entry_BundleEntryRequestComponent(entry.at_xpath('./fhir:request')))
+                set_model_data(model, 'response', parse_xml_entry_BundleEntryResponseComponent(entry.at_xpath('./fhir:response')))
                 model
             end
             
@@ -68,12 +67,11 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'fhirType', entry.at_xpath('./fhir:type/@value').try(:value))
-                set_model_data(model, 'base', entry.at_xpath('./fhir:base/@value').try(:value))
-                set_model_data(model, 'total', entry.at_xpath('./fhir:total/@value').try(:value))
+                parse_primitive_field(model,entry,'type','fhirType',false)
+                parse_primitive_field(model,entry,'total','total',false)
                 set_model_data(model, 'link', entry.xpath('./fhir:link').map {|e| parse_xml_entry_BundleLinkComponent(e)})
                 set_model_data(model, 'entry', entry.xpath('./fhir:entry').map {|e| parse_xml_entry_BundleEntryComponent(e)})
-                set_model_data(model, 'signature', entry.at_xpath('./fhir:signature/@value').try(:value))
+                set_model_data(model, 'signature', FHIR::Signature.parse_xml_entry(entry.at_xpath('./fhir:signature')))
                 model
             end
         end

@@ -4,8 +4,10 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if !model.description().nil? -%><description value="<%= model.description() %>"/><%- end -%>
-    <%- if !model.instance().nil? -%><%== render :template => 'substance_substanceinstancecomponent', :locals => {name: 'instance', model: model.instance()} %><%- end -%>
+    <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
+    <%- if (!model.category().nil? && !model.category.empty?) -%><%- model.category().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: element} %><%- end -%><%- end -%>
+    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
+    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
+    <%- if (!model.instance().nil? && !model.instance.empty?) -%><%- model.instance().each do |element| -%><%== render :template => 'substance_substanceinstancecomponent', :locals => {name: 'instance', model: element} %><%- end -%><%- end -%>
     <%- if (!model.ingredient().nil? && !model.ingredient.empty?) -%><%- model.ingredient().each do |element| -%><%== render :template => 'substance_substanceingredientcomponent', :locals => {name: 'ingredient', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

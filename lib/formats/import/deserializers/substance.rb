@@ -8,7 +8,7 @@ module FHIR
                 model = FHIR::Substance::SubstanceInstanceComponent.new
                 self.parse_element_data(model, entry)
                 set_model_data(model, 'identifier', FHIR::Identifier.parse_xml_entry(entry.at_xpath('./fhir:identifier')))
-                set_model_data(model, 'expiry', entry.at_xpath('./fhir:expiry/@value').try(:value))
+                parse_primitive_field(model,entry,'expiry','expiry',false)
                 set_model_data(model, 'quantity', FHIR::Quantity.parse_xml_entry(entry.at_xpath('./fhir:quantity')))
                 model
             end
@@ -27,9 +27,11 @@ module FHIR
                 model = self.new
                 self.parse_element_data(model, entry)
                 self.parse_resource_data(model, entry)
-                set_model_data(model, 'fhirType', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:type')))
-                set_model_data(model, 'description', entry.at_xpath('./fhir:description/@value').try(:value))
-                set_model_data(model, 'instance', parse_xml_entry_SubstanceInstanceComponent(entry.at_xpath('./fhir:instance')))
+                set_model_data(model, 'identifier', entry.xpath('./fhir:identifier').map {|e| FHIR::Identifier.parse_xml_entry(e)})
+                set_model_data(model, 'category', entry.xpath('./fhir:category').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
+                set_model_data(model, 'code', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:code')))
+                parse_primitive_field(model,entry,'description','description',false)
+                set_model_data(model, 'instance', entry.xpath('./fhir:instance').map {|e| parse_xml_entry_SubstanceInstanceComponent(e)})
                 set_model_data(model, 'ingredient', entry.xpath('./fhir:ingredient').map {|e| parse_xml_entry_SubstanceIngredientComponent(e)})
                 model
             end

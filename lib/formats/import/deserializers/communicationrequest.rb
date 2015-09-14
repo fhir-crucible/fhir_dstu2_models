@@ -7,7 +7,7 @@ module FHIR
                 return nil unless entry
                 model = FHIR::CommunicationRequest::CommunicationRequestPayloadComponent.new
                 self.parse_element_data(model, entry)
-                set_model_data(model, 'contentString', entry.at_xpath('./fhir:contentString/@value').try(:value))
+                parse_primitive_field(model,entry,'contentString','contentString',false)
                 set_model_data(model, 'contentAttachment', FHIR::Attachment.parse_xml_entry(entry.at_xpath('./fhir:contentAttachment')))
                 set_model_data(model, 'contentReference', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:contentReference')))
                 model
@@ -25,11 +25,12 @@ module FHIR
                 set_model_data(model, 'payload', entry.xpath('./fhir:payload').map {|e| parse_xml_entry_CommunicationRequestPayloadComponent(e)})
                 set_model_data(model, 'medium', entry.xpath('./fhir:medium').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
                 set_model_data(model, 'requester', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:requester')))
-                set_model_data(model, 'status', entry.at_xpath('./fhir:status/@value').try(:value))
+                parse_primitive_field(model,entry,'status','status',false)
                 set_model_data(model, 'encounter', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:encounter')))
-                set_model_data(model, 'scheduledTime', entry.at_xpath('./fhir:scheduledTime/@value').try(:value))
+                parse_primitive_field(model,entry,'scheduledDateTime','scheduledDateTime',false)
+                set_model_data(model, 'scheduledPeriod', FHIR::Period.parse_xml_entry(entry.at_xpath('./fhir:scheduledPeriod')))
                 set_model_data(model, 'reason', entry.xpath('./fhir:reason').map {|e| FHIR::CodeableConcept.parse_xml_entry(e)})
-                set_model_data(model, 'orderedOn', entry.at_xpath('./fhir:orderedOn/@value').try(:value))
+                parse_primitive_field(model,entry,'requestedOn','requestedOn',false)
                 set_model_data(model, 'subject', FHIR::Reference.parse_xml_entry(entry.at_xpath('./fhir:subject')))
                 set_model_data(model, 'priority', FHIR::CodeableConcept.parse_xml_entry(entry.at_xpath('./fhir:priority')))
                 model

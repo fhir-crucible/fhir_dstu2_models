@@ -2,7 +2,7 @@
 <%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
 >
     <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.language().nil? -%><language value="<%= model.language() %>"/><%- end -%>
+    <%- if !model.language().nil? -%><language value="<%= model.language %>"<%- if model.has_primitive_extension?('language') -%>><%== model.get_primitive_extension('language').to_xml(is_root: false, is_lowercase: true)  %></language><%- else -%>/><%- end -%><%- end -%>
     <%- if !model.use().nil? -%><%== render :template => 'coding', :locals => {name: 'use', model: model.use()} %><%- end -%>
-    <%- if !model.value().nil? -%><value value="<%= model.value() %>"/><%- end -%>
+    <%- if !model.value().nil? -%><value value="<%= model.value %>"<%- if model.has_primitive_extension?('value') -%>><%== model.get_primitive_extension('value').to_xml(is_root: false, is_lowercase: true)  %></value><%- else -%>/><%- end -%><%- end -%>
 </<%= (is_lowercase) ? name.downcase : name %>>

@@ -36,33 +36,41 @@ module FHIR
         extend FHIR::Deserializer::Patient
         
         SEARCH_PARAMS = [
-            'identifier',
-            'given',
-            'address',
             'birthdate',
             'deceased',
+            'address-state',
             'gender',
             'animal-species',
             'link',
-            'active',
             'language',
             'deathdate',
             'animal-breed',
-            'careprovider',
+            'address-country',
             'phonetic',
+            'telecom',
+            'address-city',
+            'email',
+            'identifier',
+            'given',
+            'address',
+            'active',
+            'address-postalcode',
+            'careprovider',
+            'phone',
             'organization',
             'name',
-            'telecom',
+            'address-use',
             'family'
         ]
         
         VALID_CODES = {
-            gender: [ "male", "female", "other", "unknown" ]
+            gender: [ 'male', 'female', 'other', 'unknown' ],
+            maritalStatus: [ 'U', 'A', 'D', 'I', 'L', 'M', 'P', 'S', 'T', 'W', 'UNK' ]
         }
         
         MULTIPLE_TYPES = {
-            deceased: [ "deceasedBoolean", "deceasedDateTime" ],
-            multipleBirth: [ "multipleBirthBoolean", "multipleBirthInteger" ]
+            deceased: [ 'deceasedBoolean', 'deceasedDateTime' ],
+            multipleBirth: [ 'multipleBirthBoolean', 'multipleBirthInteger' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec contact
@@ -72,7 +80,8 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                gender: [ "male", "female", "other", "unknown" ]
+                gender: [ 'male', 'female', 'other', 'unknown' ],
+                relationship: [ 'emergency', 'family', 'guardian', 'friend', 'partner', 'work', 'caregiver', 'agent', 'guarantor', 'owner', 'parent' ]
             }
             
             embeds_many :relationship, class_name:'FHIR::CodeableConcept'
@@ -90,6 +99,13 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                species: [ 'canislf', 'ovisa', 'serinuscd' ],
+                breed: [ 'gsd', 'irt', 'tibmas', 'gret' ],
+                genderStatus: [ 'neutered', 'intact', 'unknown' ]
+            }
+            
             embeds_one :species, class_name:'FHIR::CodeableConcept'
             validates_presence_of :species
             embeds_one :breed, class_name:'FHIR::CodeableConcept'
@@ -113,17 +129,17 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ "replace", "refer", "seealso" ]
+                fhirType: [ 'replace', 'refer', 'seealso' ]
             }
             
             embeds_one :other, class_name:'FHIR::Reference'
             validates_presence_of :other
             field :fhirType, type: String
-            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
+        field :active, type: Boolean
         embeds_many :name, class_name:'FHIR::HumanName'
         embeds_many :telecom, class_name:'FHIR::ContactPoint'
         field :gender, type: String
@@ -144,7 +160,6 @@ module FHIR
         embeds_many :careProvider, class_name:'FHIR::Reference'
         embeds_one :managingOrganization, class_name:'FHIR::Reference'
         embeds_many :link, class_name:'FHIR::Patient::PatientLinkComponent'
-        field :active, type: Boolean
         track_history
     end
 end

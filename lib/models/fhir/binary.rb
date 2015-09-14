@@ -40,7 +40,7 @@ module FHIR
         ]
         field :contentType, type: String
         validates_presence_of :contentType
-        field :content, type: Moped::BSON::Binary
+        field :content, type: String
         validates_presence_of :content
         track_history
     end

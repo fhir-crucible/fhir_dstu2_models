@@ -4,22 +4,22 @@
 <%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
     <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
     <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.name().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'name', model: model.name()} %><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status() %>"/><%- end -%>
-    <%- if !model.issued().nil? -%><%- if (!model.issued().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><issued value="<%= model.issued %>"/><%- end -%><%- end -%>
-    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
-    <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
-    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
     <%- if (!model.identifier().nil? && !model.identifier.empty?) -%><%- model.identifier().each do |element| -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.requestDetail().nil? && !model.requestDetail.empty?) -%><%- model.requestDetail().each do |element| -%><%== render :template => 'reference', :locals => {name: 'requestDetail', model: element} %><%- end -%><%- end -%>
-    <%- if !model.serviceCategory().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'serviceCategory', model: model.serviceCategory()} %><%- end -%>
-    <%- if !model.diagnosticDateTime().nil? -%><%- if (!model.diagnosticDateTime().match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><diagnosticDateTime value="<%= model.diagnosticDateTime %>"/><%- end -%><%- end -%>
-    <%- if !model.diagnosticPeriod().nil? -%><%== render :template => 'period', :locals => {name: 'diagnosticPeriod', model: model.diagnosticPeriod()} %><%- end -%>
+    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
+    <%- if !model.category().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'category', model: model.category()} %><%- end -%>
+    <%- if !model.code().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'code', model: model.code()} %><%- end -%>
+    <%- if !model.subject().nil? -%><%== render :template => 'reference', :locals => {name: 'subject', model: model.subject()} %><%- end -%>
+    <%- if !model.encounter().nil? -%><%== render :template => 'reference', :locals => {name: 'encounter', model: model.encounter()} %><%- end -%>
+    <%- if !model.effectiveDateTime.nil? -%><%- if (!model.effectiveDateTime.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><effectiveDateTime value="<%= model.effectiveDateTime %>"<%- if model.has_primitive_extension?('effectiveDateTime') -%>><%== model.get_primitive_extension('effectiveDateTime').to_xml(is_root: false, is_lowercase: true)  %></effectiveDateTime><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.effectivePeriod().nil? -%><%== render :template => 'period', :locals => {name: 'effectivePeriod', model: model.effectivePeriod()} %><%- end -%>
+    <%- if !model.issued.nil? -%><%- if (!model.issued.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/).nil?) -%><issued value="<%= model.issued %>"<%- if model.has_primitive_extension?('issued') -%>><%== model.get_primitive_extension('issued').to_xml(is_root: false, is_lowercase: true)  %></issued><%- else -%>/><%- end -%><%- end -%><%- end -%>
+    <%- if !model.performer().nil? -%><%== render :template => 'reference', :locals => {name: 'performer', model: model.performer()} %><%- end -%>
+    <%- if (!model.request().nil? && !model.request.empty?) -%><%- model.request().each do |element| -%><%== render :template => 'reference', :locals => {name: 'request', model: element} %><%- end -%><%- end -%>
     <%- if (!model.specimen().nil? && !model.specimen.empty?) -%><%- model.specimen().each do |element| -%><%== render :template => 'reference', :locals => {name: 'specimen', model: element} %><%- end -%><%- end -%>
     <%- if (!model.result().nil? && !model.result.empty?) -%><%- model.result().each do |element| -%><%== render :template => 'reference', :locals => {name: 'result', model: element} %><%- end -%><%- end -%>
     <%- if (!model.imagingStudy().nil? && !model.imagingStudy.empty?) -%><%- model.imagingStudy().each do |element| -%><%== render :template => 'reference', :locals => {name: 'imagingStudy', model: element} %><%- end -%><%- end -%>
     <%- if (!model.image().nil? && !model.image.empty?) -%><%- model.image().each do |element| -%><%== render :template => 'diagnosticreport_diagnosticreportimagecomponent', :locals => {name: 'image', model: element} %><%- end -%><%- end -%>
-    <%- if !model.conclusion().nil? -%><conclusion value="<%= model.conclusion() %>"/><%- end -%>
+    <%- if !model.conclusion().nil? -%><conclusion value="<%= model.conclusion %>"<%- if model.has_primitive_extension?('conclusion') -%>><%== model.get_primitive_extension('conclusion').to_xml(is_root: false, is_lowercase: true)  %></conclusion><%- else -%>/><%- end -%><%- end -%>
     <%- if (!model.codedDiagnosis().nil? && !model.codedDiagnosis.empty?) -%><%- model.codedDiagnosis().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'codedDiagnosis', model: element} %><%- end -%><%- end -%>
     <%- if (!model.presentedForm().nil? && !model.presentedForm.empty?) -%><%- model.presentedForm().each do |element| -%><%== render :template => 'attachment', :locals => {name: 'presentedForm', model: element} %><%- end -%><%- end -%>
 </<%= (is_lowercase) ? local_name.downcase : local_name %>>

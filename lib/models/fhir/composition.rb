@@ -42,12 +42,12 @@ module FHIR
             'subject',
             'author',
             'confidentiality',
-            'section-code',
             'section',
             'encounter',
             'type',
             'title',
             'attester',
+            'entry',
             'patient',
             'context',
             'class',
@@ -55,7 +55,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            status: [ "preliminary", "final", "appended", "amended", "entered-in-error" ]
+            fhirClass: [ 'LP173387-4', 'LP173388-2', 'LP173389-0', 'LP173390-8', 'LP173394-0', 'LP173403-9', 'LP193873-9', 'LP173404-7', 'LP173405-4', 'LP173406-2', 'LP173407-0', 'LP181089-6', 'LP173409-6', 'LP173410-4', 'LP173412-0', 'LP173413-8', 'LP173414-6', 'LP173415-3', 'LP181112-6', 'LP181116-7', 'LP181119-1', 'LP173118-3', 'LP173416-1', 'LP173417-9', 'LP173418-7', 'LP173419-5', 'LP173420-3', 'LP181207-4', 'LP181204-1', 'LP156982-3', 'LP173421-1', 'LP183503-4', 'LP183502-6' ],
+            status: [ 'preliminary', 'final', 'amended', 'entered-in-error' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec attester
@@ -65,11 +66,10 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                mode: [ "personal", "professional", "legal", "official" ]
+                mode: [ 'personal', 'professional', 'legal', 'official' ]
             }
             
             field :mode, type: Array # Array of Strings
-            validates :mode, :inclusion => { in: VALID_CODES[:mode] }
             validates_presence_of :mode
             field :time, type: String
             validates :time, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
@@ -91,9 +91,18 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                code: [ '10154-3', '10157-6', '10160-0', '10164-2', '10183-2', '10184-0', '10187-3', '10210-3', '10216-0', '10218-6', '10218-6', '10223-6', '10830-8', '11329-0', '11348-0', '11369-6', '11450-4', '11493-4', '11535-2', '11537-8', '18776-5', '18841-7', '29299-5', '29545-1', '29549-3', '29554-3', '29762-2', '30954-2', '42344-2', '42346-7', '42348-3', '42349-1', '46240-8', '46241-6', '46264-8', '47420-5', '47519-4', '48765-2', '48768-6', '51848-0', '55109-3', '55122-6', '59768-2', '59769-0', '59770-8', '59771-6', '59772-4', '59773-2', '59775-7', '59776-5', '61149-1', '61150-9', '61150-9', '69730-0', '8648-8', '8653-8', '8716-3' ]
+            }
+            
             field :title, type: String
             embeds_one :code, class_name:'FHIR::CodeableConcept'
-            embeds_one :content, class_name:'FHIR::Reference'
+            embeds_one :text, class_name:'FHIR::Narrative'
+            field :mode, type: String
+            embeds_one :orderedBy, class_name:'FHIR::CodeableConcept'
+            embeds_many :entry, class_name:'FHIR::Reference'
+            embeds_one :emptyReason, class_name:'FHIR::CodeableConcept'
             embeds_many :section, class_name:'FHIR::Composition::SectionComponent'
         end
         
@@ -105,8 +114,8 @@ module FHIR
         validates_presence_of :fhirType
         embeds_one :fhirClass, class_name:'FHIR::CodeableConcept'
         field :title, type: String
+        validates_presence_of :title
         field :status, type: String
-        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :confidentiality, type: String
         embeds_one :subject, class_name:'FHIR::Reference'
