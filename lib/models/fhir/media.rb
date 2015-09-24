@@ -47,11 +47,12 @@ module FHIR
         ]
         
         VALID_CODES = {
-            subtype: [ 'diagram', 'fax', 'scan', 'retina', 'fingerprint', 'iris', 'palm', 'face' ],
+            subtype: [ 'diagram', 'fax', 'scan', 'retina', 'fingerprint', 'iris', 'palm', 'face', 'AR', 'BMD', 'BDUS', 'EPS', 'CR', 'CT', 'DX', 'ECG', 'ES', 'XC', 'GM', 'HD', 'IO', 'IVOCT', 'IVUS', 'KER', 'LEN', 'MR', 'MG', 'NM', 'OAM', 'OCT', 'OPM', 'OP', 'OPR', 'OPT', 'OPV', 'OSS', 'PX', 'PT', 'RF', 'RG', 'SM', 'SRF', 'US', 'VA', 'XA' ],
             fhirType: [ 'photo', 'video', 'audio' ]
         }
         
         field :fhirType, type: String
+        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         embeds_one :subtype, class_name:'FHIR::CodeableConcept'
         embeds_many :identifier, class_name:'FHIR::Identifier'

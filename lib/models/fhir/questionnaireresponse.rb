@@ -105,6 +105,7 @@ module FHIR
         embeds_one :identifier, class_name:'FHIR::Identifier'
         embeds_one :questionnaire, class_name:'FHIR::Reference'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :subject, class_name:'FHIR::Reference'
         embeds_one :author, class_name:'FHIR::Reference'

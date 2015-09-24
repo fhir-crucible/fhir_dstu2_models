@@ -88,6 +88,7 @@ module FHIR
             field :numberOfInstances, type: Integer
             validates_presence_of :numberOfInstances
             field :availability, type: String
+            validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
             field :url, type: String
             embeds_one :bodySite, class_name:'FHIR::Coding'
             embeds_one :laterality, class_name:'FHIR::Coding'
@@ -108,6 +109,7 @@ module FHIR
         embeds_many :modalityList, class_name:'FHIR::Coding'
         embeds_one :referrer, class_name:'FHIR::Reference'
         field :availability, type: String
+        validates :availability, :inclusion => { in: VALID_CODES[:availability], :allow_nil => true }
         field :url, type: String
         field :numberOfSeries, type: Integer
         validates_presence_of :numberOfSeries

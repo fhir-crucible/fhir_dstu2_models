@@ -61,7 +61,9 @@ module FHIR
             }
             
             field :fhirType, type: String
+            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
             field :state, type: String
+            validates :state, :inclusion => { in: VALID_CODES[:state], :allow_nil => true }
             field :time, type: String
             validates :time, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))))\Z/ }
         end
@@ -74,8 +76,11 @@ module FHIR
         embeds_one :source, class_name:'FHIR::Reference'
         embeds_one :parent, class_name:'FHIR::Reference'
         field :operationalStatus, type: String
+        validates :operationalStatus, :inclusion => { in: VALID_CODES[:operationalStatus], :allow_nil => true }
         field :color, type: String
+        validates :color, :inclusion => { in: VALID_CODES[:color], :allow_nil => true }
         field :category, type: String
+        validates :category, :inclusion => { in: VALID_CODES[:category] }
         validates_presence_of :category
         embeds_one :measurementPeriod, class_name:'FHIR::Timing'
         embeds_many :calibration, class_name:'FHIR::DeviceMetric::DeviceMetricCalibrationComponent'

@@ -52,6 +52,7 @@ module FHIR
         ]
         
         VALID_CODES = {
+            useContext: [ 'AK', 'AL', 'AR', 'AS', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'FM', 'GA', 'GU', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MH', 'MI', 'MN', 'MO', 'MP', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'PR', 'PW', 'RI', 'SC', 'SD', 'TN', 'TX', 'UM', 'UT', 'VA', 'VI', 'VT', 'WA', 'WI', 'WV', 'WY', 'cardio', 'dent', 'dietary', 'midw', 'sysarch' ],
             status: [ 'draft', 'active', 'retired' ]
         }
         
@@ -69,6 +70,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            SPECIAL_CODES = {
+                language: 'Language'
+            }
+            
             field :language, type: String
             embeds_one :use, class_name:'FHIR::Coding'
             field :value, type: String
@@ -126,6 +131,7 @@ module FHIR
             field :property, type: String
             validates_presence_of :property
             field :op, type: String
+            validates :op, :inclusion => { in: VALID_CODES[:op] }
             validates_presence_of :op
             field :value, type: String
             validates_presence_of :value

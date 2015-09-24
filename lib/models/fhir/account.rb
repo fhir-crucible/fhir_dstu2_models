@@ -55,6 +55,7 @@ module FHIR
         field :name, type: String
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_one :activePeriod, class_name:'FHIR::Period'
         embeds_one :currency, class_name:'FHIR::Coding'
         embeds_one :balance, class_name:'FHIR::Quantity'

@@ -41,8 +41,10 @@ module FHIR
         }
         
         field :system, type: String
+        validates :system, :inclusion => { in: VALID_CODES[:system], :allow_nil => true }
         field :value, type: String
         field :use, type: String
+        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
         field :rank, type: Integer
         embeds_one :period, class_name:'FHIR::Period'
         track_history

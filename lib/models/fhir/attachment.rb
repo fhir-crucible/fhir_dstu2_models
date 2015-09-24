@@ -34,6 +34,11 @@ module FHIR
         include FHIR::Serializer::Utilities
         extend FHIR::Deserializer::Attachment
         
+        SPECIAL_CODES = {
+            language: 'Language',
+            contentType: 'MimeType'
+        }
+        
         field :contentType, type: String
         field :language, type: String
         field :data, type: String

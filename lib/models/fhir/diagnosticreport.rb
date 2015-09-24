@@ -54,6 +54,7 @@ module FHIR
         ]
         
         VALID_CODES = {
+            category: [ 'AU', 'BG', 'BLB', 'CG', 'CH', 'CP', 'CT', 'CTH', 'CUS', 'EC', 'EN', 'GE', 'HM', 'ICU', 'IMG', 'IMM', 'LAB', 'MB', 'MCB', 'MYC', 'NMR', 'NMS', 'NRS', 'OSL', 'OT', 'OTH', 'OUS', 'PAR', 'PAT', 'PF', 'PHR', 'PHY', 'PT', 'RAD', 'RC', 'RT', 'RUS', 'RX', 'SP', 'SR', 'TX', 'URN', 'VR', 'VUS', 'XRC' ],
             status: [ 'registered', 'partial', 'final', 'corrected', 'appended', 'cancelled', 'entered-in-error' ]
         }
         
@@ -73,6 +74,7 @@ module FHIR
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :category, class_name:'FHIR::CodeableConcept'
         embeds_one :code, class_name:'FHIR::CodeableConcept'

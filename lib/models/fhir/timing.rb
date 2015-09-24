@@ -62,12 +62,15 @@ module FHIR
             field :duration, type: Float
             field :durationMax, type: Float
             field :durationUnits, type: String
+            validates :durationUnits, :inclusion => { in: VALID_CODES[:durationUnits], :allow_nil => true }
             field :frequency, type: Integer
             field :frequencyMax, type: Integer
             field :period, type: Float
             field :periodMax, type: Float
             field :periodUnits, type: String
+            validates :periodUnits, :inclusion => { in: VALID_CODES[:periodUnits], :allow_nil => true }
             field :when, type: String
+            validates :when, :inclusion => { in: VALID_CODES[:when], :allow_nil => true }
         end
         
         field :event, type: Array # Array of Strings

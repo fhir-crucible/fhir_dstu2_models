@@ -41,7 +41,9 @@ module FHIR
         }
         
         field :use, type: String
+        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
         field :fhirType, type: String
+        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType], :allow_nil => true }
         field :text, type: String
         field :line, type: Array # Array of Strings
         field :city, type: String

@@ -46,6 +46,7 @@ module FHIR
         ]
         
         VALID_CODES = {
+            participantType: [ 'translator', 'emergency', 'PART', '_ParticipationAncillary', 'ADM', 'ATND', 'CALLBCK', 'CON', 'DIS', 'ESC', 'REF', '_ParticipationInformationGenerator', 'AUT', 'INF', 'TRANS', 'ENT', 'WIT', 'CST', 'DIR', 'ALY', 'BBY', 'CAT', 'CSM', 'DEV', 'NRD', 'RDV', 'DON', 'EXPAGNT', 'EXPART', 'EXPTRGT', 'EXSRC', 'PRD', 'SBJ', 'SPC', 'IND', 'BEN', 'CAGNT', 'COV', 'GUAR', 'HLD', 'RCT', 'RCV', 'IRCP', 'NOT', 'PRCP', 'REFB', 'REFT', 'TRC', 'LOC', 'DST', 'ELOC', 'ORG', 'RML', 'VIA', 'PRF', 'DIST', 'PPRF', 'SPRF', 'RESP', 'VRF', 'AUTHEN', 'LA', '_ParticipationAncillary', 'ADM', 'ATND', 'CALLBCK', 'CON', 'DIS', 'ESC', 'REF', 'SPRF', 'PPRF', 'PART' ],
             participantStatus: [ 'accepted', 'declined', 'tentative', 'in-process', 'completed', 'needs-action' ]
         }
         
@@ -59,6 +60,7 @@ module FHIR
         embeds_many :participantType, class_name:'FHIR::CodeableConcept'
         embeds_one :actor, class_name:'FHIR::Reference'
         field :participantStatus, type: String
+        validates :participantStatus, :inclusion => { in: VALID_CODES[:participantStatus] }
         validates_presence_of :participantStatus
         field :comment, type: String
         track_history

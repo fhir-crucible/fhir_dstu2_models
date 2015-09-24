@@ -76,6 +76,7 @@ module FHIR
             }
             
             field :status, type: String
+            validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
             embeds_one :period, class_name:'FHIR::Period'
             validates_presence_of :period
@@ -88,7 +89,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
-                fhirType: [ 'translator', 'emergency', 'SPRF', 'PPRF', 'PART' ]
+                fhirType: [ 'translator', 'emergency', 'PART', '_ParticipationAncillary', 'ADM', 'ATND', 'CALLBCK', 'CON', 'DIS', 'ESC', 'REF', '_ParticipationInformationGenerator', 'AUT', 'INF', 'TRANS', 'ENT', 'WIT', 'CST', 'DIR', 'ALY', 'BBY', 'CAT', 'CSM', 'DEV', 'NRD', 'RDV', 'DON', 'EXPAGNT', 'EXPART', 'EXPTRGT', 'EXSRC', 'PRD', 'SBJ', 'SPC', 'IND', 'BEN', 'CAGNT', 'COV', 'GUAR', 'HLD', 'RCT', 'RCV', 'IRCP', 'NOT', 'PRCP', 'REFB', 'REFT', 'TRC', 'LOC', 'DST', 'ELOC', 'ORG', 'RML', 'VIA', 'PRF', 'DIST', 'PPRF', 'SPRF', 'RESP', 'VRF', 'AUTHEN', 'LA', '_ParticipationAncillary', 'ADM', 'ATND', 'CALLBCK', 'CON', 'DIS', 'ESC', 'REF', 'SPRF', 'PPRF', 'PART' ]
             }
             
             embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
@@ -136,14 +137,17 @@ module FHIR
             embeds_one :location, class_name:'FHIR::Reference'
             validates_presence_of :location
             field :status, type: String
+            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_one :period, class_name:'FHIR::Period'
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_many :statusHistory, class_name:'FHIR::Encounter::EncounterStatusHistoryComponent'
         field :fhirClass, type: String
+        validates :fhirClass, :inclusion => { in: VALID_CODES[:fhirClass], :allow_nil => true }
         embeds_many :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :priority, class_name:'FHIR::CodeableConcept'
         embeds_one :patient, class_name:'FHIR::Reference'

@@ -51,6 +51,7 @@ module FHIR
         }
         
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :date, type: String

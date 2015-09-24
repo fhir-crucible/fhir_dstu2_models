@@ -49,6 +49,7 @@ module FHIR
         ]
         
         VALID_CODES = {
+            foodPreferenceModifier: [ 'vegetarian', 'dairy-free', 'nut-free', 'gluten-free', 'vegan', 'halal', 'kosher' ],
             status: [ 'proposed', 'draft', 'planned', 'requested', 'active', 'on-hold', 'completed', 'cancelled' ]
         }
         
@@ -163,6 +164,7 @@ module FHIR
         validates :dateTime, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         validates_presence_of :dateTime
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_many :allergyIntolerance, class_name:'FHIR::Reference'
         embeds_many :foodPreferenceModifier, class_name:'FHIR::CodeableConcept'
         embeds_many :excludeFoodModifier, class_name:'FHIR::CodeableConcept'

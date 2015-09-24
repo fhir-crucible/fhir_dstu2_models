@@ -86,6 +86,7 @@ module FHIR
         embeds_one :subject, class_name:'FHIR::Reference'
         validates_presence_of :subject
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :category, class_name:'FHIR::CodeableConcept'
         embeds_one :code, class_name:'FHIR::CodeableConcept'

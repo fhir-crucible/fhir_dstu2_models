@@ -56,6 +56,7 @@ module FHIR
         validates_presence_of :fhirType
         embeds_many :note, class_name:'FHIR::Annotation'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :manufacturer, type: String
         field :model, type: String
         field :versionNum, type: String

@@ -88,6 +88,7 @@ module FHIR
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :fhirType, type: String
+        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         field :actual, type: Boolean
         validates_presence_of :actual

@@ -67,6 +67,7 @@ module FHIR
         embeds_many :operationalStatus, class_name:'FHIR::CodeableConcept'
         embeds_one :parameterGroup, class_name:'FHIR::CodeableConcept'
         field :measurementPrinciple, type: String
+        validates :measurementPrinciple, :inclusion => { in: VALID_CODES[:measurementPrinciple], :allow_nil => true }
         embeds_many :productionSpecification, class_name:'FHIR::DeviceComponent::DeviceComponentProductionSpecificationComponent'
         embeds_one :languageCode, class_name:'FHIR::CodeableConcept'
         track_history

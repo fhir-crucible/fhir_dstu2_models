@@ -41,6 +41,7 @@ module FHIR
         }
         
         field :use, type: String
+        validates :use, :inclusion => { in: VALID_CODES[:use], :allow_nil => true }
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         field :system, type: String
         field :value, type: String

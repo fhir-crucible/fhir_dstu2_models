@@ -135,6 +135,7 @@ module FHIR
             embeds_one :other, class_name:'FHIR::Reference'
             validates_presence_of :other
             field :fhirType, type: String
+            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
         end
         

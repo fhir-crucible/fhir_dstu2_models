@@ -55,6 +55,7 @@ module FHIR
             field :description, type: String
             field :ordered, type: Boolean
             field :rules, type: String
+            validates :rules, :inclusion => { in: VALID_CODES[:rules] }
             validates_presence_of :rules
         end
         
@@ -78,13 +79,16 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
+                code: [ 'Address', 'Age', 'Annotation', 'Attachment', 'BackboneElement', 'CodeableConcept', 'Coding', 'ContactPoint', 'Count', 'Distance', 'Duration', 'Element', 'ElementDefinition', 'Extension', 'HumanName', 'Identifier', 'Meta', 'Money', 'Narrative', 'Period', 'Quantity', 'Range', 'Ratio', 'Reference', 'SampledData', 'Signature', 'SimpleQuantity', 'Timing', 'base64Binary', 'boolean', 'code', 'date', 'dateTime', 'decimal', 'id', 'instant', 'integer', 'markdown', 'oid', 'positiveInt', 'string', 'time', 'unsignedInt', 'uri', 'uuid', 'xhtml', 'Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription' ],
                 aggregation: [ 'contained', 'referenced', 'bundled' ]
             }
             
             field :code, type: String
+            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
             field :profile, type: Array # Array of Strings
             field :aggregation, type: Array # Array of Strings
+            validates :aggregation, :inclusion => { in: VALID_CODES[:aggregation], :allow_nil => true }
         end
         
         # This is an ugly hack to deal with embedded structures in the spec constraint
@@ -101,6 +105,7 @@ module FHIR
             validates_presence_of :key
             field :requirements, type: String
             field :severity, type: String
+            validates :severity, :inclusion => { in: VALID_CODES[:severity] }
             validates_presence_of :severity
             field :human, type: String
             validates_presence_of :human
@@ -135,6 +140,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            SPECIAL_CODES = {
+                language: 'MimeType'
+            }
+            
             field :fhirIdentity, type: String
             validates_presence_of :fhirIdentity
             field :language, type: String
@@ -145,6 +154,7 @@ module FHIR
         field :path, type: String
         validates_presence_of :path
         field :representation, type: Array # Array of Strings
+        validates :representation, :inclusion => { in: VALID_CODES[:representation], :allow_nil => true }
         field :name, type: String
         field :label, type: String
         embeds_many :code, class_name:'FHIR::Coding'

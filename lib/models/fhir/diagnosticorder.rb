@@ -72,6 +72,7 @@ module FHIR
             }
             
             field :status, type: String
+            validates :status, :inclusion => { in: VALID_CODES[:status] }
             validates_presence_of :status
             embeds_one :description, class_name:'FHIR::CodeableConcept'
             field :dateTime, type: String
@@ -95,6 +96,7 @@ module FHIR
             embeds_many :specimen, class_name:'FHIR::Reference'
             embeds_one :bodySite, class_name:'FHIR::CodeableConcept'
             field :status, type: String
+            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_many :event, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderEventComponent'
         end
         
@@ -107,7 +109,9 @@ module FHIR
         embeds_many :supportingInformation, class_name:'FHIR::Reference'
         embeds_many :specimen, class_name:'FHIR::Reference'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         field :priority, type: String
+        validates :priority, :inclusion => { in: VALID_CODES[:priority], :allow_nil => true }
         embeds_many :event, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderEventComponent'
         embeds_many :item, class_name:'FHIR::DiagnosticOrder::DiagnosticOrderItemComponent'
         embeds_many :note, class_name:'FHIR::Annotation'

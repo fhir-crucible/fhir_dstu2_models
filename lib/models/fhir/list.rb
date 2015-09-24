@@ -82,11 +82,13 @@ module FHIR
         embeds_one :source, class_name:'FHIR::Reference'
         embeds_one :encounter, class_name:'FHIR::Reference'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :date, type: String
         validates :date, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :orderedBy, class_name:'FHIR::CodeableConcept'
         field :mode, type: String
+        validates :mode, :inclusion => { in: VALID_CODES[:mode] }
         validates_presence_of :mode
         field :note, type: String
         embeds_many :entry, class_name:'FHIR::List::ListEntryComponent'

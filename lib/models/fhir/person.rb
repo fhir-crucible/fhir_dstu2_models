@@ -74,6 +74,7 @@ module FHIR
             embeds_one :target, class_name:'FHIR::Reference'
             validates_presence_of :target
             field :assurance, type: String
+            validates :assurance, :inclusion => { in: VALID_CODES[:assurance], :allow_nil => true }
         end
         
         embeds_many :identifier, class_name:'FHIR::Identifier'

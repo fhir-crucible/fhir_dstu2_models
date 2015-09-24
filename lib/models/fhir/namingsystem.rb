@@ -54,6 +54,7 @@ module FHIR
         
         VALID_CODES = {
             kind: [ 'codesystem', 'identifier', 'root' ],
+            useContext: [ 'AK', 'AL', 'AR', 'AS', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'FM', 'GA', 'GU', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MH', 'MI', 'MN', 'MO', 'MP', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'PR', 'PW', 'RI', 'SC', 'SD', 'TN', 'TX', 'UM', 'UT', 'VA', 'VI', 'VT', 'WA', 'WI', 'WV', 'WY', 'cardio', 'dent', 'dietary', 'midw', 'sysarch' ],
             fhirType: [ 'UDI', 'SNO', 'SB', 'PLAC', 'FILL', 'DL', 'PPN', 'BRN', 'MR', 'MCN', 'EN', 'TAX', 'NIIP', 'PRN', 'MD', 'DR' ],
             status: [ 'draft', 'active', 'retired' ]
         }
@@ -78,6 +79,7 @@ module FHIR
             }
             
             field :fhirType, type: String
+            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
             field :value, type: String
             validates_presence_of :value
@@ -91,6 +93,7 @@ module FHIR
         validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :kind, type: String
+        validates :kind, :inclusion => { in: VALID_CODES[:kind] }
         validates_presence_of :kind
         field :publisher, type: String
         embeds_many :contact, class_name:'FHIR::NamingSystem::NamingSystemContactComponent'

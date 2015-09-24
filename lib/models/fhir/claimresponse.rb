@@ -167,6 +167,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                service: [ '1101', '1102', '1103', '1201', '1205', '2101', '2102', '2141', '2601', '11101', '11102', '11103', '11104', '21211', '21212', '27211', '99111', '99333', '99555' ]
+            }
+            
             embeds_one :service, class_name:'FHIR::Coding'
             validates_presence_of :service
             embeds_one :fee, class_name:'FHIR::Quantity'
@@ -178,6 +183,11 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            
+            VALID_CODES = {
+                service: [ '1101', '1102', '1103', '1201', '1205', '2101', '2102', '2141', '2601', '11101', '11102', '11103', '11104', '21211', '21212', '27211', '99111', '99333', '99555' ]
+            }
+            
             field :sequenceLinkId, type: Array # Array of Integers
             embeds_one :service, class_name:'FHIR::Coding'
             validates_presence_of :service

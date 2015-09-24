@@ -50,6 +50,7 @@ module FHIR
         
         embeds_one :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_one :patient, class_name:'FHIR::Reference'
         embeds_one :fhirType, class_name:'FHIR::CodeableConcept'
         embeds_one :quantity, class_name:'FHIR::Quantity'

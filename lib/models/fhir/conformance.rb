@@ -60,6 +60,10 @@ module FHIR
             status: [ 'draft', 'active', 'retired' ]
         }
         
+        SPECIAL_CODES = {
+            format: 'MimeType'
+        }
+        
         # This is an ugly hack to deal with embedded structures in the spec contact
         class ConformanceContactComponent
         include Mongoid::Document
@@ -96,6 +100,10 @@ module FHIR
         include Mongoid::Document
         include FHIR::Element
         include FHIR::Formats::Utilities
+            SPECIAL_CODES = {
+                fhirType: 'MimeType'
+            }
+            
             field :fhirType, type: String
             field :blob, type: String
         end
@@ -127,6 +135,7 @@ module FHIR
             }
             
             field :code, type: String
+            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
             field :documentation, type: String
         end
@@ -139,7 +148,8 @@ module FHIR
             
             VALID_CODES = {
                 fhirModifier: [ 'missing', 'exact', 'contains', 'not', 'text', 'in', 'not-in', 'below', 'above', 'type' ],
-                fhirType: [ 'number', 'date', 'string', 'token', 'reference', 'composite', 'quantity', 'uri' ]
+                fhirType: [ 'number', 'date', 'string', 'token', 'reference', 'composite', 'quantity', 'uri' ],
+                target: [ 'Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription' ]
             }
             
             field :name, type: String
@@ -150,7 +160,9 @@ module FHIR
             validates_presence_of :fhirType
             field :documentation, type: String
             field :target, type: Array # Array of Strings
+            validates :target, :inclusion => { in: VALID_CODES[:target], :allow_nil => true }
             field :fhirModifier, type: Array # Array of Strings
+            validates :fhirModifier, :inclusion => { in: VALID_CODES[:fhirModifier], :allow_nil => true }
             field :chain, type: Array # Array of Strings
         end
         
@@ -162,20 +174,24 @@ module FHIR
             
             VALID_CODES = {
                 versioning: [ 'no-version', 'versioned', 'versioned-update' ],
-                conditionalDelete: [ 'not-supported', 'single', 'multiple' ]
+                conditionalDelete: [ 'not-supported', 'single', 'multiple' ],
+                fhirType: [ 'Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription' ]
             }
             
             field :fhirType, type: String
+            validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
             validates_presence_of :fhirType
             embeds_one :profile, class_name:'FHIR::Reference'
             embeds_many :interaction, class_name:'FHIR::Conformance::ResourceInteractionComponent'
             validates_presence_of :interaction
             field :versioning, type: String
+            validates :versioning, :inclusion => { in: VALID_CODES[:versioning], :allow_nil => true }
             field :readHistory, type: Boolean
             field :updateCreate, type: Boolean
             field :conditionalCreate, type: Boolean
             field :conditionalUpdate, type: Boolean
             field :conditionalDelete, type: String
+            validates :conditionalDelete, :inclusion => { in: VALID_CODES[:conditionalDelete], :allow_nil => true }
             field :searchInclude, type: Array # Array of Strings
             field :searchRevInclude, type: Array # Array of Strings
             embeds_many :searchParam, class_name:'FHIR::Conformance::ConformanceRestResourceSearchParamComponent'
@@ -192,6 +208,7 @@ module FHIR
             }
             
             field :code, type: String
+            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
             field :documentation, type: String
         end
@@ -219,6 +236,7 @@ module FHIR
             }
             
             field :mode, type: String
+            validates :mode, :inclusion => { in: VALID_CODES[:mode] }
             validates_presence_of :mode
             field :documentation, type: String
             embeds_one :security, class_name:'FHIR::Conformance::ConformanceRestSecurityComponent'
@@ -226,6 +244,7 @@ module FHIR
             validates_presence_of :resource
             embeds_many :interaction, class_name:'FHIR::Conformance::SystemInteractionComponent'
             field :transactionMode, type: String
+            validates :transactionMode, :inclusion => { in: VALID_CODES[:transactionMode], :allow_nil => true }
             embeds_many :searchParam, class_name:'FHIR::Conformance::ConformanceRestResourceSearchParamComponent'
             embeds_many :operation, class_name:'FHIR::Conformance::ConformanceRestOperationComponent'
             field :compartment, type: Array # Array of Strings
@@ -255,15 +274,20 @@ module FHIR
             
             VALID_CODES = {
                 mode: [ 'sender', 'receiver' ],
+                code: [ 'MedicationAdministration-Complete', 'MedicationAdministration-Nullification', 'MedicationAdministration-Recording', 'MedicationAdministration-Update', 'admin-notify', 'diagnosticreport-provide', 'observation-provide', 'patient-link', 'patient-unlink', 'valueset-expand' ],
+                focus: [ 'Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription' ],
                 category: [ 'Consequence', 'Currency', 'Notification' ]
             }
             
             embeds_one :code, class_name:'FHIR::Coding'
             validates_presence_of :code
             field :category, type: String
+            validates :category, :inclusion => { in: VALID_CODES[:category], :allow_nil => true }
             field :mode, type: String
+            validates :mode, :inclusion => { in: VALID_CODES[:mode] }
             validates_presence_of :mode
             field :focus, type: String
+            validates :focus, :inclusion => { in: VALID_CODES[:focus] }
             validates_presence_of :focus
             embeds_one :request, class_name:'FHIR::Reference'
             validates_presence_of :request
@@ -295,6 +319,7 @@ module FHIR
             }
             
             field :mode, type: String
+            validates :mode, :inclusion => { in: VALID_CODES[:mode] }
             validates_presence_of :mode
             field :documentation, type: String
             embeds_one :profile, class_name:'FHIR::Reference'
@@ -316,12 +341,14 @@ module FHIR
         field :requirements, type: String
         field :copyright, type: String
         field :kind, type: String
+        validates :kind, :inclusion => { in: VALID_CODES[:kind] }
         validates_presence_of :kind
         embeds_one :software, class_name:'FHIR::Conformance::ConformanceSoftwareComponent'
         embeds_one :implementation, class_name:'FHIR::Conformance::ConformanceImplementationComponent'
         field :fhirVersion, type: String
         validates_presence_of :fhirVersion
         field :acceptUnknown, type: String
+        validates :acceptUnknown, :inclusion => { in: VALID_CODES[:acceptUnknown] }
         validates_presence_of :acceptUnknown
         field :format, type: Array # Array of Strings
         validates_presence_of :format

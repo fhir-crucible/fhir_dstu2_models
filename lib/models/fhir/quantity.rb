@@ -41,6 +41,7 @@ module FHIR
         
         field :value, type: Float
         field :comparator, type: String
+        validates :comparator, :inclusion => { in: VALID_CODES[:comparator], :allow_nil => true }
         field :unit, type: String
         field :system, type: String
         field :code, type: String

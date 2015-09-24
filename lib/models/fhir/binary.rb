@@ -38,6 +38,10 @@ module FHIR
         SEARCH_PARAMS = [
             'contenttype'
         ]
+        SPECIAL_CODES = {
+            contentType: 'MimeType'
+        }
+        
         field :contentType, type: String
         validates_presence_of :contentType
         field :content, type: String

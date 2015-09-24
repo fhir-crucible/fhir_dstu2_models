@@ -58,6 +58,7 @@ module FHIR
         end
         
         field :action, type: String
+        validates :action, :inclusion => { in: VALID_CODES[:action] }
         validates_presence_of :action
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :ruleset, class_name:'FHIR::Coding'

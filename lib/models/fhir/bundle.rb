@@ -67,6 +67,7 @@ module FHIR
             }
             
             field :mode, type: String
+            validates :mode, :inclusion => { in: VALID_CODES[:mode], :allow_nil => true }
             field :score, type: Float
         end
         
@@ -81,6 +82,7 @@ module FHIR
             }
             
             field :method, type: String
+            validates :method, :inclusion => { in: VALID_CODES[:method] }
             validates_presence_of :method
             field :url, type: String
             validates_presence_of :url
@@ -120,6 +122,7 @@ module FHIR
         end
         
         field :fhirType, type: String
+        validates :fhirType, :inclusion => { in: VALID_CODES[:fhirType] }
         validates_presence_of :fhirType
         field :total, type: Integer
         embeds_many :link, class_name:'FHIR::Bundle::BundleLinkComponent'

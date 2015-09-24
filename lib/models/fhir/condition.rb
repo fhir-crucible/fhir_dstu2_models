@@ -93,7 +93,9 @@ module FHIR
         validates_presence_of :code
         embeds_one :category, class_name:'FHIR::CodeableConcept'
         field :clinicalStatus, type: String
+        validates :clinicalStatus, :inclusion => { in: VALID_CODES[:clinicalStatus], :allow_nil => true }
         field :verificationStatus, type: String
+        validates :verificationStatus, :inclusion => { in: VALID_CODES[:verificationStatus] }
         validates_presence_of :verificationStatus
         embeds_one :severity, class_name:'FHIR::CodeableConcept'
         field :onsetDateTime, type: String

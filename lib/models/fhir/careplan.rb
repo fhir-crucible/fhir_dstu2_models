@@ -66,6 +66,7 @@ module FHIR
             }
             
             field :code, type: String
+            validates :code, :inclusion => { in: VALID_CODES[:code], :allow_nil => true }
             embeds_one :plan, class_name:'FHIR::Reference'
             validates_presence_of :plan
         end
@@ -86,6 +87,7 @@ module FHIR
         include FHIR::Formats::Utilities
             
             VALID_CODES = {
+                statusReason: [ 'surgery', 'life-event', 'replaced', 'patient-request' ],
                 category: [ 'diet', 'drug', 'encounter', 'observation', 'procedure', 'supply', 'other' ],
                 status: [ 'not-started', 'scheduled', 'in-progress', 'on-hold', 'completed', 'cancelled' ]
             }
@@ -101,6 +103,7 @@ module FHIR
             embeds_many :reasonReference, class_name:'FHIR::Reference'
             embeds_many :goal, class_name:'FHIR::Reference'
             field :status, type: String
+            validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
             embeds_one :statusReason, class_name:'FHIR::CodeableConcept'
             field :prohibited, type: Boolean
             validates_presence_of :prohibited
@@ -130,6 +133,7 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :subject, class_name:'FHIR::Reference'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :context, class_name:'FHIR::Reference'
         embeds_one :period, class_name:'FHIR::Period'

@@ -82,6 +82,7 @@ module FHIR
         
         embeds_many :identifier, class_name:'FHIR::Identifier'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :patient, class_name:'FHIR::Reference'
         validates_presence_of :patient

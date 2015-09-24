@@ -50,8 +50,10 @@ module FHIR
             }
             
             field :severity, type: String
+            validates :severity, :inclusion => { in: VALID_CODES[:severity] }
             validates_presence_of :severity
             field :code, type: String
+            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
             embeds_one :details, class_name:'FHIR::CodeableConcept'
             field :diagnostics, type: String

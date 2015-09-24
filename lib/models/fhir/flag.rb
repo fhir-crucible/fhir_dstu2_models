@@ -51,6 +51,7 @@ module FHIR
         embeds_many :identifier, class_name:'FHIR::Identifier'
         embeds_one :category, class_name:'FHIR::CodeableConcept'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         embeds_one :period, class_name:'FHIR::Period'
         embeds_one :subject, class_name:'FHIR::Reference'

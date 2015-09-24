@@ -70,6 +70,7 @@ module FHIR
         embeds_one :encounter, class_name:'FHIR::Reference'
         embeds_one :performer, class_name:'FHIR::Reference'
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status], :allow_nil => true }
         embeds_many :notes, class_name:'FHIR::Annotation'
         field :asNeededBoolean, type: Boolean
         embeds_one :asNeededCodeableConcept, class_name:'FHIR::CodeableConcept'
@@ -77,6 +78,7 @@ module FHIR
         validates :orderedOn, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/ }
         embeds_one :orderer, class_name:'FHIR::Reference'
         field :priority, type: String
+        validates :priority, :inclusion => { in: VALID_CODES[:priority], :allow_nil => true }
         track_history
     end
 end

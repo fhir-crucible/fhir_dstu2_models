@@ -53,7 +53,8 @@ module FHIR
         ]
         
         VALID_CODES = {
-            reason: [ 'admit', 'discharge', 'absent', 'return', 'moved', 'edit' ]
+            reason: [ 'admit', 'discharge', 'absent', 'return', 'moved', 'edit' ],
+            event: [ 'MedicationAdministration-Complete', 'MedicationAdministration-Nullification', 'MedicationAdministration-Recording', 'MedicationAdministration-Update', 'admin-notify', 'diagnosticreport-provide', 'observation-provide', 'patient-link', 'patient-unlink', 'valueset-expand' ]
         }
         
         # This is an ugly hack to deal with embedded structures in the spec response
@@ -69,6 +70,7 @@ module FHIR
             field :identifier, type: String
             validates_presence_of :identifier
             field :code, type: String
+            validates :code, :inclusion => { in: VALID_CODES[:code] }
             validates_presence_of :code
             embeds_one :details, class_name:'FHIR::Reference'
         end

@@ -82,6 +82,7 @@ module FHIR
         field :description, type: String
         validates_presence_of :description
         field :status, type: String
+        validates :status, :inclusion => { in: VALID_CODES[:status] }
         validates_presence_of :status
         field :statusDate, type: String
         validates :statusDate, :allow_nil => true, :format => {  with: /\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/ }
