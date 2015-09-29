@@ -12,12 +12,19 @@ module FHIR
 
     def has_primitive_extension?(field,index=0)
       pe = primitiveExtension.select{|pe|pe.path=="_#{field}"}.first
-      !pe.nil? && !pe['extension'].nil? && !pe['extension'][index].nil?
+      has_in_hash = !pe.nil? && !pe['extension'].nil? && !pe['extension'][index].nil?
+      has_as_attr = !pe.nil? && !pe.extension.nil? && !pe.extension[index].nil?
+      (has_in_hash || has_as_attr)
     end
 
     def get_primitive_extension(field,index=0)
       pe = primitiveExtension.select{|pe|pe.path=="_#{field}"}.first
-      pe = pe['extension'][index] if pe && pe['extension'] && pe['extension'][index]
+      if pe && pe['extension'] && pe['extension'][index]
+        pe = pe['extension'][index] 
+      elsif pe && pe.extension && pe.extension[index]
+        pe = pe.extension[index] 
+      end
+      pe
     end
 
   end
