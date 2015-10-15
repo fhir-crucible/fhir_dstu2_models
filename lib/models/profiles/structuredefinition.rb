@@ -551,7 +551,7 @@ module FHIR
       @errors = []
       @warnings = []
       if representation.downcase=='resource'
-        if !is_fhir_class?(resource.class.to_s) || resource.class.name.demodulize!=fhirType
+        if !is_fhir_class?(resource.class.to_s)
           @errors << "Not a FHIR Resource: #{resource.class.to_s}"
           return false
         end
