@@ -724,7 +724,7 @@ module FHIR
                   if(!element.binding.nil?)
                     matching_type+=check_binding(element,value)
                   end
-                elsif data_type_code=='CodeableConcept' && element.patternType=='CodeableConcept' && !element.pattern.nil?
+                elsif data_type_code=='CodeableConcept' && element.pattern.try(:type)=='CodeableConcept' && !element.pattern.try(:value).nil?
                   # TODO check that the CodeableConcept matches the defined pattern
                   binding.pry
                 elsif data_type_code=='String' && !element.maxLength.nil? && (value.size>element.maxLength)
