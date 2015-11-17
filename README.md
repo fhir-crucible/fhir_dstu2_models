@@ -18,46 +18,46 @@ Includes support for:
 ### Resource Basics
 
 Using XML...
-
-    xml = File.open('patient-example.xml',&:read)
-    patient = FHIR::Patient.from_xml(xml)
-    puts patient.to_xml
-
+```ruby
+xml = File.open('patient-example.xml',&:read)
+patient = FHIR::Patient.from_xml(xml)
+puts patient.to_xml
+```
 Using JSON...
-
-    json = File.open('patient-example.json',&:read)
-    patient = FHIR::Patient.from_fhir_json(json)
-    puts patient.to_fhir_json
-
+```ruby
+json = File.open('patient-example.json',&:read)
+patient = FHIR::Patient.from_fhir_json(json)
+puts patient.to_fhir_json
+```
 ### Validation
 
 Using a base resource definition...
-
-     sd = FHIR::StructureDefinition.get_base_definition('Patient')
-    sd.is_valid?(patient) # passing in FHIR::Patient
-    sd.is_valid?(xml)     # passing in String of XML
-    sd.is_valid?(json)    # passing in String of JSON
-
+```ruby
+sd = FHIR::StructureDefinition.get_base_definition('Patient')
+sd.is_valid?(patient) # passing in FHIR::Patient
+sd.is_valid?(xml)     # passing in String of XML
+sd.is_valid?(json)    # passing in String of JSON
+```
 Validation failed? Get the errors and warnings...
-
-    puts sd.errors
-    puts sd.warnings
-
+```ruby
+puts sd.errors
+puts sd.warnings
+```
 ### Profile Comparison
 
 We include those profiles built into the FHIR core tools... let's compare them...
-
-    profiles = FHIR::StructureDefinition.get_profiles_for_resource('Patient')
-    profiles[0].is_compatible?(profiles[1])
-
+```ruby
+profiles = FHIR::StructureDefinition.get_profiles_for_resource('Patient')
+profiles[0].is_compatible?(profiles[1])
+```
 Profiles not compatible? Get the errors and warnings...
-
-    puts profiles[0].errors
-    puts profiles[1].warnings
-
+```ruby
+puts profiles[0].errors
+puts profiles[1].warnings
+```
 # License
 
-Copyright 2014 The MITRE Corporation
+Copyright 2014-2015 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
