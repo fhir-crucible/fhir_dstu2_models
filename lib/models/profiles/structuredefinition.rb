@@ -36,6 +36,7 @@ module FHIR
     @@other_definitions = nil
     @@type_definitions = nil
     @@extension_definitions = nil
+    @@invariants = nil
 
     def self.load_definitions
       if @@base_definitions.nil?
@@ -156,6 +157,79 @@ module FHIR
         binding.pry
       end
       all_flaws
+    end
+
+    # -------------------------------------------------------------------------
+    #                        Generating Invariant List
+    # -------------------------------------------------------------------------
+
+    def self.generate_invariants_json
+      load_definitions
+      @@invariants = {}
+      @@invariants[:types] = {}
+      @@type_definitions.entry.each{|x|generate_type_invariants(x)}
+      @@invariants[:resources] = {}
+      @@base_definitions.entry.each{|x|generate_invariants(x)}
+      # @@other_definitions.entry.each{|x|generate_invariants(x)}
+      # @@extension_definitions.entry.each{|x|generate_invariants(x)}
+      filename = File.join(File.dirname(__FILE__),'invariants.json')
+      file = File.open(filename,'w:UTF-8')
+      file.write(JSON.pretty_unparse(@@invariants))
+      file.close
+      @@invariants
+    end
+
+    def self.generate_type_invariants(entry)
+      if !entry.nil? && entry.resourceType=='StructureDefinition' && !entry.resource.nil?
+        definition = entry.resource
+        @@invariants[:types][definition.name] = {}
+        
+        definition.snapshot.element.each do |element|
+          if !element.constraint.empty?
+            element.constraint.each do |constraint|
+              @@invariants[:types][definition.name][constraint.key]= {
+                :path => element.path, # TODO if the path contains [x] we should generate the various options
+                :severity => constraint.severity,
+                :human => constraint.human,
+                :xpath => constraint.xpath
+              }
+            end
+          end
+        end
+
+      end
+    end
+
+    def self.generate_invariants(entry)
+      if !entry.nil? && entry.resourceType=='StructureDefinition' && !entry.resource.nil?
+        definition = entry.resource
+        @@invariants[:resources][definition.name] = {}
+
+        definition.snapshot.element.each do |element|
+          if !element.constraint.empty?
+            element.constraint.each do |constraint|
+              @@invariants[:resources][definition.name][constraint.key]= {
+                :path => element.path,
+                :severity => constraint.severity,
+                :human => constraint.human,
+                :xpath => constraint.xpath
+              }
+            end
+          end
+
+          if !element.fhirType.nil? && !element.fhirType.empty?
+            element.fhirType.each do |fhirType|
+              rules = @@invariants[:types][fhirType.code]
+              if !rules.nil?
+                rules.keys.each do |key|
+                  @@invariants[:resources][definition.name]["#{element.path}-#{key}"] = rules[key].clone
+                  @@invariants[:resources][definition.name]["#{element.path}-#{key}"][:path] = element.path.gsub('[x]',fhirType.code)
+                end
+              end
+            end
+          end
+        end
+      end
     end
     
     # -------------------------------------------------------------------------
@@ -573,8 +647,8 @@ module FHIR
         @errors << "Not valid xml."
         return false
       end
-      doc.root.add_namespace_definition('fhir', 'http://hl7.org/fhir')
-      doc.root.add_namespace_definition('xhtml', 'http://www.w3.org/1999/xhtml')
+      doc.root.add_namespace_definition('f', 'http://hl7.org/fhir')
+      doc.root.add_namespace_definition('h', 'http://www.w3.org/1999/xhtml')
       
       resource_type = doc.xpath('/*').first.name
 
@@ -588,12 +662,12 @@ module FHIR
         end
         if path.end_with?('[x]')
           path = path.gsub(name,"#{resource_type}").gsub('.','/')
-          path = path.sub(/(.*)(\/)(fhir:)(.*)(\[x\])/,'\1\2*[starts-with(name(),\'\4\')]')
+          path = path.sub(/(.*)(\/)(f:)(.*)(\[x\])/,'\1\2*[starts-with(name(),\'\4\')]')
         else
-          path = path.gsub(name,"fhir:#{resource_type}").gsub('.','/fhir:')
+          path = path.gsub(name,"f:#{resource_type}").gsub('.','/f:')
         end
         nodes = doc.xpath(path)
-        nodes = doc.xpath(path.gsub('fhir:','')) if nodes.nil? || nodes.size==0
+        nodes = doc.xpath(path.gsub('f:','')) if nodes.nil? || nodes.size==0
 
         # Check the cardinality
         min = element.min
@@ -625,7 +699,7 @@ module FHIR
                   end
                 elsif data_type_code=='CodeableConcept' && element.pattern.try(:type)=='CodeableConcept' && !element.pattern.try(:value).nil?
                   # TODO check that the CodeableConcept matches the defined pattern
-                  binding.pry
+                  @warnings << "Skipped pattern verification: #{element.pattern.value} for CodeableConcept at #{element.path}"
                 elsif data_type_code=='String' && !element.maxLength.nil? && (value.size>element.maxLength)
                   @errors << "#{element.path} exceed maximum length of #{element.maxLength}: #{value}"
                 end
@@ -646,25 +720,10 @@ module FHIR
         end
 
         # check 'constraint.xpath' constraints
-        if !element.constraint.empty?
-          element.constraint.each do |constraint|
-            nodes.each do |node|
-              begin
-                result = node.xpath(constraint.xpath)
-                if !result
-                  if constraint.severity=='error'
-                    @errors << "#{element.path}: failed #{name} invariant rule #{constraint.key}: #{constraint.human}"
-                  else
-                    @warnings << "#{element.path}: failed #{name} invariant rule #{constraint.key}: #{constraint.human}"
-                  end
-                end
-              rescue Exception => exp
-                @warnings << "#{element.path}: invalid XPath 1.0 expression for #{name} invariant rule #{constraint.key}: #{constraint.human}"
-              end
-            end
-          end
-        end
-
+        invariants = FHIR::Invariants.new
+        invariants.is_valid_xml?(xml)
+        @errors.append(invariants.errors).flatten!
+        @warnings.append(invariants.warnings).flatten!
       end
 
       @errors.size==0
@@ -724,9 +783,9 @@ module FHIR
                   if(!element.binding.nil?)
                     matching_type+=check_binding(element,value)
                   end
-                elsif data_type_code=='CodeableConcept' && element.pattern.try(:type)=='CodeableConcept' && !element.pattern.try(:value).nil?
+                elsif data_type_code=='CodeableConcept' && element.patternType=='CodeableConcept' && !element.pattern.nil?
                   # TODO check that the CodeableConcept matches the defined pattern
-                  binding.pry
+                  @warnings << "Ignoring defined patterns on CodeableConcept #{element.path}"
                 elsif data_type_code=='String' && !element.maxLength.nil? && (value.size>element.maxLength)
                   @errors << "#{element.path} exceed maximum length of #{element.maxLength}: #{value}"
                 end
@@ -857,8 +916,10 @@ module FHIR
           doc = Nokogiri::XML(value)
           contained_resources_valid = true
           doc.root.element_children do |element|
-            element.add_namespace_definition(nil,'http://hl7.org/fhir')
-            contained_resources_valid = contained_resources_valid && is_valid_xml?(element.to_xml)
+            child_xml = element.to_xml
+            child_doc = Nokogiri::XML(child_xml)
+            child_doc.root.default_namespace = "http://hl7.org/fhir"
+            contained_resources_valid = contained_resources_valid && is_valid_xml?(child_doc.to_xml)
           end
           contained_resources_valid
         elsif representation.downcase == 'json'
@@ -885,6 +946,11 @@ module FHIR
         definition = FHIR::StructureDefinition.get_type_definition(data_type_code)
         definition = FHIR::StructureDefinition.get_base_definition(data_type_code) if definition.nil?
         if !definition.nil?
+          if representation.downcase == 'xml'
+            doc = Nokogiri::XML(value)
+            doc.root.default_namespace = "http://hl7.org/fhir"
+            value = doc.to_xml
+          end
           retVal = definition.is_valid?(value,representation)
           if !retVal
             @errors += definition.errors 

@@ -3,7 +3,7 @@
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="extensions"/>
   <meta>
-    <lastUpdated value="2015-09-23T16:33:44.335-04:00"/>
+    <lastUpdated value="2016-01-28T12:03:39.212-05:00"/>
   </meta>
   <type value="collection"/>
   <entry>
@@ -15,7 +15,7 @@
         <name value="What has happened over time"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Information on changes made to the Value Set Definition over time, and also has a contained audit trail of all such changes."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -1265,7 +1265,7 @@
         <name value="A concept map relevant to interpret this value set"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A reference to a concept map that is relevant for the interpretation of this value set."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -1417,7 +1417,7 @@
         <display value="MPI Match Decision"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The Master Patient Index (MPI) assessment of whether a candidate patient record is a match or not."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -1749,7 +1749,7 @@
         <display value="cadavericDonor"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Flag indicating whether the patient authorized the donation of body parts after death."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -2212,7 +2212,7 @@
         <display value="Definition"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A display name that describes the meaning of this code when used as part of this value set."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -3340,7 +3340,7 @@
         <display value="congregation"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A group or place of religious practice that may provide services to the patient."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -3815,7 +3815,7 @@
         <name value="Appearance order for user selection"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Identifies the relative order in which concepts within the value set should be presented to a user."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -5306,7 +5306,7 @@ There can be multiple contacts on an Organizations record with this value set to
         <name value="Where did this content come from"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="This text is intended to act as a citation to work done elsewhere that is not part of the current stewarding process where the referenced source is in some way a basis of the current value set definition."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -9999,7 +9999,7 @@ There can be multiple contacts on an Organizations record with this value set to
         <display value="interpreterRequired"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="This Patient requires an interpreter to communicate healthcare information to the practitioner."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -13661,7 +13661,7 @@ There can be multiple contacts on an Organizations record with this value set to
         <display value="Mother&#39;s Maiden Name"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Mother&#39;s maiden (unmarried) name, commonly collected to help verify patient identity."/>
         <mapping>
           <identity value="v2"/>
@@ -14331,7 +14331,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="primaryInd"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Flag indicating if the specialty is the primary specialty of the provider. Normally, a practitioner will have one primary specialty, but in some cases more than one can be primary."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -14819,7 +14819,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Who has used and how?"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Consumers of the value set and the implementations, projects or standards that the author has utilized the value set in."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -16426,7 +16426,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="E.g. &quot;(a)&quot;, &quot;1.&quot;, etc."/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The label to list in front of a code when presenting a list of possible values in a questionnaire-like fashion."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -18213,7 +18213,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="Alias"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Other names that this location is known as. (for Example, &quot;Pembo HC&quot; and &quot;Pembo Health Clinic&quot;)."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -18978,7 +18978,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="Comment"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A comment that explains how this code is used in this context (where the value set is expected to be used)."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -20073,7 +20073,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="A code that replaces this"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A code that replaces this - use this code instead."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -24716,7 +24716,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Human-specified notes and other documentation"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Each comment is a time-stamped entry of arbitrary length that is not editable except by anyone in the author group."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -25531,7 +25531,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Url of Value set the code was chosen from"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A logical reference (e.g. a reference to ValueSet.url) that identifies the value set/version that identifies the set of possible coded values this coding was chosen from or constrained by."/>
         <mapping>
           <identity value="v2"/>
@@ -28238,7 +28238,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="User or Org actually involved in creating the value set content"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="User or Org actually involved in creating the value set content."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -28385,7 +28385,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Indicates the state of development of the value set"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Workflow Status is used to represent details of the value set development process while the value set has an Activity Status of Preliminary. The development of a value set often follows a formal workflow process from initiation to completion, and this element carries the state variable for this state machine. The assumption is that when first created a value set would have a workflow state of Draft. Additional workflow states may be used."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -28691,7 +28691,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="adoptionInfo"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Code indication the adoption status of the patient."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -29910,7 +29910,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="birthTime"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The time of day that the Patient was born. This includes the date to ensure that the timezone information can be communicated effectively."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -30405,7 +30405,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Extra warning about the correct use of the value set"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="An extra warning about the correct use of the value set."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -32541,7 +32541,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="When the value set version should no longer be used"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The date when the value set version is no longer expected to be used to create new content. This is the first date-time when the value set version becomes Inactive, so this value MUST present on all Inactive value set versions. The start Date_time is expected to be as of 0001 UTC of the Expiration Date."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -33946,7 +33946,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="The expansion is incomplete"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Marks that the expansion is  incomplete, abd other values that those listed may be valid."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -36218,7 +36218,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Alternative names"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Human readable names for the valueset."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -37201,7 +37201,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Code system name"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The human-readable name for the code system."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -37348,7 +37348,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="When the value set version becomes Active and is available for use"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="This is the first date-time when the value set version becomes active, so this value is present on Inactive value set versions as well. The start Date_time is expected to be as of 0001 UTC of the Effective Date."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -37496,7 +37496,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="nationality"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The nationality of the subject."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -39780,7 +39780,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Descriptors and key terms for search"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Word or words used in an information retrieval system to indicate the content of the value set."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -41111,7 +41111,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="citizenship"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The patient&#39;s legal status as citizen of a country."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -43069,7 +43069,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="OID assigned to the value set or code system"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The OID assigned the same object as the URI points to. Examples include OIDs assigned to code systems like SNOMED CT (urn:oid:2.16.840.1.113883..6.96) or LOINC (urn:oid:2.16.840.1.113883.6.1), value sets like AdministrativeGender (urn:oid:2.16.840.1.113883.11.1), identification systems like SSN (urn:oid:2.16.840.1.113883.4.1) etc."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -43893,7 +43893,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Comparison value for ordinal codes"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="A numeric value that allows the comparison (less than, greater than) or other numerical manipulation of a concept (e.g. Adding up components of a score)."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -45014,7 +45014,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="If code is case sensitive"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="If this a case sensitive code."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -45164,7 +45164,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="animalSpecies"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="This extension should be used to specifiy that a practioner or RelatedPerson resource is a service animal."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -45477,7 +45477,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="Deprecated"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Set to true of the concept has been deprecated (still can be used, but soon to be withdrawn)."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -47739,7 +47739,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="classification"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The more specific service or occupation within the health care provider type of the practitioner at a specific organization unit, for example, counselor."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -50717,7 +50717,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="clinicalTrial"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The clinical trials this patient has or is participating in."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -54647,7 +54647,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="ValueSet definition used to generate this expansion (logical URL)"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The logical URL of the ValueSet definition that was used to generate this expansion."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -54795,7 +54795,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="Subsumes"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Refers to another code defined within the code system that is also subsumed by this code. I.e. This concept subsumes the referenced concept.  Because meaning is inferred from hierarchy as well as definition, the presence of this extension modifies the meaning of the extended concept."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -57308,7 +57308,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <display value="disability"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Value(s) identifying physical or mental condition(s) that limits a person&#39;s movements, senses, or activities."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -58233,7 +58233,7 @@ If no end-point is specified, then the form is not exclusively designed to be su
         <name value="Reference to a trusted expansion"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="Indicates an authoritative source for performing value set expansions."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -59203,7 +59203,7 @@ For Questionnaire:
         <name value="Where to find code system"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The formal URI for the code system.  I.e. ValueSet.codeSystem.system (or its equivalent)."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>
@@ -61077,7 +61077,7 @@ For Questionnaire:
         <display value="importance"/>
         <status value="draft"/>
         <publisher value="HL7"/>
-        <date value="2015-09-23T16:33:44-04:00"/>
+        <date value="2016-01-28T12:03:39-05:00"/>
         <description value="The importance of the patient (e.g., VIP)."/>
         <kind value="datatype"/>
         <constrainedType value="Extension"/>

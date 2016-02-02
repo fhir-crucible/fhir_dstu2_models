@@ -9,7 +9,7 @@ gem 'mongoid'
 gem 'nokogiri'
 gem 'mongoid-history'
 gem 'date_time_precision'
-gem 'bcp47', '~> 0.3.3'
+gem 'bcp47'
 
 group :test do
   gem 'simplecov', :require => false
