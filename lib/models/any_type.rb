@@ -1,4 +1,4 @@
-module FHIR 
+module FHIR
 
   class AnyType
 
@@ -11,6 +11,10 @@ module FHIR
     def initialize(type,value)
       @type = type
       @value = value
+    end
+
+    def ==(other)
+      type == other.type && value == other.value
     end
 
     # # Converts an object of this instance into a database friendly value.
@@ -38,7 +42,7 @@ module FHIR
     #   def mongoize(object)
     #     case object
     #     when AnyType then object.mongoize
-    #     when Hash 
+    #     when Hash
     #       v = object[:value]
     #       case object[:type].downcase
     #       when 'integer', 'decimal', 'boolean'
