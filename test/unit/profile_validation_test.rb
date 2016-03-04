@@ -5,9 +5,9 @@ class ProfileValidationTest < Test::Unit::TestCase
  
   ERROR_DIR = File.join('tmp','errors','profile','xml')
   ERROR_DIR_JSON = File.join('tmp','errors','profile','json')
-  EXAMPLE_ROOT = File.join('..','..','..','..','source')
-  EXAMPLE_ROOT_JSON = File.join('..','..','..','..','temp')
-  XSD_ROOT = File.join('..','..','..','..','schema')
+  EXAMPLE_ROOT = File.join('test','fixtures','xml')
+  EXAMPLE_ROOT_JSON = File.join('test','fixtures','json')
+  XSD_ROOT = File.join('test','fixtures','schema')
 
   # Automatically generate one test method per example file
   example_xml_files = File.join(EXAMPLE_ROOT, '**', '*-example*.xml')

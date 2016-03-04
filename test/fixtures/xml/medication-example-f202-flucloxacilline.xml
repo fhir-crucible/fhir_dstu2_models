@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><Medication xmlns="http://hl7.org/fhir">
+  <id value="f202"/>
+ <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f202</p><p><b>code</b>: Flucloxacillin <span>(Details : {SNOMED CT code &#39;387544009&#39; = &#39;387544009&#39;, given as &#39;Flucloxacillin&#39;})</span></p><p><b>isBrand</b>: false</p><h3>Products</h3><table><tr><td>-</td><td><b>Form</b></td></tr><tr><td>*</td><td>Injection <span>(Details : {SNOMED CT code &#39;385218009&#39; = &#39;385218009&#39;, given as &#39;Injection&#39;})</span></td></tr></table></div></text><code>
+    <coding>
+       <system value="http://snomed.info/sct"/>
+       <code value="387544009"/>
+       <display value="Flucloxacillin"/>
+    </coding>
+ </code>
+ <isBrand value="false"/>
+ <product> 
+  <form>
+    <coding>
+       <system value="http://snomed.info/sct"/>
+       <code value="385218009"/>
+       <display value="Injection"/>
+    </coding>
+  </form>
+ </product>
+</Medication>

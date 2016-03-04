@@ -4,7 +4,7 @@ require_relative '../test_helper'
 class InvariantsValidationTest < Test::Unit::TestCase
  
   ERROR_DIR = File.join('tmp','errors','profile','invariants')
-  EXAMPLE_ROOT = File.join('..','..','..','..','source')
+  EXAMPLE_ROOT = File.join('..','fixtures','xml')
 
   # Automatically generate one test method per example file
   example_xml_files = File.join(EXAMPLE_ROOT, '**', '*-example*.xml')

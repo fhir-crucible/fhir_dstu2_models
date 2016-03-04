@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><Encounter xmlns="http://hl7.org/fhir">
+  <id value="f203"/>
+ <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>identifier</b>: Encounter_Roel_20130311 (TEMP)</p><p><b>status</b>: finished</p><p><b>class</b>: inpatient</p><p><b>type</b>: Inpatient stay for nine days <span>(Details : {SNOMED CT code &#39;183807002&#39; = &#39;183807002&#39;, given as &#39;Inpatient stay for nine days&#39;})</span></p><p><b>priority</b>: High priority <span>(Details : {SNOMED CT code &#39;394849002&#39; = &#39;394849002&#39;, given as &#39;High priority&#39;})</span></p><p><b>patient</b>: <a>Roel</a></p><h3>Participants</h3><table><tr><td>-</td><td><b>Individual</b></td></tr><tr><td>*</td><td><a>Practitioner/f201</a></td></tr></table><p><b>period</b>: Mar 11, 2013 --&gt; Mar 20, 2013</p><p><b>reason</b>: The patient seems to suffer from bilateral pneumonia and renal insufficiency, most likely due to chemotherapy. <span>(Details )</span></p><h3>Hospitalizations</h3><table><tr><td>-</td><td><b>AdmitSource</b></td><td><b>ReAdmission</b></td><td><b>DietPreference</b></td></tr><tr><td>*</td><td>Clinical Oncology Department <span>(Details : {SNOMED CT code &#39;309902002&#39; = &#39;309902002&#39;, given as &#39;Clinical Oncology Department&#39;})</span></td><td>readmitted <span>(Details : {[not stated] code &#39;null&#39; = &#39;??&#39;, given as &#39;readmitted&#39;})</span></td><td>Fluid balance regulation <span>(Details : {SNOMED CT code &#39;276026009&#39; = &#39;276026009&#39;, given as &#39;Fluid balance regulation&#39;})</span></td></tr></table><p><b>serviceProvider</b>: <a>Organization/f201</a></p></div></text><identifier>
+    <use value="temp"/>
+    <value value="Encounter_Roel_20130311"/>
+ </identifier>
+ <status value="finished"/><!--  Encounter has finished  -->
+ <class value="inpatient"/><!--  Inpatient encounter for straphylococcus infection  -->
+ <type>
+    <coding>
+       <system value="http://snomed.info/sct"/>
+       <code value="183807002"/>
+       <display value="Inpatient stay for nine days"/>
+    </coding>
+ </type>
+ <priority><!--  High priority  -->
+    <coding>
+       <system value="http://snomed.info/sct"/>
+       <code value="394849002"/>
+       <display value="High priority"/>
+    </coding>
+ </priority>
+ <patient>
+     <reference value="Patient/f201"/>
+     <display value="Roel"/>
+ </patient>
+ <participant>
+     <individual>
+         <reference value="Practitioner/f201"/>
+    </individual>
+ </participant>
+  <period>
+      <start value="2013-03-11"/>
+      <end value="2013-03-20"/>
+  </period>
+ <reason>
+   <text value="The patient seems to suffer from bilateral pneumonia and renal insufficiency, most likely due to chemotherapy."/>
+ </reason> 
+<!--  No indication, because no referral took place  -->
+ <hospitalization> 
+<!--    <origin>
+     <reference value="Location/2"/>     
+  </origin>  --> 
+  <admitSource>
+    <coding>
+       <system value="http://snomed.info/sct"/>
+       <code value="309902002"/>
+       <display value="Clinical Oncology Department"/>
+    </coding>
+  </admitSource>
+  <reAdmission>
+	  <coding>
+		  <display value="readmitted"/>
+	  </coding>
+  </reAdmission>
+  <!--  accomodation details are not available  -->
+  <dietPreference>
+    <coding>
+       <system value="http://snomed.info/sct"/>
+       <code value="276026009"/>
+       <display value="Fluid balance regulation"/>
+    </coding>
+  </dietPreference>
+  <!--  no special courtesy or arrangements  -->
+<!--    <destination><!-\-Fictive-\->
+     <reference value="Location/f202"/>  
+  </destination>  -->
+ </hospitalization>
+ <serviceProvider>
+     <reference value="Organization/f201"/>
+ </serviceProvider>
+</Encounter>

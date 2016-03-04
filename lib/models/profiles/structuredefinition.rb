@@ -783,7 +783,7 @@ module FHIR
                   if(!element.binding.nil?)
                     matching_type+=check_binding(element,value)
                   end
-                elsif data_type_code=='CodeableConcept' && element.patternType=='CodeableConcept' && !element.pattern.nil?
+                elsif data_type_code=='CodeableConcept' && !element.pattern.nil? && element.pattern.type=='CodeableConcept'
                   # TODO check that the CodeableConcept matches the defined pattern
                   @warnings << "Ignoring defined patterns on CodeableConcept #{element.path}"
                 elsif data_type_code=='String' && !element.maxLength.nil? && (value.size>element.maxLength)
@@ -979,7 +979,7 @@ module FHIR
         end
       elsif vsUri=='http://tools.ietf.org/html/bcp47' 
         hasRegion = (!(value =~ /-/).nil?)
-        valid = !BCP47::Language.identify(value).nil? && (!hasRegion || !BCP47::Region.identify(value).nil?)
+        valid = !BCP47::Language.identify(value.downcase).nil? && (!hasRegion || !BCP47::Region.identify(value.upcase).nil?)
         if !valid
           @errors << "#{element.path} has unrecognized language: '#{value}'"
           matching_type-=1 if element.binding.strength=='required'            

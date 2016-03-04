@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationOrder xmlns="http://hl7.org/fhir">
+  <id value="f201"/>
+  <!--  No identifier could be provided  -->
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f201</p><p><b>dateWritten</b>: Mar 11, 2013</p><p><b>status</b>: active</p><p><b>patient</b>: <a>Roel</a></p><p><b>prescriber</b>: <a>Dokter Bonsig</a></p><p><b>reason</b>: <a>fever</a></p><p><b>medication</b>: <a>25ug Salmeterol + 250ug Fluticasone</a></p><h3>DosageInstructions</h3><table><tr><td>-</td><td><b>Text</b></td><td><b>Timing</b></td><td><b>Site[x]</b></td><td><b>Route</b></td><td><b>Method</b></td><td><b>Dose[x]</b></td><td><b>MaxDosePerPeriod</b></td></tr><tr><td>*</td><td>aerosol 25/250ug/do 120do 2x - 1 dose - daily</td><td>Starting Mar 11, 2013, Do 2 per 1 days, Until May 11, 2013</td><td>Oral cavity <span>(Details : {SNOMED CT code &#39;74262004&#39; = &#39;74262004&#39;, given as &#39;Oral cavity&#39;})</span></td><td>Respiratory tract <span>(Details : {SNOMED CT code &#39;321667001&#39; = &#39;321667001&#39;, given as &#39;Respiratory tract&#39;})</span></td><td>Salmeterol+fluticasone 25/250ug inhaler <span>(Details : {SNOMED CT code &#39;320276009&#39; = &#39;320276009&#39;, given as &#39;Salmeterol+fluticasone 25/250ug inhaler&#39;})</span></td><td>1 PUFF<span> (Details: http://hl7.org/fhir/v3/orderableDrugForm code PUFF = &#39;Puff&#39;)</span></td><td>2 puffs<span> (Details: SNOMED CT code 415215001 = &#39;415215001&#39;)</span>/1 daily<span> (Details: SNOMED CT code 259032004 = &#39;259032004&#39;)</span></td></tr></table></div></text><dateWritten value="2013-03-11"/>
+  <status value="active"/>
+  <patient>
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </patient>
+  <prescriber>
+    <reference value="Practitioner/f201"/>
+    <display value="Dokter Bonsig"/>
+  </prescriber>
+  <reasonReference>
+    <reference value="Condition/f201"/>
+    <display value="fever"/>
+  </reasonReference>
+  <medicationReference>
+    <reference value="Medication/f201"/>
+    <display value="25ug Salmeterol + 250ug Fluticasone"/>
+  </medicationReference>
+  <dosageInstruction>
+    <text value="aerosol 25/250ug/do 120do 2x - 1 dose - daily"/>
+    <timing>
+      <!--  2 months  -->
+      <repeat>
+        <boundsPeriod>
+          <start value="2013-03-11"/>
+          <end value="2013-05-11"/>
+        </boundsPeriod>
+        <!--   twice per day   -->
+        <frequency value="2"/>
+        <period value="1"/>
+        <periodUnits value="d"/>
+      </repeat>
+    </timing>
+    <siteCodeableConcept>
+      <!--  Medication enters the oral cavity  -->
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="74262004"/>
+        <display value="Oral cavity"/>
+      </coding>
+    </siteCodeableConcept>
+    <route>
+      <!--  Medication follows the respiratory tract  -->
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="321667001"/>
+        <display value="Respiratory tract"/>
+      </coding>
+    </route>
+    <method>
+      <!--  Medication is administered with a specific inhaler  -->
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="320276009"/>
+        <display value="Salmeterol+fluticasone 25/250ug inhaler"/>
+      </coding>
+    </method>
+    <doseQuantity>
+      <value value="1"/>
+      <system value="http://hl7.org/fhir/v3/orderableDrugForm"/>
+      <code value="PUFF"/>
+    </doseQuantity>
+    <maxDosePerPeriod>
+      <!--  2 puffs per day  -->
+      <numerator>
+        <value value="2"/>
+        <unit value="puffs"/>
+        <system value="http://snomed.info/sct"/>
+        <code value="415215001"/>
+      </numerator>
+      <denominator>
+        <value value="1"/>
+        <unit value="daily"/>
+        <system value="http://snomed.info/sct"/>
+        <code value="259032004"/>
+      </denominator>
+    </maxDosePerPeriod>
+  </dosageInstruction>
+  <!--  <dispense> and <substitution> are not available for this patient  -->
+</MedicationOrder>

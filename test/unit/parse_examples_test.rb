@@ -5,8 +5,8 @@ require_relative '../test_helper'
 class ParseExamplesTest < Test::Unit::TestCase
  
   ERROR_DIR = File.join('tmp','errors','parse')
-  EXAMPLE_ROOT = File.join('..','..','..','..','publish')
-  XSD_ROOT = File.join('..','..','..','..','schema')
+  EXAMPLE_ROOT = File.join('test','fixtures','xml')
+  XSD_ROOT = File.join('test','fixtures','schema')
   XSD = Nokogiri::XML::Schema(File.new(File.join(XSD_ROOT, "fhir-single.xsd")))
 
   # Automatically generate one test method per measure file
@@ -28,9 +28,8 @@ class ParseExamplesTest < Test::Unit::TestCase
 
     example_name = File.basename(example_file, ".xml")
     dir = File.dirname(example_file)
-    parent = dir[dir.index('publish')+7..-1].gsub('/','_')
-    define_method("test_#{parent}#{example_name}") do
-      run_parse_test(root_element, example_file, "#{parent}#{example_name}")
+    define_method("test_#{example_name}") do
+      run_parse_test(root_element, example_file, example_name)
     end
   end
 

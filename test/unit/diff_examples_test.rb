@@ -6,7 +6,7 @@ require 'nokogiri/diff'
 class DiffExamplesTest < Test::Unit::TestCase
  
   ERROR_DIR = File.join('tmp','errors', 'diff')
-  EXAMPLE_ROOT = File.join('..','..','..','..','publish')
+  EXAMPLE_ROOT = File.join('test','fixtures','xml')
 
   # Automatically generate one test method per measure file
   example_files = File.join(EXAMPLE_ROOT, '**', '*-example*.xml')
@@ -27,9 +27,8 @@ class DiffExamplesTest < Test::Unit::TestCase
 
     example_name = File.basename(example_file, ".xml")
     dir = File.dirname(example_file)
-    parent = dir[dir.index('publish')+7..-1].gsub('/','_')
-    define_method("test_#{parent}#{example_name}") do
-      run_diff_test(root_element, example_file, "#{parent}#{example_name}")
+    define_method("test_#{example_name}") do
+      run_diff_test(root_element, example_file, example_name)
     end
   end
 

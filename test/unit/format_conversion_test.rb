@@ -6,9 +6,9 @@ class RunConversionTest < Test::Unit::TestCase
   ERROR_DIR_JJ = File.join('tmp','errors','format','read-json-write-json')
   ERROR_DIR_XJ = File.join('tmp','errors','format','read-xml-write-json')
   ERROR_DIR_JX = File.join('tmp','errors','format','read-json-write-xml')
-  EXAMPLE_ROOT = File.join('..','..','..','..','publish')
-  EXAMPLE_JSON_ROOT = File.join('..','..','..','..','publish')
-  XSD_ROOT = File.join('..','..','..','..','schema')
+  EXAMPLE_ROOT = File.join('test','fixtures','xml')
+  EXAMPLE_JSON_ROOT = File.join('test','fixtures','json')
+  XSD_ROOT = File.join('test','fixtures','schema')
 
   # Automatically generate one test method per example file
   example_xml_files = File.join(EXAMPLE_ROOT, '**', '*-example*.xml')
@@ -31,10 +31,6 @@ class RunConversionTest < Test::Unit::TestCase
   Dir.glob(example_json_files).each do | json_file |
     
     json_basename = File.basename(json_file,'.json')    
-    dir = File.dirname(json_file)
-    parent = dir[dir.index('publish')+7..-1].gsub('/','_')
-    parent = parent[1..-1] if parent[0]=='_'
-    
     json_string = File.open(json_file, 'r:bom|UTF-8', &:read)
     
     xml_file = example_xml_files.find {|f| f == json_file.gsub('.json','.xml') }
@@ -51,21 +47,21 @@ class RunConversionTest < Test::Unit::TestCase
     next if EXCLUDED_RESOURCES.include?(root_element)
 
     # Generate Test 1 - JSON conversions
-    define_method("test_#{parent}#{json_basename}_json_diff") do
-      run_json_diff_test("#{parent}#{json_basename}",json_file)
+    define_method("test_#{json_basename}_json_diff") do
+      run_json_diff_test(json_basename,json_file)
     end
     
     # Generate Test 2 - XML-to-JSON Ruby/Java correctness
-    define_method("test_#{parent}#{json_basename}_xml_json_diff") do
-      run_xml_json_diff_test("#{parent}#{json_basename}",json_file,root_element,xml_file)
+    define_method("test_#{json_basename}_xml_json_diff") do
+      run_xml_json_diff_test(json_basename,json_file,root_element,xml_file)
     end 
     
     # Generate Test 3 - XML-to-XML conversions
     # Ignore: This is done in diff_examples_test.rb
 
     # Generate Test 4 - JSON-to-XML conversions
-     define_method("test_#{parent}#{json_basename}_json_xml_diff") do
-      run_json_xml_diff_test("#{parent}#{json_basename}",json_file,root_element,xml_file)
+     define_method("test_#{json_basename}_json_xml_diff") do
+      run_json_xml_diff_test(json_basename,json_file,root_element,xml_file)
     end    
 
   end

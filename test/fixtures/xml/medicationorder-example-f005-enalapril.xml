@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationOrder xmlns="http://hl7.org/fhir">
+  <id value="f005"/>
+    <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f005</p><p><b>identifier</b>: order9823343 (OFFICIAL)</p><p><b>dateWritten</b>: May 1, 2011</p><p><b>status</b>: active</p><p><b>patient</b>: <a>P. van den Heuvel</a></p><p><b>prescriber</b>: <a>S.M. Heps</a></p><p><b>encounter</b>: <a>encounter who leads to this priscription</a></p><p><b>reason</b>: High blood pressure <span>(Details : {SNOMED CT code &#39;38341003&#39; = &#39;38341003&#39;, given as &#39;High blood pressure&#39;})</span></p><p><b>medication</b>: <a>prescribed medication</a></p><h3>DosageInstructions</h3><table><tr><td>-</td><td><b>Timing</b></td><td><b>Site[x]</b></td><td><b>Route</b></td><td><b>Dose[x]</b></td></tr><tr><td>*</td><td>Starting May 1, 2011, Do Once per 1 days</td><td>Entire oral cavity <span>(Details : {SNOMED CT code &#39;181220002&#39; = &#39;181220002&#39;, given as &#39;Entire oral cavity&#39;})</span></td><td>Administration of drug or medicament via oral route <span>(Details : {SNOMED CT code &#39;386359008&#39; = &#39;386359008&#39;, given as &#39;Administration of drug or medicament via oral route&#39;})</span></td><td>5 mg<span> (Details: http://unitsofmeasure.org code mg = &#39;??&#39;)</span></td></tr></table><h3>DispenseRequests</h3><table><tr><td>-</td><td><b>ValidityPeriod</b></td><td><b>Quantity</b></td></tr><tr><td>*</td><td>May 1, 2011 --&gt; (ongoing)</td><td>28 46992007<span> (Details: SNOMED CT code 46992007 = &#39;46992007&#39;)</span></td></tr></table></div></text><identifier>
+        <use value="official"/>
+        <system value="http://www.bmc.nl/portal/prescriptions"/>
+        <value value="order9823343"/>
+    </identifier>
+    <dateWritten value="2011-05-01"/>
+    <status value="active"/>
+    <patient> <!--   Linked to the resource patient who needs the medication   -->
+        <reference value="Patient/f001"/>
+        <display value="P. van den Heuvel"/>         
+    </patient>
+    <prescriber> <!--   Linked to the practitioner who treats patient   -->
+        <reference value="Practitioner/f007"/>
+        <display value="S.M. Heps"/>
+    </prescriber>
+    <encounter> <!--   Linked to a resource Encounter between patient and practitioner  -->
+        <reference value="Encounter/f001"/>
+        <display value="encounter who leads to this priscription"/>
+    </encounter>
+    <reasonCodeableConcept>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="38341003"/>
+            <display value="High blood pressure"/>
+        </coding>
+    </reasonCodeableConcept>
+    <medicationReference> <!--   Linked to a RESOURCE Medication   -->
+        <reference value="Medication/f005"/>
+        <display value="prescribed medication"/>
+    </medicationReference> 
+    <dosageInstruction>
+        <timing>
+            <repeat>
+              <boundsPeriod>
+                  <start value="2011-05-01"/>
+              </boundsPeriod>
+              <frequency value="1"/>
+              <period value="1"/>
+              <periodUnits value="d"/>
+            </repeat>
+        </timing>
+        <siteCodeableConcept>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="181220002"/>
+                <display value="Entire oral cavity"/>
+            </coding>
+        </siteCodeableConcept>
+        <route>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="386359008"/>
+                <display value="Administration of drug or medicament via oral route"/>
+            </coding>
+        </route>
+        <doseQuantity>
+            <value value="5"/>
+            <unit value="mg"/>
+            <system value="http://unitsofmeasure.org"/>
+            <code value="mg"/>
+        </doseQuantity>
+    </dosageInstruction>         
+    <dispenseRequest>
+        <validityPeriod>
+            <start value="2011-05-01"/>
+        </validityPeriod>
+        <quantity>
+            <value value="28"/>
+            <system value="http://snomed.info/sct"/> 
+            <code value="46992007"/>
+        </quantity>
+    </dispenseRequest>   
+</MedicationOrder>

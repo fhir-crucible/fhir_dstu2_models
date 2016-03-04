@@ -23,7 +23,10 @@ module FHIR
         # if this is a FHIR class, convert to a hash
         if is_fhir_class?(h.class.name)
           resourceType = h.class.name.demodulize
-          hash = Marshal.load(Marshal.dump(h.attributes))
+          #hash = Marshal.load(Marshal.dump(h.attributes))
+          hash = {}
+          keys = h.fields.keys + h.embedded_relations.keys
+          keys.each{|key|hash[key] = h.send(key.to_sym)}
           hash['extension'] = h.extension.map {|e|build_extension_hash(e)}
           hash['modifierExtension'] = h.modifierExtension.map {|e|build_extension_hash(e)}
           hash['entry'] = h.entry.map {|e|build_entry_hash(e)} if h.respond_to?(:entry)

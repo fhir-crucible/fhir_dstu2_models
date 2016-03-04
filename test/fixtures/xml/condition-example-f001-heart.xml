@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><Condition xmlns="http://hl7.org/fhir">
+  <id value="f001"/>
+    <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>patient</b>: <a>P. van de Heuvel</a></p><p><b>encounter</b>: <a>Encounter/f001</a></p><p><b>asserter</b>: <a>P. van de Heuvel</a></p><p><b>dateRecorded</b>: Oct 5, 2011</p><p><b>code</b>: Heart valve disorder <span>(Details : {SNOMED CT code &#39;368009&#39; = &#39;368009&#39;, given as &#39;Heart valve disorder&#39;})</span></p><p><b>category</b>: diagnosis <span>(Details : {SNOMED CT code &#39;439401001&#39; = &#39;439401001&#39;, given as &#39;diagnosis&#39;})</span></p><p><b>clinicalStatus</b>: active</p><p><b>verificationStatus</b>: confirmed</p><p><b>severity</b>: Moderate <span>(Details : {SNOMED CT code &#39;6736007&#39; = &#39;6736007&#39;, given as &#39;Moderate&#39;})</span></p><p><b>onset</b>: Aug 5, 2011</p><h3>Evidences</h3><table><tr><td>-</td><td><b>Code</b></td></tr><tr><td>*</td><td>Cardiac chest pain <span>(Details : {SNOMED CT code &#39;426396005&#39; = &#39;426396005&#39;, given as &#39;Cardiac chest pain&#39;})</span></td></tr></table><p><b>bodySite</b>: heart structure <span>(Details : {SNOMED CT code &#39;40768004&#39; = &#39;40768004&#39;, given as &#39;Left thorax&#39;})</span></p></div></text><patient>
+        <reference value="Patient/f001"/>
+        <display value="P. van de Heuvel"/>
+    </patient>
+    <encounter>
+        <reference value="Encounter/f001"/>
+    </encounter>
+    <asserter>
+        <reference value="Patient/f001"/>
+        <display value="P. van de Heuvel"/>
+    </asserter>
+    <dateRecorded value="2011-10-05"/>
+    <code>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="368009"/>
+            <display value="Heart valve disorder"/>
+        </coding>
+    </code>
+    <category>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="439401001"/>
+            <display value="diagnosis"/>
+        </coding>
+    </category>
+    <clinicalStatus value="active"/>
+    <verificationStatus value="confirmed"/>
+    <severity>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="6736007"/>
+            <display value="Moderate"/>
+        </coding>
+    </severity>
+    <onsetDateTime value="2011-08-05"/>
+    <evidence>
+        <code>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="426396005"/>
+                <display value="Cardiac chest pain"/>
+            </coding>
+        </code>
+    </evidence>
+    <bodySite>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="40768004"/>
+                <display value="Left thorax"/>
+            </coding>
+        <text value="heart structure"/>
+    </bodySite>
+</Condition>

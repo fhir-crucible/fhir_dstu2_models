@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><CarePlan xmlns="http://hl7.org/fhir">
+  <id value="f202"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f202</p><p><b>contained</b>: , , , , </p><p><b>subject</b>: <a>Roel</a></p><p><b>status</b>: active</p><p><b>addresses</b>: <a>Roel&#39;s head-neck tumor</a></p><h3>Participants</h3><table><tr><td>-</td><td><b>Role</b></td><td><b>Member</b></td></tr><tr><td>*</td><td>Treated with <span>(Details : {SNOMED CT code &#39;28995006&#39; = &#39;28995006&#39;, given as &#39;Treated with&#39;})</span></td><td><a>Dokter Bronsig</a></td></tr></table><p><b>goal</b>: id: goal; Roel; description: Elimination of the spenoid bone tumor; status: in-progress</p><blockquote><p><b>activity</b></p><p><b>actionResulting</b>: <a>Roel&#39;s Chemotherapy</a></p><h3>Details</h3><table><tr><td>-</td><td><b>Category</b></td><td><b>Code</b></td><td><b>Status</b></td><td><b>Prohibited</b></td><td><b>Product[x]</b></td></tr><tr><td>*</td><td>Procedure <span>(Details : {http://hl7.org/fhir/care-plan-activity-category code &#39;procedure&#39; = &#39;Procedure)</span></td><td>Chemotherapy <span>(Details : {SNOMED CT code &#39;367336001&#39; = &#39;367336001&#39;, given as &#39;Chemotherapy&#39;})</span></td><td>in-progress</td><td>false</td><td>id: tpf; TPF <span>(Details )</span></td></tr></table></blockquote></div></text><contained>
+    <Medication>
+      <id value="doce"/>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="108806006"/>
+          <display value="Docetaxel"/>
+        </coding>
+      </code>
+    </Medication>
+  </contained>
+  <contained>
+    <Medication>
+      <id value="cisp"/>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="57066004"/>
+          <display value="Cisplatin"/>
+        </coding>
+      </code>
+    </Medication>
+  </contained>
+  <contained>
+    <Medication>
+      <id value="fluo"/>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="3127006"/>
+          <display value="Fluorouracil"/>
+        </coding>
+      </code>
+    </Medication>
+  </contained>
+  <contained>
+    <Medication>
+      <id value="tpf"/>
+      <!--  TPF consists of Docetaxel, Cisplatin and Fluorouracil  -->
+      <code>
+        <text value="TPF"/>
+      </code>
+      <product>
+        <ingredient>
+          <item>
+            <reference value="#doce"/>
+          </item>
+        </ingredient>
+        <ingredient>
+          <item>
+            <reference value="#cisp"/>
+          </item>
+        </ingredient>
+        <ingredient>
+          <item>
+            <reference value="#fluo"/>
+          </item>
+        </ingredient>
+      </product>
+    </Medication>
+  </contained>
+  <contained>
+    <Goal>
+      <id value="goal"/>
+      <subject>
+        <reference value="Patient/f201"/>
+        <display value="Roel"/>
+      </subject>
+      <description value="Elimination of the spenoid bone tumor"/>
+      <status value="in-progress"/>
+    </Goal>
+  </contained>
+  <subject>
+    <!--  It entails Roel's careplan  -->
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <status value="active"/>
+  <addresses>
+    <reference value="Condition/f202"/>
+    <display value="Roel&#39;s head-neck tumor"/>
+  </addresses>
+  <participant>
+    <role>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="28995006"/>
+        <display value="Treated with"/>
+      </coding>
+    </role>
+    <member>
+      <reference value="Practitioner/f201"/>
+      <display value="Dokter Bronsig"/>
+    </member>
+  </participant>
+  <goal>
+    <reference value="#goal"/>
+  </goal>
+  <activity>
+    <actionResulting>
+      <reference value="Procedure/f201"/>
+      <display value="Roel&#39;s Chemotherapy"/>
+    </actionResulting>
+    <detail>
+      <category><coding><system value="http://hl7.org/fhir/care-plan-activity-category"/><code value="procedure"/></coding></category>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="367336001"/>
+          <display value="Chemotherapy"/>
+        </coding>
+      </code>
+      <status value="in-progress"/>
+      <prohibited value="false"/>
+      <productReference>
+        <reference value="#tpf"/>
+      </productReference>
+    </detail>
+  </activity>
+</CarePlan>

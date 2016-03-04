@@ -1,5 +1,4 @@
-fhir_dstu2_models
-=================
+# fhir_dstu2_models [![Build Status](https://api.travis-ci.org/fhir-crucible/fhir_dstu2_models.svg?branch=master)](https://travis-ci.org/fhir-crucible/fhir_dstu2_models)
 
 Snapshot of generated FHIR DSTU2 Ruby Models.
 
@@ -57,7 +56,7 @@ puts profiles[1].warnings
 ```
 # License
 
-Copyright 2014-2015 The MITRE Corporation
+Copyright 2014-2016 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

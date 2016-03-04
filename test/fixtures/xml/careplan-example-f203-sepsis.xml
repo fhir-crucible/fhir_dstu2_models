@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><CarePlan xmlns="http://hl7.org/fhir">
+  <id value="f203"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f203</p><p><b>contained</b>: </p><p><b>subject</b>: <a>Roel</a></p><p><b>status</b>: completed</p><p><b>period</b>: Apr 14, 2013 --&gt; Apr 21, 2013</p><p><b>modified</b>: Mar 11, 2013</p><p><b>addresses</b>: <a>Roel&#39;s sepsis</a></p><blockquote><p><b>participant</b></p><p><b>role</b>: Review of care plan <span>(Details : {SNOMED CT code &#39;425268008&#39; = &#39;425268008&#39;, given as &#39;Review of care plan&#39;})</span></p><p><b>member</b>: <a>Dokter Bronsig</a></p></blockquote><blockquote><p><b>participant</b></p><p><b>role</b>: Radiographic imaging <span>(Details : {SNOMED CT code &#39;278110001&#39; = &#39;278110001&#39;, given as &#39;Radiographic imaging&#39;})</span></p><p><b>member</b>: <a>Luigi Maas</a></p></blockquote><p><b>goal</b>: id: goal; Roel; description: Check whether further treatment of sepsis/pulmonary abcess is required; status: cancelled</p><blockquote><p><b>activity</b></p><h3>Details</h3><table><tr><td>-</td><td><b>Category</b></td><td><b>Code</b></td><td><b>Status</b></td><td><b>Prohibited</b></td></tr><tr><td>*</td><td>Observation <span>(Details : {http://hl7.org/fhir/care-plan-activity-category code &#39;observation&#39; = &#39;Observation)</span></td><td>High resolution computed tomography of lungs <span>(Details : {SNOMED CT code &#39;241541005&#39; = &#39;241541005&#39;, given as &#39;High resolution computed tomography of lungs&#39;})</span></td><td>not-started</td><td>false</td></tr></table></blockquote></div></text><contained>
+    <Goal>
+      <id value="goal"/>
+      <subject>
+        <reference value="Patient/f201"/>
+        <display value="Roel"/>
+      </subject>
+      <description value="Check whether further treatment of sepsis/pulmonary abcess is required"/>
+      <status value="cancelled"/>
+    </Goal>
+  </contained>
+  <subject>
+    <!--  It entails Roel's careplan  -->
+    <reference value="Patient/f201"/>
+    <display value="Roel"/>
+  </subject>
+  <status value="completed"/>
+  <period>
+    <start value="2013-04-14"/>
+    <end value="2013-04-21"/>
+  </period>
+  <modified value="2013-03-11"/>
+  <addresses>
+    <reference value="Condition/f203"/>
+    <display value="Roel&#39;s sepsis"/>
+  </addresses>
+  <participant>
+    <role>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="425268008"/>
+        <display value="Review of care plan"/>
+      </coding>
+    </role>
+    <member>
+      <reference value="Practitioner/f201"/>
+      <display value="Dokter Bronsig"/>
+    </member>
+  </participant>
+  <participant>
+    <role>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="278110001"/>
+        <display value="Radiographic imaging"/>
+      </coding>
+    </role>
+    <member>
+      <reference value="Practitioner/f202"/>
+      <display value="Luigi Maas"/>
+    </member>
+  </participant>
+  <goal>
+    <reference value="#goal"/>
+  </goal>
+  <activity>
+    <detail>
+      <category><coding><system value="http://hl7.org/fhir/care-plan-activity-category"/><code value="observation"/></coding></category>
+      <code>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="241541005"/>
+          <display value="High resolution computed tomography of lungs"/>
+        </coding>
+      </code>
+      <status value="not-started"/>
+      <prohibited value="false"/>
+    </detail>
+  </activity>
+</CarePlan>

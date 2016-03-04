@@ -49,6 +49,10 @@ module FHIR
       @warnings = []
     end
 
+    def is_number?(value)
+      true if Float(value) rescue false
+    end
+
     # Checks the given resource against known invariant rules
     def is_valid?(resource,representation='Resource')
       if representation.downcase=='resource'
@@ -76,6 +80,15 @@ module FHIR
       
       resource_type = doc.xpath('/*').first.name
 
+      # find all IDs of contained resources...
+      contained = doc.xpath("f:#{resource_type}/f:contained/f:*/f:id")
+      entries = doc.xpath("f:#{resource_type}/f:entry/f:resource/f:*/f:id")
+      fullUrls = doc.xpath("f:#{resource_type}/f:entry/f:fullUrl")
+      contained_ids = contained.map{|x|x['value']}
+      contained_ids << entries.map{|x|x['value']}
+      contained_ids << fullUrls.map{|x|x['value']}
+      contained_ids.flatten!
+
       invariant_file = File.open("invariant_validity.csv",'a:UTF-8') if (@append_to_invariant_csv == true)
 
       rules = @@rules['resources'][resource_type]
@@ -86,13 +99,38 @@ module FHIR
           begin
             elements = doc.xpath(path)
             if !elements.empty?
-              elements.each do |element|                
-                valid = element.xpath(rule['xpath'],FHIR::Formats::XPathFunctions)
-                if !valid
-                  if rule['severity'] == 'error'
-                    @errors << "#{key}: #{rule['human']}"
-                  else
-                    @warnings << "{key}: #{rule['human']}"
+              elements.each do |element|  
+                if key.ends_with?("-ref-1")
+                  # special handling for references because Nokogiri doesn't like this invariant xpath
+                  refs = element.children.select{|c|c.name=="reference"}
+                  refs.each do |r|
+                    if r['value'].starts_with?('#') # local reference
+                      @errors << "#{key}: #{rule['human']}" if !contained_ids.include?(value[1..-1])
+                    end
+                  end
+                elsif key.ends_with?('-eld-3')
+                  val = element.at_xpath('f:max')
+                  val = val['value'] if val
+                  @errors << "#{key}: #{rule['human']}" if(!val.nil? && !(val=='*' || is_number?(val)))
+                elsif key.ends_with?('-eld-10')
+                  val = element.at_xpath('f:binding')
+                  if val
+                    valid = val.xpath(rule['xpath'],FHIR::Formats::XPathFunctions)
+                    @errors << "#{key}: #{rule['human']}" if !valid
+                  end
+                elsif key.ends_with?('-eld-12')
+                  val = element.at_xpath('f:binding/f:valueSetUri')
+                  val = val['value'] if val
+                  @errors << "#{key}: #{rule['human']}" if(!val.starts_with?('http://') || !val.starts_with?('https://'))
+                else
+                  # test the Xpath function
+                  valid = element.xpath(rule['xpath'],FHIR::Formats::XPathFunctions)
+                  if !valid
+                    if rule['severity'] == 'error'
+                      @errors << "#{key}: #{rule['human']}"
+                    else
+                      @warnings << "{key}: #{rule['human']}"
+                    end
                   end
                 end
               end

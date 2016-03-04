@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><Medication xmlns="http://hl7.org/fhir">
+  <id value="f004"/>
+    <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f004</p><p><b>code</b>: Metoprolol tartrate 50mg tablet <span>(Details : {SNOMED CT code &#39;318475005&#39; = &#39;318475005&#39;, given as &#39;Metoprolol tartrate 50mg tablet&#39;})</span></p><p><b>isBrand</b>: true</p><h3>Packages</h3><table><tr><td>-</td><td><b>Container</b></td></tr><tr><td>*</td><td>drug container <span>(Details : {SNOMED CT code &#39;398124009&#39; = &#39;398124009&#39;, given as &#39;drug container&#39;})</span></td></tr></table></div></text><code>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="318475005"/> <!--   SNOMED CT classification code   -->
+            <display value="Metoprolol tartrate 50mg tablet"/>
+        </coding>
+    </code>
+    <isBrand value="true"/>
+    <!--   <manufacturer> Linked to non excisting Reference(Organization) 
+        OID: 2.16.840.1.113883.4.642.1.4 
+        <reference value="organization/F000"/>
+        <display value="Magistra"/> 
+        </manufacturer>   -->
+    <package>
+        <container>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="398124009"/>
+                <display value="drug container"/>
+            </coding>
+        </container>
+        <!--   <content>
+            <item> 1..1 Reference(Medication) A product in the package </item>
+            <amount>
+            <value value="30"/>
+            <unit value="Pill"/>
+            <system value="http://snomed.info/sct"/>
+            <code value="46992007"/>
+            </amount> 
+            </content>   -->
+    </package>    
+</Medication>
