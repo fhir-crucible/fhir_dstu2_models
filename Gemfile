@@ -1,16 +1,6 @@
 source "http://rubygems.org"
 gemspec
 
-gem 'rake'
-gem 'pry'
-gem 'tilt'
-gem 'rails', '>= 4.0.0'
-gem 'mongoid'
-gem 'nokogiri'
-gem 'mongoid-history'
-gem 'date_time_precision'
-gem 'bcp47'
-
 group :test do
   gem 'simplecov', :require => false
 
@@ -19,4 +9,3 @@ group :test do
   gem 'awesome_print', :require => 'ap'
   gem 'nokogiri-diff'
 end
-

@@ -10,6 +10,16 @@ Gem::Specification.new do |s|
   s.version = '1.0.0'
 
   s.files = s.files = `git ls-files`.split("\n")
+
+  s.add_dependency 'tilt'
+  s.add_dependency 'rails', '>= 4.0.0'
+  s.add_dependency 'mongoid'
+  s.add_dependency 'nokogiri'
+  s.add_dependency 'mongoid-history'
+  s.add_dependency 'date_time_precision'
+  s.add_dependency 'bcp47'
+  s.add_dependency 'moped'
+  s.add_dependency 'pry'
 end
 
 
