@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><OperationOutcome xmlns="http://hl7.org/fhir"><id value="break-the-glass"/><text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml">
-      <p>Additional information may be available using the Break-The-Glass Protocol</p>
-    </div></text><issue><severity value="information"/><code value="suppressed"/><details><coding><system value="http://hl7.org/fhir/ValueSet/v3-ActReason"/><code value="ETREAT"/><display value="Emergency Treatment"/></coding><text value="Additional information may be available using the Break-The-Glass Protocol"/></details></issue></OperationOutcome>

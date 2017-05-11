@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><AllergyIntolerance xmlns="http://hl7.org/fhir">
+  <id value="medication"/>
+  
+  <!--   the date that this entry was recorded   -->  
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medication</p><p><b>recordedDate</b>: 01/03/2010</p><p><b>recorder</b>: <a>Practitioner/13</a></p><p><b>patient</b>: <a>Patient/example</a></p><p><b>substance</b>: ALLERGENIC EXTRACT, PENICILLIN <span>(Details : {RxNorm code &#39;314422&#39; = &#39;??&#39;, given as &#39;ALLERGENIC EXTRACT, PENICILLIN&#39;})</span></p><p><b>status</b>: unconfirmed</p><p><b>criticality</b>: CRITH</p><p><b>category</b>: medication</p><h3>Reactions</h3><table><tr><td>-</td><td><b>Manifestation</b></td></tr><tr><td>*</td><td>Hives <span>(Details : {SNOMED CT code &#39;247472004&#39; = &#39;247472004&#39;, given as &#39;Hives&#39;})</span></td></tr></table></div></text><recordedDate value="2010-03-01"/>
+  
+  <!--   who made the record / last updated it   -->
+  <recorder>
+    <reference value="Practitioner/13"/>
+  </recorder>
+  
+  <!--   the patient that actually has the risk of adverse reaction   -->
+  <patient>
+    <reference value="Patient/example"/>
+  </patient>
+
+  <!--   subtance, coded from RxNorm   -->
+  <substance>
+    <coding>
+      <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+      <code value="314422"/>
+      <display value="ALLERGENIC EXTRACT, PENICILLIN"/>
+    </coding>
+  </substance>
+ 
+  <status value="unconfirmed"/>
+  <criticality value="CRITH"/> 
+  <category value="medication"/>
+  
+  <reaction> 
+    <manifestation>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="247472004"/>
+        <display value="Hives"/>
+      </coding>
+    </manifestation>
+  </reaction>
+</AllergyIntolerance>

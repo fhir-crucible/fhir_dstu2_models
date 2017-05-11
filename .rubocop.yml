@@ -1,0 +1,13 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'test/**/*'
+    - 'spec/**/*'
+    - 'lib/fhir_dstu2_models/fhir/**/*'
+    - 'lib/fhir_dstu2_models/fluentpath/evaluate.rb'
+    - 'tmp/**/*'
+    - '*.gemspec'
+    - 'bin/*'
+Metrics/LineLength:
+  Enabled: false

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright (c) 2011+, HL7, Inc.
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without modification, 
+  are permitted provided that the following conditions are met:
+  
+   * Redistributions of source code must retain the above copyright notice, this 
+     list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright notice, 
+     this list of conditions and the following disclaimer in the documentation 
+     and/or other materials provided with the distribution.
+   * Neither the name of HL7 nor the names of its contributors may be used to 
+     endorse or promote products derived from this software without specific 
+     prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+  POSSIBILITY OF SUCH DAMAGE.
+  
+
+  Generated on Sat, Oct 24, 2015 07:41+1100 for FHIR v1.0.2 
+
+  Note: the schemas &amp; schematrons do not contain all of the rules about what makes resources
+  valid. Implementers will still need to be familiar with the content of the specification and with
+  any profiles that apply to the resources in order to make a conformant implementation.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://hl7.org/fhir" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="http://hl7.org/fhir" elementFormDefault="qualified" version="1.0">
+  <xs:include schemaLocation="fhir-base.xsd"/>
+  <xs:element name="Contract" type="Contract"/>
+  <xs:complexType name="Contract">
+    <xs:complexContent>
+      <xs:extension base="DomainResource">
+        <xs:sequence>
+          <xs:element name="identifier" minOccurs="0" maxOccurs="1" type="Identifier"/>
+          <xs:element name="issued" minOccurs="0" maxOccurs="1" type="dateTime"/>
+          <xs:element name="applies" minOccurs="0" maxOccurs="1" type="Period"/>
+          <xs:element name="subject" minOccurs="0" maxOccurs="unbounded" type="Reference"/>
+          <xs:element name="authority" minOccurs="0" maxOccurs="unbounded" type="Reference"/>
+          <xs:element name="domain" minOccurs="0" maxOccurs="unbounded" type="Reference"/>
+          <xs:element name="type" minOccurs="0" maxOccurs="1" type="CodeableConcept"/>
+          <xs:element name="subType" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+          <xs:element name="action" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+          <xs:element name="actionReason" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+          <xs:element name="actor" type="Contract.Actor" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="valuedItem" type="Contract.ValuedItem" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="signer" type="Contract.Signer" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="term" type="Contract.Term" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:choice minOccurs="0" maxOccurs="1">
+            <xs:element name="bindingAttachment" type="Attachment"/>
+            <xs:element name="bindingReference" type="Reference"/>
+          </xs:choice>
+          <xs:element name="friendly" type="Contract.Friendly" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="legal" type="Contract.Legal" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="rule" type="Contract.Rule" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Actor">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="entity" minOccurs="1" maxOccurs="1" type="Reference"/>
+          <xs:element name="role" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.ValuedItem">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="1">
+            <xs:element name="entityCodeableConcept" type="CodeableConcept"/>
+            <xs:element name="entityReference" type="Reference"/>
+          </xs:choice>
+          <xs:element name="identifier" minOccurs="0" maxOccurs="1" type="Identifier"/>
+          <xs:element name="effectiveTime" minOccurs="0" maxOccurs="1" type="dateTime"/>
+          <xs:element name="quantity" minOccurs="0" maxOccurs="1" type="SimpleQuantity"/>
+          <xs:element name="unitPrice" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="factor" minOccurs="0" maxOccurs="1" type="decimal"/>
+          <xs:element name="points" minOccurs="0" maxOccurs="1" type="decimal"/>
+          <xs:element name="net" minOccurs="0" maxOccurs="1" type="Money"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Signer">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="type" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="party" minOccurs="1" maxOccurs="1" type="Reference"/>
+          <xs:element name="signature" minOccurs="1" maxOccurs="1" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Term">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="identifier" minOccurs="0" maxOccurs="1" type="Identifier"/>
+          <xs:element name="issued" minOccurs="0" maxOccurs="1" type="dateTime"/>
+          <xs:element name="applies" minOccurs="0" maxOccurs="1" type="Period"/>
+          <xs:element name="type" minOccurs="0" maxOccurs="1" type="CodeableConcept"/>
+          <xs:element name="subType" minOccurs="0" maxOccurs="1" type="CodeableConcept"/>
+          <xs:element name="subject" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="action" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+          <xs:element name="actionReason" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+          <xs:element name="actor" type="Contract.Actor1" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="text" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="valuedItem" type="Contract.ValuedItem1" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="group" type="Contract.Term" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Actor1">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="entity" minOccurs="1" maxOccurs="1" type="Reference"/>
+          <xs:element name="role" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.ValuedItem1">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="1">
+            <xs:element name="entityCodeableConcept" type="CodeableConcept"/>
+            <xs:element name="entityReference" type="Reference"/>
+          </xs:choice>
+          <xs:element name="identifier" minOccurs="0" maxOccurs="1" type="Identifier"/>
+          <xs:element name="effectiveTime" minOccurs="0" maxOccurs="1" type="dateTime"/>
+          <xs:element name="quantity" minOccurs="0" maxOccurs="1" type="SimpleQuantity"/>
+          <xs:element name="unitPrice" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="factor" minOccurs="0" maxOccurs="1" type="decimal"/>
+          <xs:element name="points" minOccurs="0" maxOccurs="1" type="decimal"/>
+          <xs:element name="net" minOccurs="0" maxOccurs="1" type="Money"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Friendly">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element name="contentAttachment" type="Attachment"/>
+            <xs:element name="contentReference" type="Reference"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Legal">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element name="contentAttachment" type="Attachment"/>
+            <xs:element name="contentReference" type="Reference"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Contract.Rule">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element name="contentAttachment" type="Attachment"/>
+            <xs:element name="contentReference" type="Reference"/>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

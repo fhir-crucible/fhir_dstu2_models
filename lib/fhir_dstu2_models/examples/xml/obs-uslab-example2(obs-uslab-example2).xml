@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><Observation xmlns="http://hl7.org/fhir">
+	<id value="obs-uslab-example2"/>
+	<!--    FHIR build is generating the narratives
+<text>
+		<status value="generated"/>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			<ul>
+				<li>file: obs-uslab-example2.xml</li>
+				<li> id: uslab-example2</li>
+				<li> Name: USLab Observation Example2</li>
+				<li>Description: USLab Coded Observation Profile Canonical Example: N gonorrhoeae PCR</li>
+			</ul>
+		</div>
+	</text>
+   -->
+	<!--    extenstion for specimen reject goes here - not for this use case
+	<extension url="http://hl7.org/fhir/StructureDefinition/uslab-specimenrejectreason">
+		<valueCodeableConcept>
+			<coding>
+				<system value="http://hl7.org/fhir/v2/0490"/>
+				<code value="EX"/>
+				<display value="Expired"/>
+			</coding>
+		</valueCodeableConcept>
+	</extension>
+   -->
+	<!--    extenstion for observation kind goes here    -->
+	<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: obs-uslab-example2</p><p><b>identifier</b>: lab test result ID = 2345 (OFFICIAL)</p><p><b>status</b>: final</p><p><b>code</b>: Neisseria gonorrhoeae by PCR <span>(Details : {LOINC code &#39;43305-2&#39; = &#39;Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by Probe and target amplification method&#39;, given as &#39;Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by Probe and target amplification method&#39;}; {urn:oid:2.16.840.1.113883.3.72.5.24 code &#39;GCPCR&#39; = &#39;??&#39;, given as &#39;APTIMA GC&#39;})</span></p><p><b>subject</b>: <a>Todd Lerr</a></p><p><b>effective</b>: 05/12/2014</p><p><b>issued</b>: 06/12/2014 3:42:15 PM</p><p><b>performer</b>: <a>Dr Leonard T Bloodraw Jr</a></p><p><b>value</b>: Positive for Neisseira gonorrheoea rRNA <span>(Details : {SNOMED CT code &#39;10828004&#39; = &#39;10828004&#39;, given as &#39;Positive&#39;}; {urn:oid:2.16.840.1.113883.3.72.5.24 code &#39;POS&#39; = &#39;??&#39;, given as &#39;Positive&#39;})</span></p><p><b>interpretation</b>: Abnormal <span>(Details : {http://hl7.org/fhir/v2/0078 code &#39;A&#39; = &#39;Abnormal)</span></p><p><b>specimen</b>: <a>Urine First Void</a></p></div></text><extension url="http://hl7.org/fhir/StructureDefinition/uslab-observationkind">
+		<valueCode value="result"/>
+	</extension>
+	<identifier>
+		<use value="official"/>
+		<type>
+			<text value="lab test result ID"/>
+		</type>
+		<system value="http://lis.acmelabs.org/identifiers/labtestresult"/>
+		<value value="2345"/>
+	</identifier>
+	<status value="final"/>
+	<!--   EH :  The local and LOINC test codes go here    -->
+	<code>
+		<!--    EH: LOINC code goes here   -->
+		<coding>
+			<system value="http://loinc.org"/>
+			<code value="43305-2"/>
+			<display value="Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+			<!--    EH: LOCAL code goes here   -->
+		</coding>
+		<coding>
+			<system value="urn:oid:2.16.840.1.113883.3.72.5.24"/>
+			<code value="GCPCR"/>
+			<display value="APTIMA GC"/>
+		</coding>
+		<text value="Neisseria gonorrhoeae by PCR"/>
+	</code>
+	<subject>
+		<reference value="Patient/patient-uslab-example1"/>
+		<display value="Todd Lerr"/>
+	</subject>
+	<effectiveDateTime value="2014-12-05"/>
+	<!--    EH: Showing dateTime to ss with TZO although only needed to Day    -->
+	<issued value="2014-12-06T15:42:15-08:00"/>
+	<performer>
+		<reference value="Practitioner/pract-uslab-example1"/>
+		<display value="Dr Leonard T Bloodraw Jr"/>
+	</performer>
+	<!--   EH :  The local and SNOMED Result codes go here    -->
+	<valueCodeableConcept>
+		<coding>
+			<system value="http://snomed.info/sct"/>
+			<code value="10828004"/>
+			<display value="Positive"/>
+		</coding>
+		<coding>
+			<system value="urn:oid:2.16.840.1.113883.3.72.5.24"/>
+			<code value="POS"/>
+			<display value="Positive"/>
+		</coding>
+		<text value="Positive for Neisseira gonorrheoea rRNA"/>
+	</valueCodeableConcept>
+	<!--     eH dataabsent reason  would go here if valueQuantity was empty e.g.:
+	<dataAbsentReason value="error"</dataAbsentReason>    -->
+	<interpretation>
+		<coding>
+			<system value="http://hl7.org/fhir/v2/0078"/>
+			<code value="A"/>
+		</coding>
+	</interpretation>
+	<specimen>
+		<reference value="Specimen/spec-uslab-example2"/>
+		<display value="Urine First Void"/>
+	</specimen>
+</Observation>

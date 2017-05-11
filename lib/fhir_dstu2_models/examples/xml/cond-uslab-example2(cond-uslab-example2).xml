@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><Condition xmlns="http://hl7.org/fhir">
+	<id value="cond-uslab-example2"/>
+	<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: cond-uslab-example2</p><p><b>patient</b>: <a>Todd Lerr</a></p><p><b>code</b>: Abnormal lead level in blood <span>(Details : {http://www.cms.gov/Medicare/Coding/ICD10/index.html code &#39;R78.71&#39; = &#39;??&#39;, given as &#39;Abnormal lead level in blood&#39;})</span></p><p><b>category</b>: Diagnosis <span>(Details : {http://hl7.org/fhir/condition-category code &#39;diagnosis&#39; = &#39;Diagnosis&#39;, given as &#39;Diagnosis&#39;})</span></p><p><b>verificationStatus</b>: provisional</p></div></text><patient>
+		<reference value="Patient/patient-uslab-example2"/>
+		<display value="Todd Lerr"/>
+	</patient>
+	<!--  EH note to balloters-  these examples are  to demonstrate content and structure the clinical scenario and ICD coding is artificial and  probably wrong.  --><code>
+		<coding>
+			<system value="http://www.cms.gov/Medicare/Coding/ICD10/index.html"/>
+			<code value="R78.71"/>
+			<display value="Abnormal lead level in blood"/>
+		</coding>
+	</code>
+	<category>
+		<coding>
+			<system value="http://hl7.org/fhir/condition-category"/>
+			<code value="diagnosis"/>
+			<display value="Diagnosis"/>
+		</coding>
+
+	</category>
+	<verificationStatus value="provisional"/>
+
+</Condition>

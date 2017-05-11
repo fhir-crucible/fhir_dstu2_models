@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><Practitioner xmlns="http://hl7.org/fhir">
+	<id value="pract-uslab-example2"/>
+		<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: pract-uslab-example2</p><p><b>identifier</b>: 121121121 (OFFICIAL)</p><p><b>name</b>: Bill T Lookafter </p><p><b>telecom</b>: ph: (617)5551234 ext.12, docbill@healthedatainc.com</p><p><b>address</b>: 100 Medical Drive Suite 6 Boston MA 01236 USA (WORK)</p><h3>PractitionerRoles</h3><table><tr><td>-</td><td><b>ManagingOrganization</b></td></tr><tr><td>*</td><td><a>Children&#39;s Hospital</a></td></tr></table></div></text><identifier>
+		<use value="official"/>
+		<system value="http://hl7.org/fhir/sid/us-npi"/> <!--   NPI  -->
+		<value value="121121121"/>
+		</identifier>
+	<name>
+		<family value="Lookafter"/>
+		<given value="Bill"/>
+		<given value="T"/>
+		<suffix value="Jr"/>
+	</name>
+	<telecom>
+		<system value="phone"/>
+		<value value="(617)5551234 ext.12"/>
+	</telecom>
+	<telecom>
+		<system value="email"/>
+		<value value="docbill@healthedatainc.com"/>
+	</telecom>
+	<address>
+				<!--   EH replace with example.org temporarily to pass validation
+		<extension url="http://hl7.org/fhir/StructureDefinition/us-core-county">
+			<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-SC-coding">
+  -->
+		<extension url="http://example.org/us-core-county">
+			<extension url="http://example.org//iso21090-SC-coding">
+
+				<valueCoding>
+					<system value="https://www.census.gov/geo/reference"/>
+					<code value="42043"/>
+				</valueCoding>
+			</extension>
+		</extension>
+		<use value="work"/>
+		<line value="100 Medical Drive"/>
+		<line value="Suite 6"/>
+		<city value="Boston"/>
+		<state value="MA"/>
+		<postalCode value="01236"/>
+		<country value="USA"/>
+	</address>
+	<practitionerRole>
+	<managingOrganization>
+		<reference value="Organization/org-uslab-example1"/>
+		<display value="Children&#39;s Hospital"/>
+	</managingOrganization>
+	</practitionerRole>
+</Practitioner>
