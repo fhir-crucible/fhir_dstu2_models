@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.location().nil? -%><%== render :template => 'reference', :locals => {name: 'location', model: model.location()} %><%- end -%>
-    <%- if !model.status().nil? -%><status value="<%= model.status %>"<%- if model.has_primitive_extension?('status') -%>><%== model.get_primitive_extension('status').to_xml(is_root: false, is_lowercase: true)  %></status><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

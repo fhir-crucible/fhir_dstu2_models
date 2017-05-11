@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if (!model.reason().nil? && !model.reason.empty?) -%><%- model.reason().each do |element| -%><%== render :template => 'codeableconcept', :locals => {name: 'reason', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.responsibleParty().nil? && !model.responsibleParty.empty?) -%><%- model.responsibleParty().each do |element| -%><%== render :template => 'reference', :locals => {name: 'responsibleParty', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

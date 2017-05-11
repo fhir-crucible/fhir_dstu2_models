@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.actionResulting().nil? && !model.actionResulting.empty?) -%><%- model.actionResulting().each do |element| -%><%== render :template => 'reference', :locals => {name: 'actionResulting', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.progress().nil? && !model.progress.empty?) -%><%- model.progress().each do |element| -%><%== render :template => 'annotation', :locals => {name: 'progress', model: element} %><%- end -%><%- end -%>
-    <%- if !model.reference().nil? -%><%== render :template => 'reference', :locals => {name: 'reference', model: model.reference()} %><%- end -%>
-    <%- if !model.detail().nil? -%><%== render :template => 'careplan_careplanactivitydetailcomponent', :locals => {name: 'detail', model: model.detail()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

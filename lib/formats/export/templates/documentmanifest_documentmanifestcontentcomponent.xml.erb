@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.pAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'pAttachment', model: model.pAttachment()} %><%- end -%>
-    <%- if !model.pReference().nil? -%><%== render :template => 'reference', :locals => {name: 'pReference', model: model.pReference()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

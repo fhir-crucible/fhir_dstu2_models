@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.strength().nil? -%><strength value="<%= model.strength %>"<%- if model.has_primitive_extension?('strength') -%>><%== model.get_primitive_extension('strength').to_xml(is_root: false, is_lowercase: true)  %></strength><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.valueSetUri().nil? -%><valueSetUri value="<%= model.valueSetUri %>"<%- if model.has_primitive_extension?('valueSetUri') -%>><%== model.get_primitive_extension('valueSetUri').to_xml(is_root: false, is_lowercase: true)  %></valueSetUri><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.valueSetReference().nil? -%><%== render :template => 'reference', :locals => {name: 'valueSetReference', model: model.valueSetReference()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

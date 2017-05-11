@@ -1,9 +1,0 @@
-<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
-<% local_name = name || 'Binary' %>
-<<%= (is_lowercase) ? local_name.downcase : local_name %>
-<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
-    <%== render :template => 'element', :locals => {model: model, is_resource: true} %>
-    <%== render :template => 'resource', :locals => {model: model} %>
-    <%- if !model.contentType().nil? -%><contentType value="<%= model.contentType %>"<%- if model.has_primitive_extension?('contentType') -%>><%== model.get_primitive_extension('contentType').to_xml(is_root: false, is_lowercase: true)  %></contentType><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.content().nil? -%><content value="<%= model.content %>"<%- if model.has_primitive_extension?('content') -%>><%== model.get_primitive_extension('content').to_xml(is_root: false, is_lowercase: true)  %></content><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? local_name.downcase : local_name %>>

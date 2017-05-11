@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.tooth().nil? -%><%== render :template => 'coding', :locals => {name: 'tooth', model: model.tooth()} %><%- end -%>
-    <%- if !model.reason().nil? -%><%== render :template => 'coding', :locals => {name: 'reason', model: model.reason()} %><%- end -%>
-    <%- if !model.extractionDate.nil? -%><%- if (!model.extractionDate.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1]))?)?\Z/).nil?) -%><extractionDate value="<%= model.extractionDate %>"<%- if model.has_primitive_extension?('extractionDate') -%>><%== model.get_primitive_extension('extractionDate').to_xml(is_root: false, is_lowercase: true)  %></extractionDate><%- else -%>/><%- end -%><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

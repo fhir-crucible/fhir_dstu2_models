@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.autocreate().nil? -%><autocreate value="<%= model.autocreate %>"<%- if model.has_primitive_extension?('autocreate') -%>><%== model.get_primitive_extension('autocreate').to_xml(is_root: false, is_lowercase: true)  %></autocreate><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.autodelete().nil? -%><autodelete value="<%= model.autodelete %>"<%- if model.has_primitive_extension?('autodelete') -%>><%== model.get_primitive_extension('autodelete').to_xml(is_root: false, is_lowercase: true)  %></autodelete><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.resource().nil? -%><%== render :template => 'reference', :locals => {name: 'resource', model: model.resource()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><%== render :template => 'coding', :locals => {name: 'type', model: model.fhirType()} %><%- end -%>
-    <%- if !model.party().nil? -%><%== render :template => 'reference', :locals => {name: 'party', model: model.party()} %><%- end -%>
-    <%- if !model.signature().nil? -%><signature value="<%= model.signature %>"<%- if model.has_primitive_extension?('signature') -%>><%== model.get_primitive_extension('signature').to_xml(is_root: false, is_lowercase: true)  %></signature><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

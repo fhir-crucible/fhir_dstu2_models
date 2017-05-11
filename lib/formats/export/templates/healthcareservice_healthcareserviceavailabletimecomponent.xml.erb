@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (model.daysOfWeek && !model.daysOfWeek.empty?) -%><%- model.daysOfWeek.each_with_index do |element,index| -%><daysOfWeek value="<%= element %>"<%- if model.has_primitive_extension?('daysOfWeek',index) -%>><%== model.get_primitive_extension('daysOfWeek',index).to_xml(is_root: false, is_lowercase: true)  %></daysOfWeek><%- else -%>/><%- end -%><%- end -%><%- end -%>
-    <%- if !model.allDay().nil? -%><allDay value="<%= model.allDay %>"<%- if model.has_primitive_extension?('allDay') -%>><%== model.get_primitive_extension('allDay').to_xml(is_root: false, is_lowercase: true)  %></allDay><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.availableStartTime.nil? -%><%- if (!model.availableStartTime.match(/\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/).nil?) -%><availableStartTime value="<%= model.availableStartTime %>"<%- if model.has_primitive_extension?('availableStartTime') -%>><%== model.get_primitive_extension('availableStartTime').to_xml(is_root: false, is_lowercase: true)  %></availableStartTime><%- else -%>/><%- end -%><%- end -%><%- end -%>
-    <%- if !model.availableEndTime.nil? -%><%- if (!model.availableEndTime.match(/\A([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?\Z/).nil?) -%><availableEndTime value="<%= model.availableEndTime %>"<%- if model.has_primitive_extension?('availableEndTime') -%>><%== model.get_primitive_extension('availableEndTime').to_xml(is_root: false, is_lowercase: true)  %></availableEndTime><%- else -%>/><%- end -%><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>
