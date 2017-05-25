@@ -9,5 +9,6 @@ AllCops:
     - 'tmp/**/*'
     - '*.gemspec'
     - 'bin/*'
+    - 'vendor/**/*'
 Metrics/LineLength:
   Enabled: false
