@@ -1,5 +1,5 @@
-RSpec.describe 'FHIR::Model' do
+RSpec.describe 'FHIR::DSTU2::Model' do
   describe '#data_type?(datatype, value)' do
-    subject { FHIR::StructureDefinition.new({}) }
+    subject { FHIR::DSTU2::StructureDefinition.new({}) }
   end
 end

@@ -1,4 +1,4 @@
-RSpec.describe 'FHIR::Model' do
+RSpec.describe 'FHIR::DSTU2::Model' do
   describe '#hash' do
     it 'should be the same for two identical fhir models' do
       attributes = {
@@ -6,8 +6,8 @@ RSpec.describe 'FHIR::Model' do
           family: [ 'Smith' ]
         ]
       }
-      patient1 = FHIR::Patient.new(attributes)
-      patient2 = FHIR::Patient.new(attributes)
+      patient1 = FHIR::DSTU2::Patient.new(attributes)
+      patient2 = FHIR::DSTU2::Patient.new(attributes)
       expect(patient1.hash).to eq patient2.hash
     end
 
@@ -22,8 +22,8 @@ RSpec.describe 'FHIR::Model' do
           family: [ 'Jones' ]
         ]
       }
-      patient1 = FHIR::Patient.new(attributes1)
-      patient2 = FHIR::Patient.new(attributes2)
+      patient1 = FHIR::DSTU2::Patient.new(attributes1)
+      patient2 = FHIR::DSTU2::Patient.new(attributes2)
       expect(patient1.hash).not_to eq patient2.hash
     end
   end
@@ -35,8 +35,8 @@ RSpec.describe 'FHIR::Model' do
           family: [ 'Smith' ]
         ]
       }
-      patient1 = FHIR::Patient.new(attributes)
-      patient2 = FHIR::Patient.new(attributes)
+      patient1 = FHIR::DSTU2::Patient.new(attributes)
+      patient2 = FHIR::DSTU2::Patient.new(attributes)
       expect(patient1).to eq patient2
       expect(patient1).to eql patient2
     end
@@ -52,8 +52,8 @@ RSpec.describe 'FHIR::Model' do
           family: [ 'Jones' ]
         ]
       }
-      patient1 = FHIR::Patient.new(attributes1)
-      patient2 = FHIR::Patient.new(attributes2)
+      patient1 = FHIR::DSTU2::Patient.new(attributes1)
+      patient2 = FHIR::DSTU2::Patient.new(attributes2)
       expect(patient1).not_to eq patient2
       expect(patient1).not_to eql patient2
     end
@@ -64,7 +64,7 @@ RSpec.describe 'FHIR::Model' do
           family: [ 'Smith' ]
         ]
       }
-      patient1 = FHIR::Patient.new(attributes1)
+      patient1 = FHIR::DSTU2::Patient.new(attributes1)
       patient2 = "patient 2"
       expect(patient1).not_to eq patient2
       expect(patient1).not_to eql patient2
@@ -76,7 +76,7 @@ RSpec.describe 'FHIR::Model' do
           family: [ 'Smith' ]
         ]
       }
-      patient1 = FHIR::Patient.new(attributes1)
+      patient1 = FHIR::DSTU2::Patient.new(attributes1)
       expect(patient1).not_to eq nil
       expect(patient1).not_to be_nil
     end
