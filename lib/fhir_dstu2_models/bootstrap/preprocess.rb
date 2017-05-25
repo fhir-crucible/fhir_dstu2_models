@@ -18,10 +18,10 @@ module FHIR
           # Remove unnecessary elements from the hash
           hash['entry'].each do |entry|
             next unless entry['resource']
-            pre_process_structuredefinition(entry['resource']) if 'StructureDefinition' == entry['resource']['resourceType']
-            pre_process_valueset(entry['resource']) if 'ValueSet' == entry['resource']['resourceType']
-            pre_process_codesystem(entry['resource']) if 'CodeSystem' == entry['resource']['resourceType']
-            pre_process_searchparam(entry['resource']) if 'SearchParameter' == entry['resource']['resourceType']
+            pre_process_structuredefinition(entry['resource']) if entry['resource']['resourceType'] == 'StructureDefinition'
+            pre_process_valueset(entry['resource']) if entry['resource']['resourceType'] == 'ValueSet'
+            pre_process_codesystem(entry['resource']) if entry['resource']['resourceType'] == 'CodeSystem'
+            pre_process_searchparam(entry['resource']) if entry['resource']['resourceType'] == 'SearchParameter'
             remove_fhir_comments(entry['resource'])
           end
 

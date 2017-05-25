@@ -204,62 +204,63 @@ module FHIR
           FHIR::DSTU2.logger.debug "Could not find valueset, looking for codeSystem #{uri}"
           valueset = valuesets.select { |v| !v['codeSystem'].nil? && v['codeSystem']['system'] == uri }.first
         end
-        unless valueset.nil?
+        if valueset.nil?
+          FHIR::DSTU2.logger.debug 'Could not find valueset or code system.'
+        else
           FHIR::DSTU2.logger.debug "Found valueset #{valueset['url']}"
           @@cache[uri] = {}
           if !valueset['codeSystem'].nil? && !valueset['codeSystem']['system'].nil?
-            FHIR::DSTU2.logger.debug "Looking at codeSystem..."
+            FHIR::DSTU2.logger.debug 'Looking at codeSystem...'
             @@cache[uri][valueset['codeSystem']['system']] = []
             valueset['codeSystem']['concept'].each do |concept|
               @@cache[uri][valueset['codeSystem']['system']] += get_codes_from_concept(concept, parent_code)
             end
           end
           if !valueset['expansion'].nil? && !valueset['expansion']['contains'].nil?
-            FHIR::DSTU2.logger.debug "Looking at expansion..."
+            FHIR::DSTU2.logger.debug 'Looking at expansion...'
             keys = valueset['expansion']['contains'].map { |x| x['system'] }.uniq
             keys.each { |x| @@cache[uri][x] = [] }
             valueset['expansion']['contains'].each { |x| @@cache[uri][x['system']] << x['code'] }
           end
           if !valueset['compose'].nil? && !valueset['compose']['include'].nil?
-            FHIR::DSTU2.logger.debug "Looking at compose.include..."
+            FHIR::DSTU2.logger.debug 'Looking at compose.include...'
             valueset['compose']['include'].each do |x|
               system = x['system']
               unless @@cache[uri].keys.include?(system)
                 included_codes = get_codes(system)
-                if included_codes
-                  @@cache[uri][system] = included_codes[system]
-                else
-                  @@cache[uri][system] = []
-                end
+                @@cache[uri][system] = if included_codes
+                                         included_codes[system]
+                                       else
+                                         []
+                                       end
               end
               x['concept'].each { |y| @@cache[uri][system] += get_codes_from_concept(y, parent_code) } if x['concept']
-              if x['filter']
-                x['filter'].each do |filter|
-                  if filter['property']=='concept' && filter['op']=='is-a'
-                    codes = get_codes(system, filter['value'])
-                    @@cache[uri][system] += codes[system] if codes && codes[system]
-                  end
+              next unless x['filter']
+              x['filter'].each do |filter|
+                if filter['property'] == 'concept' && filter['op'] == 'is-a'
+                  codes = get_codes(system, filter['value'])
+                  @@cache[uri][system] += codes[system] if codes && codes[system]
                 end
               end
             end
-            if !valueset['compose']['exclude'].nil?
-              FHIR::DSTU2.logger.debug "Looking at compose.exclude..."
+            unless valueset['compose']['exclude'].nil?
+              FHIR::DSTU2.logger.debug 'Looking at compose.exclude...'
               valueset['compose']['exclude'].each do |x|
                 system = x['system']
                 unless @@cache[uri].keys.include?(system)
                   included_codes = get_codes(system)[system]
-                  if included_codes
-                    @@cache[uri][system] = included_codes[system]
-                  else
-                    @@cache[uri][system] = []
-                  end
+                  @@cache[uri][system] = if included_codes
+                                           included_codes[system]
+                                         else
+                                           []
+                                         end
                 end
                 x['concept'].each { |y| @@cache[uri][system].delete(y['code']) } if x['concept']
               end
             end
           end
           if !valueset['compose'].nil? && !valueset['compose']['import'].nil?
-            FHIR::DSTU2.logger.debug "Looking at compose.import..."
+            FHIR::DSTU2.logger.debug 'Looking at compose.import...'
             imported_systems = valueset['compose']['import']
             FHIR::DSTU2.logger.debug "Searching #{imported_systems}..."
             imported_systems.each do |importsys|
@@ -271,35 +272,32 @@ module FHIR
                   lookup = get_codes(sys)
                   codes = lookup[sys] if lookup
                 end
+                next unless codes
                 codes.each do |code|
                   @@cache[uri][sys] = [] unless @@cache[uri].keys.include?(sys)
                   @@cache[uri][sys] << code
-                end if codes
+                end
               end
             end
           end
           @@cache[uri].each { |_system, codes| codes.uniq! }
-        else
-          FHIR::DSTU2.logger.debug "Could not find valueset or code system."
         end
         FHIR::DSTU2.logger.debug "Done caching codes for #{uri}"
         @@cache[uri]
       end
 
       def self.get_codes_from_concept(concept, filter_code = nil)
-        begin
-          codes = [ ]
-          codes << concept['code'] if concept['code'] == filter_code || filter_code.nil?
-          if concept['concept']
-            filter_code = nil if concept['code'] == filter_code
-            concept['concept'].each do |item|
-              codes += get_codes_from_concept(item, filter_code)
-            end
+        codes = []
+        codes << concept['code'] if concept['code'] == filter_code || filter_code.nil?
+        if concept['concept']
+          filter_code = nil if concept['code'] == filter_code
+          concept['concept'].each do |item|
+            codes += get_codes_from_concept(item, filter_code)
           end
-          codes
-        rescue => e
-          FHIR::DSTU2.logger.debug "Unable to extract codes from concept #{concept}: #{e.message}"
         end
+        codes
+      rescue => e
+        FHIR::DSTU2.logger.debug "Unable to extract codes from concept #{concept}: #{e.message}"
       end
 
       # # Get the "display" (human-readable title) for a given code in a code system (uri)

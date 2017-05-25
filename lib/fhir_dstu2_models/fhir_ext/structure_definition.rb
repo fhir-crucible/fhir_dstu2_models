@@ -312,13 +312,13 @@ module FHIR
 
         matching_type = 0
 
-        if vs_uri == 'http://hl7.org/fhir/ValueSet/content-type' || vs_uri == 'http://www.rfc-editor.org/bcp/bcp13.txt'
+        if %w[http://hl7.org/fhir/ValueSet/content-type http://www.rfc-editor.org/bcp/bcp13.txt].include?(vs_uri)
           matches = MIME::Types[value]
           if (matches.nil? || matches.size.zero?) && !some_type_of_xml_or_json?(value)
             @errors << "#{element.path} has invalid mime-type: '#{value}'"
             matching_type -= 1 if element.binding.strength == 'required'
           end
-        elsif vs_uri == 'http://hl7.org/fhir/ValueSet/languages' || vs_uri == 'http://tools.ietf.org/html/bcp47'
+        elsif %w[http://hl7.org/fhir/ValueSet/languages http://tools.ietf.org/html/bcp47].include?(vs_uri)
           has_region = !(value =~ /-/).nil?
           valid = !BCP47::Language.identify(value.downcase).nil? && (!has_region || !BCP47::Region.identify(value.upcase).nil?)
           unless valid
@@ -351,7 +351,7 @@ module FHIR
 
       def some_type_of_xml_or_json?(code)
         m = code.downcase
-        return true if m == 'xml' || m == 'json'
+        return true if %w[xml json].include?(m)
         return true if (m.starts_with?('application/') || m.starts_with?('text/')) && (m.ends_with?('json') || m.ends_with?('xml'))
         return true if m.starts_with?('application/xml') || m.starts_with?('text/xml')
         return true if m.starts_with?('application/json') || m.starts_with?('text/json')

@@ -288,12 +288,12 @@ module FHIR
 
       def check_binding(uri, value)
         valid = false
-        if uri == 'http://hl7.org/fhir/ValueSet/content-type' || uri == 'http://www.rfc-editor.org/bcp/bcp13.txt'
+        if %w[http://hl7.org/fhir/ValueSet/content-type http://www.rfc-editor.org/bcp/bcp13.txt].include?(uri)
           matches = MIME::Types[value]
           json_or_xml = value.downcase.include?('xml') || value.downcase.include?('json')
-          known_weird = ['text/cql', 'application/cql+text'].include?(value)
+          known_weird = %w[text/cql application/cql+text].include?(value)
           valid = json_or_xml || known_weird || (!matches.nil? && !matches.empty?)
-        elsif uri == 'http://hl7.org/fhir/ValueSet/languages' || uri == 'http://tools.ietf.org/html/bcp47'
+        elsif %w[http://hl7.org/fhir/ValueSet/languages http://tools.ietf.org/html/bcp47].include?(uri)
           has_region = !(value =~ /-/).nil?
           valid = !BCP47::Language.identify(value.downcase).nil? && (!has_region || !BCP47::Region.identify(value.upcase).nil?)
         else

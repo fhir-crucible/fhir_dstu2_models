@@ -67,11 +67,11 @@ module FluentPath
       tree = []
       until tokens.empty?
         token = tokens.delete_at(0)
-        if '(' == token # sub expression
+        if token == '(' # sub expression
           tree << FluentPath::DSTU2::Expression.new(build_tree(tokens))
-        elsif ')' == token
+        elsif token == ')'
           return tree
-        elsif '.' != token
+        elsif token != '.'
           tree << atom(token)
         end
       end

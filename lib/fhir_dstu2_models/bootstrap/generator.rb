@@ -52,7 +52,7 @@ module FHIR
 
             hash[p['id']] = field.serialize
           end
-          hash['xhtml'] = {'type'=>'string'}
+          hash['xhtml'] = { 'type' => 'string' }
           template.constants['PRIMITIVES'] = hash
 
           template.constants['TYPES'] = @defn.complex_types.map { |t| t['id'] }.sort
@@ -183,7 +183,7 @@ module FHIR
                 field.path = element['path'].gsub(path_type, type_name)
                 field.type = data_type
                 field.type = 'Extension' if field.path.end_with?('extension')
-                field.type_profiles = profiles if data_type == 'Reference' || data_type == 'Extension'
+                field.type_profiles = profiles if %w[Reference Extension].include?(datatype)
                 field.min = element['min']
                 field.max = element['max']
                 field.max = field.max.to_i
@@ -218,7 +218,7 @@ module FHIR
               field.path = element['path'].gsub(path_type, type_name)
               field.type = element['nameReference']
               field.type = field.type[1..-1] if field.type[0] == '#'
-              hindex = hierarchy.index { |x| x.downcase == field.type.downcase }
+              hindex = hierarchy.index { |x| x.casecmp(field.type).zero? }
               if hindex
                 # reference to self
                 field.type = hierarchy[0..hindex].join('::').to_s
@@ -230,11 +230,11 @@ module FHIR
                                klass.hierarchy.join('::')
                              else
                                # the template/child is a direct ancester (it isn't in @templates yet because it is being defined now)
-                               indirect = @templates.find{ |x| x.name.first.downcase == field.type.downcase }
+                               indirect = @templates.find { |x| x.name.first.casecmp(field.type).zero? }
                                if indirect
-                                indirect.hierarchy.join('::')
+                                 indirect.hierarchy.join('::')
                                else
-                                field.type.split('.').map { |x| cap_first(x) }.join('::')
+                                 field.type.split('.').map { |x| cap_first(x) }.join('::')
                                end
                              end
               end

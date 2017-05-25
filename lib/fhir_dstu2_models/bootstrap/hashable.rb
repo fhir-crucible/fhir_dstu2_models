@@ -25,7 +25,7 @@ module FHIR
       def prune(thing)
         if thing.is_a?(Array)
           return nil if thing.empty?
-          thing.map!{|i| prune(i)}
+          thing.map! { |i| prune(i) }
           thing.compact!
           return nil if thing.empty?
         elsif thing.is_a?(Hash)
@@ -33,7 +33,7 @@ module FHIR
           thing.each do |key, value|
             thing[key] = prune(value)
           end
-          thing.delete_if do |key, value|
+          thing.delete_if do |_key, value|
             value.nil?
           end
           return nil if thing.empty?
