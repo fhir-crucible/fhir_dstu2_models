@@ -2,6 +2,7 @@ require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
+require 'pry'
 
 Dir['lib/fhir_dstu2_models/tasks/**/*.rake'].each do |file|
   load file

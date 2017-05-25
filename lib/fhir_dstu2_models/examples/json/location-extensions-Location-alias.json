@@ -3,6 +3,7 @@
   "id": "location-extensions-Location-alias",
   "url": "http://hl7.org/fhir/SearchParameter/location-extensions-Location-alias",
   "name": "alias",
+  "base": "Location",
   "code": "alias",
   "type": "string",
   "description": "Include Locations that contain the provided alias",

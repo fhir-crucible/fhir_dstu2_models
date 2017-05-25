@@ -16,7 +16,7 @@
 	<end value="2013-12-25T13:30:00Z"/>
 	<participantType>
 		<coding>
-			<code value="attending"/>
+			<code value="PART"/>
 		</coding>
 	</participantType>
 	<actor>

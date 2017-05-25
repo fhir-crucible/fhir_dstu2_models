@@ -7,6 +7,7 @@ namespace :fhir do
 
   desc 'generate fhir models'
   task :generate, [] do |_t, _args|
+    FHIR::DSTU2.logger.level = Logger::INFO
     # create a generator and load the definitions
     generator = FHIR::DSTU2::Boot::Generator.new
     # 1. generate the lists of primitive data types, complex types, and resources

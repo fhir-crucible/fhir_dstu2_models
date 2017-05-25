@@ -15,9 +15,6 @@
 			<display value="General Discussion"/>
 		</coding>
 	</type>
-	<reason>
-		<text value="Clinical Review"/>
-	</reason>
 	<priority value="5"/>
 	<description value="Discussion on the results of your recent MRI"/>
 	<minutesDuration value="15"/>

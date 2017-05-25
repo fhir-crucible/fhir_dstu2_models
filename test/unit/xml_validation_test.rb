@@ -21,7 +21,7 @@ class XmlValidationTest < Test::Unit::TestCase
 
   def run_xml_validation_test(example_file, example_name)
     input_xml = File.read(example_file)
-    resource = FHIR::Xml.from_xml(input_xml)
+    resource = FHIR::DSTU2::Xml.from_xml(input_xml)
     errors = resource.validate
     unless errors.empty?
       File.open("#{ERROR_DIR}/#{example_name}.err", 'w:UTF-8') { |file| file.write(JSON.pretty_unparse(errors)) }
@@ -37,9 +37,9 @@ class XmlValidationTest < Test::Unit::TestCase
   end
 
   def test_xml_is_valid
-    filename = File.join(EXAMPLE_ROOT, 'patient-example.xml')
+    filename = File.join(EXAMPLE_ROOT, 'patient-example(example).xml')
     xml = File.read(filename)
-    assert FHIR::Xml.valid?(xml), 'XML failed to schema validate.'
+    assert FHIR::DSTU2::Xml.valid?(xml), 'XML failed to schema validate.'
     # check memory
     wait_for_gc
     after = check_memory
@@ -47,9 +47,9 @@ class XmlValidationTest < Test::Unit::TestCase
   end
 
   def test_resource_is_valid
-    filename = File.join(EXAMPLE_ROOT, 'patient-example.xml')
+    filename = File.join(EXAMPLE_ROOT, 'patient-example(example).xml')
     xml = File.read(filename)
-    resource = FHIR::Xml.from_xml(xml)
+    resource = FHIR::DSTU2::Xml.from_xml(xml)
     assert resource.valid?, 'Resource failed to validate.'
     # check memory
     before = check_memory

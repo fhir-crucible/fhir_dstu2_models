@@ -4,7 +4,9 @@
   "url": "http://hl7.org/fhir/SearchParameter/valueset-extensions-ValueSet-workflow",
   "name": "workflow",
   "code": "workflow",
+  "base": "ValueSet",
   "type": "token",
+  "description": "A SearchParameter on ValueSet",
   "xpath": "f:ValueSet/f:extension[@url='http://hl7.org/fhir/StructureDefinition/valueset-workflowStatus']",
   "xpathUsage": "normal"
 }

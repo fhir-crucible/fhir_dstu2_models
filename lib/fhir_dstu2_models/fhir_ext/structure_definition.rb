@@ -69,15 +69,17 @@ module FHIR
             @hierarchy.add_descendent(element)
           end
         end
-        changelist = differential.element.map(&:path)
-        @hierarchy.keep_children(changelist)
-        @hierarchy.sweep_children
+        if differential
+          changelist = differential.element.map(&:path)
+          @hierarchy.keep_children(changelist)
+          @hierarchy.sweep_children
+        end
         @hierarchy
       end
 
       def describe_element(element)
-        if element.path.end_with?('.extension', '.modifierExtension') && element.sliceName
-          "#{element.path} (#{element.sliceName})"
+        if element.path.end_with?('.extension', '.modifierExtension') && element.name
+          "#{element.path} (#{element.name})"
         else
           element.path
         end
@@ -137,7 +139,7 @@ module FHIR
         # special filtering on extension urls
         extension_profile = element.type.find { |t| t.code == 'Extension' && !t.profile.nil? }
         if extension_profile
-          nodes = nodes.select { |x| extension_profile.profile == x['url'] }
+          nodes = nodes.select { |x| extension_profile.profile.first == x['url'] }
         end
 
         # Check the cardinality
@@ -213,28 +215,9 @@ module FHIR
           end
         end
 
-        # Check FluentPath invariants 'constraint.xpath' constraints...
-        # This code is not very robust, and is likely to be throwing *many* exceptions.
-        # This is partially because the FluentPath evaluator is not complete, and partially
-        # because the context of an expression (element.constraint.expression) is not always
-        # consistent with the current context (element.path). For example, sometimes expressions appear to be
-        # written to be evaluated within the element, other times at the resource level, or perhaps
-        # elsewhere. There is no good way to determine "where" you should evaluate the expression.
-        element.constraint.each do |constraint|
-          next unless constraint.expression && !nodes.empty?
-          nodes.each do |node|
-            begin
-              result = FluentPath.evaluate(constraint.expression, node)
-              if !result && constraint.severity == 'error'
-                @errors << "#{describe_element(element)}: FluentPath expression evaluates to false for #{name} invariant rule #{constraint.key}: #{constraint.human}"
-                @errors << node.to_s
-              end
-            rescue
-              @warnings << "#{describe_element(element)}: unable to evaluate FluentPath expression against JSON for #{name} invariant rule #{constraint.key}: #{constraint.human}"
-              @warnings << node.to_s
-            end
-          end
-        end
+        # In STU3 we check element.constraint.expression using FluentPath.
+        # In DSTU2, constraints were given by element.constraint.xpath.
+        # We do *NOT* check these XPath constraints.
 
         # check children if the element has any
         return unless element.children

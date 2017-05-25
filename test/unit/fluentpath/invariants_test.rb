@@ -7,7 +7,7 @@ class InvariantsTest < Test::Unit::TestCase
       'period' => '2016-2017',
       'frequency' => 'daily'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed tim-3 test.'
   end
 
@@ -18,7 +18,7 @@ class InvariantsTest < Test::Unit::TestCase
       'frequency' => 'daily',
       'when' => 'noon'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed tim-3 test.'
   end
 
@@ -32,7 +32,7 @@ class InvariantsTest < Test::Unit::TestCase
         'reasonNotGiven' => []
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed imm-1 test.'
   end
 
@@ -46,7 +46,7 @@ class InvariantsTest < Test::Unit::TestCase
         'reasonNotGiven' => ['Refusal']
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed imm-1 test.'
   end
 
@@ -59,7 +59,7 @@ class InvariantsTest < Test::Unit::TestCase
         'reasonNotGiven' => []
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed imm-2 test.'
   end
 
@@ -72,7 +72,7 @@ class InvariantsTest < Test::Unit::TestCase
         'reasonNotGiven' => ['Refusal']
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed imm-2 test.'
   end
 
@@ -85,7 +85,7 @@ class InvariantsTest < Test::Unit::TestCase
         'type' => %w(A B B)
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == %w(A B), 'Failed nsd-2 test.'
   end
 
@@ -104,7 +104,7 @@ class InvariantsTest < Test::Unit::TestCase
         }
       ]
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed obs-7 test.'
   end
 
@@ -121,7 +121,7 @@ class InvariantsTest < Test::Unit::TestCase
         }
       ]
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed obs-7 test.'
   end
 
@@ -131,7 +131,7 @@ class InvariantsTest < Test::Unit::TestCase
       'start' => '2016-06-06',
       'end' => '2016-06-16'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed per-1 test.'
   end
 
@@ -141,7 +141,7 @@ class InvariantsTest < Test::Unit::TestCase
       'start' => '2016-06-06',
       'end' => '2016-06-01'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed per-1 test.'
   end
 
@@ -151,7 +151,7 @@ class InvariantsTest < Test::Unit::TestCase
       'start' => '2016-06-06T10:55:34+01:00',
       'end' => '2016-06-16T09:44:23+01:00'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed per-1 test.'
   end
 
@@ -161,7 +161,7 @@ class InvariantsTest < Test::Unit::TestCase
       'start' => '2016-06-06T10:55:34+01:00',
       'end' => '2016-06-01T09:44:23+01:00'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed per-1 test.'
   end
 
@@ -172,7 +172,7 @@ class InvariantsTest < Test::Unit::TestCase
       'system' => 'http://unitsofmeasure.org',
       'value' => 300
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed dis-1 test.'
   end
 
@@ -183,7 +183,7 @@ class InvariantsTest < Test::Unit::TestCase
       'system' => 'foobar',
       'value' => 300
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed dis-1 test.'
   end
 
@@ -193,7 +193,7 @@ class InvariantsTest < Test::Unit::TestCase
       'type' => 'string',
       'maxLength' => 300
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed que-10 test.'
   end
 
@@ -202,7 +202,7 @@ class InvariantsTest < Test::Unit::TestCase
     data = {
       'constraint' => [{ 'key' => 'A' }, { 'key' => 'B' }, { 'key' => 'A' }]
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == %w(A B), 'Failed eld-14 test.'
   end
 
@@ -212,7 +212,7 @@ class InvariantsTest < Test::Unit::TestCase
       'min' => 1,
       'max' => '2'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed eld-2 test.'
   end
 
@@ -222,7 +222,7 @@ class InvariantsTest < Test::Unit::TestCase
       'min' => 1,
       'max' => '0'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed eld-2 test.'
   end
 
@@ -232,7 +232,7 @@ class InvariantsTest < Test::Unit::TestCase
       'min' => 1,
       'max' => '*'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed eld-2 test.'
   end
 
@@ -242,7 +242,7 @@ class InvariantsTest < Test::Unit::TestCase
       'searchType' => 'number',
       'type' => 'string'
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed opd-2 test.'
   end
 
@@ -254,7 +254,7 @@ class InvariantsTest < Test::Unit::TestCase
         'element' => [{ 'base' => 'Patient' }]
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed sdf-12 test.'
   end
 
@@ -268,7 +268,7 @@ class InvariantsTest < Test::Unit::TestCase
         }]
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == true, 'Failed sdf-9 test.'
   end
 
@@ -285,7 +285,7 @@ class InvariantsTest < Test::Unit::TestCase
         }]
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed sdf-9 test.'
   end
 end

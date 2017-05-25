@@ -21,32 +21,32 @@ class ExtensionTest < Test::Unit::TestCase
   }
 
   def test_extension
-    result = FluentPath.evaluate('Patient.extension', PATIENT)
+    result = FluentPath::DSTU2.evaluate('Patient.extension', PATIENT)
     assert result == EXT_ARRAY, 'Failed to resolve extension.'
   end
 
   def test_extension_with_block
-    result = FluentPath.evaluate("Patient.extension('http://hl7.org/fhir/StructureDefinition/us-core-race')", PATIENT)
+    result = FluentPath::DSTU2.evaluate("Patient.extension('http://hl7.org/fhir/StructureDefinition/us-core-race')", PATIENT)
     assert result == EXT, 'Failed to resolve extension by name.'
   end
 
   def test_extension_item
-    result = FluentPath.evaluate('Patient.extension[0]', PATIENT)
+    result = FluentPath::DSTU2.evaluate('Patient.extension[0]', PATIENT)
     assert result == EXT, 'Failed to resolve extension by index.'
   end
 
   def test_extension_value
-    result = FluentPath.evaluate('Patient.extension[0].value', PATIENT)
+    result = FluentPath::DSTU2.evaluate('Patient.extension[0].value', PATIENT)
     assert result == CONCEPT, 'Failed to resolve extension value.'
   end
 
   def test_extension_with_block_value
-    result = FluentPath.evaluate("Patient.extension('http://hl7.org/fhir/StructureDefinition/us-core-race').value", PATIENT)
+    result = FluentPath::DSTU2.evaluate("Patient.extension('http://hl7.org/fhir/StructureDefinition/us-core-race').value", PATIENT)
     assert result == CONCEPT, 'Failed to resolve named extension value.'
   end
 
   def test_extension_missing
-    result = FluentPath.evaluate("Patient.extension('http://hl7.org/fhir/StructureDefinition/us-core-ethnicity')", PATIENT)
+    result = FluentPath::DSTU2.evaluate("Patient.extension('http://hl7.org/fhir/StructureDefinition/us-core-ethnicity')", PATIENT)
     assert result.nil?, 'Failed to resolve missing extension.'
   end
 end

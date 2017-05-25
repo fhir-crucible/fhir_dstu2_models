@@ -8,7 +8,6 @@ module FHIR
       @@resources = nil
       @@profiles = nil
       @@extensions = nil
-      @@expansions = nil
       @@valuesets = nil
       @@search_params = nil
 
@@ -175,75 +174,158 @@ module FHIR
       #  ValueSet Code Expansions
       # ----------------------------------------------------------------
 
-      def self.expansions
-        @@expansions ||= begin
-          # load the expansions
-          filename = File.join(@@defns, 'valuesets', 'expansions.json')
-          raw = File.open(filename, 'r:UTF-8', &:read)
-          JSON.parse(raw)['entry'].map { |e| e['resource'] }
-        end
-      end
-      deprecate :load_expansions, :expansions
-
       def self.valuesets
         @@valuesets ||= begin
           # load the valuesets
           filename = File.join(@@defns, 'valuesets', 'valuesets.json')
           raw = File.open(filename, 'r:UTF-8', &:read)
-          JSON.parse(raw)['entry'].map { |e| e['resource'] }
+          vs = JSON.parse(raw)['entry'].map { |e| e['resource'] }
+
+          filename = File.join(@@defns, 'valuesets', 'v3-codesystems.json')
+          raw = File.open(filename, 'r:UTF-8', &:read)
+          v3 = JSON.parse(raw)['entry'].map { |e| e['resource'] }
+
+          filename = File.join(@@defns, 'valuesets', 'v2-tables.json')
+          raw = File.open(filename, 'r:UTF-8', &:read)
+          v2 = JSON.parse(raw)['entry'].map { |e| e['resource'] }
+
+          vs + v3 + v2
         end
       end
 
       # Get codes (Array of Strings) for a given expansion.
-      def self.get_codes(uri)
+      def self.get_codes(uri, parent_code = nil)
         return nil if uri.nil?
         return @@cache[uri] if @@cache[uri]
-        valueset = expansions.select { |x| x['url'] == uri }.first
+        FHIR::DSTU2.logger.debug "Looking up codes for #{uri}"
+        valueset = valuesets.select { |x| x['url'] == uri }.first
+        if valueset.nil?
+          # if we can't identify the valueset by id/uri, see if we can match the codeSystem
+          FHIR::DSTU2.logger.debug "Could not find valueset, looking for codeSystem #{uri}"
+          valueset = valuesets.select { |v| !v['codeSystem'].nil? && v['codeSystem']['system'] == uri }.first
+        end
         unless valueset.nil?
+          FHIR::DSTU2.logger.debug "Found valueset #{valueset['url']}"
           @@cache[uri] = {}
+          if !valueset['codeSystem'].nil? && !valueset['codeSystem']['system'].nil?
+            FHIR::DSTU2.logger.debug "Looking at codeSystem..."
+            @@cache[uri][valueset['codeSystem']['system']] = []
+            valueset['codeSystem']['concept'].each do |concept|
+              @@cache[uri][valueset['codeSystem']['system']] += get_codes_from_concept(concept, parent_code)
+            end
+          end
           if !valueset['expansion'].nil? && !valueset['expansion']['contains'].nil?
+            FHIR::DSTU2.logger.debug "Looking at expansion..."
             keys = valueset['expansion']['contains'].map { |x| x['system'] }.uniq
             keys.each { |x| @@cache[uri][x] = [] }
             valueset['expansion']['contains'].each { |x| @@cache[uri][x['system']] << x['code'] }
           end
           if !valueset['compose'].nil? && !valueset['compose']['include'].nil?
-            included_systems = valueset['compose']['include'].map { |x| x['system'] }.uniq
-            included_systems.each { |x| @@cache[uri][x] = [] unless @@cache[uri].keys.include?(x) }
-            systems = valuesets.select { |x| x['resourceType'] == 'CodeSystem' && included_systems.include?(x['url']) }
-            systems.each do |x|
-              x['concept'].each { |y| @@cache[uri][x['url']] << y['code'] } if x['concept']
+            FHIR::DSTU2.logger.debug "Looking at compose.include..."
+            valueset['compose']['include'].each do |x|
+              system = x['system']
+              unless @@cache[uri].keys.include?(system)
+                included_codes = get_codes(system)
+                if included_codes
+                  @@cache[uri][system] = included_codes[system]
+                else
+                  @@cache[uri][system] = []
+                end
+              end
+              x['concept'].each { |y| @@cache[uri][system] += get_codes_from_concept(y, parent_code) } if x['concept']
+              if x['filter']
+                x['filter'].each do |filter|
+                  if filter['property']=='concept' && filter['op']=='is-a'
+                    codes = get_codes(system, filter['value'])
+                    @@cache[uri][system] += codes[system] if codes && codes[system]
+                  end
+                end
+              end
+            end
+            if !valueset['compose']['exclude'].nil?
+              FHIR::DSTU2.logger.debug "Looking at compose.exclude..."
+              valueset['compose']['exclude'].each do |x|
+                system = x['system']
+                unless @@cache[uri].keys.include?(system)
+                  included_codes = get_codes(system)[system]
+                  if included_codes
+                    @@cache[uri][system] = included_codes[system]
+                  else
+                    @@cache[uri][system] = []
+                  end
+                end
+                x['concept'].each { |y| @@cache[uri][system].delete(y['code']) } if x['concept']
+              end
+            end
+          end
+          if !valueset['compose'].nil? && !valueset['compose']['import'].nil?
+            FHIR::DSTU2.logger.debug "Looking at compose.import..."
+            imported_systems = valueset['compose']['import']
+            FHIR::DSTU2.logger.debug "Searching #{imported_systems}..."
+            imported_systems.each do |importsys|
+              # @@cache[uri][system] = [] unless @@cache[uri].keys.include?(system)
+              FHIR::DSTU2.logger.debug "Looking at compose.import #{importsys}..."
+              results = get_codes(importsys)
+              results.each do |sys, codes|
+                if codes.empty?
+                  lookup = get_codes(sys)
+                  codes = lookup[sys] if lookup
+                end
+                codes.each do |code|
+                  @@cache[uri][sys] = [] unless @@cache[uri].keys.include?(sys)
+                  @@cache[uri][sys] << code
+                end if codes
+              end
             end
           end
           @@cache[uri].each { |_system, codes| codes.uniq! }
+        else
+          FHIR::DSTU2.logger.debug "Could not find valueset or code system."
         end
+        FHIR::DSTU2.logger.debug "Done caching codes for #{uri}"
         @@cache[uri]
       end
 
-      # Get the "display" (human-readable title) for a given code in a code system (uri)
-      # If one can't be found, return nil
-      def self.get_display(uri, code)
-        return nil if uri.nil? || code.nil?
-        valuesets_and_expansions = expansions.select { |ex| ex['compose']['include'].detect { |i| i['system'] == uri } }
-        valuesets_and_expansions += valuesets.select { |vs| vs['url'] == uri }
-        code_hash = nil
-        valuesets_and_expansions.each do |valueset|
-          if valueset['expansion'] && valueset['expansion']['contains']
-            # This currently only matches 'expansions', not 'valuesets'
-            code_hash = valueset['expansion']['contains'].detect { |contained| contained['system'] == uri && contained['code'] == code }
-          elsif valueset['compose'] && valueset['compose']['include']
-            # This seems to only match 'valuesets'
-            valueset['compose']['include'].each do |code_system|
-              code_hash = code_system['concept'].detect { |con| con['code'] == code } if code_system['concept']
-              break if code_hash
+      def self.get_codes_from_concept(concept, filter_code = nil)
+        begin
+          codes = [ ]
+          codes << concept['code'] if concept['code'] == filter_code || filter_code.nil?
+          if concept['concept']
+            filter_code = nil if concept['code'] == filter_code
+            concept['concept'].each do |item|
+              codes += get_codes_from_concept(item, filter_code)
             end
-          elsif valueset['concept']
-            # This currently only matches 'valuesets', not 'expansions'
-            code_hash = valueset['concept'].detect { |vs| vs['code'] == code }
           end
-          break if code_hash
+          codes
+        rescue => e
+          FHIR::DSTU2.logger.debug "Unable to extract codes from concept #{concept}: #{e.message}"
         end
-        code_hash['display'] if code_hash
       end
+
+      # # Get the "display" (human-readable title) for a given code in a code system (uri)
+      # # If one can't be found, return nil
+      # def self.get_display(uri, code)
+      #   return nil if uri.nil? || code.nil?
+      #   valuesets_uri = valuesets.select { |vs| vs['url'] == uri }
+      #   code_hash = nil
+      #   valuesets_uri.each do |valueset|
+      #     if valueset['expansion'] && valueset['expansion']['contains']
+      #       # This currently only matches 'expansions', not 'valuesets'
+      #       code_hash = valueset['expansion']['contains'].detect { |contained| contained['system'] == uri && contained['code'] == code }
+      #     elsif valueset['compose'] && valueset['compose']['include']
+      #       # This seems to only match 'valuesets'
+      #       valueset['compose']['include'].each do |code_system|
+      #         code_hash = code_system['concept'].detect { |con| con['code'] == code } if code_system['concept']
+      #         break if code_hash
+      #       end
+      #     elsif valueset['concept']
+      #       # This currently only matches 'valuesets', not 'expansions'
+      #       code_hash = valueset['concept'].detect { |vs| vs['code'] == code }
+      #     end
+      #     break if code_hash
+      #   end
+      #   code_hash['display'] if code_hash
+      # end
 
       # ----------------------------------------------------------------
       #  Search Params

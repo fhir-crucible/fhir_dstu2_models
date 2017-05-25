@@ -39,7 +39,7 @@ module FHIR
       end
 
       def print_children(spaces = 0)
-        puts "#{' ' * spaces}+#{local_name || path}"
+        puts "#{' ' * spaces}+#{local_name || path} #{name} #{min}..#{max}"
         return nil unless @children
         @children.each do |child|
           child.print_children(spaces + 2)

@@ -27,7 +27,7 @@ class XmlFormatTest < Test::Unit::TestCase
 
   def run_xml_roundtrip_test(example_file, example_name)
     input_xml = File.read(example_file)
-    resource = FHIR::Xml.from_xml(input_xml)
+    resource = FHIR::DSTU2::Xml.from_xml(input_xml)
     output_xml = resource.to_xml
 
     input_nodes = Nokogiri::XML(input_xml)
@@ -54,9 +54,9 @@ class XmlFormatTest < Test::Unit::TestCase
 
   def run_xml_json_xml_lossiness_test(example_file, example_name)
     input_xml = File.read(example_file)
-    resource_from_xml = FHIR::Xml.from_xml(input_xml)
+    resource_from_xml = FHIR::DSTU2::Xml.from_xml(input_xml)
     output_json = resource_from_xml.to_json
-    resource_from_json = FHIR::Json.from_json(output_json)
+    resource_from_json = FHIR::DSTU2::Json.from_json(output_json)
     output_xml = resource_from_json.to_xml
 
     input_nodes = Nokogiri::XML(input_xml)

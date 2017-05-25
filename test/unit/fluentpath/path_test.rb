@@ -25,37 +25,37 @@ class PathTest < Test::Unit::TestCase
   LIST = [5, 4, 3, 2, 1]
 
   def test_path_without_type
-    result = FluentPath.evaluate('name.given', PATIENT)
+    result = FluentPath::DSTU2.evaluate('name.given', PATIENT)
     assert result == NAMES + WTF, 'Failed to navigate path.'
   end
 
   def test_path_with_type
-    result = FluentPath.evaluate('Patient.name.given', PATIENT)
+    result = FluentPath::DSTU2.evaluate('Patient.name.given', PATIENT)
     assert result == NAMES + WTF, 'Failed to navigate path.'
   end
 
   def test_path_conversion_2args
-    result = FluentPath.evaluate('Patient.name.given.select(substring(0,3))', PATIENT)
+    result = FluentPath::DSTU2.evaluate('Patient.name.given.select(substring(0,3))', PATIENT)
     assert result == %w(Bob Rob Bob Rob), 'Failed to navigate path.'
   end
 
   def test_path_conversion_1args
-    result = FluentPath.evaluate('Patient.name.given.select(substring(1))', PATIENT)
+    result = FluentPath::DSTU2.evaluate('Patient.name.given.select(substring(1))', PATIENT)
     assert result == %w(ob obert obert ob), 'Failed to navigate path.'
   end
 
   def test_path_with_quotes
-    result = FluentPath.evaluate('Message."PID-1"', MESSAGE)
+    result = FluentPath::DSTU2.evaluate('Message."PID-1"', MESSAGE)
     assert result == PID1, 'Failed to navigate path.'
   end
 
   def test_array_access
-    result = FluentPath.evaluate('Array[0]', ARRAY)
+    result = FluentPath::DSTU2.evaluate('Array[0]', ARRAY)
     assert result == 'A', 'Failed to navigate path.'
   end
 
   def test_array_access_with_variable
-    result = FluentPath.evaluate('Array[index]', ARRAY)
+    result = FluentPath::DSTU2.evaluate('Array[index]', ARRAY)
     assert result == 'B', 'Failed to navigate path.'
   end
 
@@ -67,35 +67,35 @@ class PathTest < Test::Unit::TestCase
         'element' => [ITEM]
       }
     }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == ITEM, 'Failed to navigate children.'
   end
 
   def test_first
     expression = "list.first"
     data = { 'list' => LIST }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == LIST.first, 'Failed to access first element.'
   end
 
   def test_last
     expression = "list.last"
     data = { 'list' => LIST }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == LIST.last, 'Failed to access last element.'
   end
 
   def test_tail
     expression = "list.tail"
     data = { 'list' => LIST }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == LIST.last(LIST.length - 1), 'Failed to access tail elements.'
   end
 
   def test_count
     expression = "list.count"
     data = { 'list' => LIST }
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == LIST.length, 'Failed to count elements.'
   end
 
@@ -103,14 +103,14 @@ class PathTest < Test::Unit::TestCase
     expression = "$parent.type='integer' or $parent.type='decimal'"
     data = {}
     parent = { 'type' => 'integer' }
-    result = FluentPath.evaluate(expression, data, parent)
+    result = FluentPath::DSTU2.evaluate(expression, data, parent)
     assert result == true, 'Failed to access parent.'
   end
 
   def test_parent_nil
     expression = "$parent.type='integer' or $parent.type='decimal'"
     data = {}
-    result = FluentPath.evaluate(expression, data)
+    result = FluentPath::DSTU2.evaluate(expression, data)
     assert result == false, 'Failed to gracefully handle no $parent.'
   end
 end

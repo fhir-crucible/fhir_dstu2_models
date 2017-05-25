@@ -18,9 +18,9 @@ module FHIR
     def self.from_contents(contents)
       doc = Nokogiri::XML(contents)
       if doc.errors.empty?
-        FHIR::Xml.from_xml(contents)
+        FHIR::DSTU2::Xml.from_xml(contents)
       else
-        FHIR::Json.from_json(contents)
+        FHIR::DSTU2::Json.from_json(contents)
       end
     end
 
@@ -76,7 +76,7 @@ module FHIR
       when 'positiveint'
         !(value.to_s =~ /\A+?[1-9][0-9]*\Z/).nil?
       else
-        FHIR.logger.warn "Unable to check #{value} for datatype #{datatype}"
+        FHIR::DSTU2.logger.warn "Unable to check #{value} for datatype #{datatype}"
         false
       end
     end

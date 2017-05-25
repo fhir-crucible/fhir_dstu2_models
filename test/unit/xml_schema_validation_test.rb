@@ -24,7 +24,7 @@ class XmlSchemaValidationTest < Test::Unit::TestCase
 
   def run_xml_schema_validation_test(example_file, example_name)
     input_xml = File.read(example_file)
-    resource = FHIR::Xml.from_xml(input_xml)
+    resource = FHIR::DSTU2::Xml.from_xml(input_xml)
     assert !resource.nil?
 
     output_xml = resource.to_xml

@@ -9,7 +9,7 @@ class AndOrNotTest < Test::Unit::TestCase
       'gender' => 'male',
       'deceased' => false
     }
-    result = FluentPath.evaluate('deceased.not() and ((name.given or name.family) and gender) and deceased.not()', data)
+    result = FluentPath::DSTU2.evaluate('deceased.not() and ((name.given or name.family) and gender) and deceased.not()', data)
     assert result == true, 'Failed and_or_not test.'
   end
 
@@ -18,7 +18,7 @@ class AndOrNotTest < Test::Unit::TestCase
       'a' => true,
       'b' => true
     }
-    result = FluentPath.evaluate('a xor b', data)
+    result = FluentPath::DSTU2.evaluate('a xor b', data)
     assert result == false, 'Failed xor test.'
   end
 
@@ -27,7 +27,7 @@ class AndOrNotTest < Test::Unit::TestCase
       'a' => true,
       'b' => false
     }
-    result = FluentPath.evaluate('a xor b', data)
+    result = FluentPath::DSTU2.evaluate('a xor b', data)
     assert result == true, 'Failed xor test.'
   end
 
@@ -36,7 +36,7 @@ class AndOrNotTest < Test::Unit::TestCase
       'a' => false,
       'b' => true
     }
-    result = FluentPath.evaluate('a xor b', data)
+    result = FluentPath::DSTU2.evaluate('a xor b', data)
     assert result == true, 'Failed xor test.'
   end
 
@@ -45,7 +45,7 @@ class AndOrNotTest < Test::Unit::TestCase
       'a' => false,
       'b' => false
     }
-    result = FluentPath.evaluate('a xor b', data)
+    result = FluentPath::DSTU2.evaluate('a xor b', data)
     assert result == false, 'Failed xor test.'
   end
 
@@ -53,7 +53,7 @@ class AndOrNotTest < Test::Unit::TestCase
     data = {
       'a' => true
     }
-    result = FluentPath.evaluate('a xor b', data)
+    result = FluentPath::DSTU2.evaluate('a xor b', data)
     assert result == true, 'Failed xor test.'
   end
 
@@ -61,7 +61,7 @@ class AndOrNotTest < Test::Unit::TestCase
     data = {
       'b' => 'foo'
     }
-    result = FluentPath.evaluate('a xor b', data)
+    result = FluentPath::DSTU2.evaluate('a xor b', data)
     assert result == true, 'Failed xor test.'
   end
 end

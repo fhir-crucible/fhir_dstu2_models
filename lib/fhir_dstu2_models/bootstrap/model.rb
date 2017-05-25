@@ -64,16 +64,22 @@ module FHIR
       end
 
       def equals?(other, exclude = [])
-        (self.class::METADATA.keys - exclude).each do |attribute|
-          return false unless compare_attribute(instance_variable_get("@#{attribute}".to_sym), other.instance_variable_get("@#{attribute}".to_sym), exclude)
+        self.class::METADATA.each do |key, value|
+          next if exclude.include?(key)
+          local_name = key
+          local_name = value['local_name'] if value['local_name']
+          return false unless compare_attribute(instance_variable_get("@#{local_name}".to_sym), other.instance_variable_get("@#{local_name}".to_sym), exclude)
         end
         true
       end
 
       def mismatch(other, exclude = [])
         misses = []
-        (self.class::METADATA.keys - exclude).each do |key|
-          these = attribute_mismatch(instance_variable_get("@#{key}".to_sym), other.instance_variable_get("@#{key}".to_sym), exclude)
+        self.class::METADATA.each do |key, value|
+          next if exclude.include?(key)
+          local_name = key
+          local_name = value['local_name'] if value['local_name']
+          these = attribute_mismatch(instance_variable_get("@#{local_name}".to_sym), other.instance_variable_get("@#{local_name}".to_sym), exclude)
           if !these || (these.is_a?(Array) && !these.empty?)
             misses << "#{self.class}::#{key}"
             misses.concat these if these.is_a?(Array)
@@ -92,11 +98,13 @@ module FHIR
 
       def compare_attribute(left, right, exclude = [])
         if left.respond_to?(:equals?) && right.respond_to?(:equals?)
-          left.equals? right, exclude
+          left.equals?(right, exclude)
         elsif left.is_a?(Array) && right.is_a?(Array) && (left.length == right.length)
           result = true
           (0...(left.length)).each { |i| result &&= compare_attribute(left[i], right[i], exclude) }
           result
+        elsif left.is_a?(String) && right.is_a?(String)
+          left.gsub(/[[:space:]]/, '') == right.gsub(/[[:space:]]/, '')
         else
           left == right
         end

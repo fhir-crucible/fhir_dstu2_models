@@ -52,12 +52,13 @@ module FHIR
 
             hash[p['id']] = field.serialize
           end
+          hash['xhtml'] = {'type'=>'string'}
           template.constants['PRIMITIVES'] = hash
 
-          template.constants['TYPES'] = @defn.complex_types.map { |t| t['id'] }
+          template.constants['TYPES'] = @defn.complex_types.map { |t| t['id'] }.sort
 
           # resources
-          template.constants['RESOURCES'] = @defn.resource_definitions.map { |r| r['id'] }
+          template.constants['RESOURCES'] = @defn.resource_definitions.map { |r| r['id'] }.sort
 
           filename = File.join(@lib, 'fhir', 'metadata.rb')
           file = File.open(filename, 'w:UTF-8')
@@ -215,11 +216,12 @@ module FHIR
             else # If there is no data type, treat the type as a reference to an already declared internal class
               field = FHIR::DSTU2::Field.new(field_base_name)
               field.path = element['path'].gsub(path_type, type_name)
-              field.type = element['contentReference']
+              field.type = element['nameReference']
               field.type = field.type[1..-1] if field.type[0] == '#'
-              if hierarchy.last == field.type
+              hindex = hierarchy.index { |x| x.downcase == field.type.downcase }
+              if hindex
                 # reference to self
-                field.type = hierarchy.join('::').to_s
+                field.type = hierarchy[0..hindex].join('::').to_s
               else
                 # reference to contained template
                 klass = @templates.select { |x| x.hierarchy.last == field.type }.first
@@ -228,7 +230,12 @@ module FHIR
                                klass.hierarchy.join('::')
                              else
                                # the template/child is a direct ancester (it isn't in @templates yet because it is being defined now)
-                               field.type.split('.').map { |x| cap_first(x) }.join('::')
+                               indirect = @templates.find{ |x| x.name.first.downcase == field.type.downcase }
+                               if indirect
+                                indirect.hierarchy.join('::')
+                               else
+                                field.type.split('.').map { |x| cap_first(x) }.join('::')
+                               end
                              end
               end
               field.min = element['min']

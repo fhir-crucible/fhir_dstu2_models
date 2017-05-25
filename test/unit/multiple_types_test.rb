@@ -5,13 +5,13 @@ class MultipleTypesTest < Test::Unit::TestCase
   FLAG = 123
 
   def test_multiple_types
-    obs = FHIR::Observation.new
+    obs = FHIR::DSTU2::Observation.new
 
     obs.effectiveDateTime = '2016-04-19'
     assert (obs.effective == obs.effectiveDateTime), 'Observation.effective did not return effectiveDateTime'
     obs.effectiveDateTime = nil
 
-    obs.effectivePeriod = FHIR::Period.new
+    obs.effectivePeriod = FHIR::DSTU2::Period.new
     assert (obs.effective == obs.effectivePeriod), 'Observation.effective did not return effectivePeriod'
 
     obs.valueQuantity = FLAG
@@ -62,7 +62,7 @@ class MultipleTypesTest < Test::Unit::TestCase
   end
 
   def test_non_existing_multiple_types
-    obs = FHIR::Observation.new
+    obs = FHIR::DSTU2::Observation.new
     assert ((obs.foo rescue FLAG) == FLAG), 'Observation.foo should not exist'
     # check memory
     before = check_memory
@@ -73,8 +73,8 @@ class MultipleTypesTest < Test::Unit::TestCase
   end
 
   def test_multiple_cardinality
-    obs = FHIR::Observation.new
-    FHIR::Observation::METADATA.each do |key, meta|
+    obs = FHIR::DSTU2::Observation.new
+    FHIR::DSTU2::Observation::METADATA.each do |key, meta|
       if meta['max'] > 1
         value = obs.instance_variable_get("@#{key}".to_sym)
         assert((!value.nil? && value.is_a?(Array) && value.empty?), "Observation.#{key} should be an empty Array.")

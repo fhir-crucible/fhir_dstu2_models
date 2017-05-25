@@ -1,0 +1,1873 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "daf-patient",
+  "url": "http://hl7.org/fhir/StructureDefinition/daf-patient",
+  "name": "U.S. Data Access Framework (DAF) Patient Profile",
+  "display": "DAF-Patient",
+  "status": "draft",
+  "date": "2014-08-21",
+  "fhirVersion": "1.0.2",
+  "kind": "resource",
+  "constrainedType": "Patient",
+  "abstract": false,
+  "base": "http://hl7.org/fhir/StructureDefinition/Patient",
+  "snapshot": {
+    "element": [
+      {
+        "path": "Patient",
+        "name": "DAF-Patient",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Patient"
+          }
+        ]
+      },
+      {
+        "path": "Patient.id",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ],
+        "isSummary": true
+      },
+      {
+        "path": "Patient.meta",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.meta",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Meta"
+          }
+        ],
+        "isSummary": true
+      },
+      {
+        "path": "Patient.implicitRules",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.implicitRules",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "uri"
+          }
+        ],
+        "isModifier": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.language",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.language",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "description": "A human language.",
+          "valueSetUri": "http://tools.ietf.org/html/bcp47"
+        }
+      },
+      {
+        "path": "Patient.text",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.text",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Narrative"
+          }
+        ],
+        "condition": [
+          "dom-1"
+        ]
+      },
+      {
+        "path": "Patient.contained",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.contained",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Resource"
+          }
+        ]
+      },
+      {
+        "path": "Patient.extension",
+        "slicing": {
+          "discriminator": [
+            "url"
+          ],
+          "ordered": false,
+          "rules": "open"
+        },
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.extension",
+        "name": "race",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Patient.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/us-core-race"
+            ]
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "required",
+          "description": "Race of the patient",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/daf-race"
+          }
+        }
+      },
+      {
+        "path": "Patient.extension",
+        "name": "ethnicity",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Patient.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/us-core-ethnicity"
+            ]
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "required",
+          "description": "Ethnicity of the patient",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/daf-ethnicity"
+          }
+        }
+      },
+      {
+        "path": "Patient.extension",
+        "name": "religion",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/us-core-religion"
+            ]
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "extensible",
+          "description": "Religious affiliation of the patient.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/v3-ReligiousAffiliation"
+          }
+        }
+      },
+      {
+        "path": "Patient.extension",
+        "name": "mothersMaidenName",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName"
+            ]
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.extension",
+        "name": "birthPlace",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/birthPlace"
+            ]
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.modifierExtension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.identifier",
+        "min": 1,
+        "max": "*",
+        "base": {
+          "path": "Patient.identifier",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Identifier"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.identifier.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Identifier.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.identifier.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Identifier.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.identifier.use",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Identifier.use",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "isModifier": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "Identifies the purpose for this identifier, if known .",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/identifier-use"
+          }
+        }
+      },
+      {
+        "path": "Patient.identifier.type",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Identifier.type",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "extensible",
+          "description": "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/identifier-type"
+          }
+        }
+      },
+      {
+        "path": "Patient.identifier.system",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Identifier.system",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "uri"
+          }
+        ],
+        "exampleUri": "http://www.acme.com/identifiers/patient or urn:ietf:rfc:3986 if the Identifier.value itself is a full uri",
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.identifier.value",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Identifier.value",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "123456",
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.identifier.period",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Identifier.period",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Period"
+          }
+        ],
+        "isSummary": true
+      },
+      {
+        "path": "Patient.identifier.assigner",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Identifier.assigner",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Reference",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/Organization"
+            ]
+          }
+        ],
+        "isSummary": true
+      },
+      {
+        "path": "Patient.active",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.active",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "boolean"
+          }
+        ],
+        "defaultValueBoolean": true,
+        "mustSupport": true,
+        "isModifier": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.name",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.name",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "HumanName"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.telecom",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.telecom",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "ContactPoint"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.telecom.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "ContactPoint.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.telecom.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "ContactPoint.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.telecom.system",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "ContactPoint.system",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "condition": [
+          "cpt-2"
+        ],
+        "mustSupport": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "Telecommunications form for contact point",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/contact-point-system"
+          }
+        }
+      },
+      {
+        "path": "Patient.telecom.value",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "ContactPoint.value",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.telecom.use",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "ContactPoint.use",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "mustSupport": true,
+        "isModifier": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "Use of contact point",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/contact-point-use"
+          }
+        }
+      },
+      {
+        "path": "Patient.telecom.rank",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "ContactPoint.rank",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "positiveInt"
+          }
+        ],
+        "isSummary": true
+      },
+      {
+        "path": "Patient.telecom.period",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "ContactPoint.period",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Period"
+          }
+        ],
+        "isSummary": true
+      },
+      {
+        "path": "Patient.gender",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.gender",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "The gender of a person used for administrative purposes.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/administrative-gender"
+          }
+        }
+      },
+      {
+        "path": "Patient.birthDate",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.birthDate",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "date"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.deceased[x]",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.deceased[x]",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "boolean"
+          },
+          {
+            "code": "dateTime"
+          }
+        ],
+        "mustSupport": true,
+        "isModifier": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.address",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Address"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.address.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Address.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.address.use",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.use",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "exampleCode": "home",
+        "isModifier": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "The use of an address",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/address-use"
+          }
+        }
+      },
+      {
+        "path": "Patient.address.type",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.type",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "exampleCode": "both",
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "The type of an address (physical / postal)",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/address-type"
+          }
+        }
+      },
+      {
+        "path": "Patient.address.text",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.text",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "137 Nowhere Street, Erewhon 9132",
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.line",
+        "min": 1,
+        "max": "*",
+        "base": {
+          "path": "Address.line",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "137 Nowhere Street",
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.city",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Address.city",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "Erewhon",
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.district",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.district",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "Madison",
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.state",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Address.state",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "2 letter state list",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/usps-state"
+          }
+        }
+      },
+      {
+        "path": "Patient.address.postalCode",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Address.postalCode",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "9132",
+        "constraint": [
+          {
+            "key": "inv-1",
+            "severity": "error",
+            "human": "(Zip or Postal Code) SHALL be formatted as 99999[-9999] for US Zip or ZIP +4 codes or as A9A9A9 for Canadian postal codes.",
+            "xpath": "f:matches(issued,[0-9]{5}(-[0-9]{4}){0,1} )"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.country",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Address.country",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.address.period",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.period",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Period"
+          }
+        ],
+        "examplePeriod": {
+          "start": "2010-03-23",
+          "end": "2010-07-01"
+        },
+        "isSummary": true
+      },
+      {
+        "path": "Patient.maritalStatus",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.maritalStatus",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "required",
+          "description": "The domestic partnership status of a person.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/marital-status"
+          }
+        }
+      },
+      {
+        "path": "Patient.multipleBirth[x]",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.multipleBirth[x]",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "boolean"
+          },
+          {
+            "code": "integer"
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.photo",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.photo",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Attachment"
+          }
+        ]
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-explicit-type-name",
+            "valueString": "Contact"
+          }
+        ],
+        "path": "Patient.contact",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.contact",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "BackboneElement"
+          }
+        ],
+        "constraint": [
+          {
+            "key": "pat-1",
+            "severity": "error",
+            "human": "SHALL at least contain a contact's details or a reference to an organization",
+            "xpath": "f:name or f:telecom or f:address or f:organization"
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.contact.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.contact.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.contact.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.contact.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.contact.modifierExtension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.contact.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.contact.relationship",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.contact.relationship",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "required",
+          "description": "Type of relationship",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/patient-contact-relationship"
+          }
+        }
+      },
+      {
+        "path": "Patient.contact.name",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.contact.name",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "HumanName"
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.contact.telecom",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.contact.telecom",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "ContactPoint"
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.contact.address",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.contact.address",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Address"
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.contact.address.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.contact.address.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Address.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.contact.address.use",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.use",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "exampleCode": "home",
+        "mustSupport": true,
+        "isModifier": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "The use of an address",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/address-use"
+          }
+        }
+      },
+      {
+        "path": "Patient.contact.address.type",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.type",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "exampleCode": "both",
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "The type of an address (physical / postal)",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/address-type"
+          }
+        }
+      },
+      {
+        "path": "Patient.contact.address.text",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.text",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "137 Nowhere Street, Erewhon 9132",
+        "isSummary": true
+      },
+      {
+        "path": "Patient.contact.address.line",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Address.line",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "137 Nowhere Street",
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.contact.address.city",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.city",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "Erewhon",
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.contact.address.district",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.district",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "Madison",
+        "isSummary": true
+      },
+      {
+        "path": "Patient.contact.address.state",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.state",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "2 letter state list",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/usps-state"
+          }
+        }
+      },
+      {
+        "path": "Patient.contact.address.postalCode",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.postalCode",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "exampleString": "9132",
+        "constraint": [
+          {
+            "key": "inv-2",
+            "severity": "error",
+            "human": "(Zip or Postal Code) SHALL be formatted as 99999[-9999] for US Zip or ZIP +4 codes or as A9A9A9 for Canadian postal codes.",
+            "xpath": "f:matches(issued,[0-9]{5}(-[0-9]{4}){0,1} )"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.contact.address.country",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.country",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true,
+        "binding": {
+          "strength": "required",
+          "description": "ISO 2 letter country codes.",
+          "valueSetUri": "http://www.iso.org/iso/country_codes.htm"
+        }
+      },
+      {
+        "path": "Patient.contact.address.period",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Address.period",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Period"
+          }
+        ],
+        "examplePeriod": {
+          "start": "2010-03-23",
+          "end": "2010-07-01"
+        },
+        "isSummary": true
+      },
+      {
+        "path": "Patient.contact.gender",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.contact.gender",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "description": "The gender of a person used for administrative purposes.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/administrative-gender"
+          }
+        }
+      },
+      {
+        "path": "Patient.contact.organization",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.contact.organization",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Reference",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/Organization"
+            ]
+          }
+        ],
+        "condition": [
+          "pat-1"
+        ]
+      },
+      {
+        "path": "Patient.contact.period",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.contact.period",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Period"
+          }
+        ]
+      },
+      {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-explicit-type-name",
+            "valueString": "Animal"
+          }
+        ],
+        "path": "Patient.animal",
+        "min": 0,
+        "max": "0",
+        "base": {
+          "path": "Patient.animal",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "BackboneElement"
+          }
+        ],
+        "isModifier": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.animal.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.animal.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.animal.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.animal.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.animal.modifierExtension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.animal.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.animal.species",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Patient.animal.species",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "isSummary": true,
+        "binding": {
+          "strength": "example",
+          "description": "The species of an animal.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/animal-species"
+          }
+        }
+      },
+      {
+        "path": "Patient.animal.breed",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.animal.breed",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "isSummary": true,
+        "binding": {
+          "strength": "example",
+          "description": "The breed of an animal.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/animal-breeds"
+          }
+        }
+      },
+      {
+        "path": "Patient.animal.genderStatus",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.animal.genderStatus",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "isSummary": true,
+        "binding": {
+          "strength": "example",
+          "description": "The state of the animal's reproductive organs.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/animal-genderstatus"
+          }
+        }
+      },
+      {
+        "path": "Patient.communication",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.communication",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "BackboneElement"
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.communication.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.communication.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.communication.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.communication.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.communication.modifierExtension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.communication.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.communication.language",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Patient.communication.language",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "required",
+          "description": "A human language.",
+          "valueSetUri": "http://tools.ietf.org/html/bcp47"
+        }
+      },
+      {
+        "path": "Patient.communication.preferred",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.communication.preferred",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "boolean"
+          }
+        ]
+      },
+      {
+        "path": "Patient.careProvider",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.careProvider",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Reference",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/daf-organization"
+            ]
+          },
+          {
+            "code": "Reference",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/daf-pract"
+            ]
+          }
+        ],
+        "mustSupport": true
+      },
+      {
+        "path": "Patient.managingOrganization",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.managingOrganization",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Reference",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/daf-organization"
+            ]
+          }
+        ],
+        "mustSupport": true,
+        "isSummary": true
+      },
+      {
+        "path": "Patient.link",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.link",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "BackboneElement"
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.link.id",
+        "representation": [
+          "xmlAttr"
+        ],
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Patient.link.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "path": "Patient.link.extension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.link.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "path": "Patient.link.modifierExtension",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Patient.link.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.link.other",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Patient.link.other",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Reference",
+            "profile": [
+              "http://hl7.org/fhir/StructureDefinition/Patient"
+            ]
+          }
+        ],
+        "isModifier": true
+      },
+      {
+        "path": "Patient.link.type",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Patient.link.type",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "isModifier": true,
+        "binding": {
+          "strength": "required",
+          "description": "The type of link between this patient resource and another patient resource.",
+          "valueSetReference": {
+            "reference": "http://hl7.org/fhir/ValueSet/link-type"
+          }
+        }
+      }
+    ]
+  }
+}

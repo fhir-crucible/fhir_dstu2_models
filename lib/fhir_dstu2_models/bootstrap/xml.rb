@@ -80,7 +80,7 @@ module FHIR
           klass = Module.const_get("FHIR::DSTU2::#{resource_type}")
           resource = klass.new(hash)
         rescue => e
-          FHIR::DSTU2.logger.error("Failed to deserialize XML:\n#{e.backtrace}")
+          FHIR::DSTU2.logger.error("Failed to deserialize XML:\n#{e.message}\n#{e.backtrace}")
           FHIR::DSTU2.logger.debug("XML:\n#{xml}")
           resource = nil
         end

@@ -470,7 +470,7 @@
     "whoReference": {
       "reference": "Device/software"
     },
-    "contentType": "image/jpg",
+    "contentType": "image/jpeg",
     "_contentType": {
       "fhir_comments": [
         "   a real document would typically have an digital signature, but \n      the publishing tools are not yet setup to produce a valid digital \n      signature. For now, an image of a signature   "
