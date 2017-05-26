@@ -18,45 +18,31 @@ Includes support for:
 
 Using XML...
 ```ruby
-xml = File.open('patient-example.xml',&:read)
-patient = FHIR::Patient.from_xml(xml)
+xml = File.read('patient-example.xml')
+patient = FHIR::DSTU2.from_contents(xml)
 puts patient.to_xml
 ```
 Using JSON...
 ```ruby
-json = File.open('patient-example.json',&:read)
-patient = FHIR::Patient.from_fhir_json(json)
-puts patient.to_fhir_json
+json = File.read('patient-example.json')
+patient = FHIR::DSTU2.from_contents(json)
+puts patient.to_json
 ```
 ### Validation
 
 Using a base resource definition...
 ```ruby
-sd = FHIR::StructureDefinition.get_base_definition('Patient')
-sd.is_valid?(patient) # passing in FHIR::Patient
-sd.is_valid?(xml)     # passing in String of XML
-sd.is_valid?(json)    # passing in String of JSON
+sd = FHIR::DSTU2::Definitions.resource_definition('Patient')
+sd.validates_resource?(patient) # passing in FHIR::DSTU2::Patient
 ```
 Validation failed? Get the errors and warnings...
 ```ruby
 puts sd.errors
 puts sd.warnings
 ```
-### Profile Comparison
-
-We include those profiles built into the FHIR core tools... let's compare them...
-```ruby
-profiles = FHIR::StructureDefinition.get_profiles_for_resource('Patient')
-profiles[0].is_compatible?(profiles[1])
-```
-Profiles not compatible? Get the errors and warnings...
-```ruby
-puts profiles[0].errors
-puts profiles[1].warnings
-```
 # License
 
-Copyright 2014-2016 The MITRE Corporation
+Copyright 2014-2017 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
