@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirType().nil? -%><type value="<%= model.fhirType %>"<%- if model.has_primitive_extension?('fhirType') -%>><%== model.get_primitive_extension('fhirType').to_xml(is_root: false, is_lowercase: true)  %></type><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.endpoint().nil? -%><endpoint value="<%= model.endpoint %>"<%- if model.has_primitive_extension?('endpoint') -%>><%== model.get_primitive_extension('endpoint').to_xml(is_root: false, is_lowercase: true)  %></endpoint><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.payload().nil? -%><payload value="<%= model.payload %>"<%- if model.has_primitive_extension?('payload') -%>><%== model.get_primitive_extension('payload').to_xml(is_root: false, is_lowercase: true)  %></payload><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.header().nil? -%><header value="<%= model.header %>"<%- if model.has_primitive_extension?('header') -%>><%== model.get_primitive_extension('header').to_xml(is_root: false, is_lowercase: true)  %></header><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

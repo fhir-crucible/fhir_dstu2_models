@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.system().nil? -%><system value="<%= model.system %>"<%- if model.has_primitive_extension?('system') -%>><%== model.get_primitive_extension('system').to_xml(is_root: false, is_lowercase: true)  %></system><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.versionNum().nil? -%><version value="<%= model.versionNum %>"<%- if model.has_primitive_extension?('versionNum') -%>><%== model.get_primitive_extension('versionNum').to_xml(is_root: false, is_lowercase: true)  %></version><%- else -%>/><%- end -%><%- end -%>
-    <%- if (!model.concept().nil? && !model.concept.empty?) -%><%- model.concept().each do |element| -%><%== render :template => 'valueset_conceptreferencecomponent', :locals => {name: 'concept', model: element} %><%- end -%><%- end -%>
-    <%- if (!model.filter().nil? && !model.filter.empty?) -%><%- model.filter().each do |element| -%><%== render :template => 'valueset_conceptsetfiltercomponent', :locals => {name: 'filter', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

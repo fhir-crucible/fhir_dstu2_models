@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><Organization xmlns="http://hl7.org/fhir">
+  <id value="org-uslab-example1"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: org-uslab-example1</p><p><b>identifier</b>: 1235349085 (OFFICIAL)</p><p><b>name</b>: University Hospital</p><p><b>telecom</b>: ph: (+1) 555-227-1234, fax: (+1) 555-227-6622</p><p><b>address</b>: Firstcare Way Building 1 Harrisburg PA 17111 USA (WORK)</p></div></text><identifier>
+    <use value="official"/>
+    <system value="http://hl7.org/fhir/sid/us-npi"/>
+  <!--    NPI    -->
+    <value value="1235349085"/>
+  </identifier>
+  <name value="University Hospital"/>
+  <telecom>
+    <system value="phone"/>
+    <value value="(+1) 555-227-1234"/>
+  </telecom>
+  <telecom>
+    <system value="fax"/>
+    <value value="(+1) 555-227-6622"/>
+  </telecom>
+  <address>
+  <!--    EH extension for us county    -->
+    <extension url="http://hl7.org/fhir/StructureDefinition/us-core-county">
+      <valueString value="42043"/>
+    </extension>
+    <use value="work"/>
+    <line value="Firstcare Way"/>
+    <line value="Building 1"/>
+    <city value="Harrisburg"/>
+    <state value="PA"/>
+    <postalCode value="17111"/>
+    <country value="USA"/>
+  </address>
+</Organization>

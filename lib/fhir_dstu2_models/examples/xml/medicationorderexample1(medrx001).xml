@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationOrder xmlns="http://hl7.org/fhir">
+  <id value="medrx001"/>
+    <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx001</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>dateWritten</b>: 15/01/2015</p><p><b>status</b>: active</p><p><b>patient</b>: <a>Eve Everywoman</a></p><p><b>prescriber</b>: <a>Patrick Pump</a></p><p><b>encounter</b>: <a>encounter who leads to this priscription</a></p><p><b>reason</b>: Otitis Media <span>(Details : {SNOMED CT code &#39;65363002&#39; = &#39;65363002&#39;, given as &#39;Otitis Media&#39;})</span></p><p><b>medication</b>: <a>prescribed medication</a></p><h3>DosageInstructions</h3><table><tr><td>-</td><td><b>Text</b></td><td><b>AdditionalInstructions</b></td><td><b>Timing</b></td><td><b>Site[x]</b></td><td><b>Route</b></td><td><b>Dose[x]</b></td></tr><tr><td>*</td><td>Take 5ml three times daily</td><td>With or after food <span>(Details : {SNOMED CT code &#39;311504000&#39; = &#39;311504000&#39;, given as &#39;With or after food&#39;})</span></td><td>Do 3 per 1 days</td><td>Entire oral cavity <span>(Details : {SNOMED CT code &#39;181220002&#39; = &#39;181220002&#39;, given as &#39;Entire oral cavity&#39;})</span></td><td>Oral Route <span>(Details : {SNOMED CT code &#39;26643006&#39; = &#39;26643006&#39;, given as &#39;Oral Route&#39;})</span></td><td>5 mL<span> (Details: http://unitsofmeasure.org code mL = &#39;??&#39;)</span></td></tr></table><h3>DispenseRequests</h3><table><tr><td>-</td><td><b>Medication[x]</b></td><td><b>ValidityPeriod</b></td><td><b>NumberOfRepeatsAllowed</b></td><td><b>Quantity</b></td><td><b>ExpectedSupplyDuration</b></td></tr><tr><td>*</td><td><a>Medication/MedicationExample3</a></td><td>15/01/2015 --&gt; 15/01/2016</td><td>2</td><td>100 mL<span> (Details: http://unitsofmeasure.org code mL = &#39;??&#39;)</span></td><td>10 days<span> (Details: http://unitsofmeasure.org code d = &#39;??&#39;)</span></td></tr></table><h3>Substitutions</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Reason</b></td></tr><tr><td>*</td><td>Generic Composition <span>(Details : {http://hl7.org/fhir code &#39;G&#39; = &#39;??&#39;, given as &#39;Generic Composition&#39;})</span></td><td>formulary policy <span>(Details : {http://hl7.org/fhir code &#39;FP&#39; = &#39;??&#39;, given as &#39;formulary policy&#39;})</span></td></tr></table></div></text><identifier>
+        <use value="official"/>
+        <system value="http://www.bmc.nl/portal/prescriptions"/>
+        <value value="12345"/>
+    </identifier>
+    <dateWritten value="2015-01-15"/>
+    <status value="active"/>
+    <patient> <!--   Linked to the resource patient who needs the medication   -->
+        <reference value="Patient/f001"/>
+        <display value="Eve Everywoman"/>         
+    </patient>
+    <prescriber> <!--   Linked to the practitioner who treats patient   -->
+        <reference value="Practitioner/f007"/>
+        <display value="Patrick Pump"/>
+    </prescriber>
+    <encounter> <!--   Linked to a resource Encounter between patient and practitioner  -->
+        <reference value="Encounter/f002"/>
+        <display value="encounter who leads to this priscription"/>
+    </encounter>
+    <reasonCodeableConcept>
+        <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="65363002"/>
+            <display value="Otitis Media"/>
+        </coding>
+    </reasonCodeableConcept>
+    <medicationReference> <!--   Linked to a RESOURCE Medication   -->
+        <reference value="Medication/MedicationExample2"/>
+        <display value="prescribed medication"/>
+    </medicationReference> 
+    <dosageInstruction>
+        <text value="Take 5ml three times daily"/>
+        <additionalInstructions>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="311504000"/>
+                <display value="With or after food"/>
+            </coding>
+        </additionalInstructions>
+        <timing>
+            <repeat>
+                <frequency value="3"/>
+                <period value="1"/>
+                <periodUnits value="d"/>
+            </repeat>
+        </timing>
+        <siteCodeableConcept>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="181220002"/>
+                <display value="Entire oral cavity"/>
+            </coding>
+        </siteCodeableConcept>
+        <route>
+            <coding>
+                <system value="http://snomed.info/sct"/>
+                <code value="26643006"/>
+                <display value="Oral Route"/>
+            </coding>
+        </route>
+        <doseQuantity>
+            <value value="5"/>
+            <unit value="mL"/>
+            <system value="http://unitsofmeasure.org"/>
+            <code value="mL"/>
+        </doseQuantity>
+    </dosageInstruction>         
+    <dispenseRequest>
+        <medicationReference>
+            <reference value="Medication/MedicationExample3"/>
+        </medicationReference>
+        <validityPeriod>
+            <start value="2015-01-15"/>
+            <end value="2016-01-15"/>
+        </validityPeriod>
+        <numberOfRepeatsAllowed value="2"/>
+        <quantity>
+            <value value="100"/>
+            <unit value="mL"/>
+            <system value="http://unitsofmeasure.org"/>
+            <code value="mL"/>    
+        </quantity>
+        <expectedSupplyDuration>
+            <value value="10"/>
+            <unit value="days"/>
+            <system value="http://unitsofmeasure.org"/>
+            <code value="d"/> 
+        </expectedSupplyDuration>
+    </dispenseRequest>   
+    <substitution>
+        <type>
+            <coding>
+                <system value="http://hl7.org/fhir"/>
+                <code value="G"/>
+                <display value="Generic Composition"/>
+            </coding>
+        </type>
+        <reason>
+            <coding>
+                <system value="http://hl7.org/fhir"/>
+                <code value="FP"/>
+                <display value="formulary policy"/>             
+            </coding>
+        </reason>
+    </substitution>
+</MedicationOrder>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright (c) 2011+, HL7, Inc.
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without modification, 
+  are permitted provided that the following conditions are met:
+  
+   * Redistributions of source code must retain the above copyright notice, this 
+     list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright notice, 
+     this list of conditions and the following disclaimer in the documentation 
+     and/or other materials provided with the distribution.
+   * Neither the name of HL7 nor the names of its contributors may be used to 
+     endorse or promote products derived from this software without specific 
+     prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+  POSSIBILITY OF SUCH DAMAGE.
+  
+
+  Generated on Sat, Oct 24, 2015 07:41+1100 for FHIR v1.0.2 
+
+  Note: the schemas &amp; schematrons do not contain all of the rules about what makes resources
+  valid. Implementers will still need to be familiar with the content of the specification and with
+  any profiles that apply to the resources in order to make a conformant implementation.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://hl7.org/fhir" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="http://hl7.org/fhir" elementFormDefault="qualified" version="1.0">
+  <xs:include schemaLocation="fhir-base.xsd"/>
+  <xs:element name="ClaimResponse" type="ClaimResponse"/>
+  <xs:complexType name="ClaimResponse">
+    <xs:complexContent>
+      <xs:extension base="DomainResource">
+        <xs:sequence>
+          <xs:element name="identifier" minOccurs="0" maxOccurs="unbounded" type="Identifier"/>
+          <xs:element name="request" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="ruleset" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="originalRuleset" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="created" minOccurs="0" maxOccurs="1" type="dateTime"/>
+          <xs:element name="organization" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="requestProvider" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="requestOrganization" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="outcome" minOccurs="0" maxOccurs="1" type="code"/>
+          <xs:element name="disposition" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="payeeType" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="item" type="ClaimResponse.Item" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="addItem" type="ClaimResponse.AddItem" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="error" type="ClaimResponse.Error" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="totalCost" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="unallocDeductable" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="totalBenefit" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="paymentAdjustment" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="paymentAdjustmentReason" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="paymentDate" minOccurs="0" maxOccurs="1" type="date"/>
+          <xs:element name="paymentAmount" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="paymentRef" minOccurs="0" maxOccurs="1" type="Identifier"/>
+          <xs:element name="reserved" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="form" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="note" type="ClaimResponse.Note" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="coverage" type="ClaimResponse.Coverage" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Item">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="sequenceLinkId" minOccurs="1" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="noteNumber" minOccurs="0" maxOccurs="unbounded" type="positiveInt"/>
+          <xs:element name="adjudication" type="ClaimResponse.Adjudication" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="detail" type="ClaimResponse.Detail" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Adjudication">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="amount" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="value" minOccurs="0" maxOccurs="1" type="decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Detail">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="sequenceLinkId" minOccurs="1" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="adjudication" type="ClaimResponse.Adjudication1" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="subDetail" type="ClaimResponse.SubDetail" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Adjudication1">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="amount" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="value" minOccurs="0" maxOccurs="1" type="decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.SubDetail">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="sequenceLinkId" minOccurs="1" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="adjudication" type="ClaimResponse.Adjudication2" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Adjudication2">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="amount" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="value" minOccurs="0" maxOccurs="1" type="decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.AddItem">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="sequenceLinkId" minOccurs="0" maxOccurs="unbounded" type="positiveInt"/>
+          <xs:element name="service" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="fee" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="noteNumberLinkId" minOccurs="0" maxOccurs="unbounded" type="positiveInt"/>
+          <xs:element name="adjudication" type="ClaimResponse.Adjudication3" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="detail" type="ClaimResponse.Detail1" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Adjudication3">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="amount" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="value" minOccurs="0" maxOccurs="1" type="decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Detail1">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="service" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="fee" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="adjudication" type="ClaimResponse.Adjudication4" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Adjudication4">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="amount" minOccurs="0" maxOccurs="1" type="Money"/>
+          <xs:element name="value" minOccurs="0" maxOccurs="1" type="decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Error">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="sequenceLinkId" minOccurs="0" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="detailSequenceLinkId" minOccurs="0" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="subdetailSequenceLinkId" minOccurs="0" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Note">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="number" minOccurs="0" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="type" minOccurs="0" maxOccurs="1" type="Coding"/>
+          <xs:element name="text" minOccurs="0" maxOccurs="1" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClaimResponse.Coverage">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="sequence" minOccurs="1" maxOccurs="1" type="positiveInt"/>
+          <xs:element name="focal" minOccurs="1" maxOccurs="1" type="boolean"/>
+          <xs:element name="coverage" minOccurs="1" maxOccurs="1" type="Reference"/>
+          <xs:element name="businessArrangement" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="relationship" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="preAuthRef" minOccurs="0" maxOccurs="unbounded" type="string"/>
+          <xs:element name="claimResponse" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="originalRuleset" minOccurs="0" maxOccurs="1" type="Coding"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

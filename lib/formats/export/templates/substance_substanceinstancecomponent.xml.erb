@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.identifier().nil? -%><%== render :template => 'identifier', :locals => {name: 'identifier', model: model.identifier()} %><%- end -%>
-    <%- if !model.expiry.nil? -%><%- if (!model.expiry.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><expiry value="<%= model.expiry %>"<%- if model.has_primitive_extension?('expiry') -%>><%== model.get_primitive_extension('expiry').to_xml(is_root: false, is_lowercase: true)  %></expiry><%- else -%>/><%- end -%><%- end -%><%- end -%>
-    <%- if !model.quantity().nil? -%><%== render :template => 'quantity', :locals => {name: 'quantity', model: model.quantity()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

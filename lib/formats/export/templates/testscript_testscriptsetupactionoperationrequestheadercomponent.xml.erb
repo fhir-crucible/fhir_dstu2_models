@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.field().nil? -%><field value="<%= model.field %>"<%- if model.has_primitive_extension?('field') -%>><%== model.get_primitive_extension('field').to_xml(is_root: false, is_lowercase: true)  %></field><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.value().nil? -%><value value="<%= model.value %>"<%- if model.has_primitive_extension?('value') -%>><%== model.get_primitive_extension('value').to_xml(is_root: false, is_lowercase: true)  %></value><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

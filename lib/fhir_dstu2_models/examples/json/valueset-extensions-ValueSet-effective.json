@@ -1,0 +1,12 @@
+{
+  "resourceType": "SearchParameter",
+  "id": "valueset-extensions-ValueSet-effective",
+  "url": "http://hl7.org/fhir/SearchParameter/valueset-extensions-ValueSet-effective",
+  "name": "effective",
+  "code": "effective",
+  "base": "ValueSet",
+  "type": "date",
+  "description": "A SearchParameter on ValueSet",
+  "xpath": "f:ValueSet/f:extension[@url='http://hl7.org/fhir/StructureDefinition/valueset-effectiveDate']",
+  "xpathUsage": "normal"
+}

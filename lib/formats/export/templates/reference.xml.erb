@@ -1,9 +1,0 @@
-<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
-<% local_name = name || 'Reference' %>
-<<%= (is_lowercase) ? local_name.downcase : local_name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
-<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.reference().nil? -%><reference value="<%= model.reference %>"<%- if model.has_primitive_extension?('reference') -%>><%== model.get_primitive_extension('reference').to_xml(is_root: false, is_lowercase: true)  %></reference><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.display().nil? -%><display value="<%= model.display %>"<%- if model.has_primitive_extension?('display') -%>><%== model.get_primitive_extension('display').to_xml(is_root: false, is_lowercase: true)  %></display><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? local_name.downcase : local_name %>>

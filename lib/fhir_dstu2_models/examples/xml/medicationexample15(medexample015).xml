@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><Medication xmlns="http://hl7.org/fhir">
+  <id value="medexample015"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medexample015</p><p><b>code</b>: Capecitabine 150mg tablet (product) <span>(Details : {SNOMED CT code &#39;134623009&#39; = &#39;134623009&#39;, given as &#39;Capecitabine 150mg tablet (product)&#39;})</span></p><p><b>isBrand</b>: false</p><h3>Products</h3><table><tr><td>-</td><td><b>Form</b></td></tr><tr><td>*</td><td>Oral dosage form product <span>(Details : {SNOMED CT code &#39;440131009&#39; = &#39;440131009&#39;, given as &#39;Oral dosage form product&#39;})</span></td></tr></table></div></text><code>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="134623009"/>
+      <display value="Capecitabine 150mg tablet (product)"/>
+    </coding>
+  </code>
+  <isBrand value="false"/>
+  <product>
+    <form>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="440131009"/>
+        <display value="Oral dosage form product"/>
+      </coding>
+    </form>
+  </product>
+</Medication>

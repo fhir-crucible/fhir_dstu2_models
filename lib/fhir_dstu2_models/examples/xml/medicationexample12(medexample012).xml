@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><Medication xmlns="http://hl7.org/fhir">
+  <id value="medexample012"/>
+
+  <!--   this example is an Inhaler   -->
+  
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medexample012</p><p><b>text</b>: </p><p><b>code</b>: Ventolin Aerosol  <span>(Details : {http://www.accessdata.fda.gov/scripts/cder/ndc/dsp_searchresult.cfm code &#39;0173068220&#39; = &#39;??&#39;, given as &#39;Ventolin Aerosol &#39;})</span></p><p><b>isBrand</b>: true</p><p><b>manufacturer</b>: <a>http://us.gsk.com/fhirresource/1</a></p></div>
+  </text>
+   
+  <code>
+    <coding>
+      <system value="http://www.accessdata.fda.gov/scripts/cder/ndc/dsp_searchresult.cfm"/>
+      <code value="0173068220"/>
+      <display value="Ventolin Aerosol "/>
+    </coding>
+  </code>  
+  <isBrand value="true"/>
+  <manufacturer>
+    <reference value="http://us.gsk.com/fhirresource/1"/>
+  </manufacturer>
+</Medication>

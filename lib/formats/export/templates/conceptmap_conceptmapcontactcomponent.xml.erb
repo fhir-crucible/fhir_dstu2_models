@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.name().nil? -%><name value="<%= model.name %>"<%- if model.has_primitive_extension?('name') -%>><%== model.get_primitive_extension('name').to_xml(is_root: false, is_lowercase: true)  %></name><%- else -%>/><%- end -%><%- end -%>
-    <%- if (!model.telecom().nil? && !model.telecom.empty?) -%><%- model.telecom().each do |element| -%><%== render :template => 'contactpoint', :locals => {name: 'telecom', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

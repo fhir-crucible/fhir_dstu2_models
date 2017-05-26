@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><Medication xmlns="http://hl7.org/fhir">
+  <id value="medexample016"/>
+    <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medexample016</p><p><b>code</b>: Paclitaxel 6mg/mL injection solution 5mL vial (product) <span>(Details : {SNOMED CT code &#39;400352007&#39; = &#39;400352007&#39;, given as &#39;Paclitaxel 6mg/mL injection solution 5mL vial (product)&#39;})</span></p><p><b>isBrand</b>: false</p><h3>Products</h3><table><tr><td>-</td><td><b>Form</b></td></tr><tr><td>*</td><td>Parenteral dosage form product <span>(Details : {SNOMED CT code &#39;440132002&#39; = &#39;440132002&#39;, given as &#39;Parenteral dosage form product&#39;})</span></td></tr></table></div></text><code>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="400352007"/>
+        <display value="Paclitaxel 6mg/mL injection solution 5mL vial (product)"/>
+      </coding>
+    </code>
+    <isBrand value="false"/>
+    <product>
+      <form>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="440132002"/>
+          <display value="Parenteral dosage form product"/>
+        </coding>
+      </form>
+    </product>
+</Medication>

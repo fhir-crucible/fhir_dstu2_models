@@ -1,11 +1,4 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
+ruby RUBY_VERSION
+# Specify your gem's dependencies in fhir_dstu2_models.gemspec
 gemspec
-
-group :test do
-  gem 'simplecov', :require => false
-
-  gem 'minitest', "~> 4.0"
-  gem 'turn', :require => false
-  gem 'awesome_print', :require => 'ap'
-  gem 'nokogiri-diff'
-end

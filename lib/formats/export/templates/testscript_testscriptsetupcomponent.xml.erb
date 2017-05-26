@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.metadata().nil? -%><%== render :template => 'testscript_testscriptmetadatacomponent', :locals => {name: 'metadata', model: model.metadata()} %><%- end -%>
-    <%- if (!model.action().nil? && !model.action.empty?) -%><%- model.action().each do |element| -%><%== render :template => 'testscript_testscriptsetupactioncomponent', :locals => {name: 'action', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>
