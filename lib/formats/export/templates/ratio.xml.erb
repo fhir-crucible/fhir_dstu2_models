@@ -1,9 +1,0 @@
-<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
-<% local_name = name || 'Ratio' %>
-<<%= (is_lowercase) ? local_name.downcase : local_name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
-<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.numerator().nil? -%><%== render :template => 'quantity', :locals => {name: 'numerator', model: model.numerator()} %><%- end -%>
-    <%- if !model.denominator().nil? -%><%== render :template => 'quantity', :locals => {name: 'denominator', model: model.denominator()} %><%- end -%>
-</<%= (is_lowercase) ? local_name.downcase : local_name %>>

@@ -1,9 +1,0 @@
-<%== '<?xml version="1.0" encoding="UTF-8"?>' if is_root %>
-<% local_name = name || 'Extension' %>
-<<%= (is_lowercase) ? local_name.downcase : local_name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
-<%- if !model.url().nil? -%>url="<%== model.url() %>"<%- end -%>
-<%== (is_root) ? ' xmlns="http://hl7.org/fhir"' : ''%>>
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.value.nil? -%><%- if (FHIR::AnyType::PRIMITIVES.any?{|x|x.downcase == model.value.type.downcase}) || (FHIR::AnyType::DATE_TIMES.any?{|x|x.downcase == model.value.type.downcase}) -%><%- if model.value.value.is_a?(Hash) -%><value<%= model.value.type %> value="<%= model.value.value[:value] %>"<%- if model.has_primitive_extension?('value') -%>><%- model.get_primitive_extension('value').each do |e| -%><%== e.to_xml(is_root: false, is_lowercase: true)  %><%- end -%></value<%= model.value.type %>><%- else -%>/><%- end -%><%- else -%><value<%= model.value.type %> value="<%= model.value.value %>"<%- if model.has_primitive_extension?('value') -%>><%- model.get_primitive_extension('value').each do |e| -%><%== e.to_xml(is_root: false, is_lowercase: true)  %><%- end -%></value<%= model.value.type %>><%- else -%>/><%- end -%><%- end -%><%- else -%><%- if model.value.value.is_a?(Hash) -%><%== model.value.value[:value].to_xml(is_root: false, name: "value#{model.value.type}")%><%- else -%><%== model.value.value.to_xml(is_root: false, name: "value#{model.value.type}")%><%- end -%><%- end -%><%- end -%>
-</<%= (is_lowercase) ? local_name.downcase : local_name %>>

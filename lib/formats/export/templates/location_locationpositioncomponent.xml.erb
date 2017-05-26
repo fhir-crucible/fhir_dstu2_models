@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.longitude().nil? -%><longitude value="<%= model.longitude %>"<%- if model.has_primitive_extension?('longitude') -%>><%== model.get_primitive_extension('longitude').to_xml(is_root: false, is_lowercase: true)  %></longitude><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.latitude().nil? -%><latitude value="<%= model.latitude %>"<%- if model.has_primitive_extension?('latitude') -%>><%== model.get_primitive_extension('latitude').to_xml(is_root: false, is_lowercase: true)  %></latitude><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.altitude().nil? -%><altitude value="<%= model.altitude %>"<%- if model.has_primitive_extension?('altitude') -%>><%== model.get_primitive_extension('altitude').to_xml(is_root: false, is_lowercase: true)  %></altitude><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

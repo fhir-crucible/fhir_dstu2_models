@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.specType().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'specType', model: model.specType()} %><%- end -%>
-    <%- if !model.componentId().nil? -%><%== render :template => 'identifier', :locals => {name: 'componentId', model: model.componentId()} %><%- end -%>
-    <%- if !model.productionSpec().nil? -%><productionSpec value="<%= model.productionSpec %>"<%- if model.has_primitive_extension?('productionSpec') -%>><%== model.get_primitive_extension('productionSpec').to_xml(is_root: false, is_lowercase: true)  %></productionSpec><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

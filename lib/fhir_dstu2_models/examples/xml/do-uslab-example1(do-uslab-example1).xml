@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><DiagnosticOrder xmlns="http://hl7.org/fhir">
+	<id value="do-uslab-example1"/>
+	<!--   comment out to see if causing build to hang extension for a CC to a non ordering party in this case another provider
+	<extension url="http://hl7.org/fhir/StructureDefinition/uslab-cc-practitioner">
+		<valueReference>
+			<reference value="Practitioner/uslab-example2"/>
+			<display value="Dr Bill T Lookafter Jr"/>
+		</valueReference>
+	</extension>
+  -->
+	<text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: do-uslab-example1</p><p><b>subject</b>: <a>Todd Lerr</a></p><p><b>orderer</b>: <a>Dr Leonard T Bloodraw Jr</a></p><p><b>identifier</b>: ORD000123A (OFFICIAL)</p><p><b>reason</b>: Abnormal lead level in blood <span>(Details : {http://www.icd10data.com/icd10pcs code &#39;R78.71&#39; = &#39;??&#39;, given as &#39;Abnormal lead level in blood&#39;})</span></p><p><b>supportingInformation</b>: <a>Prior Results Observation</a>, <a>Lead Exposure</a></p><p><b>status</b>: requested</p><p><b>priority</b>: routine</p><h3>Events</h3><table><tr><td>-</td><td><b>Status</b></td><td><b>Description</b></td><td><b>DateTime</b></td></tr><tr><td>*</td><td>requested</td><td>new-request <span>(Details : {[not stated] code &#39;new-request&#39; = &#39;??)</span></td><td>04/12/2014 3:42:15 PM</td></tr></table><h3>Items</h3><table><tr><td>-</td><td><b>Code</b></td><td><b>Specimen</b></td><td><b>Status</b></td></tr><tr><td>*</td><td>Blood Lead <span>(Details : {LOINC code &#39;5671-3&#39; = &#39;Lead [Mass/volume] in Blood&#39;, given as &#39;Lead [Mass/volume] in Blood&#39;}; {urn:oid:2.16.840.1.113883.3.72.5.24 code &#39;BLDLD&#39; = &#39;??&#39;, given as &#39;Blood Lead&#39;})</span></td><td><a>Whole blood</a></td><td>requested</td></tr></table><p><b>note</b>: patient is afraid of needles</p></div></text><subject>
+		<reference value="Patient/patient-uslab-example1"/>
+		<display value="Todd Lerr"/>
+	</subject>
+	<orderer>
+		<reference value="Practitioner/pract-uslab-example1"/>
+		<display value="Dr Leonard T Bloodraw Jr"/>
+	</orderer>
+	<identifier>
+		<use value="official"/>
+		<!--   EH Using an OID here but could any URI  eg  http://aceclinic.com   -->
+		<system value="urn:oid:2.16.840.1.113883.3.72.5.24"/>
+		<value value="ORD000123A"/>
+	</identifier>
+	<reason>
+		<coding>
+			<system value="http://www.icd10data.com/icd10pcs"/>
+			<code value="R78.71"/>
+			<display value="Abnormal lead level in blood"/>
+		</coding>
+		<text value="Abnormal lead level in blood"/>
+	</reason>
+	<supportingInformation>
+		<reference value="Observation/obs-uslab-example1"/>
+		<display value="Prior Results Observation"/>
+	</supportingInformation>
+	<supportingInformation>
+		<reference value="Condition/cond-uslab-example1"/>
+		<display value="Lead Exposure"/>
+	</supportingInformation>
+	<!--    EH this specimen is for when lab has existing
+<specimen>
+		<reference value="Specimen/uslab-example1"/>
+		<display value="Whole blood"/>
+	</specimen>
+  -->
+	<!--   EH this is set to 'requested' by the Placer  -->
+	<status value="requested"/>
+	<priority value="routine"/>
+	<event>
+		<!--   EH this is set to 'requested' by the Placer is required element in core resource  -->
+		<status value="requested"/>
+		<!--   EH:bound to closed value setUSLAB Diagnostic Order Event Codes  -->
+		<description>
+			<coding>
+				<code value="new-request"/>
+			</coding>
+		</description>
+		<!--   EH: Showing dateTime to ss with TZO although only needed to Day   -->
+		<dateTime value="2014-12-04T15:42:15-08:00"/>
+		<!--   EH:  the event is the order placer requesting a test  -->
+	</event>
+	<item>
+		<!--  EH :  The local and /or LOINC test codes go here   -->
+		<code>
+			<!--   EH: LOINC code gos here  -->
+			<coding>
+				<system value="http://loinc.org"/>
+				<code value="5671-3"/>
+				<display value="Lead [Mass/volume] in Blood"/>
+				<!--   EH: LOINC code gos here  -->
+			</coding>
+			<coding>
+				<system value="urn:oid:2.16.840.1.113883.3.72.5.24"/>
+				<code value="BLDLD"/>
+				<display value="Blood Lead"/>
+			</coding>
+			<text value="Blood Lead"/>
+		</code>
+		<specimen>
+			<reference value="Specimen/spec-uslab-example1"/>
+			<display value="Whole blood"/>
+		</specimen>
+		<!--   EH this is set to 'requested' by the Placer   -->
+		<status value="requested"/>
+	</item>
+	<note>
+		<text value="patient is afraid of needles"/>
+	</note>
+</DiagnosticOrder>

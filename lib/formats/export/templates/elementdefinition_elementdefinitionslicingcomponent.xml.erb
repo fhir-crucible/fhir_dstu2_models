@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (model.discriminator && !model.discriminator.empty?) -%><%- model.discriminator.each_with_index do |element,index| -%><discriminator value="<%= element %>"<%- if model.has_primitive_extension?('discriminator',index) -%>><%== model.get_primitive_extension('discriminator',index).to_xml(is_root: false, is_lowercase: true)  %></discriminator><%- else -%>/><%- end -%><%- end -%><%- end -%>
-    <%- if !model.description().nil? -%><description value="<%= model.description %>"<%- if model.has_primitive_extension?('description') -%>><%== model.get_primitive_extension('description').to_xml(is_root: false, is_lowercase: true)  %></description><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.ordered().nil? -%><ordered value="<%= model.ordered %>"<%- if model.has_primitive_extension?('ordered') -%>><%== model.get_primitive_extension('ordered').to_xml(is_root: false, is_lowercase: true)  %></ordered><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.rules().nil? -%><rules value="<%= model.rules %>"<%- if model.has_primitive_extension?('rules') -%>><%== model.get_primitive_extension('rules').to_xml(is_root: false, is_lowercase: true)  %></rules><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

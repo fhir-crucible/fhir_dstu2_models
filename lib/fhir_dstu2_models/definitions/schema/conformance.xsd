@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright (c) 2011+, HL7, Inc.
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without modification, 
+  are permitted provided that the following conditions are met:
+  
+   * Redistributions of source code must retain the above copyright notice, this 
+     list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright notice, 
+     this list of conditions and the following disclaimer in the documentation 
+     and/or other materials provided with the distribution.
+   * Neither the name of HL7 nor the names of its contributors may be used to 
+     endorse or promote products derived from this software without specific 
+     prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+  POSSIBILITY OF SUCH DAMAGE.
+  
+
+  Generated on Sat, Oct 24, 2015 07:41+1100 for FHIR v1.0.2 
+
+  Note: the schemas &amp; schematrons do not contain all of the rules about what makes resources
+  valid. Implementers will still need to be familiar with the content of the specification and with
+  any profiles that apply to the resources in order to make a conformant implementation.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://hl7.org/fhir" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="http://hl7.org/fhir" elementFormDefault="qualified" version="1.0">
+  <xs:include schemaLocation="fhir-base.xsd"/>
+  <xs:element name="Conformance" type="Conformance"/>
+  <xs:complexType name="Conformance">
+    <xs:complexContent>
+      <xs:extension base="DomainResource">
+        <xs:sequence>
+          <xs:element name="url" minOccurs="0" maxOccurs="1" type="uri"/>
+          <xs:element name="version" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="name" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="status" minOccurs="0" maxOccurs="1" type="code"/>
+          <xs:element name="experimental" minOccurs="0" maxOccurs="1" type="boolean"/>
+          <xs:element name="publisher" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="contact" type="Conformance.Contact" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="date" minOccurs="1" maxOccurs="1" type="dateTime"/>
+          <xs:element name="description" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="requirements" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="copyright" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="kind" minOccurs="1" maxOccurs="1" type="ConformanceStatementKind"/>
+          <xs:element name="software" type="Conformance.Software" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="implementation" type="Conformance.Implementation" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="fhirVersion" minOccurs="1" maxOccurs="1" type="id"/>
+          <xs:element name="acceptUnknown" minOccurs="1" maxOccurs="1" type="UnknownContentCode"/>
+          <xs:element name="format" minOccurs="1" maxOccurs="unbounded" type="code"/>
+          <xs:element name="profile" minOccurs="0" maxOccurs="unbounded" type="Reference"/>
+          <xs:element name="rest" type="Conformance.Rest" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="messaging" type="Conformance.Messaging" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="document" type="Conformance.Document" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Contact">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="name" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="telecom" minOccurs="0" maxOccurs="unbounded" type="ContactPoint"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Software">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="name" minOccurs="1" maxOccurs="1" type="string"/>
+          <xs:element name="version" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="releaseDate" minOccurs="0" maxOccurs="1" type="dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Implementation">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="description" minOccurs="1" maxOccurs="1" type="string"/>
+          <xs:element name="url" minOccurs="0" maxOccurs="1" type="uri"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Rest">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="mode" minOccurs="1" maxOccurs="1" type="RestfulConformanceMode"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="security" type="Conformance.Security" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="resource" type="Conformance.Resource" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="interaction" type="Conformance.Interaction1" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="transactionMode" minOccurs="0" maxOccurs="1" type="TransactionMode"/>
+          <xs:element name="searchParam" type="Conformance.SearchParam" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="operation" type="Conformance.Operation" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="compartment" minOccurs="0" maxOccurs="unbounded" type="uri"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Security">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="cors" minOccurs="0" maxOccurs="1" type="boolean"/>
+          <xs:element name="service" minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"/>
+          <xs:element name="description" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="certificate" type="Conformance.Certificate" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Certificate">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="type" minOccurs="0" maxOccurs="1" type="code"/>
+          <xs:element name="blob" minOccurs="0" maxOccurs="1" type="base64Binary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Resource">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="type" minOccurs="1" maxOccurs="1" type="code"/>
+          <xs:element name="profile" minOccurs="0" maxOccurs="1" type="Reference"/>
+          <xs:element name="interaction" type="Conformance.Interaction" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="versioning" minOccurs="0" maxOccurs="1" type="ResourceVersionPolicy"/>
+          <xs:element name="readHistory" minOccurs="0" maxOccurs="1" type="boolean"/>
+          <xs:element name="updateCreate" minOccurs="0" maxOccurs="1" type="boolean"/>
+          <xs:element name="conditionalCreate" minOccurs="0" maxOccurs="1" type="boolean"/>
+          <xs:element name="conditionalUpdate" minOccurs="0" maxOccurs="1" type="boolean"/>
+          <xs:element name="conditionalDelete" minOccurs="0" maxOccurs="1" type="ConditionalDeleteStatus"/>
+          <xs:element name="searchInclude" minOccurs="0" maxOccurs="unbounded" type="string"/>
+          <xs:element name="searchRevInclude" minOccurs="0" maxOccurs="unbounded" type="string"/>
+          <xs:element name="searchParam" type="Conformance.SearchParam" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Interaction">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="TypeRestfulInteraction"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.SearchParam">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="name" minOccurs="1" maxOccurs="1" type="string"/>
+          <xs:element name="definition" minOccurs="0" maxOccurs="1" type="uri"/>
+          <xs:element name="type" minOccurs="1" maxOccurs="1" type="code"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="target" minOccurs="0" maxOccurs="unbounded" type="code"/>
+          <xs:element name="modifier" minOccurs="0" maxOccurs="unbounded" type="SearchModifierCode"/>
+          <xs:element name="chain" minOccurs="0" maxOccurs="unbounded" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Interaction1">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="SystemRestfulInteraction"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Operation">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="name" minOccurs="1" maxOccurs="1" type="string"/>
+          <xs:element name="definition" minOccurs="1" maxOccurs="1" type="Reference"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Messaging">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="endpoint" type="Conformance.Endpoint" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="reliableCache" minOccurs="0" maxOccurs="1" type="unsignedInt"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="event" type="Conformance.Event" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Endpoint">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="protocol" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="address" minOccurs="1" maxOccurs="1" type="uri"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Event">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="code" minOccurs="1" maxOccurs="1" type="Coding"/>
+          <xs:element name="category" minOccurs="0" maxOccurs="1" type="MessageSignificanceCategory"/>
+          <xs:element name="mode" minOccurs="1" maxOccurs="1" type="ConformanceEventMode"/>
+          <xs:element name="focus" minOccurs="1" maxOccurs="1" type="code"/>
+          <xs:element name="request" minOccurs="1" maxOccurs="1" type="Reference"/>
+          <xs:element name="response" minOccurs="1" maxOccurs="1" type="Reference"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Conformance.Document">
+    <xs:complexContent>
+      <xs:extension base="BackboneElement">
+        <xs:sequence>
+          <xs:element name="mode" minOccurs="1" maxOccurs="1" type="DocumentMode"/>
+          <xs:element name="documentation" minOccurs="0" maxOccurs="1" type="string"/>
+          <xs:element name="profile" minOccurs="1" maxOccurs="1" type="Reference"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="DocumentMode-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="producer"/>
+      <xs:enumeration value="consumer"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DocumentMode">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="DocumentMode-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="SystemRestfulInteraction-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="transaction"/>
+      <xs:enumeration value="search-system"/>
+      <xs:enumeration value="history-system"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SystemRestfulInteraction">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="SystemRestfulInteraction-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ResourceVersionPolicy-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="no-version"/>
+      <xs:enumeration value="versioned"/>
+      <xs:enumeration value="versioned-update"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ResourceVersionPolicy">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="ResourceVersionPolicy-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="RestfulConformanceMode-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="client"/>
+      <xs:enumeration value="server"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RestfulConformanceMode">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="RestfulConformanceMode-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="TypeRestfulInteraction-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="read"/>
+      <xs:enumeration value="vread"/>
+      <xs:enumeration value="update"/>
+      <xs:enumeration value="delete"/>
+      <xs:enumeration value="history-instance"/>
+      <xs:enumeration value="validate"/>
+      <xs:enumeration value="history-type"/>
+      <xs:enumeration value="create"/>
+      <xs:enumeration value="search-type"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TypeRestfulInteraction">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="TypeRestfulInteraction-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ConditionalDeleteStatus-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="not-supported"/>
+      <xs:enumeration value="single"/>
+      <xs:enumeration value="multiple"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConditionalDeleteStatus">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="ConditionalDeleteStatus-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ConformanceStatementKind-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="instance"/>
+      <xs:enumeration value="capability"/>
+      <xs:enumeration value="requirements"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConformanceStatementKind">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="ConformanceStatementKind-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="SearchModifierCode-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="missing"/>
+      <xs:enumeration value="exact"/>
+      <xs:enumeration value="contains"/>
+      <xs:enumeration value="not"/>
+      <xs:enumeration value="text"/>
+      <xs:enumeration value="in"/>
+      <xs:enumeration value="not-in"/>
+      <xs:enumeration value="below"/>
+      <xs:enumeration value="above"/>
+      <xs:enumeration value="type"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SearchModifierCode">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="SearchModifierCode-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ConformanceEventMode-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="sender"/>
+      <xs:enumeration value="receiver"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConformanceEventMode">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="ConformanceEventMode-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="MessageSignificanceCategory-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Consequence"/>
+      <xs:enumeration value="Currency"/>
+      <xs:enumeration value="Notification"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="MessageSignificanceCategory">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="MessageSignificanceCategory-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="UnknownContentCode-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="no"/>
+      <xs:enumeration value="extensions"/>
+      <xs:enumeration value="elements"/>
+      <xs:enumeration value="both"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="UnknownContentCode">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="UnknownContentCode-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="TransactionMode-list">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="not-supported"/>
+      <xs:enumeration value="batch"/>
+      <xs:enumeration value="transaction"/>
+      <xs:enumeration value="both"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TransactionMode">
+    <xs:complexContent>
+      <xs:extension base="Element">
+        <xs:attribute name="value" type="TransactionMode-list" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

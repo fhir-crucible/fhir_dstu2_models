@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.linkId().nil? -%><linkId value="<%= model.linkId %>"<%- if model.has_primitive_extension?('linkId') -%>><%== model.get_primitive_extension('linkId').to_xml(is_root: false, is_lowercase: true)  %></linkId><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.text().nil? -%><text value="<%= model.text %>"<%- if model.has_primitive_extension?('text') -%>><%== model.get_primitive_extension('text').to_xml(is_root: false, is_lowercase: true)  %></text><%- else -%>/><%- end -%><%- end -%>
-    <%- if (!model.answer().nil? && !model.answer.empty?) -%><%- model.answer().each do |element| -%><%== render :template => 'questionnaireresponse_questionanswercomponent', :locals => {name: 'answer', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

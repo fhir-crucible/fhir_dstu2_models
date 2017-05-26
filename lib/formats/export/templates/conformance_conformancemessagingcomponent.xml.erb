@@ -1,9 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if (!model.endpoint().nil? && !model.endpoint.empty?) -%><%- model.endpoint().each do |element| -%><%== render :template => 'conformance_conformancemessagingendpointcomponent', :locals => {name: 'endpoint', model: element} %><%- end -%><%- end -%>
-    <%- if !model.reliableCache().nil? -%><reliableCache value="<%= model.reliableCache %>"<%- if model.has_primitive_extension?('reliableCache') -%>><%== model.get_primitive_extension('reliableCache').to_xml(is_root: false, is_lowercase: true)  %></reliableCache><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.documentation().nil? -%><documentation value="<%= model.documentation %>"<%- if model.has_primitive_extension?('documentation') -%>><%== model.get_primitive_extension('documentation').to_xml(is_root: false, is_lowercase: true)  %></documentation><%- else -%>/><%- end -%><%- end -%>
-    <%- if (!model.event().nil? && !model.event.empty?) -%><%- model.event().each do |element| -%><%== render :template => 'conformance_conformancemessagingeventcomponent', :locals => {name: 'event', model: element} %><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

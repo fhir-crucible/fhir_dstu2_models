@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.fhirModifier().nil? -%><%== render :template => 'codeableconcept', :locals => {name: 'modifier', model: model.fhirModifier()} %><%- end -%>
-    <%- if !model.amount().nil? -%><%== render :template => 'quantity', :locals => {name: 'amount', model: model.amount()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

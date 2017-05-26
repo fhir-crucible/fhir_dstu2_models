@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.lotNumber().nil? -%><lotNumber value="<%= model.lotNumber %>"<%- if model.has_primitive_extension?('lotNumber') -%>><%== model.get_primitive_extension('lotNumber').to_xml(is_root: false, is_lowercase: true)  %></lotNumber><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.expirationDate.nil? -%><%- if (!model.expirationDate.match(/\A[0-9]{4}(-(0[1-9]|1[0-2])(-(0[0-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?)?)?)?\Z/).nil?) -%><expirationDate value="<%= model.expirationDate %>"<%- if model.has_primitive_extension?('expirationDate') -%>><%== model.get_primitive_extension('expirationDate').to_xml(is_root: false, is_lowercase: true)  %></expirationDate><%- else -%>/><%- end -%><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.path().nil? -%><path value="<%= model.path %>"<%- if model.has_primitive_extension?('path') -%>><%== model.get_primitive_extension('path').to_xml(is_root: false, is_lowercase: true)  %></path><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.min().nil? -%><min value="<%= model.min %>"<%- if model.has_primitive_extension?('min') -%>><%== model.get_primitive_extension('min').to_xml(is_root: false, is_lowercase: true)  %></min><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.max().nil? -%><max value="<%= model.max %>"<%- if model.has_primitive_extension?('max') -%>><%== model.get_primitive_extension('max').to_xml(is_root: false, is_lowercase: true)  %></max><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

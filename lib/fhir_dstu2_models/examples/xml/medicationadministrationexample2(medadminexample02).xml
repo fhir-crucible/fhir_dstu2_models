@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><MedicationAdministration xmlns="http://hl7.org/fhir"> 
+  <id value="medadminexample02"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medadminexample02</p><p><b>status</b>: completed</p><p><b>patient</b>: <a>Patient/example</a></p><p><b>practitioner</b>: <a>Practitioner/example</a></p><p><b>prescription</b>: <a>MedicationOrder/medrx008</a></p><p><b>effectiveTime</b>: 15/01/2015 2:30:00 PM --&gt; 15/01/2015 2:30:00 PM</p><p><b>medication</b>: <a>Medication/medicationexample17</a></p><h3>Dosages</h3><table><tr><td>-</td><td><b>Route</b></td><td><b>Quantity</b></td><td><b>Rate[x]</b></td></tr><tr><td>*</td><td>Intravenous route <span>(Details : {SNOMED CT code &#39;47625008&#39; = &#39;47625008&#39;, given as &#39;Intravenous route&#39;})</span></td><td>80 mg<span> (Details: http://unitsofmeasure.org code mg = &#39;??&#39;)</span></td><td>80 mg<span> (Details: http://unitsofmeasure.org code mg = &#39;??&#39;)</span>/60 minutes<span> (Details: SNOMED CT code 258702006 = &#39;258702006&#39;)</span></td></tr></table></div></text><status value="completed"/>
+  <patient>
+    <reference value="Patient/example"/>
+  </patient>
+  <practitioner>
+    <reference value="Practitioner/example"/>
+  </practitioner>
+  <prescription>
+    <reference value="MedicationOrder/medrx008"/>
+  </prescription>
+  <effectiveTimePeriod>
+  <start value="2015-01-15T14:30:00+01:00"/>
+  <end value="2015-01-15T14:30:00+01:00"/>
+</effectiveTimePeriod>
+  <medicationReference>
+    <!--   references medication 6   -->
+    <reference value="Medication/medicationexample17"/> 
+  </medicationReference>
+  <dosage>
+    <route>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="47625008"/>
+        <display value="Intravenous route"/>
+      </coding>
+    </route>
+    <quantity>
+      <value value="80"/>
+      <unit value="mg"/>
+      <system value="http://unitsofmeasure.org"/>
+      <code value="mg"/>
+    </quantity>
+    <rateRatio>
+      <numerator>
+        <value value="80"/>
+        <unit value="mg"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="mg"/>
+      </numerator>
+      <denominator>
+        <value value="60"/>
+        <unit value="minutes"/>
+        <system value="http://snomed.info/sct"/>
+        <code value="258702006"/>
+      </denominator>
+    </rateRatio>
+  </dosage>
+  
+</MedicationAdministration>

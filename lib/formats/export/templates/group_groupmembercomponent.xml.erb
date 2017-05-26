@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.entity().nil? -%><%== render :template => 'reference', :locals => {name: 'entity', model: model.entity()} %><%- end -%>
-    <%- if !model.period().nil? -%><%== render :template => 'period', :locals => {name: 'period', model: model.period()} %><%- end -%>
-    <%- if !model.inactive().nil? -%><inactive value="<%= model.inactive %>"<%- if model.has_primitive_extension?('inactive') -%>><%== model.get_primitive_extension('inactive').to_xml(is_root: false, is_lowercase: true)  %></inactive><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

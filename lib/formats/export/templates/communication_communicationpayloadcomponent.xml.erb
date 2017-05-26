@@ -1,8 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.contentString().nil? -%><contentString value="<%= model.contentString %>"<%- if model.has_primitive_extension?('contentString') -%>><%== model.get_primitive_extension('contentString').to_xml(is_root: false, is_lowercase: true)  %></contentString><%- else -%>/><%- end -%><%- end -%>
-    <%- if !model.contentAttachment().nil? -%><%== render :template => 'attachment', :locals => {name: 'contentAttachment', model: model.contentAttachment()} %><%- end -%>
-    <%- if !model.contentReference().nil? -%><%== render :template => 'reference', :locals => {name: 'contentReference', model: model.contentReference()} %><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>

@@ -1,7 +1,0 @@
-<<%= (is_lowercase) ? name.downcase : name %>
-<%if model.xmlId%> id="<%= model.xmlId%>"<%end%>
->
-    <%== render :template => 'element', :locals => {model: model, is_resource: false} %>
-    <%- if !model.protocol().nil? -%><%== render :template => 'coding', :locals => {name: 'protocol', model: model.protocol()} %><%- end -%>
-    <%- if !model.address().nil? -%><address value="<%= model.address %>"<%- if model.has_primitive_extension?('address') -%>><%== model.get_primitive_extension('address').to_xml(is_root: false, is_lowercase: true)  %></address><%- else -%>/><%- end -%><%- end -%>
-</<%= (is_lowercase) ? name.downcase : name %>>
