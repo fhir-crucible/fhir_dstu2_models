@@ -17,28 +17,14 @@ module FHIR
             end
           end
         end
-        hash = prune(hash)
-        hash['resourceType'] = resourceType if respond_to?(:resourceType) && hash
-        hash
-      end
-
-      def prune(thing)
-        if thing.is_a?(Array)
-          return nil if thing.empty?
-          thing.map! { |i| prune(i) }
-          thing.compact!
-          return nil if thing.empty?
-        elsif thing.is_a?(Hash)
-          return nil if thing.empty?
-          thing.each do |key, value|
-            thing[key] = prune(value)
-          end
-          thing.delete_if do |_key, value|
-            value.nil?
-          end
-          return nil if thing.empty?
+        hash.keep_if do |_key, value|
+          !value.nil? && ((value.is_a?(Hash) && !value.empty?) ||
+                            (value.is_a?(Array) && !value.empty?) ||
+                            (!value.is_a?(Hash) && !value.is_a?(Array))
+                         )
         end
-        thing
+        hash['resourceType'] = resourceType if respond_to?(:resourceType)
+        hash
       end
 
       def from_hash(hash)
@@ -131,7 +117,7 @@ module FHIR
         rval
       end
 
-      private :prune, :make_child, :convert_primitive
+      private :make_child, :convert_primitive
     end
   end
 end
