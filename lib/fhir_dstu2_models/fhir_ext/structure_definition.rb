@@ -179,7 +179,7 @@ module FHIR
               matching_type += 1
               if data_type_found == 'code' # then check the binding
                 unless element.binding.nil?
-                  matching_type += check_binding(element, value)
+                  matching_type += check_binding_element(element, value)
                 end
               elsif data_type_found == 'CodeableConcept' && codeable_concept_pattern
                 vcc = FHIR::DSTU2::CodeableConcept.new(value)
@@ -306,7 +306,7 @@ module FHIR
       end
       deprecate :is_data_type?, :data_type?
 
-      def check_binding(element, value)
+      def check_binding_element(element, value)
         vs_uri = element.binding.valueSetUri || element.binding.valueSetReference.reference
         valueset = FHIR::DSTU2::Definitions.get_codes(vs_uri)
 
@@ -359,7 +359,7 @@ module FHIR
       end
       deprecate :is_some_type_of_xml_or_json, :some_type_of_xml_or_json?
 
-      private :valid_json?, :get_json_nodes, :build_hierarchy, :verify_element, :check_binding
+      private :valid_json?, :get_json_nodes, :build_hierarchy, :verify_element, :check_binding_element
     end
   end
 end
