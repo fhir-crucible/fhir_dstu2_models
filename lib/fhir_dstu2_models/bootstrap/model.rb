@@ -244,7 +244,7 @@ module FHIR
             end
           else
             the_codes.each do |code|
-              has_valid_code = true if check_binding(meta['binding']['uri'], code)
+              has_valid_code = true if check_binding_uri(meta['binding']['uri'], code)
               break if has_valid_code
             end
           end
@@ -286,7 +286,7 @@ module FHIR
       end
       deprecate :is_primitive?, :primitive?
 
-      def check_binding(uri, value)
+      def check_binding_uri(uri, value)
         valid = false
         if %w[http://hl7.org/fhir/ValueSet/content-type http://www.rfc-editor.org/bcp/bcp13.txt].include?(uri)
           matches = MIME::Types[value]
@@ -297,12 +297,12 @@ module FHIR
           has_region = !(value =~ /-/).nil?
           valid = !BCP47::Language.identify(value.downcase).nil? && (!has_region || !BCP47::Region.identify(value.upcase).nil?)
         else
-          FHIR::DSTU2.logger.warn "Unable to check_binding on unknown ValueSet: #{uri}"
+          FHIR::DSTU2.logger.warn "Unable to check_binding_uri on unknown ValueSet: #{uri}"
         end
         valid
       end
 
-      private :validate_reference_type, :check_binding, :validate_field
+      private :validate_reference_type, :check_binding_uri, :validate_field
     end
   end
 end
