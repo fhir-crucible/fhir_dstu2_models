@@ -28,21 +28,48 @@ json = File.read('patient-example.json')
 patient = FHIR::DSTU2.from_contents(json)
 puts patient.to_json
 ```
+
+Creating an `Observation` by hand...
+```ruby
+obs = FHIR::DSTU2::Observation.new(
+  'status' => 'final',
+  'code' => {
+    'coding' => [{ 'system' => 'http://loinc.org', 'code' => '3141-9', 'display' => 'Weight Measured' }],
+    'text' => 'Weight Measured'
+  },
+  'category' => {
+    'coding' => [{ 'system' => 'http://hl7.org/fhir/observation-category', 'code' => 'vital-signs' }]
+  },
+  'subject' => { 'reference' => 'Patient/example' },
+  'encounter' => { 'reference' => 'Encounter/example' }
+)
+obs.valueQuantity = FHIR::DSTU2::Quantity.new(
+  'value' => 185,
+  'unit' => 'lbs',
+  'code' => '[lb_av]',
+  'system' => 'http://unitsofmeasure.org'
+)
+```
+
 ### Validation
 
-Using a base resource definition...
+Using built in validation...
+```ruby
+patient.valid? # returns true or false
+patient.validate # returns Hash of errors, empty if valid
+```
+
+Using a profile or structure definition...
 ```ruby
 sd = FHIR::DSTU2::Definitions.resource_definition('Patient')
 sd.validates_resource?(patient) # passing in FHIR::DSTU2::Patient
-```
-Validation failed? Get the errors and warnings...
-```ruby
+# Validation failed? Get the errors and warnings...
 puts sd.errors
 puts sd.warnings
 ```
 # License
 
-Copyright 2014-2017 The MITRE Corporation
+Copyright 2014-2018 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
