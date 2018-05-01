@@ -2,16 +2,17 @@ language: ruby
 env:
   - TESTMEMORY=0 GCDELAY=2.0
 rvm:
-  - "2.2.6"
-  - "2.3.3"
-  - "2.4.0"
+  - "2.2.7"
+  - "2.3.7"
+  - "2.4.4"
+  - "2.5.1"
 script:
   - bundle exec rake
   - bundle exec codeclimate-test-reporter
 notifications:
   email:
     recipients:
-      - healthcare-ci@googlegroups.com
+      - fhir-testing-list@lists.mitre.org
     on_failure: change
 addons:
   code_climate:
