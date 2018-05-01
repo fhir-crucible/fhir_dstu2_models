@@ -18,4 +18,4 @@ addons:
   code_climate:
     repo_token: 0230b3379581b30743b7b4355d7394e427648e604d19a2aba987956201eee290
 before_install:
-  - gem update install bundler
+  - gem install bundler
