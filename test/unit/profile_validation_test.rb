@@ -60,12 +60,20 @@ class ProfileValidationTest < Test::Unit::TestCase
     patient_record = File.join(FIXTURES_DIR, example_name)
     input_json = File.read(patient_record)
     bundle = FHIR::DSTU2::Json.from_json(input_json)
+
+    validate_marital_status_fn = lambda do |coding|
+      "#{coding.system}|#{coding.code}" == "http://hl7.org/fhir/v3/MaritalStatus|S"
+    end
+
+    FHIR::DSTU2::StructureDefinition.register_vs_validator("http://hl7.org/fhir/v3/MaritalStatus", validate_marital_status_fn)
+
     errors = validate_each_entry(bundle)
     if errors.empty?
       File.open("#{ERROR_DIR}/#{example_name}.json", 'w:UTF-8') { |file| file.write(input_json) }
     end
     assert !errors.empty?, 'Record improperly validated.'
     assert errors.detect{|x| x.start_with?('Patient.identifier failed cardinality test')}
+    assert errors.detect{|x| x.start_with?('Patient.maritalStatus has no codings from')}
     # check memory
     before = check_memory
     resource = nil
