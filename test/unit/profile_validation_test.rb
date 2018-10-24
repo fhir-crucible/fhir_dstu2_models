@@ -61,13 +61,12 @@ class ProfileValidationTest < Test::Unit::TestCase
     input_json = File.read(patient_record)
     bundle = FHIR::DSTU2::Json.from_json(input_json)
 
-    validate_marital_status_fn = lambda do |coding|
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://hl7.org/fhir/ValueSet/marital-status"  do |coding|
       "#{coding.system}|#{coding.code}" == "http://hl7.org/fhir/v3/MaritalStatus|S"
     end
-
-    FHIR::DSTU2::StructureDefinition.register_vs_validator("http://hl7.org/fhir/v3/MaritalStatus", validate_marital_status_fn)
-
     errors = validate_each_entry(bundle)
+    FHIR::DSTU2::StructureDefinition.clear_validates_vs "http://hl7.org/fhir/v3/MaritalStatus"
+
     if errors.empty?
       File.open("#{ERROR_DIR}/#{example_name}.json", 'w:UTF-8') { |file| file.write(input_json) }
     end
