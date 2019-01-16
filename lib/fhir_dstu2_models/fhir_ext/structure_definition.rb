@@ -204,8 +204,7 @@ module FHIR
               elsif data_type_found == 'CodeableConcept' && codeable_concept_binding
                 binding_issues =
                   if element.binding.strength == 'extensible'
-                    # TODO: make this @warnings, once we have a way to return warnings
-                    @errors
+                    @warnings
                   elsif element.binding.strength == 'required'
                     @errors
                   else # e.g., example-strength or unspecified
