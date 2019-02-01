@@ -209,8 +209,8 @@ module FHIR
             else
               errors[field] << "#{meta['path']}: expected Reference, found #{klassname}"
             end
-          # if the data type is a particular resource or complex type
-          elsif FHIR::DSTU2::RESOURCES.include?(datatype) || FHIR::DSTU2::TYPES.include?(datatype)
+          # if the data type is a particular resource or complex type or BackBone element within this resource
+          elsif FHIR::DSTU2::RESOURCES.include?(datatype) || FHIR::DSTU2::TYPES.include?(datatype) || v.class.name.start_with?(self.class.name)
             if datatype == klassname
               validation = v.validate(contained_here)
               errors[field] << validation unless validation.empty?
