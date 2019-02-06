@@ -222,6 +222,18 @@ module FHIR
                     binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{vcc.to_json}"
                   end
                 end
+
+                unless has_valid_code
+                  vcc.coding.each do |c|
+                    check_fn = self.class.vs_validators[c.system]
+                    has_valid_code = check_fn.call(c) unless check_fn
+                    unless has_valid_code
+                      binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{c.system}.  "\
+                                        "Codings evaluated: #{vcc.to_json}"
+                    end
+                  end
+                end
+
               elsif data_type_found == 'String' && !element.maxLength.nil? && (value.size > element.maxLength)
                 @errors << "#{describe_element(element)} exceed maximum length of #{element.maxLength}: #{value}"
               end
