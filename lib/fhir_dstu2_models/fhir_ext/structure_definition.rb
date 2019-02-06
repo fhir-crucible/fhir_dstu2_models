@@ -212,10 +212,9 @@ module FHIR
                   end
 
                 valueset_uri = element.binding && element.binding.valueSetReference && element.binding.valueSetReference.reference
+                vcc = FHIR::DSTU2::CodeableConcept.new(value)
                 if valueset_uri && self.class.vs_validators[valueset_uri]
                   check_fn = self.class.vs_validators[valueset_uri]
-                  vcc = FHIR::DSTU2::CodeableConcept.new(value)
-
                   has_valid_code = vcc.coding && vcc.coding.any? { |c| check_fn.call(c) }
 
                   unless has_valid_code
@@ -226,10 +225,9 @@ module FHIR
                 unless has_valid_code
                   vcc.coding.each do |c|
                     check_fn = self.class.vs_validators[c.system]
-                    has_valid_code = check_fn.call(c) unless check_fn
-                    unless has_valid_code
+                    if check_fn
                       binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{c.system}.  "\
-                                        "Codings evaluated: #{vcc.to_json}"
+                                        "Codings evaluated: #{vcc.to_json}" unless check_fn.call(c)
                     end
                   end
                 end
