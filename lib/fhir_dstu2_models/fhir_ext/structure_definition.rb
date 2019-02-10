@@ -208,8 +208,7 @@ module FHIR
               elsif data_type_found == 'CodeableConcept' && codeable_concept_binding
                 binding_issues =
                   if element.binding.strength == 'extensible'
-                    # TODO: make this @warnings, once we have a way to return warnings
-                    @errors
+                    @warnings
                   elsif element.binding.strength == 'required'
                     @errors
                   else # e.g., example-strength or unspecified
@@ -217,16 +216,26 @@ module FHIR
                   end
 
                 valueset_uri = element.binding && element.binding.valueSetReference && element.binding.valueSetReference.reference
+                vcc = FHIR::DSTU2::CodeableConcept.new(value)
                 if valueset_uri && self.class.vs_validators[valueset_uri]
                   check_fn = self.class.vs_validators[valueset_uri]
-                  vcc = FHIR::DSTU2::CodeableConcept.new(value)
-
                   has_valid_code = vcc.coding && vcc.coding.any? { |c| check_fn.call(c) }
 
                   unless has_valid_code
                     binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{vcc.to_json}"
                   end
                 end
+
+                unless has_valid_code
+                  vcc.coding.each do |c|
+                    check_fn = self.class.vs_validators[c.system]
+                    if check_fn && check_fn.call(c)
+                      binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{c.system}.  "\
+                                        "Codings evaluated: #{vcc.to_json}"
+                    end
+                  end
+                end
+
               elsif data_type_found == 'String' && !element.maxLength.nil? && (value.size > element.maxLength)
                 @errors << "#{describe_element(element)} exceed maximum length of #{element.maxLength}: #{value}"
               end
