@@ -116,7 +116,7 @@
   <item>
     <sequence value="1"/>
     <type>
-      <code value="service"/>
+      <code value="CSINV"/>
     </type>
     <provider>
       <reference value="#practitioner-1"/>

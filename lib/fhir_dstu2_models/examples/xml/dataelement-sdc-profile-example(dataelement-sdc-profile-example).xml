@@ -37,7 +37,6 @@
     </binding>
     <mapping>
       <identity value="c-cda"/>
-      <language value="xpath"/>
       <map value="/ClinicalDocument/recordTarget/patientRole/patient/administrativeGender"/>
     </mapping>
   </element>
