@@ -110,7 +110,7 @@ module FHIR
         elsif FHIR::DSTU2::PRIMITIVES.include?(meta['type'])
           primitive_meta = FHIR::DSTU2::PRIMITIVES[meta['type']]
           if primitive_meta['type'] == 'number'
-            rval = BigDecimal.new(value.to_s)
+            rval = BigDecimal(value.to_s)
             rval = rval.frac.zero? ? rval.to_i : rval.to_f
           end # primitive is number
         end # boolean else
