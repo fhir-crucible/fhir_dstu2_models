@@ -36,6 +36,17 @@ class ProfileValidationTest < Test::Unit::TestCase
   end
 
   def test_profile_validation
+    # Clear any registered validators
+    FHIR::DSTU2::StructureDefinition.clear_all_validates_vs
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://hl7.org/fhir/ValueSet/uslab-obs-codes" do |coding|
+      true
+    end
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://hl7.org/fhir/ValueSet/marital-status" do |coding|
+      true # always pass
+    end
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://hl7.org/fhir/v3/MaritalStatus" do |coding|
+      false # false, but should never be called so no errors should be present
+    end
     example_name = 'sample-daf-record.json'
     patient_record = File.join(FIXTURES_DIR, example_name)
     input_json = File.read(patient_record)
@@ -46,6 +57,33 @@ class ProfileValidationTest < Test::Unit::TestCase
       File.open("#{ERROR_DIR}/#{example_name}.json", 'w:UTF-8') { |file| file.write(input_json) }
     end
     assert errors.empty?, 'Record failed to validate.'
+    # check memory
+    before = check_memory
+    resource = nil
+    profile = nil
+    wait_for_gc
+    after = check_memory
+    assert_memory(before, after)
+  end
+
+  def test_profile_code_system_check
+    # Clear any registered validators
+    FHIR::DSTU2::StructureDefinition.clear_all_validates_vs
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://hl7.org/fhir/ValueSet/marital-status" do |coding|
+      false # fails so that the code system validation happens
+    end
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://hl7.org/fhir/v3/MaritalStatus" do |coding|
+      true # no errors related to http://hl7.org/fhir/v3/MaritalStatus should be present
+    end
+
+    example_name = 'sample-daf-record.json'
+    patient_record = File.join(FIXTURES_DIR, example_name)
+    input_json = File.read(patient_record)
+    bundle = FHIR::DSTU2::Json.from_json(input_json)
+    errors = validate_each_entry(bundle)
+    assert !errors.empty?, 'Expected code valueset validation error.'
+    assert errors.detect{|x| x.start_with?('Patient.maritalStatus has no codings from http://hl7.org/fhir/ValueSet/marital-status.')}
+    assert !errors.detect{|x| x.start_with?('Patient.maritalStatus has no codings from http://hl7.org/fhir/v3/MaritalStatus.')}
     # check memory
     before = check_memory
     resource = nil

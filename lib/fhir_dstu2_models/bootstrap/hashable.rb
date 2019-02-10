@@ -52,7 +52,7 @@ module FHIR
           if !klass.nil? && !value.nil?
             # handle array of objects
             if value.is_a?(Array)
-              value.map! do |child|
+              value = value.map do |child|
                 obj = child
                 unless [FHIR::DSTU2::RESOURCES, FHIR::DSTU2::TYPES].flatten.include? child.class.name.gsub('FHIR::DSTU2::', '')
                   obj = make_child(child, klass)
@@ -69,7 +69,7 @@ module FHIR
             FHIR::DSTU2.logger.error("Unhandled and unrecognized class/type: #{meta['type']}")
           elsif value.is_a?(Array)
             # array of primitives
-            value.map! { |child| convert_primitive(child, meta) }
+            value = value.map { |child| convert_primitive(child, meta) }
             instance_variable_set("@#{local_name}", value)
           else
             # single primitive

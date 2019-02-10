@@ -26,6 +26,10 @@ module FHIR
         @vs_validators.delete valueset_uri
       end
 
+      def self.clear_all_validates_vs
+        @vs_validators = {}
+      end
+
       def validates_resource?(resource)
         validate_resource(resource).empty?
       end
