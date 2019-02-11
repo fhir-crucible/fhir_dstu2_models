@@ -139,7 +139,7 @@
     {
       "sequence": 1,
       "type": {
-        "code": "service"
+        "code": "CSINV"
       },
       "provider": {
         "reference": "#practitioner-1"

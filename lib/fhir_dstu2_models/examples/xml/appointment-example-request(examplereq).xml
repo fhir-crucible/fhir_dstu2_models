@@ -33,7 +33,7 @@
 	<participant>
 		<type>
 			<coding>
-				<code value="attending"/>
+				<code value="ATND"/>
 			</coding>
 		</type>
 		<required value="required"/>

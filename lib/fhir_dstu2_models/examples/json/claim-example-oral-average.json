@@ -55,7 +55,7 @@
     {
       "sequence": 1,
       "type": {
-        "code": "service"
+        "code": "CSINV"
       },
       "provider": {
         "reference": "Practitioner/example"
@@ -79,7 +79,7 @@
     {
       "sequence": 2,
       "type": {
-        "code": "service"
+        "code": "CSINV"
       },
       "provider": {
         "reference": "Practitioner/example"
@@ -113,7 +113,7 @@
     {
       "sequence": 3,
       "type": {
-        "code": "group"
+        "code": "CPNDDRGING"
       },
       "provider": {
         "reference": "Practitioner/example"
@@ -141,7 +141,7 @@
         {
           "sequence": 1,
           "type": {
-            "code": "service"
+            "code": "CSINV"
           },
           "service": {
             "system": "http://hl7.org/fhir/oralservicecodes",
@@ -161,7 +161,7 @@
         {
           "sequence": 2,
           "type": {
-            "code": "service"
+            "code": "CSINV"
           },
           "service": {
             "system": "http://hl7.org/fhir/oralservicecodes",

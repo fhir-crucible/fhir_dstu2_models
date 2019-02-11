@@ -55,7 +55,7 @@
     {
       "sequence": 1,
       "type": {
-        "code": "service"
+        "code": "CSINV"
       },
       "provider": {
         "reference": "Practitioner/example"

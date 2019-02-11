@@ -58,7 +58,7 @@
     {
       "sequence": 1,
       "type": {
-        "code": "group"
+        "code": "CPNDDRGING"
       },
       "provider": {
         "reference": "Practitioner/example"
@@ -82,7 +82,7 @@
         {
           "sequence": 1,
           "type": {
-            "code": "product"
+            "code": "CPINV"
           },
           "service": {
             "system": "http://hl7.org/fhir/ex-visionservice",
@@ -102,7 +102,7 @@
         {
           "sequence": 2,
           "type": {
-            "code": "product"
+            "code": "CPINV"
           },
           "service": {
             "system": "http://hl7.org/fhir/ex-visionservice",
@@ -125,7 +125,7 @@
         {
           "sequence": 3,
           "type": {
-            "code": "tax"
+            "code": "VRXINV"
           },
           "service": {
             "system": "http://hl7.org/fhir/ex-visionservice",

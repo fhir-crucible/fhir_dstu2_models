@@ -60,7 +60,7 @@
  <item>
    <sequence value="1"/>
    <type>
-     <code value="service"/>
+     <code value="CSINV"/>
    </type>
    <provider>
      <reference value="Practitioner/example"/>
@@ -85,7 +85,7 @@
   <item>
    <sequence value="2"/>
    <type>
-     <code value="service"/>
+     <code value="CSINV"/>
    </type>
    <provider>
      <reference value="Practitioner/example"/>
@@ -118,7 +118,7 @@
   <item>
    <sequence value="3"/>
    <type>
-     <code value="group"/>
+     <code value="DRUGING"/>
    </type>
    <provider>
      <reference value="Practitioner/example"/>
@@ -145,7 +145,7 @@
    <detail>
      <sequence value="1"/>
      <type>
-       <code value="service"/>
+       <code value="CSINV"/>
      </type>
      <service>
        <system value="http://hl7.org/fhir/oralservicecodes"/>
@@ -165,7 +165,7 @@
    <detail>
      <sequence value="2"/>
      <type>
-       <code value="service"/>
+       <code value="CSINV"/>
      </type>
      <service>
        <system value="http://hl7.org/fhir/oralservicecodes"/>
