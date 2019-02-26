@@ -229,7 +229,7 @@ module FHIR
                 unless has_valid_code
                   vcc.coding.each do |c|
                     check_fn = self.class.vs_validators[c.system]
-                    if check_fn && check_fn.call(c)
+                    if check_fn && !check_fn.call(c)
                       binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{c.system}.  "\
                                         "Codings evaluated: #{vcc.to_json}"
                     end
