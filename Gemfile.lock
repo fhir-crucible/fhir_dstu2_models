@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fhir_dstu2_models (1.0.5)
+    fhir_dstu2_models (1.0.6)
       bcp47 (>= 0.3)
       date_time_precision (>= 0.8)
       mime-types (>= 1.16, < 3)
