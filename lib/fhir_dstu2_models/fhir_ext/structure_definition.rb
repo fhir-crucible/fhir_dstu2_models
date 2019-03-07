@@ -205,7 +205,7 @@ module FHIR
                     matching_pattern = true if vcoding.system == pcoding.system && vcoding.code == pcoding.code
                   end
                 end
-              elsif ['Coding', 'Quantity'].include? data_type_found #== 'CodeableConcept' && codeable_concept_binding
+              elsif %w[CodeableConcept Quantity].include? data_type_found
                 binding_issues =
                   if element&.binding&.strength == 'required'
                     @errors
@@ -214,19 +214,31 @@ module FHIR
                   end
 
                 valueset_uri = element.binding && element.binding.valueSetReference && element.binding.valueSetReference.reference
-                # ValueSet Validation
-                check_fn = self.class.vs_validators[valueset_uri]
-                has_valid_code = false
-                if check_fn
-                  has_valid_code = check_fn&.call(value)
-                  binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{value.to_json}" unless has_valid_code
+                check_code = ->coding do
+                  # ValueSet Validation
+                  check_fn = self.class.vs_validators[valueset_uri]
+                  has_valid_code = false
+                  if check_fn
+                    has_valid_code = check_fn.call(coding)
+                    binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{coding.to_json}" unless has_valid_code
+                  end
+
+                  # CodeSystem Validation
+                  unless has_valid_code
+                    check_fn = self.class.vs_validators[coding['system']]
+                    if check_fn && !check_fn.call(coding)
+                      binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{coding['system']}.  "\
+                                      "Codings evaluated: #{coding.to_json}"
+                    end
+                  end
                 end
 
-                # CodeSystem Validation
-                unless has_valid_code
-                  check_fn = self.class.vs_validators[value['system']]
-                  binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{value['system']}.  "\
-                                    "Codings evaluated: #{value.to_json}" if !check_fn&.call(value) && check_fn
+                if data_type_found == 'CodeableConcept'
+                  value['coding'].each do |coding|
+                    check_code.(coding)
+                  end
+                else
+                  check_code.(value)
                 end
 
               elsif data_type_found == 'String' && !element.maxLength.nil? && (value.size > element.maxLength)
@@ -277,13 +289,9 @@ module FHIR
           unless definition.nil?
             ret_val = false
             begin
-              # klass = Module.const_get("FHIR::DSTU2::#{data_type_code}")
-              # ret_val = definition.validates_resource?(klass.new(deep_copy(value)))
               ret_val = definition.validates_hash?(value)
-              unless ret_val
-                @errors += definition.errors
-                @warnings += definition.warnings
-              end
+              @errors += definition.errors
+              @warnings += definition.warnings
             rescue
               @errors << "Unable to verify #{data_type_code} as a FHIR::DSTU2 Resource."
             end
@@ -301,13 +309,9 @@ module FHIR
           if !definition.nil?
             ret_val = false
             begin
-              # klass = Module.const_get("FHIR::DSTU2::#{resource_type}")
-              # ret_val = definition.validates_resource?(klass.new(deep_copy(value)))
               ret_val = definition.validates_hash?(value)
-              unless ret_val
-                @errors += definition.errors
-                @warnings += definition.warnings
-              end
+              @errors += definition.errors
+              @warnings += definition.warnings
             rescue
               @errors << "Unable to verify #{resource_type} as a FHIR::DSTU2 Resource."
             end
@@ -327,13 +331,9 @@ module FHIR
           if !definition.nil?
             ret_val = false
             begin
-              # klass = Module.const_get("FHIR::DSTU2::#{data_type_code}")
-              # ret_val = definition.validates_resource?(klass.new(deep_copy(value)))
               ret_val = definition.validates_hash?(value)
-              unless ret_val
-                @errors += definition.errors
-                @warnings += definition.warnings
-              end
+              @errors += definition.errors
+              @warnings += definition.warnings
             rescue
               @errors << "Unable to verify #{data_type_code} as a FHIR::DSTU2 type."
             end
