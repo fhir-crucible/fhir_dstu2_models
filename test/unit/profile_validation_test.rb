@@ -66,6 +66,33 @@ class ProfileValidationTest < Test::Unit::TestCase
     assert_memory(before, after)
   end
 
+  def test_quantity_validation
+    FHIR::DSTU2::StructureDefinition.clear_all_validates_vs
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://unitsofmeasure.org" do |coding|
+      false
+    end
+
+    FHIR::DSTU2::StructureDefinition.validates_vs "http://loinc.org" do |coding|
+      false
+    end
+    profiles = File.read('lib/fhir_dstu2_models/definitions/structures/profiles-resources.json')
+    observation_profile = FHIR::DSTU2.from_contents(profiles).entry.find do |entry|
+      entry.resource.url == 'http://hl7.org/fhir/StructureDefinition/Observation'
+    end
+    profile = observation_profile.resource
+    assert profile, "Failed to find profile"
+
+    record = File.read('lib/fhir_dstu2_models/examples/json/observation-example-f003-co2.json')
+    observation = FHIR::DSTU2::Json.from_json(record)
+    errors = profile.validate_resource(observation)
+    warnings = profile.warnings
+    warnings.reject!{|w| w.empty?}
+    # Should
+    assert warnings.detect{|x| x.include?('http://loinc.org')}, 'Expected error on validating loinc CodeableConcept'
+    assert warnings.detect{|x| x.include?('http://unitsofmeasure.org')}, 'Expected error on validating ucum Quantity'
+    assert errors.empty?
+  end
+
   def test_profile_code_system_check
     # Clear any registered validators
     FHIR::DSTU2::StructureDefinition.clear_all_validates_vs
