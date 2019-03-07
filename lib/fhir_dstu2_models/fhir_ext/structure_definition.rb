@@ -205,35 +205,28 @@ module FHIR
                     matching_pattern = true if vcoding.system == pcoding.system && vcoding.code == pcoding.code
                   end
                 end
-              elsif data_type_found == 'CodeableConcept' && codeable_concept_binding
+              elsif ['Coding', 'Quantity'].include? data_type_found #== 'CodeableConcept' && codeable_concept_binding
                 binding_issues =
-                  if element.binding.strength == 'extensible'
-                    @warnings
-                  elsif element.binding.strength == 'required'
+                  if element&.binding&.strength == 'required'
                     @errors
-                  else # e.g., example-strength or unspecified
-                    [] # Drop issues errors on the floor, in throwaway array
+                  else
+                    @warnings
                   end
 
                 valueset_uri = element.binding && element.binding.valueSetReference && element.binding.valueSetReference.reference
-                vcc = FHIR::DSTU2::CodeableConcept.new(value)
-                if valueset_uri && self.class.vs_validators[valueset_uri]
-                  check_fn = self.class.vs_validators[valueset_uri]
-                  has_valid_code = vcc.coding && vcc.coding.any? { |c| check_fn.call(c) }
-
-                  unless has_valid_code
-                    binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{vcc.to_json}"
-                  end
+                # ValueSet Validation
+                check_fn = self.class.vs_validators[valueset_uri]
+                has_valid_code = false
+                if check_fn
+                  has_valid_code = check_fn&.call(value)
+                  binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{value.to_json}" unless has_valid_code
                 end
 
+                # CodeSystem Validation
                 unless has_valid_code
-                  vcc.coding.each do |c|
-                    check_fn = self.class.vs_validators[c.system]
-                    if check_fn && !check_fn.call(c)
-                      binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{c.system}.  "\
-                                        "Codings evaluated: #{vcc.to_json}"
-                    end
-                  end
+                  check_fn = self.class.vs_validators[value['system']]
+                  binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{value['system']}.  "\
+                                    "Codings evaluated: #{value.to_json}" if !check_fn&.call(value) && check_fn
                 end
 
               elsif data_type_found == 'String' && !element.maxLength.nil? && (value.size > element.maxLength)
