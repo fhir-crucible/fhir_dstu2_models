@@ -168,7 +168,6 @@ module FHIR
         # Check the datatype for each node, only if the element has one declared, and it isn't the root element
         if !element.type.empty? && element.path != id
           codeable_concept_pattern = element.pattern && element.pattern.is_a?(FHIR::DSTU2::CodeableConcept)
-          codeable_concept_binding = element.binding
           matching_pattern = false
           nodes.each do |value|
             matching_type = 0
@@ -205,16 +204,19 @@ module FHIR
                     matching_pattern = true if vcoding.system == pcoding.system && vcoding.code == pcoding.code
                   end
                 end
-              elsif %w[CodeableConcept Quantity].include? data_type_found
-                binding_issues =
-                  if element&.binding&.strength == 'required'
-                    @errors
-                  else
-                    @warnings
+              elsif %w[CodeableConcept Coding Quantity].include? data_type_found
+                required_strength = element&.binding&.strength == 'required'
+                binding_issues = required_strength ? @errors : @warnings
+
+                valueset_uri = element&.binding&.valueSetReference&.reference
+                check_code = ->coding do
+                  # Can't validate if both code and system are not given
+                  if coding['code'].nil? || coding['system'].nil?
+                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing required code" if coding['code'].nil? && required_strength
+                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing required system" if coding['system'].nil? && required_strength
+                    return
                   end
 
-                valueset_uri = element.binding && element.binding.valueSetReference && element.binding.valueSetReference.reference
-                check_code = ->coding do
                   # ValueSet Validation
                   check_fn = self.class.vs_validators[valueset_uri]
                   has_valid_code = false
@@ -234,11 +236,13 @@ module FHIR
                 end
 
                 if data_type_found == 'CodeableConcept'
-                  value['coding'].each do |coding|
+                  value['coding']&.each do |coding|
                     check_code.(coding)
                   end
                 else
-                  check_code.(value)
+                  # avoid checking Codings twice if they are already checked as part of a CodeableConcept
+                  # The CodeableConcept should contain the binding for the children Codings
+                  check_code.(value) unless element.path == 'CodeableConcept.coding'
                 end
 
               elsif data_type_found == 'String' && !element.maxLength.nil? && (value.size > element.maxLength)

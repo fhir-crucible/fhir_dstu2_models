@@ -87,9 +87,37 @@ class ProfileValidationTest < Test::Unit::TestCase
     errors = profile.validate_resource(observation)
     warnings = profile.warnings
     warnings.reject!{|w| w.empty?}
-    # Should
-    assert warnings.detect{|x| x.include?('http://loinc.org')}, 'Expected error on validating loinc CodeableConcept'
+    # Loinc issue should not be double counted (most likely that the CodeableConcept and internal Coding are redundantly validated)
+    assert warnings.count {|x| x.include?('http://loinc.org')} == 1, 'Expected a single error on validating loinc CodeableConcept.'
     assert warnings.detect{|x| x.include?('http://unitsofmeasure.org')}, 'Expected error on validating ucum Quantity'
+    assert errors.empty?
+  end
+
+  def test_coding_validation
+    FHIR::DSTU2::StructureDefinition.clear_all_validates_vs
+    # Provenance.reason is a CodeableConcept
+    FHIR::DSTU2::StructureDefinition.validates_vs 'http://snomed.info/sct' do |coding|
+      false
+    end
+    # Provenance.agent.role is a Coding (Not within a CodeableConcept)
+    FHIR::DSTU2::StructureDefinition.validates_vs 'http://hl7.org/fhir/provenance-participant-role' do |coding|
+      false
+    end
+    profiles = File.read('lib/fhir_dstu2_models/definitions/structures/profiles-resources.json')
+    provenance_profile = FHIR::DSTU2.from_contents(profiles).entry.find do |entry|
+      entry.resource.url == 'http://hl7.org/fhir/StructureDefinition/Provenance'
+    end
+    profile = provenance_profile.resource
+    assert profile, "Failed to find profile"
+
+    record = File.read('lib/fhir_dstu2_models/examples/json/provenance-example.json')
+    provenance = FHIR::DSTU2::Json.from_json(record)
+    errors = profile.validate_resource(provenance)
+    warnings = profile.warnings
+    warnings.reject!{|w| w.empty?}
+    # snomed issue should not be double counted (most likely that the CodeableConcept and internal Coding are redundantly validated)
+    assert warnings.count {|x| x.include?('http://snomed.info/sct')} == 1, 'Expected a single error on validating snomed CodeableConcept.'
+    assert warnings.detect{|x| x.include?('http://hl7.org/fhir/provenance-participant-role')}, 'Expected error on validating Provenance.agent.role Coding'
     assert errors.empty?
   end
 
