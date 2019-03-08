@@ -212,8 +212,8 @@ module FHIR
                 check_code = ->coding do
                   # Can't validate if both code and system are not given
                   if coding['code'].nil? || coding['system'].nil?
-                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing required code" if coding['code'].nil? && required_strength
-                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing required system" if coding['system'].nil? && required_strength
+                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing code" if coding['code'].nil?
+                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing system" if coding['system'].nil?
                     return
                   end
 
