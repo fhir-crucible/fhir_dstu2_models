@@ -168,7 +168,6 @@ module FHIR
         # Check the datatype for each node, only if the element has one declared, and it isn't the root element
         if !element.type.empty? && element.path != id
           codeable_concept_pattern = element.pattern && element.pattern.is_a?(FHIR::DSTU2::CodeableConcept)
-          codeable_concept_binding = element.binding
           matching_pattern = false
           nodes.each do |value|
             matching_type = 0
@@ -205,35 +204,45 @@ module FHIR
                     matching_pattern = true if vcoding.system == pcoding.system && vcoding.code == pcoding.code
                   end
                 end
-              elsif data_type_found == 'CodeableConcept' && codeable_concept_binding
-                binding_issues =
-                  if element.binding.strength == 'extensible'
-                    @warnings
-                  elsif element.binding.strength == 'required'
-                    @errors
-                  else # e.g., example-strength or unspecified
-                    [] # Drop issues errors on the floor, in throwaway array
+              elsif %w[CodeableConcept Coding Quantity].include? data_type_found
+                required_strength = element&.binding&.strength == 'required'
+                binding_issues = required_strength ? @errors : @warnings
+
+                valueset_uri = element&.binding&.valueSetReference&.reference
+                check_code = ->coding do
+                  # Can't validate if both code and system are not given
+                  if coding['code'].nil? || coding['system'].nil?
+                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing code" if coding['code'].nil?
+                    binding_issues << "#{describe_element(element)} code: #{coding.to_json} missing system" if coding['system'].nil?
+                    return
                   end
 
-                valueset_uri = element.binding && element.binding.valueSetReference && element.binding.valueSetReference.reference
-                vcc = FHIR::DSTU2::CodeableConcept.new(value)
-                if valueset_uri && self.class.vs_validators[valueset_uri]
+                  # ValueSet Validation
                   check_fn = self.class.vs_validators[valueset_uri]
-                  has_valid_code = vcc.coding && vcc.coding.any? { |c| check_fn.call(c) }
+                  has_valid_code = false
+                  if check_fn
+                    has_valid_code = check_fn.call(coding)
+                    binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{coding.to_json}" unless has_valid_code
+                  end
 
+                  # CodeSystem Validation
                   unless has_valid_code
-                    binding_issues << "#{describe_element(element)} has no codings from #{valueset_uri}. Codings evaluated: #{vcc.to_json}"
+                    check_fn = self.class.vs_validators[coding['system']]
+                    if check_fn && !check_fn.call(coding)
+                      binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{coding['system']}.  "\
+                                      "Codings evaluated: #{coding.to_json}"
+                    end
                   end
                 end
 
-                unless has_valid_code
-                  vcc.coding.each do |c|
-                    check_fn = self.class.vs_validators[c.system]
-                    if check_fn && !check_fn.call(c)
-                      binding_issues << "#{describe_element(element)} has no codings from it's specified system: #{c.system}.  "\
-                                        "Codings evaluated: #{vcc.to_json}"
-                    end
+                if data_type_found == 'CodeableConcept'
+                  value['coding']&.each do |coding|
+                    check_code.(coding)
                   end
+                else
+                  # avoid checking Codings twice if they are already checked as part of a CodeableConcept
+                  # The CodeableConcept should contain the binding for the children Codings
+                  check_code.(value) unless element.path == 'CodeableConcept.coding'
                 end
 
               elsif data_type_found == 'String' && !element.maxLength.nil? && (value.size > element.maxLength)
@@ -284,13 +293,9 @@ module FHIR
           unless definition.nil?
             ret_val = false
             begin
-              # klass = Module.const_get("FHIR::DSTU2::#{data_type_code}")
-              # ret_val = definition.validates_resource?(klass.new(deep_copy(value)))
               ret_val = definition.validates_hash?(value)
-              unless ret_val
-                @errors += definition.errors
-                @warnings += definition.warnings
-              end
+              @errors += definition.errors
+              @warnings += definition.warnings
             rescue
               @errors << "Unable to verify #{data_type_code} as a FHIR::DSTU2 Resource."
             end
@@ -308,13 +313,9 @@ module FHIR
           if !definition.nil?
             ret_val = false
             begin
-              # klass = Module.const_get("FHIR::DSTU2::#{resource_type}")
-              # ret_val = definition.validates_resource?(klass.new(deep_copy(value)))
               ret_val = definition.validates_hash?(value)
-              unless ret_val
-                @errors += definition.errors
-                @warnings += definition.warnings
-              end
+              @errors += definition.errors
+              @warnings += definition.warnings
             rescue
               @errors << "Unable to verify #{resource_type} as a FHIR::DSTU2 Resource."
             end
@@ -334,13 +335,9 @@ module FHIR
           if !definition.nil?
             ret_val = false
             begin
-              # klass = Module.const_get("FHIR::DSTU2::#{data_type_code}")
-              # ret_val = definition.validates_resource?(klass.new(deep_copy(value)))
               ret_val = definition.validates_hash?(value)
-              unless ret_val
-                @errors += definition.errors
-                @warnings += definition.warnings
-              end
+              @errors += definition.errors
+              @warnings += definition.warnings
             rescue
               @errors << "Unable to verify #{data_type_code} as a FHIR::DSTU2 type."
             end
