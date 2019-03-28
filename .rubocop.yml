@@ -1,6 +1,6 @@
 inherit_from: .rubocop_todo.yml
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.4
   Exclude:
     - 'test/**/*'
     - 'spec/**/*'
@@ -11,4 +11,7 @@ AllCops:
     - 'bin/*'
     - 'vendor/**/*'
 Metrics/LineLength:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false
