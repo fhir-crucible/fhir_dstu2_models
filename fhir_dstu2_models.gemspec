@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri', '>= 1.8.2'
   spec.add_dependency 'date_time_precision', '>= 0.8'
   spec.add_dependency 'bcp47', '>= 0.3'
-  spec.add_dependency 'mime-types', '>= 1.16', '< 3'
+  spec.add_dependency 'mime-types', '>= 3.0'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
