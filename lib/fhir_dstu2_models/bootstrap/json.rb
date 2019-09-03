@@ -1,3 +1,5 @@
+require 'json'
+
 module FHIR
   module DSTU2
     module Json
