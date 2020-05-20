@@ -183,7 +183,7 @@ module FHIR
                 field.path = element['path'].gsub(path_type, type_name)
                 field.type = data_type
                 field.type = 'Extension' if field.path.end_with?('extension')
-                field.type_profiles = profiles if %w[Reference Extension].include?(datatype)
+                field.type_profiles = profiles if %w[Reference Extension].include?(data_type)
                 field.min = element['min']
                 field.max = element['max']
                 field.max = field.max.to_i
