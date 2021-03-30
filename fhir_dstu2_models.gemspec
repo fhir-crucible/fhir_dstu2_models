@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = FHIR::DSTU2::Models::VERSION
   spec.authors       = ['Jason Walonoski', 'Andre Quina', "Michael O'Keefe", 'Robert Scanlon']
   spec.email         = ['jwalonoski@mitre.org']
+  spec.licenses      = ['Apache-2.0']
 
   spec.summary       = %q{A Gem for handling FHIR DSTU2 models in ruby}
   spec.description   = %q{A Gem for handling FHIR DSTU2 models in ruby}
