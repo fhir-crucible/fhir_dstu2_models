@@ -69,7 +69,7 @@ puts sd.warnings
 ```
 # License
 
-Copyright 2014-2018 The MITRE Corporation
+Copyright 2014-2021 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
