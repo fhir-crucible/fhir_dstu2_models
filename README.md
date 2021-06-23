@@ -51,6 +51,16 @@ obs.valueQuantity = FHIR::DSTU2::Quantity.new(
 )
 ```
 
+Iterating over all elements in a resource, including nested elements...
+  ```ruby
+  patient.each_element do |value, metadata, path|
+    puts "Info for #{path}:"
+    puts "- value: #{value}"
+    puts "- type: #{metadata['type']}"
+    puts "- cardinality: #{metadata['min']}..#{metadata['max']}"
+  end
+  ```
+
 ### Validation
 
 Using built in validation...

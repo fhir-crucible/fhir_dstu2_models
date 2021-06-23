@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'nokogiri', '>= 1.10.4'
+  spec.add_dependency 'nokogiri', '>= 1.11.4'
   spec.add_dependency 'date_time_precision', '>= 0.8'
   spec.add_dependency 'bcp47', '>= 0.3'
   spec.add_dependency 'mime-types', '>= 3.0'
