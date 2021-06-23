@@ -302,6 +302,27 @@ module FHIR
         valid
       end
 
+      def each_element(path = nil, &block)
+        self.class::METADATA.each do |element_name, metadata|
+          local_name = metadata.fetch :local_name, element_name
+          values = [instance_variable_get("@#{local_name}")].flatten.compact
+          next if values.empty?
+
+          values.each_with_index do |value, i|
+            child_path =
+              if path.nil?
+                element_name
+              else
+                "#{path}.#{element_name}"
+              end
+            child_path += "[#{i}]" if metadata['max'] > 1
+            yield value, metadata, child_path
+            value.each_element child_path, &block unless FHIR::DSTU2::PRIMITIVES.include? metadata['type']
+          end
+        end
+        self
+      end
+
       private :validate_reference_type, :check_binding_uri, :validate_field
     end
   end
