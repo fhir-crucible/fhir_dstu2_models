@@ -56,7 +56,7 @@ module FHIR
             return ext.first.value.nil? ? ext.first : ext.first.value
           end
         end
-        raise NoMethodError.new("undefined method `#{method}' for #{inspect}", method)
+        raise NoMethodError.new("undefined method `#{method}' for #{self.class.name}", method)
       end
 
       def to_reference
