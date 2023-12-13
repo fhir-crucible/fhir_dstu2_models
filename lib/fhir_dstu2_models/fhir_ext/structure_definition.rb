@@ -61,7 +61,7 @@ module FHIR
         if json.is_a? String
           begin
             json = JSON.parse(json)
-          rescue => e
+          rescue StandardError => e
             @errors << "Failed to parse JSON: #{e.message} %n #{h} %n #{e.backtrace.join("\n")}"
             return false
           end
@@ -105,11 +105,12 @@ module FHIR
         return [json] if path.nil?
         steps = path.split('.')
         steps.each.with_index do |step, index|
-          if json.is_a? Hash
+          case json
+          when Hash
             json = json[step]
-          elsif json.is_a? Array
+          when Array
             json.each do |e|
-              results << get_json_nodes(e, steps[index..-1].join('.'))
+              results << get_json_nodes(e, steps[index..].join('.'))
             end
             return results.flatten!
           else
@@ -129,11 +130,11 @@ module FHIR
 
       def verify_element(element, json)
         path = element.local_name || element.path
-        path = path[(@hierarchy.path.size + 1)..-1] if path.start_with? @hierarchy.path
+        path = path[(@hierarchy.path.size + 1)..] if path.start_with? @hierarchy.path
 
         begin
           data_type_found = element.type.first.code
-        rescue
+        rescue StandardError
           data_type_found = nil
         end
 
@@ -167,7 +168,7 @@ module FHIR
         return if nodes.empty?
         # Check the datatype for each node, only if the element has one declared, and it isn't the root element
         if !element.type.empty? && element.path != id
-          codeable_concept_pattern = element.pattern && element.pattern.is_a?(FHIR::DSTU2::CodeableConcept)
+          codeable_concept_pattern = element.pattern&.is_a?(FHIR::DSTU2::CodeableConcept)
           matching_pattern = false
           nodes.each do |value|
             matching_type = 0
@@ -204,7 +205,7 @@ module FHIR
                     matching_pattern = true if vcoding.system == pcoding.system && vcoding.code == pcoding.code
                   end
                 end
-              elsif %w[CodeableConcept Coding Quantity].include? data_type_found
+              elsif ['CodeableConcept', 'Coding', 'Quantity'].include? data_type_found
                 required_strength = element&.binding&.strength == 'required'
                 binding_issues = required_strength ? @errors : @warnings
 
@@ -296,7 +297,7 @@ module FHIR
               ret_val = definition.validates_hash?(value)
               @errors += definition.errors
               @warnings += definition.warnings
-            rescue
+            rescue StandardError
               @errors << "Unable to verify #{data_type_code} as a FHIR::DSTU2 Resource."
             end
             return ret_val
@@ -316,7 +317,7 @@ module FHIR
               ret_val = definition.validates_hash?(value)
               @errors += definition.errors
               @warnings += definition.warnings
-            rescue
+            rescue StandardError
               @errors << "Unable to verify #{resource_type} as a FHIR::DSTU2 Resource."
             end
             ret_val
@@ -338,7 +339,7 @@ module FHIR
               ret_val = definition.validates_hash?(value)
               @errors += definition.errors
               @warnings += definition.warnings
-            rescue
+            rescue StandardError
               @errors << "Unable to verify #{data_type_code} as a FHIR::DSTU2 type."
             end
             ret_val
@@ -356,13 +357,13 @@ module FHIR
 
         matching_type = 0
 
-        if %w[http://hl7.org/fhir/ValueSet/content-type http://www.rfc-editor.org/bcp/bcp13.txt].include?(vs_uri)
+        if ['http://hl7.org/fhir/ValueSet/content-type', 'http://www.rfc-editor.org/bcp/bcp13.txt'].include?(vs_uri)
           matches = MIME::Types[value]
           if (matches.nil? || matches.size.zero?) && !some_type_of_xml_or_json?(value)
             @errors << "#{element.path} has invalid mime-type: '#{value}'"
             matching_type -= 1 if element.binding.strength == 'required'
           end
-        elsif %w[http://hl7.org/fhir/ValueSet/languages http://tools.ietf.org/html/bcp47].include?(vs_uri)
+        elsif ['http://hl7.org/fhir/ValueSet/languages', 'http://tools.ietf.org/html/bcp47'].include?(vs_uri)
           has_region = !(value =~ /-/).nil?
           valid = !BCP47::Language.identify(value.downcase).nil? && (!has_region || !BCP47::Region.identify(value.upcase).nil?)
           unless valid
@@ -395,7 +396,7 @@ module FHIR
 
       def some_type_of_xml_or_json?(code)
         m = code.downcase
-        return true if %w[xml json].include?(m)
+        return true if ['xml', 'json'].include?(m)
         return true if (m.starts_with?('application/') || m.starts_with?('text/')) && (m.ends_with?('json') || m.ends_with?('xml'))
         return true if m.starts_with?('application/xml') || m.starts_with?('text/xml')
         return true if m.starts_with?('application/json') || m.starts_with?('text/json')

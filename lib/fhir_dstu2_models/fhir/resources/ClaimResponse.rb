@@ -163,7 +163,6 @@ module FHIR
             include FHIR::DSTU2::Json
             include FHIR::DSTU2::Xml
 
-
           end
 
           attr_accessor :id                # 0-1 id

@@ -8,7 +8,7 @@ module FHIR
       MULTIPLE_TYPES = {
         'who' => ['uri', 'Reference']
       }
-      SEARCH_PARAMS = 
+      SEARCH_PARAMS =
       METADATA = {
         'id' => {'type'=>'id', 'path'=>'Signature.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Signature.extension', 'min'=>0, 'max'=>Float::INFINITY},

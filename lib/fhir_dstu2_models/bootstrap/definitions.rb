@@ -161,7 +161,7 @@ module FHIR
             load f
             # set the return class type
             klass = Object.const_get("FHIR::DSTU2::Profile::#{id}::#{type}")
-          rescue
+          rescue StandardError
             FHIR::DSTU2.logger.error "Failed to generate class for profile #{uri}"
           end
           # unlink the file so it can be garbage collected
@@ -234,7 +234,7 @@ module FHIR
                                          []
                                        end
               end
-              x['concept'].each { |y| @@cache[uri][system] += get_codes_from_concept(y, parent_code) } if x['concept']
+              x['concept']&.each { |y| @@cache[uri][system] += get_codes_from_concept(y, parent_code) }
               next unless x['filter']
               x['filter'].each do |filter|
                 if filter['property'] == 'concept' && filter['op'] == 'is-a'
@@ -255,7 +255,7 @@ module FHIR
                                            []
                                          end
                 end
-                x['concept'].each { |y| @@cache[uri][system].delete(y['code']) } if x['concept']
+                x['concept']&.each { |y| @@cache[uri][system].delete(y['code']) }
               end
             end
           end
@@ -296,7 +296,7 @@ module FHIR
           end
         end
         codes
-      rescue => e
+      rescue StandardError => e
         FHIR::DSTU2.logger.debug "Unable to extract codes from concept #{concept}: #{e.message}"
       end
 
