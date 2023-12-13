@@ -36,6 +36,7 @@ module FHIR
         hash.each do |key, value|
           next if ['extension', 'modifierExtension'].include?(name) && key == 'url'
           next if key == 'id' && !FHIR::DSTU2::RESOURCES.include?(name)
+
           case value
           when Hash
             node.add_child(hash_to_xml_node(key, value, doc))

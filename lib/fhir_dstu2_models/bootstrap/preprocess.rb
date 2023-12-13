@@ -18,6 +18,7 @@ module FHIR
           # Remove unnecessary elements from the hash
           hash['entry'].each do |entry|
             next unless entry['resource']
+
             pre_process_structuredefinition(entry['resource']) if entry['resource']['resourceType'] == 'StructureDefinition'
             pre_process_valueset(entry['resource']) if entry['resource']['resourceType'] == 'ValueSet'
             pre_process_codesystem(entry['resource']) if entry['resource']['resourceType'] == 'CodeSystem'
@@ -40,6 +41,7 @@ module FHIR
           # Remove unused descriptions within the snapshot and differential elements
           ['snapshot', 'differential'].each do |key|
             next unless hash[key]
+
             hash[key]['element'].each do |element|
               ['short', 'definition', 'comments', 'requirements', 'alias', 'mapping'].each { |subkey| element.delete(subkey) }
             end
@@ -51,10 +53,13 @@ module FHIR
           ['meta', 'text', 'publisher', 'contact', 'description', 'requirements'].each { |key| hash.delete(key) }
 
           return unless hash['compose']
+
           ['include', 'exclude'].each do |key|
             next unless hash['compose'][key]
+
             hash['compose'][key].each do |element|
               next unless element['concept']
+
               element['concept'].each do |concept|
                 concept.delete('designation')
               end
@@ -66,6 +71,7 @@ module FHIR
           # Remove large HTML narratives and unused content
           ['meta', 'text', 'publisher', 'contact', 'description', 'requirements'].each { |key| hash.delete(key) }
           return unless hash['concept']
+
           hash['concept'].each do |concept|
             pre_process_codesystem_concept(concept)
           end
@@ -74,6 +80,7 @@ module FHIR
         def self.pre_process_codesystem_concept(hash)
           ['extension', 'definition', 'designation'].each { |key| hash.delete(key) }
           return unless hash['concept']
+
           hash['concept'].each do |concept|
             pre_process_codesystem_concept(concept)
           end

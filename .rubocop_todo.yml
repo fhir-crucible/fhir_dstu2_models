@@ -12,23 +12,6 @@
 Layout/AssignmentIndentation:
   Enabled: false
 
-# Offense count: 55
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'lib/fhir_dstu2_models/bootstrap/definitions.rb'
-    - 'lib/fhir_dstu2_models/bootstrap/generator.rb'
-    - 'lib/fhir_dstu2_models/bootstrap/hashable.rb'
-    - 'lib/fhir_dstu2_models/bootstrap/model.rb'
-    - 'lib/fhir_dstu2_models/bootstrap/preprocess.rb'
-    - 'lib/fhir_dstu2_models/bootstrap/xml.rb'
-    - 'lib/fhir_dstu2_models/deprecate.rb'
-    - 'lib/fhir_dstu2_models/fhir_ext/element_definition.rb'
-    - 'lib/fhir_dstu2_models/fhir_ext/structure_definition.rb'
-    - 'lib/fhir_dstu2_models/fhir_ext/structure_definition_compare.rb'
-    - 'lib/fhir_dstu2_models/fluentpath/evaluate.rb'
-    - 'lib/fhir_dstu2_models/fluentpath/parse.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

@@ -103,6 +103,7 @@ module FHIR
       def get_json_nodes(json, path)
         results = []
         return [json] if path.nil?
+
         steps = path.split('.')
         steps.each.with_index do |step, index|
           case json
@@ -166,6 +167,7 @@ module FHIR
         end
 
         return if nodes.empty?
+
         # Check the datatype for each node, only if the element has one declared, and it isn't the root element
         if !element.type.empty? && element.path != id
           codeable_concept_pattern = element.pattern&.is_a?(FHIR::DSTU2::CodeableConcept)
@@ -278,6 +280,7 @@ module FHIR
 
         # check children if the element has any
         return unless element.children
+
         nodes.each do |node|
           element.children.each do |child|
             verify_element(child, node)
@@ -400,6 +403,7 @@ module FHIR
         return true if (m.starts_with?('application/') || m.starts_with?('text/')) && (m.ends_with?('json') || m.ends_with?('xml'))
         return true if m.starts_with?('application/xml') || m.starts_with?('text/xml')
         return true if m.starts_with?('application/json') || m.starts_with?('text/json')
+
         false
       end
       deprecate :is_some_type_of_xml_or_json, :some_type_of_xml_or_json?

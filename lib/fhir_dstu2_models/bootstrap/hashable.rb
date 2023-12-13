@@ -39,6 +39,7 @@ module FHIR
           key = key.to_s
           meta = self.class::METADATA[key]
           next if meta.nil?
+
           local_name = key
           local_name = meta['local_name'] if meta['local_name']
           begin

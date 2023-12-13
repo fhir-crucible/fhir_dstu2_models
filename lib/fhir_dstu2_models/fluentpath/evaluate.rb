@@ -21,11 +21,13 @@ module FluentPath
       return 'http://snomed.info/sct' if key == '%sct'
       return 'http://loinc.org' if key == '%loinc'
       return key.gsub!(/\A'|'\Z/, '') if key.start_with?("'") && key.end_with?("'")
+
       key.gsub!(/\A"|"\Z/, '') # remove quotes around path if they exist
       if hash.is_a?(Array)
         response = []
         hash.each do |e|
           next unless e.is_a?(Hash)
+
           item = e[key]
           if item.is_a?(Array)
             item.each { |i| response << i }
@@ -37,6 +39,7 @@ module FluentPath
       end
       return :null unless hash.is_a?(Hash)
       return hash if hash['resourceType'] == key
+
       val = hash[key]
       if val.nil?
         # this block is a dangerous hack to get fields of multiple data types
@@ -60,6 +63,7 @@ module FluentPath
       return false if value.is_a?(Hash) && value.empty?
       return false if value == :null
       return false if value == false
+
       true
     end
 

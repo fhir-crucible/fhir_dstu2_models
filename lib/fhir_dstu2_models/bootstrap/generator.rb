@@ -120,6 +120,7 @@ module FHIR
             # skip the first element
             next if element['path'] == path_type
             next unless element['type']
+
             unique_types = element['type'].map { |t| t['code'] }.uniq
             if unique_types.include?('Element') || unique_types.include?('BackboneElement')
               child_templates << element['path']
@@ -129,6 +130,7 @@ module FHIR
           child_templates.each do |child_name|
             child_fixed_name = cap_first(child_name.gsub("#{type_name}.", ''))
             next if child_fixed_name.include?('.')
+
             child_def = { 'id' => child_fixed_name, 'snapshot' => { 'element' => [] } }
             # Copy the element definitions for the child structure
             structure_def['snapshot']['element'].each do |element|

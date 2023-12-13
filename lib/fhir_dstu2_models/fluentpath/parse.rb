@@ -45,6 +45,7 @@ module FluentPath
     def self.reassemble_strings(tokens)
       tokens.each_with_index do |token, index|
         next unless token.is_a?(String)
+
         e_index = nil
         if token.start_with?('"') && !token.end_with?('"')
           e_index = tokens[index..].index { |t| t.end_with?('"') }
@@ -52,6 +53,7 @@ module FluentPath
           e_index = tokens[index..].index { |t| t.end_with?("'") }
         end
         next unless e_index
+
         i = index + 1
         while i <= index + e_index
           tokens[index] += tokens[i]
@@ -64,6 +66,7 @@ module FluentPath
     # This method builds an Abstract Syntax Tree (AST) from a flat list of tokens
     def self.build_tree(tokens)
       return if tokens.empty?
+
       tree = []
       until tokens.empty?
         token = tokens.delete_at(0)

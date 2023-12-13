@@ -66,6 +66,7 @@ module FHIR
       def equals?(other, exclude = [])
         self.class::METADATA.each do |key, value|
           next if exclude.include?(key)
+
           local_name = key
           local_name = value['local_name'] if value['local_name']
           return false unless compare_attribute(instance_variable_get("@#{local_name}".to_sym), other.instance_variable_get("@#{local_name}".to_sym), exclude)
@@ -77,6 +78,7 @@ module FHIR
         misses = []
         self.class::METADATA.each do |key, value|
           next if exclude.include?(key)
+
           local_name = key
           local_name = value['local_name'] if value['local_name']
           these = attribute_mismatch(instance_variable_get("@#{local_name}".to_sym), other.instance_variable_get("@#{local_name}".to_sym), exclude)
@@ -166,6 +168,7 @@ module FHIR
           errors[prefix] = ["#{prefix}[x]: more than one type present."] if present.length > 1
           # remove errors for suffixes that are not present
           next unless present.length == 1
+
           suffixes.each do |suffix|
             typename = "#{prefix}#{suffix[0].upcase}#{suffix[1..]}"
             errors.delete(typename) unless present.include?(typename)
@@ -230,6 +233,7 @@ module FHIR
           # check binding
           next unless meta['binding']
           next unless meta['binding']['strength'] == 'required'
+
           the_codes = [v]
           case meta['type']
           when 'Coding'
@@ -257,6 +261,7 @@ module FHIR
       def validate_reference_type(ref, meta, contained_here, errors)
         return unless ref.reference && meta['type_profiles']
         return if ref.reference.start_with?('urn:uuid:', 'urn:oid:')
+
         matches_one_profile = false
         meta['type_profiles'].each do |p|
           basetype = p.split('/').last

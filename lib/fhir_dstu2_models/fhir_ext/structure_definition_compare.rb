@@ -57,6 +57,7 @@ module FHIR
         # generate warnings for missing fields (ignoring extensions)
         left_missing.each do |e|
           next if e.include? 'extension'
+
           elem = get_element_by_path(e, right_elements)
           if !elem.min.nil? && elem.min > 0
             @errors << @finding.error(e, 'min', 'Missing REQUIRED element', 'Missing', elem.min.to_s)
@@ -68,6 +69,7 @@ module FHIR
         end
         right_missing.each do |e|
           next if e.include? 'extension'
+
           elem = get_element_by_path(e, left_elements)
           if !elem.min.nil? && elem.min > 0
             @errors << @finding.error(e, 'min', 'Missing REQUIRED element', elem.min.to_s, 'Missing')
@@ -114,6 +116,7 @@ module FHIR
           end
           y = get_extension(x.type[0].profile, right_extensions)
           next unless !y.nil? && x.name != y.name
+
           # both profiles share the same extension definition but with a different name
           checked_extensions << x.name
           checked_extensions << y.name
@@ -121,6 +124,7 @@ module FHIR
         end
         right_extensions.each do |y|
           next if checked_extensions.include?(y.name)
+
           x = get_extension(y.name, left_extensions)
           unless x.nil?
             # both profiles share an extension with the same name
@@ -129,6 +133,7 @@ module FHIR
           end
           x = get_extension(y.type[0].profile, left_extensions)
           next unless !x.nil? && x.name != y.name && !checked_extensions.include?(x.name)
+
           # both profiles share the same extension definition but with a different name
           checked_extensions << x.name
           checked_extensions << y.name
@@ -180,13 +185,16 @@ module FHIR
           x = path.split('.')
           root = x.first(x.size - 1).join('.')
           next unless root.include? '.'
+
           # get the root element to fill in the details
           elem = get_element_by_path(root, elements)
           # get the data type definition to fill in the details
           # assume missing elements are from first data type (gross)
           next if elem.type.nil? || elem.type.empty?
+
           type_def = FHIR::DSTU2::Definitions.type_definition(elem.type[0].code)
           next if type_def.nil?
+
           type_elements = Array.new(type_def.snapshot.element)
           # _DEEP_ copy
           type_elements.map! do |e| # {|e| FHIR::DSTU2::ElementDefinition.from_fhir_json(e.to_fhir_json) }
@@ -200,6 +208,7 @@ module FHIR
           type_elements.each do |z|
             y = get_element_by_path(z.path, elements)
             next unless y.nil?
+
             elements << z
             # else
             #   @warnings << "StructureDefinition #{name} already contains #{z.path}"
@@ -368,6 +377,7 @@ module FHIR
 
         # isModifier
         return unless x.isModifier != y.isModifier
+
         @errors << @finding.error(x.path.to_s, 'isModifier', 'Incompatible isModifier', (x.isModifier || false).to_s, (y.isModifier || false).to_s)
       end
 
