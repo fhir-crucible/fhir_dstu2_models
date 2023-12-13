@@ -6,12 +6,12 @@ module FHIR
       include FHIR::DSTU2::Xml
 
       SEARCH_PARAMS =
-      METADATA = {
-        'id' => {'type'=>'id', 'path'=>'Range.id', 'min'=>0, 'max'=>1},
-        'extension' => {'type'=>'Extension', 'path'=>'Range.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'low' => {'type'=>'Quantity', 'path'=>'Range.low', 'min'=>0, 'max'=>1},
-        'high' => {'type'=>'Quantity', 'path'=>'Range.high', 'min'=>0, 'max'=>1}
-      }
+        METADATA = {
+          'id' => {'type'=>'id', 'path'=>'Range.id', 'min'=>0, 'max'=>1},
+          'extension' => {'type'=>'Extension', 'path'=>'Range.extension', 'min'=>0, 'max'=>Float::INFINITY},
+          'low' => {'type'=>'Quantity', 'path'=>'Range.low', 'min'=>0, 'max'=>1},
+          'high' => {'type'=>'Quantity', 'path'=>'Range.high', 'min'=>0, 'max'=>1}
+        }
 
       attr_accessor :id        # 0-1 id
       attr_accessor :extension # 0-* [ Extension ]

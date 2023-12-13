@@ -6,13 +6,13 @@ module FHIR
       include FHIR::DSTU2::Xml
 
       SEARCH_PARAMS =
-      METADATA = {
-        'id' => {'type'=>'id', 'path'=>'Timing.id', 'min'=>0, 'max'=>1},
-        'extension' => {'type'=>'Extension', 'path'=>'Timing.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'event' => {'type'=>'dateTime', 'path'=>'Timing.event', 'min'=>0, 'max'=>Float::INFINITY},
-        'repeat' => {'type'=>'Timing::Repeat', 'path'=>'Timing.repeat', 'min'=>0, 'max'=>1},
-        'code' => {'valid_codes'=>{'http://hl7.org/fhir/timing-abbreviation'=>['QD', 'QOD', 'Q4H', 'Q6H'], 'http://hl7.org/fhir/v3/GTSAbbreviation'=>['AM', 'BID', 'JB', 'JE', 'JH', '_GTSAbbreviationHolidaysChristianRoman', 'JHCHREAS', 'JHCHRGFR', 'JHCHRNEW', 'JHCHRPEN', 'JHCHRXME', 'JHCHRXMS', 'JHNNL', 'JHNNLLD', 'JHNNLQD', 'JHNNLSK', 'JHNUS', 'JHNUSCLM', 'JHNUSIND', 'JHNUSIND1', 'JHNUSIND5', 'JHNUSLBR', 'JHNUSMEM', 'JHNUSMEM5', 'JHNUSMEM6', 'JHNUSMLK', 'JHNUSPRE', 'JHNUSTKS', 'JHNUSTKS5', 'JHNUSVET', 'PM', 'QID', 'TID']}, 'type'=>'CodeableConcept', 'path'=>'Timing.code', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'preferred', 'uri'=>'http://hl7.org/fhir/ValueSet/timing-abbreviation'}}
-      }
+        METADATA = {
+          'id' => {'type'=>'id', 'path'=>'Timing.id', 'min'=>0, 'max'=>1},
+          'extension' => {'type'=>'Extension', 'path'=>'Timing.extension', 'min'=>0, 'max'=>Float::INFINITY},
+          'event' => {'type'=>'dateTime', 'path'=>'Timing.event', 'min'=>0, 'max'=>Float::INFINITY},
+          'repeat' => {'type'=>'Timing::Repeat', 'path'=>'Timing.repeat', 'min'=>0, 'max'=>1},
+          'code' => {'valid_codes'=>{'http://hl7.org/fhir/timing-abbreviation'=>['QD', 'QOD', 'Q4H', 'Q6H'], 'http://hl7.org/fhir/v3/GTSAbbreviation'=>['AM', 'BID', 'JB', 'JE', 'JH', '_GTSAbbreviationHolidaysChristianRoman', 'JHCHREAS', 'JHCHRGFR', 'JHCHRNEW', 'JHCHRPEN', 'JHCHRXME', 'JHCHRXMS', 'JHNNL', 'JHNNLLD', 'JHNNLQD', 'JHNNLSK', 'JHNUS', 'JHNUSCLM', 'JHNUSIND', 'JHNUSIND1', 'JHNUSIND5', 'JHNUSLBR', 'JHNUSMEM', 'JHNUSMEM5', 'JHNUSMEM6', 'JHNUSMLK', 'JHNUSPRE', 'JHNUSTKS', 'JHNUSTKS5', 'JHNUSVET', 'PM', 'QID', 'TID']}, 'type'=>'CodeableConcept', 'path'=>'Timing.code', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'preferred', 'uri'=>'http://hl7.org/fhir/ValueSet/timing-abbreviation'}}
+        }
 
       class Repeat < FHIR::DSTU2::Model
         include FHIR::DSTU2::Hashable
