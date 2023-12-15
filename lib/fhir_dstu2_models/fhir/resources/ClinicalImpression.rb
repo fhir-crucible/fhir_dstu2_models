@@ -10,32 +10,32 @@ module FHIR
       }
       SEARCH_PARAMS = ['action', 'assessor', 'date', 'finding', 'investigation', 'patient', 'plan', 'previous', 'problem', 'resolved', 'ruledout', 'status', 'trigger', 'trigger-code']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'ClinicalImpression.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'ClinicalImpression.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'ClinicalImpression.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'ClinicalImpression.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'ClinicalImpression.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'ClinicalImpression.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'ClinicalImpression.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'ClinicalImpression.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'patient' => {'type'=>'Reference', 'path'=>'ClinicalImpression.patient', 'min'=>1, 'max'=>1},
-        'assessor' => {'type'=>'Reference', 'path'=>'ClinicalImpression.assessor', 'min'=>0, 'max'=>1},
-        'status' => {'valid_codes'=>{'http://hl7.org/fhir/clinical-impression-status'=>['in-progress', 'completed', 'entered-in-error']}, 'type'=>'code', 'path'=>'ClinicalImpression.status', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/clinical-impression-status'}},
-        'date' => {'type'=>'dateTime', 'path'=>'ClinicalImpression.date', 'min'=>0, 'max'=>1},
-        'description' => {'type'=>'string', 'path'=>'ClinicalImpression.description', 'min'=>0, 'max'=>1},
-        'previous' => {'type'=>'Reference', 'path'=>'ClinicalImpression.previous', 'min'=>0, 'max'=>1},
-        'problem' => {'type'=>'Reference', 'path'=>'ClinicalImpression.problem', 'min'=>0, 'max'=>Float::INFINITY},
-        'triggerCodeableConcept' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'ClinicalImpression.trigger[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/clinical-findings'}},
-        'triggerReference' => {'type'=>'Reference', 'path'=>'ClinicalImpression.trigger[x]', 'min'=>0, 'max'=>1},
-        'investigations' => {'type'=>'ClinicalImpression::Investigations', 'path'=>'ClinicalImpression.investigations', 'min'=>0, 'max'=>Float::INFINITY},
-        'protocol' => {'type'=>'uri', 'path'=>'ClinicalImpression.protocol', 'min'=>0, 'max'=>1},
-        'summary' => {'type'=>'string', 'path'=>'ClinicalImpression.summary', 'min'=>0, 'max'=>1},
-        'finding' => {'type'=>'ClinicalImpression::Finding', 'path'=>'ClinicalImpression.finding', 'min'=>0, 'max'=>Float::INFINITY},
-        'resolved' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'ClinicalImpression.resolved', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/condition-code'}},
-        'ruledOut' => {'type'=>'ClinicalImpression::RuledOut', 'path'=>'ClinicalImpression.ruledOut', 'min'=>0, 'max'=>Float::INFINITY},
-        'prognosis' => {'type'=>'string', 'path'=>'ClinicalImpression.prognosis', 'min'=>0, 'max'=>1},
-        'plan' => {'type'=>'Reference', 'path'=>'ClinicalImpression.plan', 'min'=>0, 'max'=>Float::INFINITY},
-        'action' => {'type'=>'Reference', 'path'=>'ClinicalImpression.action', 'min'=>0, 'max'=>Float::INFINITY}
+        'id' => { 'type' => 'id', 'path' => 'ClinicalImpression.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'ClinicalImpression.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'ClinicalImpression.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'ClinicalImpression.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'ClinicalImpression.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'ClinicalImpression.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'ClinicalImpression.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'ClinicalImpression.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'patient' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.patient', 'min' => 1, 'max' => 1 },
+        'assessor' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.assessor', 'min' => 0, 'max' => 1 },
+        'status' => { 'valid_codes' => { 'http://hl7.org/fhir/clinical-impression-status' => ['in-progress', 'completed', 'entered-in-error'] }, 'type' => 'code', 'path' => 'ClinicalImpression.status', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/clinical-impression-status' } },
+        'date' => { 'type' => 'dateTime', 'path' => 'ClinicalImpression.date', 'min' => 0, 'max' => 1 },
+        'description' => { 'type' => 'string', 'path' => 'ClinicalImpression.description', 'min' => 0, 'max' => 1 },
+        'previous' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.previous', 'min' => 0, 'max' => 1 },
+        'problem' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.problem', 'min' => 0, 'max' => Float::INFINITY },
+        'triggerCodeableConcept' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'ClinicalImpression.trigger[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/clinical-findings' } },
+        'triggerReference' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.trigger[x]', 'min' => 0, 'max' => 1 },
+        'investigations' => { 'type' => 'ClinicalImpression::Investigations', 'path' => 'ClinicalImpression.investigations', 'min' => 0, 'max' => Float::INFINITY },
+        'protocol' => { 'type' => 'uri', 'path' => 'ClinicalImpression.protocol', 'min' => 0, 'max' => 1 },
+        'summary' => { 'type' => 'string', 'path' => 'ClinicalImpression.summary', 'min' => 0, 'max' => 1 },
+        'finding' => { 'type' => 'ClinicalImpression::Finding', 'path' => 'ClinicalImpression.finding', 'min' => 0, 'max' => Float::INFINITY },
+        'resolved' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'ClinicalImpression.resolved', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/condition-code' } },
+        'ruledOut' => { 'type' => 'ClinicalImpression::RuledOut', 'path' => 'ClinicalImpression.ruledOut', 'min' => 0, 'max' => Float::INFINITY },
+        'prognosis' => { 'type' => 'string', 'path' => 'ClinicalImpression.prognosis', 'min' => 0, 'max' => 1 },
+        'plan' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.plan', 'min' => 0, 'max' => Float::INFINITY },
+        'action' => { 'type' => 'Reference', 'path' => 'ClinicalImpression.action', 'min' => 0, 'max' => Float::INFINITY }
       }
 
       class Investigations < FHIR::DSTU2::Model
@@ -44,11 +44,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Investigations.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Investigations.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Investigations.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'code' => {'valid_codes'=>{'http://snomed.info/sct'=>['271336007', '160237006']}, 'type'=>'CodeableConcept', 'path'=>'Investigations.code', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/investigation-sets'}},
-          'item' => {'type'=>'Reference', 'path'=>'Investigations.item', 'min'=>0, 'max'=>Float::INFINITY}
+          'id' => { 'type' => 'id', 'path' => 'Investigations.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Investigations.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Investigations.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'code' => { 'valid_codes' => { 'http://snomed.info/sct' => ['271336007', '160237006'] }, 'type' => 'CodeableConcept', 'path' => 'Investigations.code', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/investigation-sets' } },
+          'item' => { 'type' => 'Reference', 'path' => 'Investigations.item', 'min' => 0, 'max' => Float::INFINITY }
         }
 
         attr_accessor :id                # 0-1 id
@@ -64,11 +64,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Finding.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Finding.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Finding.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'item' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Finding.item', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/condition-code'}},
-          'cause' => {'type'=>'string', 'path'=>'Finding.cause', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Finding.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Finding.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Finding.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'item' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Finding.item', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/condition-code' } },
+          'cause' => { 'type' => 'string', 'path' => 'Finding.cause', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                # 0-1 id
@@ -84,11 +84,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'RuledOut.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'RuledOut.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'RuledOut.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'item' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'RuledOut.item', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/condition-code'}},
-          'reason' => {'type'=>'string', 'path'=>'RuledOut.reason', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'RuledOut.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'RuledOut.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'RuledOut.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'item' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'RuledOut.item', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/condition-code' } },
+          'reason' => { 'type' => 'string', 'path' => 'RuledOut.reason', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                # 0-1 id

@@ -10,12 +10,12 @@ module FHIR
       }
       SEARCH_PARAMS =
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Annotation.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Annotation.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'authorReference' => {'type'=>'Reference', 'path'=>'Annotation.author[x]', 'min'=>0, 'max'=>1},
-          'authorString' => {'type'=>'string', 'path'=>'Annotation.author[x]', 'min'=>0, 'max'=>1},
-          'time' => {'type'=>'dateTime', 'path'=>'Annotation.time', 'min'=>0, 'max'=>1},
-          'text' => {'type'=>'string', 'path'=>'Annotation.text', 'min'=>1, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Annotation.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Annotation.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'authorReference' => { 'type' => 'Reference', 'path' => 'Annotation.author[x]', 'min' => 0, 'max' => 1 },
+          'authorString' => { 'type' => 'string', 'path' => 'Annotation.author[x]', 'min' => 0, 'max' => 1 },
+          'time' => { 'type' => 'dateTime', 'path' => 'Annotation.time', 'min' => 0, 'max' => 1 },
+          'text' => { 'type' => 'string', 'path' => 'Annotation.text', 'min' => 1, 'max' => 1 }
         }
 
       attr_accessor :id              # 0-1 id

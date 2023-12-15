@@ -11,30 +11,30 @@ module FHIR
       }
       SEARCH_PARAMS = ['code', 'device', 'effectivetime', 'encounter', 'identifier', 'medication', 'notgiven', 'patient', 'practitioner', 'prescription', 'status']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'MedicationAdministration.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'MedicationAdministration.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'MedicationAdministration.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'MedicationAdministration.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'MedicationAdministration.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'MedicationAdministration.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'MedicationAdministration.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'MedicationAdministration.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'identifier' => {'type'=>'Identifier', 'path'=>'MedicationAdministration.identifier', 'min'=>0, 'max'=>Float::INFINITY},
-        'status' => {'valid_codes'=>{'http://hl7.org/fhir/medication-admin-status'=>['in-progress', 'on-hold', 'completed', 'entered-in-error', 'stopped']}, 'type'=>'code', 'path'=>'MedicationAdministration.status', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/medication-admin-status'}},
-        'patient' => {'type'=>'Reference', 'path'=>'MedicationAdministration.patient', 'min'=>1, 'max'=>1},
-        'practitioner' => {'type'=>'Reference', 'path'=>'MedicationAdministration.practitioner', 'min'=>0, 'max'=>1},
-        'encounter' => {'type'=>'Reference', 'path'=>'MedicationAdministration.encounter', 'min'=>0, 'max'=>1},
-        'prescription' => {'type'=>'Reference', 'path'=>'MedicationAdministration.prescription', 'min'=>0, 'max'=>1},
-        'wasNotGiven' => {'type'=>'boolean', 'path'=>'MedicationAdministration.wasNotGiven', 'min'=>0, 'max'=>1},
-        'reasonNotGiven' => {'valid_codes'=>{'http://hl7.org/fhir/reason-medication-not-given'=>['a', 'b', 'c', 'd']}, 'type'=>'CodeableConcept', 'path'=>'MedicationAdministration.reasonNotGiven', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes'}},
-        'reasonGiven' => {'valid_codes'=>{'http://hl7.org/fhir/reason-medication-given'=>['a', 'b', 'c']}, 'type'=>'CodeableConcept', 'path'=>'MedicationAdministration.reasonGiven', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/reason-medication-given-codes'}},
-        'effectiveTimeDateTime' => {'type'=>'dateTime', 'path'=>'MedicationAdministration.effectiveTime[x]', 'min'=>1, 'max'=>1},
-        'effectiveTimePeriod' => {'type'=>'Period', 'path'=>'MedicationAdministration.effectiveTime[x]', 'min'=>1, 'max'=>1},
-        'medicationCodeableConcept' => {'type'=>'CodeableConcept', 'path'=>'MedicationAdministration.medication[x]', 'min'=>1, 'max'=>1},
-        'medicationReference' => {'type'=>'Reference', 'path'=>'MedicationAdministration.medication[x]', 'min'=>1, 'max'=>1},
-        'device' => {'type'=>'Reference', 'path'=>'MedicationAdministration.device', 'min'=>0, 'max'=>Float::INFINITY},
-        'note' => {'type'=>'string', 'path'=>'MedicationAdministration.note', 'min'=>0, 'max'=>1},
-        'dosage' => {'type'=>'MedicationAdministration::Dosage', 'path'=>'MedicationAdministration.dosage', 'min'=>0, 'max'=>1}
+        'id' => { 'type' => 'id', 'path' => 'MedicationAdministration.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'MedicationAdministration.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'MedicationAdministration.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'MedicationAdministration.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'MedicationAdministration.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'MedicationAdministration.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'MedicationAdministration.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'MedicationAdministration.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'MedicationAdministration.identifier', 'min' => 0, 'max' => Float::INFINITY },
+        'status' => { 'valid_codes' => { 'http://hl7.org/fhir/medication-admin-status' => ['in-progress', 'on-hold', 'completed', 'entered-in-error', 'stopped'] }, 'type' => 'code', 'path' => 'MedicationAdministration.status', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/medication-admin-status' } },
+        'patient' => { 'type' => 'Reference', 'path' => 'MedicationAdministration.patient', 'min' => 1, 'max' => 1 },
+        'practitioner' => { 'type' => 'Reference', 'path' => 'MedicationAdministration.practitioner', 'min' => 0, 'max' => 1 },
+        'encounter' => { 'type' => 'Reference', 'path' => 'MedicationAdministration.encounter', 'min' => 0, 'max' => 1 },
+        'prescription' => { 'type' => 'Reference', 'path' => 'MedicationAdministration.prescription', 'min' => 0, 'max' => 1 },
+        'wasNotGiven' => { 'type' => 'boolean', 'path' => 'MedicationAdministration.wasNotGiven', 'min' => 0, 'max' => 1 },
+        'reasonNotGiven' => { 'valid_codes' => { 'http://hl7.org/fhir/reason-medication-not-given' => ['a', 'b', 'c', 'd'] }, 'type' => 'CodeableConcept', 'path' => 'MedicationAdministration.reasonNotGiven', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes' } },
+        'reasonGiven' => { 'valid_codes' => { 'http://hl7.org/fhir/reason-medication-given' => ['a', 'b', 'c'] }, 'type' => 'CodeableConcept', 'path' => 'MedicationAdministration.reasonGiven', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/reason-medication-given-codes' } },
+        'effectiveTimeDateTime' => { 'type' => 'dateTime', 'path' => 'MedicationAdministration.effectiveTime[x]', 'min' => 1, 'max' => 1 },
+        'effectiveTimePeriod' => { 'type' => 'Period', 'path' => 'MedicationAdministration.effectiveTime[x]', 'min' => 1, 'max' => 1 },
+        'medicationCodeableConcept' => { 'type' => 'CodeableConcept', 'path' => 'MedicationAdministration.medication[x]', 'min' => 1, 'max' => 1 },
+        'medicationReference' => { 'type' => 'Reference', 'path' => 'MedicationAdministration.medication[x]', 'min' => 1, 'max' => 1 },
+        'device' => { 'type' => 'Reference', 'path' => 'MedicationAdministration.device', 'min' => 0, 'max' => Float::INFINITY },
+        'note' => { 'type' => 'string', 'path' => 'MedicationAdministration.note', 'min' => 0, 'max' => 1 },
+        'dosage' => { 'type' => 'MedicationAdministration::Dosage', 'path' => 'MedicationAdministration.dosage', 'min' => 0, 'max' => 1 }
       }
 
       class Dosage < FHIR::DSTU2::Model
@@ -47,17 +47,17 @@ module FHIR
           'rate' => ['Ratio', 'Range']
         }
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Dosage.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Dosage.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Dosage.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'text' => {'type'=>'string', 'path'=>'Dosage.text', 'min'=>0, 'max'=>1},
-          'siteCodeableConcept' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Dosage.site[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/approach-site-codes'}},
-          'siteReference' => {'type'=>'Reference', 'path'=>'Dosage.site[x]', 'min'=>0, 'max'=>1},
-          'route' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Dosage.route', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/route-codes'}},
-          'method' => {'local_name'=>'local_method', 'type'=>'CodeableConcept', 'path'=>'Dosage.method', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>nil}},
-          'quantity' => {'type'=>'Quantity', 'path'=>'Dosage.quantity', 'min'=>0, 'max'=>1},
-          'rateRatio' => {'type'=>'Ratio', 'path'=>'Dosage.rate[x]', 'min'=>0, 'max'=>1},
-          'rateRange' => {'type'=>'Range', 'path'=>'Dosage.rate[x]', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Dosage.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Dosage.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Dosage.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'text' => { 'type' => 'string', 'path' => 'Dosage.text', 'min' => 0, 'max' => 1 },
+          'siteCodeableConcept' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Dosage.site[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/approach-site-codes' } },
+          'siteReference' => { 'type' => 'Reference', 'path' => 'Dosage.site[x]', 'min' => 0, 'max' => 1 },
+          'route' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Dosage.route', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/route-codes' } },
+          'method' => { 'local_name' => 'local_method', 'type' => 'CodeableConcept', 'path' => 'Dosage.method', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => nil } },
+          'quantity' => { 'type' => 'Quantity', 'path' => 'Dosage.quantity', 'min' => 0, 'max' => 1 },
+          'rateRatio' => { 'type' => 'Ratio', 'path' => 'Dosage.rate[x]', 'min' => 0, 'max' => 1 },
+          'rateRange' => { 'type' => 'Range', 'path' => 'Dosage.rate[x]', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                  # 0-1 id

@@ -10,25 +10,25 @@ module FHIR
       }
       SEARCH_PARAMS = ['date', 'identifier', 'kind', 'patient', 'source', 'status', 'supplier']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'SupplyRequest.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'SupplyRequest.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'SupplyRequest.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'SupplyRequest.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'SupplyRequest.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'SupplyRequest.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'SupplyRequest.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'SupplyRequest.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'patient' => {'type'=>'Reference', 'path'=>'SupplyRequest.patient', 'min'=>0, 'max'=>1},
-        'source' => {'type'=>'Reference', 'path'=>'SupplyRequest.source', 'min'=>0, 'max'=>1},
-        'date' => {'type'=>'dateTime', 'path'=>'SupplyRequest.date', 'min'=>0, 'max'=>1},
-        'identifier' => {'type'=>'Identifier', 'path'=>'SupplyRequest.identifier', 'min'=>0, 'max'=>1},
-        'status' => {'valid_codes'=>{'http://hl7.org/fhir/supplyrequest-status'=>['requested', 'completed', 'failed', 'cancelled']}, 'type'=>'code', 'path'=>'SupplyRequest.status', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/supplyrequest-status'}},
-        'kind' => {'valid_codes'=>{'http://hl7.org/fhir/supply-kind'=>['central', 'nonstock']}, 'type'=>'CodeableConcept', 'path'=>'SupplyRequest.kind', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/supplyrequest-kind'}},
-        'orderedItem' => {'type'=>'Reference', 'path'=>'SupplyRequest.orderedItem', 'min'=>0, 'max'=>1},
-        'supplier' => {'type'=>'Reference', 'path'=>'SupplyRequest.supplier', 'min'=>0, 'max'=>Float::INFINITY},
-        'reasonCodeableConcept' => {'valid_codes'=>{'http://hl7.org/fhir/supplyrequest-reason'=>['patient-care', 'ward-stock']}, 'type'=>'CodeableConcept', 'path'=>'SupplyRequest.reason[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/supplyrequest-reason'}},
-        'reasonReference' => {'type'=>'Reference', 'path'=>'SupplyRequest.reason[x]', 'min'=>0, 'max'=>1},
-        'when' => {'type'=>'SupplyRequest::When', 'path'=>'SupplyRequest.when', 'min'=>0, 'max'=>1}
+        'id' => { 'type' => 'id', 'path' => 'SupplyRequest.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'SupplyRequest.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'SupplyRequest.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'SupplyRequest.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'SupplyRequest.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'SupplyRequest.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'SupplyRequest.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'SupplyRequest.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'patient' => { 'type' => 'Reference', 'path' => 'SupplyRequest.patient', 'min' => 0, 'max' => 1 },
+        'source' => { 'type' => 'Reference', 'path' => 'SupplyRequest.source', 'min' => 0, 'max' => 1 },
+        'date' => { 'type' => 'dateTime', 'path' => 'SupplyRequest.date', 'min' => 0, 'max' => 1 },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'SupplyRequest.identifier', 'min' => 0, 'max' => 1 },
+        'status' => { 'valid_codes' => { 'http://hl7.org/fhir/supplyrequest-status' => ['requested', 'completed', 'failed', 'cancelled'] }, 'type' => 'code', 'path' => 'SupplyRequest.status', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/supplyrequest-status' } },
+        'kind' => { 'valid_codes' => { 'http://hl7.org/fhir/supply-kind' => ['central', 'nonstock'] }, 'type' => 'CodeableConcept', 'path' => 'SupplyRequest.kind', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/supplyrequest-kind' } },
+        'orderedItem' => { 'type' => 'Reference', 'path' => 'SupplyRequest.orderedItem', 'min' => 0, 'max' => 1 },
+        'supplier' => { 'type' => 'Reference', 'path' => 'SupplyRequest.supplier', 'min' => 0, 'max' => Float::INFINITY },
+        'reasonCodeableConcept' => { 'valid_codes' => { 'http://hl7.org/fhir/supplyrequest-reason' => ['patient-care', 'ward-stock'] }, 'type' => 'CodeableConcept', 'path' => 'SupplyRequest.reason[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/supplyrequest-reason' } },
+        'reasonReference' => { 'type' => 'Reference', 'path' => 'SupplyRequest.reason[x]', 'min' => 0, 'max' => 1 },
+        'when' => { 'type' => 'SupplyRequest::When', 'path' => 'SupplyRequest.when', 'min' => 0, 'max' => 1 }
       }
 
       class When < FHIR::DSTU2::Model
@@ -37,11 +37,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'When.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'When.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'When.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'code' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'When.code', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/supplyrequest-when'}},
-          'schedule' => {'type'=>'Timing', 'path'=>'When.schedule', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'When.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'When.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'When.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'code' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'When.code', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/supplyrequest-when' } },
+          'schedule' => { 'type' => 'Timing', 'path' => 'When.schedule', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                # 0-1 id

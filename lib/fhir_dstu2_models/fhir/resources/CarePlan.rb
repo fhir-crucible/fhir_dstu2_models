@@ -7,30 +7,30 @@ module FHIR
 
       SEARCH_PARAMS = ['activitycode', 'activitydate', 'activityreference', 'condition', 'date', 'goal', 'participant', 'patient', 'performer', 'relatedcode', 'relatedplan', 'subject']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'CarePlan.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'CarePlan.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'CarePlan.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'CarePlan.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'CarePlan.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'CarePlan.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'CarePlan.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'CarePlan.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'identifier' => {'type'=>'Identifier', 'path'=>'CarePlan.identifier', 'min'=>0, 'max'=>Float::INFINITY},
-        'subject' => {'type'=>'Reference', 'path'=>'CarePlan.subject', 'min'=>0, 'max'=>1},
-        'status' => {'valid_codes'=>{'http://hl7.org/fhir/care-plan-status'=>['proposed', 'draft', 'active', 'completed', 'cancelled']}, 'type'=>'code', 'path'=>'CarePlan.status', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/care-plan-status'}},
-        'context' => {'type'=>'Reference', 'path'=>'CarePlan.context', 'min'=>0, 'max'=>1},
-        'period' => {'type'=>'Period', 'path'=>'CarePlan.period', 'min'=>0, 'max'=>1},
-        'author' => {'type'=>'Reference', 'path'=>'CarePlan.author', 'min'=>0, 'max'=>Float::INFINITY},
-        'modified' => {'type'=>'dateTime', 'path'=>'CarePlan.modified', 'min'=>0, 'max'=>1},
-        'category' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'CarePlan.category', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/care-plan-category'}},
-        'description' => {'type'=>'string', 'path'=>'CarePlan.description', 'min'=>0, 'max'=>1},
-        'addresses' => {'type'=>'Reference', 'path'=>'CarePlan.addresses', 'min'=>0, 'max'=>Float::INFINITY},
-        'support' => {'type'=>'Reference', 'path'=>'CarePlan.support', 'min'=>0, 'max'=>Float::INFINITY},
-        'relatedPlan' => {'type'=>'CarePlan::RelatedPlan', 'path'=>'CarePlan.relatedPlan', 'min'=>0, 'max'=>Float::INFINITY},
-        'participant' => {'type'=>'CarePlan::Participant', 'path'=>'CarePlan.participant', 'min'=>0, 'max'=>Float::INFINITY},
-        'goal' => {'type'=>'Reference', 'path'=>'CarePlan.goal', 'min'=>0, 'max'=>Float::INFINITY},
-        'activity' => {'type'=>'CarePlan::Activity', 'path'=>'CarePlan.activity', 'min'=>0, 'max'=>Float::INFINITY},
-        'note' => {'type'=>'Annotation', 'path'=>'CarePlan.note', 'min'=>0, 'max'=>1}
+        'id' => { 'type' => 'id', 'path' => 'CarePlan.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'CarePlan.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'CarePlan.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'CarePlan.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'CarePlan.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'CarePlan.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'CarePlan.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'CarePlan.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'CarePlan.identifier', 'min' => 0, 'max' => Float::INFINITY },
+        'subject' => { 'type' => 'Reference', 'path' => 'CarePlan.subject', 'min' => 0, 'max' => 1 },
+        'status' => { 'valid_codes' => { 'http://hl7.org/fhir/care-plan-status' => ['proposed', 'draft', 'active', 'completed', 'cancelled'] }, 'type' => 'code', 'path' => 'CarePlan.status', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/care-plan-status' } },
+        'context' => { 'type' => 'Reference', 'path' => 'CarePlan.context', 'min' => 0, 'max' => 1 },
+        'period' => { 'type' => 'Period', 'path' => 'CarePlan.period', 'min' => 0, 'max' => 1 },
+        'author' => { 'type' => 'Reference', 'path' => 'CarePlan.author', 'min' => 0, 'max' => Float::INFINITY },
+        'modified' => { 'type' => 'dateTime', 'path' => 'CarePlan.modified', 'min' => 0, 'max' => 1 },
+        'category' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'CarePlan.category', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/care-plan-category' } },
+        'description' => { 'type' => 'string', 'path' => 'CarePlan.description', 'min' => 0, 'max' => 1 },
+        'addresses' => { 'type' => 'Reference', 'path' => 'CarePlan.addresses', 'min' => 0, 'max' => Float::INFINITY },
+        'support' => { 'type' => 'Reference', 'path' => 'CarePlan.support', 'min' => 0, 'max' => Float::INFINITY },
+        'relatedPlan' => { 'type' => 'CarePlan::RelatedPlan', 'path' => 'CarePlan.relatedPlan', 'min' => 0, 'max' => Float::INFINITY },
+        'participant' => { 'type' => 'CarePlan::Participant', 'path' => 'CarePlan.participant', 'min' => 0, 'max' => Float::INFINITY },
+        'goal' => { 'type' => 'Reference', 'path' => 'CarePlan.goal', 'min' => 0, 'max' => Float::INFINITY },
+        'activity' => { 'type' => 'CarePlan::Activity', 'path' => 'CarePlan.activity', 'min' => 0, 'max' => Float::INFINITY },
+        'note' => { 'type' => 'Annotation', 'path' => 'CarePlan.note', 'min' => 0, 'max' => 1 }
       }
 
       class RelatedPlan < FHIR::DSTU2::Model
@@ -39,11 +39,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'RelatedPlan.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'RelatedPlan.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'RelatedPlan.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'code' => {'valid_codes'=>{'http://hl7.org/fhir/care-plan-relationship'=>['includes', 'replaces', 'fulfills']}, 'type'=>'code', 'path'=>'RelatedPlan.code', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/care-plan-relationship'}},
-          'plan' => {'type'=>'Reference', 'path'=>'RelatedPlan.plan', 'min'=>1, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'RelatedPlan.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'RelatedPlan.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'RelatedPlan.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'code' => { 'valid_codes' => { 'http://hl7.org/fhir/care-plan-relationship' => ['includes', 'replaces', 'fulfills'] }, 'type' => 'code', 'path' => 'RelatedPlan.code', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/care-plan-relationship' } },
+          'plan' => { 'type' => 'Reference', 'path' => 'RelatedPlan.plan', 'min' => 1, 'max' => 1 }
         }
 
         attr_accessor :id                # 0-1 id
@@ -59,11 +59,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Participant.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Participant.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Participant.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'role' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Participant.role', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/participant-role'}},
-          'member' => {'type'=>'Reference', 'path'=>'Participant.member', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Participant.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Participant.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Participant.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'role' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Participant.role', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/participant-role' } },
+          'member' => { 'type' => 'Reference', 'path' => 'Participant.member', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                # 0-1 id
@@ -79,13 +79,13 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Activity.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Activity.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Activity.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'actionResulting' => {'type'=>'Reference', 'path'=>'Activity.actionResulting', 'min'=>0, 'max'=>Float::INFINITY},
-          'progress' => {'type'=>'Annotation', 'path'=>'Activity.progress', 'min'=>0, 'max'=>Float::INFINITY},
-          'reference' => {'type'=>'Reference', 'path'=>'Activity.reference', 'min'=>0, 'max'=>1},
-          'detail' => {'type'=>'CarePlan::Activity::Detail', 'path'=>'Activity.detail', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Activity.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Activity.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Activity.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'actionResulting' => { 'type' => 'Reference', 'path' => 'Activity.actionResulting', 'min' => 0, 'max' => Float::INFINITY },
+          'progress' => { 'type' => 'Annotation', 'path' => 'Activity.progress', 'min' => 0, 'max' => Float::INFINITY },
+          'reference' => { 'type' => 'Reference', 'path' => 'Activity.reference', 'min' => 0, 'max' => 1 },
+          'detail' => { 'type' => 'CarePlan::Activity::Detail', 'path' => 'Activity.detail', 'min' => 0, 'max' => 1 }
         }
 
         class Detail < FHIR::DSTU2::Model
@@ -98,27 +98,27 @@ module FHIR
             'product' => ['CodeableConcept', 'Reference']
           }
           METADATA = {
-            'id' => {'type'=>'id', 'path'=>'Detail.id', 'min'=>0, 'max'=>1},
-            'extension' => {'type'=>'Extension', 'path'=>'Detail.extension', 'min'=>0, 'max'=>Float::INFINITY},
-            'modifierExtension' => {'type'=>'Extension', 'path'=>'Detail.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-            'category' => {'valid_codes'=>{'http://hl7.org/fhir/care-plan-activity-category'=>['diet', 'drug', 'encounter', 'observation', 'procedure', 'supply', 'other']}, 'type'=>'CodeableConcept', 'path'=>'Detail.category', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/care-plan-activity-category'}},
-            'code' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Detail.code', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/care-plan-activity'}},
-            'reasonCode' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Detail.reasonCode', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/activity-reason'}},
-            'reasonReference' => {'type'=>'Reference', 'path'=>'Detail.reasonReference', 'min'=>0, 'max'=>Float::INFINITY},
-            'goal' => {'type'=>'Reference', 'path'=>'Detail.goal', 'min'=>0, 'max'=>Float::INFINITY},
-            'status' => {'valid_codes'=>{'http://hl7.org/fhir/care-plan-activity-status'=>['not-started', 'scheduled', 'in-progress', 'on-hold', 'completed', 'cancelled']}, 'type'=>'code', 'path'=>'Detail.status', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/care-plan-activity-status'}},
-            'statusReason' => {'valid_codes'=>{'http://hl7.org/fhir/goal-status-reason'=>['surgery', 'life-event', 'replaced', 'patient-request']}, 'type'=>'CodeableConcept', 'path'=>'Detail.statusReason', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/goal-status-reason'}},
-            'prohibited' => {'type'=>'boolean', 'path'=>'Detail.prohibited', 'min'=>1, 'max'=>1},
-            'scheduledTiming' => {'type'=>'Timing', 'path'=>'Detail.scheduled[x]', 'min'=>0, 'max'=>1},
-            'scheduledPeriod' => {'type'=>'Period', 'path'=>'Detail.scheduled[x]', 'min'=>0, 'max'=>1},
-            'scheduledString' => {'type'=>'string', 'path'=>'Detail.scheduled[x]', 'min'=>0, 'max'=>1},
-            'location' => {'type'=>'Reference', 'path'=>'Detail.location', 'min'=>0, 'max'=>1},
-            'performer' => {'type'=>'Reference', 'path'=>'Detail.performer', 'min'=>0, 'max'=>Float::INFINITY},
-            'productCodeableConcept' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Detail.product[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/medication-codes'}},
-            'productReference' => {'type'=>'Reference', 'path'=>'Detail.product[x]', 'min'=>0, 'max'=>1},
-            'dailyAmount' => {'type'=>'Quantity', 'path'=>'Detail.dailyAmount', 'min'=>0, 'max'=>1},
-            'quantity' => {'type'=>'Quantity', 'path'=>'Detail.quantity', 'min'=>0, 'max'=>1},
-            'description' => {'type'=>'string', 'path'=>'Detail.description', 'min'=>0, 'max'=>1}
+            'id' => { 'type' => 'id', 'path' => 'Detail.id', 'min' => 0, 'max' => 1 },
+            'extension' => { 'type' => 'Extension', 'path' => 'Detail.extension', 'min' => 0, 'max' => Float::INFINITY },
+            'modifierExtension' => { 'type' => 'Extension', 'path' => 'Detail.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+            'category' => { 'valid_codes' => { 'http://hl7.org/fhir/care-plan-activity-category' => ['diet', 'drug', 'encounter', 'observation', 'procedure', 'supply', 'other'] }, 'type' => 'CodeableConcept', 'path' => 'Detail.category', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/care-plan-activity-category' } },
+            'code' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Detail.code', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/care-plan-activity' } },
+            'reasonCode' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Detail.reasonCode', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/activity-reason' } },
+            'reasonReference' => { 'type' => 'Reference', 'path' => 'Detail.reasonReference', 'min' => 0, 'max' => Float::INFINITY },
+            'goal' => { 'type' => 'Reference', 'path' => 'Detail.goal', 'min' => 0, 'max' => Float::INFINITY },
+            'status' => { 'valid_codes' => { 'http://hl7.org/fhir/care-plan-activity-status' => ['not-started', 'scheduled', 'in-progress', 'on-hold', 'completed', 'cancelled'] }, 'type' => 'code', 'path' => 'Detail.status', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/care-plan-activity-status' } },
+            'statusReason' => { 'valid_codes' => { 'http://hl7.org/fhir/goal-status-reason' => ['surgery', 'life-event', 'replaced', 'patient-request'] }, 'type' => 'CodeableConcept', 'path' => 'Detail.statusReason', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/goal-status-reason' } },
+            'prohibited' => { 'type' => 'boolean', 'path' => 'Detail.prohibited', 'min' => 1, 'max' => 1 },
+            'scheduledTiming' => { 'type' => 'Timing', 'path' => 'Detail.scheduled[x]', 'min' => 0, 'max' => 1 },
+            'scheduledPeriod' => { 'type' => 'Period', 'path' => 'Detail.scheduled[x]', 'min' => 0, 'max' => 1 },
+            'scheduledString' => { 'type' => 'string', 'path' => 'Detail.scheduled[x]', 'min' => 0, 'max' => 1 },
+            'location' => { 'type' => 'Reference', 'path' => 'Detail.location', 'min' => 0, 'max' => 1 },
+            'performer' => { 'type' => 'Reference', 'path' => 'Detail.performer', 'min' => 0, 'max' => Float::INFINITY },
+            'productCodeableConcept' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Detail.product[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/medication-codes' } },
+            'productReference' => { 'type' => 'Reference', 'path' => 'Detail.product[x]', 'min' => 0, 'max' => 1 },
+            'dailyAmount' => { 'type' => 'Quantity', 'path' => 'Detail.dailyAmount', 'min' => 0, 'max' => 1 },
+            'quantity' => { 'type' => 'Quantity', 'path' => 'Detail.quantity', 'min' => 0, 'max' => 1 },
+            'description' => { 'type' => 'string', 'path' => 'Detail.description', 'min' => 0, 'max' => 1 }
           }
 
           attr_accessor :id                     # 0-1 id

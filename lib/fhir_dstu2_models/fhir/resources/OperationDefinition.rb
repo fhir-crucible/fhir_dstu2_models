@@ -7,33 +7,33 @@ module FHIR
 
       SEARCH_PARAMS = ['base', 'code', 'date', 'instance', 'kind', 'name', 'profile', 'publisher', 'status', 'system', 'type', 'url', 'version']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'OperationDefinition.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'OperationDefinition.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'OperationDefinition.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'OperationDefinition.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'OperationDefinition.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'OperationDefinition.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'OperationDefinition.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'OperationDefinition.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'url' => {'type'=>'uri', 'path'=>'OperationDefinition.url', 'min'=>0, 'max'=>1},
-        'version' => {'type'=>'string', 'path'=>'OperationDefinition.version', 'min'=>0, 'max'=>1},
-        'name' => {'type'=>'string', 'path'=>'OperationDefinition.name', 'min'=>1, 'max'=>1},
-        'status' => {'valid_codes'=>{'http://hl7.org/fhir/conformance-resource-status'=>['draft', 'active', 'retired']}, 'type'=>'code', 'path'=>'OperationDefinition.status', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/conformance-resource-status'}},
-        'kind' => {'valid_codes'=>{'http://hl7.org/fhir/operation-kind'=>['operation', 'query']}, 'type'=>'code', 'path'=>'OperationDefinition.kind', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/operation-kind'}},
-        'experimental' => {'type'=>'boolean', 'path'=>'OperationDefinition.experimental', 'min'=>0, 'max'=>1},
-        'publisher' => {'type'=>'string', 'path'=>'OperationDefinition.publisher', 'min'=>0, 'max'=>1},
-        'contact' => {'type'=>'OperationDefinition::Contact', 'path'=>'OperationDefinition.contact', 'min'=>0, 'max'=>Float::INFINITY},
-        'date' => {'type'=>'dateTime', 'path'=>'OperationDefinition.date', 'min'=>0, 'max'=>1},
-        'description' => {'type'=>'string', 'path'=>'OperationDefinition.description', 'min'=>0, 'max'=>1},
-        'requirements' => {'type'=>'string', 'path'=>'OperationDefinition.requirements', 'min'=>0, 'max'=>1},
-        'idempotent' => {'type'=>'boolean', 'path'=>'OperationDefinition.idempotent', 'min'=>0, 'max'=>1},
-        'code' => {'type'=>'code', 'path'=>'OperationDefinition.code', 'min'=>1, 'max'=>1},
-        'notes' => {'type'=>'string', 'path'=>'OperationDefinition.notes', 'min'=>0, 'max'=>1},
-        'base' => {'type'=>'Reference', 'path'=>'OperationDefinition.base', 'min'=>0, 'max'=>1},
-        'system' => {'type'=>'boolean', 'path'=>'OperationDefinition.system', 'min'=>1, 'max'=>1},
-        'type' => {'valid_codes'=>{'http://hl7.org/fhir/resource-types'=>['Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription']}, 'type'=>'code', 'path'=>'OperationDefinition.type', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/resource-types'}},
-        'instance' => {'type'=>'boolean', 'path'=>'OperationDefinition.instance', 'min'=>1, 'max'=>1},
-        'parameter' => {'type'=>'OperationDefinition::Parameter', 'path'=>'OperationDefinition.parameter', 'min'=>0, 'max'=>Float::INFINITY}
+        'id' => { 'type' => 'id', 'path' => 'OperationDefinition.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'OperationDefinition.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'OperationDefinition.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'OperationDefinition.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'OperationDefinition.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'OperationDefinition.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'OperationDefinition.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'OperationDefinition.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'url' => { 'type' => 'uri', 'path' => 'OperationDefinition.url', 'min' => 0, 'max' => 1 },
+        'version' => { 'type' => 'string', 'path' => 'OperationDefinition.version', 'min' => 0, 'max' => 1 },
+        'name' => { 'type' => 'string', 'path' => 'OperationDefinition.name', 'min' => 1, 'max' => 1 },
+        'status' => { 'valid_codes' => { 'http://hl7.org/fhir/conformance-resource-status' => ['draft', 'active', 'retired'] }, 'type' => 'code', 'path' => 'OperationDefinition.status', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/conformance-resource-status' } },
+        'kind' => { 'valid_codes' => { 'http://hl7.org/fhir/operation-kind' => ['operation', 'query'] }, 'type' => 'code', 'path' => 'OperationDefinition.kind', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/operation-kind' } },
+        'experimental' => { 'type' => 'boolean', 'path' => 'OperationDefinition.experimental', 'min' => 0, 'max' => 1 },
+        'publisher' => { 'type' => 'string', 'path' => 'OperationDefinition.publisher', 'min' => 0, 'max' => 1 },
+        'contact' => { 'type' => 'OperationDefinition::Contact', 'path' => 'OperationDefinition.contact', 'min' => 0, 'max' => Float::INFINITY },
+        'date' => { 'type' => 'dateTime', 'path' => 'OperationDefinition.date', 'min' => 0, 'max' => 1 },
+        'description' => { 'type' => 'string', 'path' => 'OperationDefinition.description', 'min' => 0, 'max' => 1 },
+        'requirements' => { 'type' => 'string', 'path' => 'OperationDefinition.requirements', 'min' => 0, 'max' => 1 },
+        'idempotent' => { 'type' => 'boolean', 'path' => 'OperationDefinition.idempotent', 'min' => 0, 'max' => 1 },
+        'code' => { 'type' => 'code', 'path' => 'OperationDefinition.code', 'min' => 1, 'max' => 1 },
+        'notes' => { 'type' => 'string', 'path' => 'OperationDefinition.notes', 'min' => 0, 'max' => 1 },
+        'base' => { 'type' => 'Reference', 'path' => 'OperationDefinition.base', 'min' => 0, 'max' => 1 },
+        'system' => { 'type' => 'boolean', 'path' => 'OperationDefinition.system', 'min' => 1, 'max' => 1 },
+        'type' => { 'valid_codes' => { 'http://hl7.org/fhir/resource-types' => ['Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription'] }, 'type' => 'code', 'path' => 'OperationDefinition.type', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/resource-types' } },
+        'instance' => { 'type' => 'boolean', 'path' => 'OperationDefinition.instance', 'min' => 1, 'max' => 1 },
+        'parameter' => { 'type' => 'OperationDefinition::Parameter', 'path' => 'OperationDefinition.parameter', 'min' => 0, 'max' => Float::INFINITY }
       }
 
       class Contact < FHIR::DSTU2::Model
@@ -42,11 +42,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Contact.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
-          'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
+          'id' => { 'type' => 'id', 'path' => 'Contact.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Contact.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Contact.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'name' => { 'type' => 'string', 'path' => 'Contact.name', 'min' => 0, 'max' => 1 },
+          'telecom' => { 'type' => 'ContactPoint', 'path' => 'Contact.telecom', 'min' => 0, 'max' => Float::INFINITY }
         }
 
         attr_accessor :id                # 0-1 id
@@ -62,18 +62,18 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Parameter.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Parameter.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Parameter.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'name' => {'type'=>'code', 'path'=>'Parameter.name', 'min'=>1, 'max'=>1},
-          'use' => {'valid_codes'=>{'http://hl7.org/fhir/operation-parameter-use'=>['in', 'out']}, 'type'=>'code', 'path'=>'Parameter.use', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/operation-parameter-use'}},
-          'min' => {'type'=>'integer', 'path'=>'Parameter.min', 'min'=>1, 'max'=>1},
-          'max' => {'type'=>'string', 'path'=>'Parameter.max', 'min'=>1, 'max'=>1},
-          'documentation' => {'type'=>'string', 'path'=>'Parameter.documentation', 'min'=>0, 'max'=>1},
-          'type' => {'valid_codes'=>{'http://hl7.org/fhir/search-param-type'=>['number', 'date', 'string', 'token', 'reference', 'composite', 'quantity', 'uri'], 'http://hl7.org/fhir/data-types'=>['Address', 'Age', 'Annotation', 'Attachment', 'BackboneElement', 'CodeableConcept', 'Coding', 'ContactPoint', 'Count', 'Distance', 'Duration', 'Element', 'ElementDefinition', 'Extension', 'HumanName', 'Identifier', 'Meta', 'Money', 'Narrative', 'Period', 'Quantity', 'Range', 'Ratio', 'Reference', 'SampledData', 'Signature', 'SimpleQuantity', 'Timing', 'base64Binary', 'boolean', 'code', 'date', 'dateTime', 'decimal', 'id', 'instant', 'integer', 'markdown', 'oid', 'positiveInt', 'string', 'time', 'unsignedInt', 'uri', 'uuid', 'xhtml'], 'http://hl7.org/fhir/resource-types'=>['Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription']}, 'type'=>'code', 'path'=>'Parameter.type', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/operation-parameter-type'}},
-          'profile' => {'type'=>'Reference', 'path'=>'Parameter.profile', 'min'=>0, 'max'=>1},
-          'binding' => {'type'=>'OperationDefinition::Parameter::Binding', 'path'=>'Parameter.binding', 'min'=>0, 'max'=>1},
-          'part' => {'type'=>'OperationDefinition::Parameter', 'path'=>'Parameter.part', 'min'=>0, 'max'=>Float::INFINITY}
+          'id' => { 'type' => 'id', 'path' => 'Parameter.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Parameter.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Parameter.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'name' => { 'type' => 'code', 'path' => 'Parameter.name', 'min' => 1, 'max' => 1 },
+          'use' => { 'valid_codes' => { 'http://hl7.org/fhir/operation-parameter-use' => ['in', 'out'] }, 'type' => 'code', 'path' => 'Parameter.use', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/operation-parameter-use' } },
+          'min' => { 'type' => 'integer', 'path' => 'Parameter.min', 'min' => 1, 'max' => 1 },
+          'max' => { 'type' => 'string', 'path' => 'Parameter.max', 'min' => 1, 'max' => 1 },
+          'documentation' => { 'type' => 'string', 'path' => 'Parameter.documentation', 'min' => 0, 'max' => 1 },
+          'type' => { 'valid_codes' => { 'http://hl7.org/fhir/search-param-type' => ['number', 'date', 'string', 'token', 'reference', 'composite', 'quantity', 'uri'], 'http://hl7.org/fhir/data-types' => ['Address', 'Age', 'Annotation', 'Attachment', 'BackboneElement', 'CodeableConcept', 'Coding', 'ContactPoint', 'Count', 'Distance', 'Duration', 'Element', 'ElementDefinition', 'Extension', 'HumanName', 'Identifier', 'Meta', 'Money', 'Narrative', 'Period', 'Quantity', 'Range', 'Ratio', 'Reference', 'SampledData', 'Signature', 'SimpleQuantity', 'Timing', 'base64Binary', 'boolean', 'code', 'date', 'dateTime', 'decimal', 'id', 'instant', 'integer', 'markdown', 'oid', 'positiveInt', 'string', 'time', 'unsignedInt', 'uri', 'uuid', 'xhtml'], 'http://hl7.org/fhir/resource-types' => ['Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic', 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication', 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage', 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest', 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference', 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest', 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group', 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation', 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration', 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem', 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse', 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner', 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire', 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule', 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery', 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription'] }, 'type' => 'code', 'path' => 'Parameter.type', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/operation-parameter-type' } },
+          'profile' => { 'type' => 'Reference', 'path' => 'Parameter.profile', 'min' => 0, 'max' => 1 },
+          'binding' => { 'type' => 'OperationDefinition::Parameter::Binding', 'path' => 'Parameter.binding', 'min' => 0, 'max' => 1 },
+          'part' => { 'type' => 'OperationDefinition::Parameter', 'path' => 'Parameter.part', 'min' => 0, 'max' => Float::INFINITY }
         }
 
         class Binding < FHIR::DSTU2::Model
@@ -85,12 +85,12 @@ module FHIR
             'valueSet' => ['uri', 'Reference']
           }
           METADATA = {
-            'id' => {'type'=>'id', 'path'=>'Binding.id', 'min'=>0, 'max'=>1},
-            'extension' => {'type'=>'Extension', 'path'=>'Binding.extension', 'min'=>0, 'max'=>Float::INFINITY},
-            'modifierExtension' => {'type'=>'Extension', 'path'=>'Binding.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-            'strength' => {'valid_codes'=>{'http://hl7.org/fhir/binding-strength'=>['required', 'extensible', 'preferred', 'example']}, 'type'=>'code', 'path'=>'Binding.strength', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/binding-strength'}},
-            'valueSetUri' => {'type'=>'uri', 'path'=>'Binding.valueSet[x]', 'min'=>1, 'max'=>1},
-            'valueSetReference' => {'type'=>'Reference', 'path'=>'Binding.valueSet[x]', 'min'=>1, 'max'=>1}
+            'id' => { 'type' => 'id', 'path' => 'Binding.id', 'min' => 0, 'max' => 1 },
+            'extension' => { 'type' => 'Extension', 'path' => 'Binding.extension', 'min' => 0, 'max' => Float::INFINITY },
+            'modifierExtension' => { 'type' => 'Extension', 'path' => 'Binding.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+            'strength' => { 'valid_codes' => { 'http://hl7.org/fhir/binding-strength' => ['required', 'extensible', 'preferred', 'example'] }, 'type' => 'code', 'path' => 'Binding.strength', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/binding-strength' } },
+            'valueSetUri' => { 'type' => 'uri', 'path' => 'Binding.valueSet[x]', 'min' => 1, 'max' => 1 },
+            'valueSetReference' => { 'type' => 'Reference', 'path' => 'Binding.valueSet[x]', 'min' => 1, 'max' => 1 }
           }
 
           attr_accessor :id                # 0-1 id
