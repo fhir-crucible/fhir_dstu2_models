@@ -17,11 +17,9 @@ module FluentPath
 
       def clone
         clone_tree = @tree.map do |x|
-          begin
-            x.clone
-          rescue
-            x
-          end
+          x.clone
+        rescue StandardError
+          x
         end
         FluentPath::DSTU2::Expression.new(clone_tree)
       end

@@ -12,12 +12,13 @@ module FHIR
 
           # Remove entries that do not interest us: CompartmentDefinitions, OperationDefinitions, Conformance statements
           hash['entry'].select! do |entry|
-            %w[StructureDefinition ValueSet CodeSystem SearchParameter].include? entry['resource']['resourceType']
+            ['StructureDefinition', 'ValueSet', 'CodeSystem', 'SearchParameter'].include? entry['resource']['resourceType']
           end
 
           # Remove unnecessary elements from the hash
           hash['entry'].each do |entry|
             next unless entry['resource']
+
             pre_process_structuredefinition(entry['resource']) if entry['resource']['resourceType'] == 'StructureDefinition'
             pre_process_valueset(entry['resource']) if entry['resource']['resourceType'] == 'ValueSet'
             pre_process_codesystem(entry['resource']) if entry['resource']['resourceType'] == 'CodeSystem'
@@ -35,26 +36,30 @@ module FHIR
 
         def self.pre_process_structuredefinition(hash)
           # Remove large HTML narratives and unused content
-          %w[text publisher contact description requirements mapping].each { |key| hash.delete(key) }
+          ['text', 'publisher', 'contact', 'description', 'requirements', 'mapping'].each { |key| hash.delete(key) }
 
           # Remove unused descriptions within the snapshot and differential elements
-          %w[snapshot differential].each do |key|
+          ['snapshot', 'differential'].each do |key|
             next unless hash[key]
+
             hash[key]['element'].each do |element|
-              %w[short definition comments requirements alias mapping].each { |subkey| element.delete(subkey) }
+              ['short', 'definition', 'comments', 'requirements', 'alias', 'mapping'].each { |subkey| element.delete(subkey) }
             end
           end
         end
 
         def self.pre_process_valueset(hash)
           # Remove large HTML narratives and unused content
-          %w[meta text publisher contact description requirements].each { |key| hash.delete(key) }
+          ['meta', 'text', 'publisher', 'contact', 'description', 'requirements'].each { |key| hash.delete(key) }
 
           return unless hash['compose']
-          %w[include exclude].each do |key|
+
+          ['include', 'exclude'].each do |key|
             next unless hash['compose'][key]
+
             hash['compose'][key].each do |element|
               next unless element['concept']
+
               element['concept'].each do |concept|
                 concept.delete('designation')
               end
@@ -64,16 +69,18 @@ module FHIR
 
         def self.pre_process_codesystem(hash)
           # Remove large HTML narratives and unused content
-          %w[meta text publisher contact description requirements].each { |key| hash.delete(key) }
+          ['meta', 'text', 'publisher', 'contact', 'description', 'requirements'].each { |key| hash.delete(key) }
           return unless hash['concept']
+
           hash['concept'].each do |concept|
             pre_process_codesystem_concept(concept)
           end
         end
 
         def self.pre_process_codesystem_concept(hash)
-          %w[extension definition designation].each { |key| hash.delete(key) }
+          ['extension', 'definition', 'designation'].each { |key| hash.delete(key) }
           return unless hash['concept']
+
           hash['concept'].each do |concept|
             pre_process_codesystem_concept(concept)
           end
@@ -81,15 +88,16 @@ module FHIR
 
         def self.pre_process_searchparam(hash)
           # Remove large HTML narratives and unused content
-          %w[id url name date publisher contact description xpathUsage].each { |key| hash.delete(key) }
+          ['id', 'url', 'name', 'date', 'publisher', 'contact', 'description', 'xpathUsage'].each { |key| hash.delete(key) }
         end
 
         def self.remove_fhir_comments(hash)
           hash.delete('fhir_comments')
           hash.each do |_key, value|
-            if value.is_a?(Hash)
+            case value
+            when Hash
               remove_fhir_comments(value)
-            elsif value.is_a?(Array)
+            when Array
               value.each do |v|
                 remove_fhir_comments(v) if v.is_a?(Hash)
               end

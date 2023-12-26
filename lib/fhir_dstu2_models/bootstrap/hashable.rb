@@ -39,11 +39,12 @@ module FHIR
           key = key.to_s
           meta = self.class::METADATA[key]
           next if meta.nil?
+
           local_name = key
           local_name = meta['local_name'] if meta['local_name']
           begin
             instance_variable_set("@#{local_name}", value)
-          rescue
+          rescue StandardError
             # TODO: this appears to be a dead code branch
             nil
           end
@@ -86,17 +87,17 @@ module FHIR
         if child['resourceType'] && !klass::METADATA['resourceType']
           klass = begin
             FHIR::DSTU2.const_get(child['resourceType'])
-          rescue => exception
+          rescue StandardError => e
             # TODO: this appears to be a dead code branch
-            FHIR::DSTU2.logger.error("Unable to identify embedded class #{child['resourceType']}\n#{exception.message}\n#{exception.backtrace}")
+            FHIR::DSTU2.logger.error("Unable to identify embedded class #{child['resourceType']}\n#{e.message}\n#{e.backtrace}")
             nil
           end
         end
         begin
           obj = klass.new(child)
-        rescue => exception
+        rescue StandardError => e
           # TODO: this appears to be a dead code branch
-          FHIR::DSTU2.logger.error("Unable to inflate embedded class #{klass}\n#{exception.message}\n#{exception.backtrace}")
+          FHIR::DSTU2.logger.error("Unable to inflate embedded class #{klass}\n#{e.message}\n#{e.backtrace}")
         end
         obj
       end

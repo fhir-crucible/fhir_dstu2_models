@@ -20,12 +20,14 @@ module FluentPath
       return 'http://unitsofmeasure.org' if key == '%ucum'
       return 'http://snomed.info/sct' if key == '%sct'
       return 'http://loinc.org' if key == '%loinc'
-      return key.gsub!(/\A\'|\'\Z/, '') if key.start_with?("'") && key.end_with?("'")
+      return key.gsub!(/\A'|'\Z/, '') if key.start_with?("'") && key.end_with?("'")
+
       key.gsub!(/\A"|"\Z/, '') # remove quotes around path if they exist
       if hash.is_a?(Array)
         response = []
         hash.each do |e|
           next unless e.is_a?(Hash)
+
           item = e[key]
           if item.is_a?(Array)
             item.each { |i| response << i }
@@ -37,6 +39,7 @@ module FluentPath
       end
       return :null unless hash.is_a?(Hash)
       return hash if hash['resourceType'] == key
+
       val = hash[key]
       if val.nil?
         # this block is a dangerous hack to get fields of multiple data types
@@ -60,6 +63,7 @@ module FluentPath
       return false if value.is_a?(Hash) && value.empty?
       return false if value == :null
       return false if value == false
+
       true
     end
 
@@ -99,7 +103,7 @@ module FluentPath
           if node.is_a?(String) && !(node.start_with?("'") && node.end_with?("'"))
             array_index = nil
             if node.include?('[') && node.end_with?(']')
-              array_index = node[node.index('[')..-1].gsub(/\[|\]/, '')
+              array_index = node[node.index('[')..].gsub(/\[|\]/, '')
               t = get(array_index, data)
               t = array_index.to_i if t.nil? || t == :null
               array_index = t
@@ -128,14 +132,15 @@ module FluentPath
                 raise 'Where function requires a block.'
               end
               previous_node = [] if previous_node == :null
-              if previous_node.is_a?(Array)
+              case previous_node
+              when Array
                 previous_node.keep_if do |item|
                   sub = compute(block.clone, item)
                   convert_to_boolean(sub)
                 end
                 tree[index] = previous_node
                 clean_index(tree, previous_index)
-              elsif previous_node.is_a?(Hash)
+              when Hash
                 sub = compute(block, previous_node)
                 tree[index] = convert_to_boolean(sub) ? previous_node : {}
                 clean_index(tree, previous_index)
@@ -154,13 +159,14 @@ module FluentPath
                 raise 'Select function requires a block.'
               end
               previous_node = [] if previous_node == :null
-              if previous_node.is_a?(Array)
+              case previous_node
+              when Array
                 previous_node.map! do |item|
                   compute(block.clone, item)
                 end
                 tree[index] = previous_node
                 clean_index(tree, previous_index)
-              elsif previous_node.is_a?(Hash)
+              when Hash
                 tree[index] = compute(block, previous_node)
                 clean_index(tree, previous_index)
               else
@@ -182,8 +188,8 @@ module FluentPath
                 if exts.is_a?(Array)
                   url = nil
                   begin
-                    url = block.tree.first.gsub(/\'|\"/, '')
-                  rescue
+                    url = block.tree.first.gsub(/'|"/, '')
+                  rescue StandardError
                     raise 'Extension function requires a single URL as String.'
                   end
                   ext = exts.select { |x| x['url'] == url }.first
@@ -380,9 +386,10 @@ module FluentPath
               break
             when :toInteger
               # the previous node should be a data (as String, Integer, Boolean)
-              if previous_node.is_a?(String)
+              case previous_node
+              when String
                 tree[index] = previous_node.to_i rescue 0
-              elsif previous_node.is_a?(Numeric)
+              when Numeric
                 tree[index] = previous_node.to_i
               else
                 tree[index] = 0

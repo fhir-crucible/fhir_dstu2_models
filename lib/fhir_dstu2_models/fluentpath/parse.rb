@@ -8,7 +8,7 @@ module FluentPath
 
     # This method tokenizes the expression into a flat array of tokens
     def self.tokenize(expression)
-      raw_tokens = expression.gsub('()', '').split(%r{(\(|\)|\s|>=|<=|>|<|=|!=|\+|-|\/|\*)})
+      raw_tokens = expression.gsub('()', '').split(%r{(\(|\)|\s|>=|<=|>|<|=|!=|\+|-|/|\*)})
       # recreate strings if they were split
       size = nil
       while raw_tokens.include?("'") && size != raw_tokens.length
@@ -45,13 +45,15 @@ module FluentPath
     def self.reassemble_strings(tokens)
       tokens.each_with_index do |token, index|
         next unless token.is_a?(String)
+
         e_index = nil
         if token.start_with?('"') && !token.end_with?('"')
-          e_index = tokens[index..-1].index { |t| t.end_with?('"') }
+          e_index = tokens[index..].index { |t| t.end_with?('"') }
         elsif token.start_with?("'") && !token.end_with?("'")
-          e_index = tokens[index..-1].index { |t| t.end_with?("'") }
+          e_index = tokens[index..].index { |t| t.end_with?("'") }
         end
         next unless e_index
+
         i = index + 1
         while i <= index + e_index
           tokens[index] += tokens[i]
@@ -64,6 +66,7 @@ module FluentPath
     # This method builds an Abstract Syntax Tree (AST) from a flat list of tokens
     def self.build_tree(tokens)
       return if tokens.empty?
+
       tree = []
       until tokens.empty?
         token = tokens.delete_at(0)
@@ -92,7 +95,7 @@ module FluentPath
       value = token
       begin
         value = Float(token)
-      rescue
+      rescue StandardError
         value = token
         value = token.to_sym if @@reserved.include?(token)
         value = true if token == 'true'

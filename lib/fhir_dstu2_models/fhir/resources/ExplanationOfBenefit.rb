@@ -7,24 +7,24 @@ module FHIR
 
       SEARCH_PARAMS = ['identifier']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'ExplanationOfBenefit.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'ExplanationOfBenefit.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'ExplanationOfBenefit.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'ExplanationOfBenefit.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'ExplanationOfBenefit.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'ExplanationOfBenefit.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'ExplanationOfBenefit.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'ExplanationOfBenefit.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'identifier' => {'type'=>'Identifier', 'path'=>'ExplanationOfBenefit.identifier', 'min'=>0, 'max'=>Float::INFINITY},
-        'request' => {'type'=>'Reference', 'path'=>'ExplanationOfBenefit.request', 'min'=>0, 'max'=>1},
-        'outcome' => {'valid_codes'=>{'http://hl7.org/fhir/remittance-outcome'=>['complete', 'error']}, 'type'=>'code', 'path'=>'ExplanationOfBenefit.outcome', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/remittance-outcome'}},
-        'disposition' => {'type'=>'string', 'path'=>'ExplanationOfBenefit.disposition', 'min'=>0, 'max'=>1},
-        'ruleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'ExplanationOfBenefit.ruleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}},
-        'originalRuleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'ExplanationOfBenefit.originalRuleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}},
-        'created' => {'type'=>'dateTime', 'path'=>'ExplanationOfBenefit.created', 'min'=>0, 'max'=>1},
-        'organization' => {'type'=>'Reference', 'path'=>'ExplanationOfBenefit.organization', 'min'=>0, 'max'=>1},
-        'requestProvider' => {'type'=>'Reference', 'path'=>'ExplanationOfBenefit.requestProvider', 'min'=>0, 'max'=>1},
-        'requestOrganization' => {'type'=>'Reference', 'path'=>'ExplanationOfBenefit.requestOrganization', 'min'=>0, 'max'=>1}
+        'id' => { 'type' => 'id', 'path' => 'ExplanationOfBenefit.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'ExplanationOfBenefit.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'ExplanationOfBenefit.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'ExplanationOfBenefit.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'ExplanationOfBenefit.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'ExplanationOfBenefit.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'ExplanationOfBenefit.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'ExplanationOfBenefit.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'ExplanationOfBenefit.identifier', 'min' => 0, 'max' => Float::INFINITY },
+        'request' => { 'type' => 'Reference', 'path' => 'ExplanationOfBenefit.request', 'min' => 0, 'max' => 1 },
+        'outcome' => { 'valid_codes' => { 'http://hl7.org/fhir/remittance-outcome' => ['complete', 'error'] }, 'type' => 'code', 'path' => 'ExplanationOfBenefit.outcome', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/remittance-outcome' } },
+        'disposition' => { 'type' => 'string', 'path' => 'ExplanationOfBenefit.disposition', 'min' => 0, 'max' => 1 },
+        'ruleset' => { 'valid_codes' => { 'http://hl7.org/fhir/ruleset' => ['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3'] }, 'type' => 'Coding', 'path' => 'ExplanationOfBenefit.ruleset', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/ruleset' } },
+        'originalRuleset' => { 'valid_codes' => { 'http://hl7.org/fhir/ruleset' => ['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3'] }, 'type' => 'Coding', 'path' => 'ExplanationOfBenefit.originalRuleset', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/ruleset' } },
+        'created' => { 'type' => 'dateTime', 'path' => 'ExplanationOfBenefit.created', 'min' => 0, 'max' => 1 },
+        'organization' => { 'type' => 'Reference', 'path' => 'ExplanationOfBenefit.organization', 'min' => 0, 'max' => 1 },
+        'requestProvider' => { 'type' => 'Reference', 'path' => 'ExplanationOfBenefit.requestProvider', 'min' => 0, 'max' => 1 },
+        'requestOrganization' => { 'type' => 'Reference', 'path' => 'ExplanationOfBenefit.requestOrganization', 'min' => 0, 'max' => 1 }
       }
 
       attr_accessor :id                  # 0-1 id

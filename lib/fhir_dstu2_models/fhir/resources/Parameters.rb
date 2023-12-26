@@ -5,14 +5,14 @@ module FHIR
       include FHIR::DSTU2::Json
       include FHIR::DSTU2::Xml
 
-      SEARCH_PARAMS = 
-      METADATA = {
-        'id' => {'type'=>'id', 'path'=>'Parameters.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'Parameters.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'Parameters.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'Parameters.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'parameter' => {'type'=>'Parameters::Parameter', 'path'=>'Parameters.parameter', 'min'=>0, 'max'=>Float::INFINITY}
-      }
+      SEARCH_PARAMS =
+        METADATA = {
+          'id' => { 'type' => 'id', 'path' => 'Parameters.id', 'min' => 0, 'max' => 1 },
+          'meta' => { 'type' => 'Meta', 'path' => 'Parameters.meta', 'min' => 0, 'max' => 1 },
+          'implicitRules' => { 'type' => 'uri', 'path' => 'Parameters.implicitRules', 'min' => 0, 'max' => 1 },
+          'language' => { 'type' => 'code', 'path' => 'Parameters.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+          'parameter' => { 'type' => 'Parameters::Parameter', 'path' => 'Parameters.parameter', 'min' => 0, 'max' => Float::INFINITY }
+        }
 
       class Parameter < FHIR::DSTU2::Model
         include FHIR::DSTU2::Hashable
@@ -23,45 +23,45 @@ module FHIR
           'value' => ['boolean', 'integer', 'decimal', 'base64Binary', 'instant', 'string', 'uri', 'date', 'dateTime', 'time', 'code', 'oid', 'id', 'unsignedInt', 'positiveInt', 'markdown', 'Annotation', 'Attachment', 'Identifier', 'CodeableConcept', 'Coding', 'Quantity', 'Range', 'Period', 'Ratio', 'SampledData', 'Signature', 'HumanName', 'Address', 'ContactPoint', 'Timing', 'Reference', 'Meta']
         }
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Parameter.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Parameter.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Parameter.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'name' => {'type'=>'string', 'path'=>'Parameter.name', 'min'=>1, 'max'=>1},
-          'valueBoolean' => {'type'=>'boolean', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueInteger' => {'type'=>'integer', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueDecimal' => {'type'=>'decimal', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueBase64Binary' => {'type'=>'base64Binary', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueInstant' => {'type'=>'instant', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueString' => {'type'=>'string', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueUri' => {'type'=>'uri', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueDate' => {'type'=>'date', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueDateTime' => {'type'=>'dateTime', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueTime' => {'type'=>'time', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueCode' => {'type'=>'code', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueOid' => {'type'=>'oid', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueId' => {'type'=>'id', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueUnsignedInt' => {'type'=>'unsignedInt', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valuePositiveInt' => {'type'=>'positiveInt', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueMarkdown' => {'type'=>'markdown', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueAnnotation' => {'type'=>'Annotation', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueAttachment' => {'type'=>'Attachment', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueIdentifier' => {'type'=>'Identifier', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueCodeableConcept' => {'type'=>'CodeableConcept', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueCoding' => {'type'=>'Coding', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueQuantity' => {'type'=>'Quantity', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueRange' => {'type'=>'Range', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valuePeriod' => {'type'=>'Period', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueRatio' => {'type'=>'Ratio', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueSampledData' => {'type'=>'SampledData', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueSignature' => {'type'=>'Signature', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueHumanName' => {'type'=>'HumanName', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueAddress' => {'type'=>'Address', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueContactPoint' => {'type'=>'ContactPoint', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueTiming' => {'type'=>'Timing', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueReference' => {'type'=>'Reference', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'valueMeta' => {'type'=>'Meta', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
-          'resource' => {'type'=>'Resource', 'path'=>'Parameter.resource', 'min'=>0, 'max'=>1},
-          'part' => {'type'=>'Parameters::Parameter', 'path'=>'Parameter.part', 'min'=>0, 'max'=>Float::INFINITY}
+          'id' => { 'type' => 'id', 'path' => 'Parameter.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Parameter.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Parameter.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'name' => { 'type' => 'string', 'path' => 'Parameter.name', 'min' => 1, 'max' => 1 },
+          'valueBoolean' => { 'type' => 'boolean', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueInteger' => { 'type' => 'integer', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueDecimal' => { 'type' => 'decimal', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueBase64Binary' => { 'type' => 'base64Binary', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueInstant' => { 'type' => 'instant', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueString' => { 'type' => 'string', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueUri' => { 'type' => 'uri', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueDate' => { 'type' => 'date', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueDateTime' => { 'type' => 'dateTime', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueTime' => { 'type' => 'time', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueCode' => { 'type' => 'code', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueOid' => { 'type' => 'oid', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueId' => { 'type' => 'id', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueUnsignedInt' => { 'type' => 'unsignedInt', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valuePositiveInt' => { 'type' => 'positiveInt', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueMarkdown' => { 'type' => 'markdown', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueAnnotation' => { 'type' => 'Annotation', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueAttachment' => { 'type' => 'Attachment', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueIdentifier' => { 'type' => 'Identifier', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueCodeableConcept' => { 'type' => 'CodeableConcept', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueCoding' => { 'type' => 'Coding', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueQuantity' => { 'type' => 'Quantity', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueRange' => { 'type' => 'Range', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valuePeriod' => { 'type' => 'Period', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueRatio' => { 'type' => 'Ratio', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueSampledData' => { 'type' => 'SampledData', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueSignature' => { 'type' => 'Signature', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueHumanName' => { 'type' => 'HumanName', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueAddress' => { 'type' => 'Address', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueContactPoint' => { 'type' => 'ContactPoint', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueTiming' => { 'type' => 'Timing', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueReference' => { 'type' => 'Reference', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'valueMeta' => { 'type' => 'Meta', 'path' => 'Parameter.value[x]', 'min' => 0, 'max' => 1 },
+          'resource' => { 'type' => 'Resource', 'path' => 'Parameter.resource', 'min' => 0, 'max' => 1 },
+          'part' => { 'type' => 'Parameters::Parameter', 'path' => 'Parameter.part', 'min' => 0, 'max' => Float::INFINITY }
         }
 
         attr_accessor :id                   # 0-1 id

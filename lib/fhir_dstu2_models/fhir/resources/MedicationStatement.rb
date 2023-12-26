@@ -12,30 +12,30 @@ module FHIR
       }
       SEARCH_PARAMS = ['code', 'effectivedate', 'identifier', 'medication', 'patient', 'source', 'status']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'MedicationStatement.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'MedicationStatement.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'MedicationStatement.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'MedicationStatement.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'MedicationStatement.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'MedicationStatement.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'MedicationStatement.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'MedicationStatement.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'identifier' => {'type'=>'Identifier', 'path'=>'MedicationStatement.identifier', 'min'=>0, 'max'=>Float::INFINITY},
-        'patient' => {'type'=>'Reference', 'path'=>'MedicationStatement.patient', 'min'=>1, 'max'=>1},
-        'informationSource' => {'type'=>'Reference', 'path'=>'MedicationStatement.informationSource', 'min'=>0, 'max'=>1},
-        'dateAsserted' => {'type'=>'dateTime', 'path'=>'MedicationStatement.dateAsserted', 'min'=>0, 'max'=>1},
-        'status' => {'valid_codes'=>{'http://hl7.org/fhir/medication-statement-status'=>['active', 'completed', 'entered-in-error', 'intended']}, 'type'=>'code', 'path'=>'MedicationStatement.status', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/medication-statement-status'}},
-        'wasNotTaken' => {'type'=>'boolean', 'path'=>'MedicationStatement.wasNotTaken', 'min'=>0, 'max'=>1},
-        'reasonNotTaken' => {'valid_codes'=>{'http://hl7.org/fhir/reason-medication-not-given'=>['a', 'b', 'c', 'd']}, 'type'=>'CodeableConcept', 'path'=>'MedicationStatement.reasonNotTaken', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes'}},
-        'reasonForUseCodeableConcept' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'MedicationStatement.reasonForUse[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/condition-code'}},
-        'reasonForUseReference' => {'type'=>'Reference', 'path'=>'MedicationStatement.reasonForUse[x]', 'min'=>0, 'max'=>1},
-        'effectiveDateTime' => {'type'=>'dateTime', 'path'=>'MedicationStatement.effective[x]', 'min'=>0, 'max'=>1},
-        'effectivePeriod' => {'type'=>'Period', 'path'=>'MedicationStatement.effective[x]', 'min'=>0, 'max'=>1},
-        'note' => {'type'=>'string', 'path'=>'MedicationStatement.note', 'min'=>0, 'max'=>1},
-        'supportingInformation' => {'type'=>'Reference', 'path'=>'MedicationStatement.supportingInformation', 'min'=>0, 'max'=>Float::INFINITY},
-        'medicationCodeableConcept' => {'type'=>'CodeableConcept', 'path'=>'MedicationStatement.medication[x]', 'min'=>1, 'max'=>1},
-        'medicationReference' => {'type'=>'Reference', 'path'=>'MedicationStatement.medication[x]', 'min'=>1, 'max'=>1},
-        'dosage' => {'type'=>'MedicationStatement::Dosage', 'path'=>'MedicationStatement.dosage', 'min'=>0, 'max'=>Float::INFINITY}
+        'id' => { 'type' => 'id', 'path' => 'MedicationStatement.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'MedicationStatement.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'MedicationStatement.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'MedicationStatement.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'MedicationStatement.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'MedicationStatement.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'MedicationStatement.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'MedicationStatement.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'MedicationStatement.identifier', 'min' => 0, 'max' => Float::INFINITY },
+        'patient' => { 'type' => 'Reference', 'path' => 'MedicationStatement.patient', 'min' => 1, 'max' => 1 },
+        'informationSource' => { 'type' => 'Reference', 'path' => 'MedicationStatement.informationSource', 'min' => 0, 'max' => 1 },
+        'dateAsserted' => { 'type' => 'dateTime', 'path' => 'MedicationStatement.dateAsserted', 'min' => 0, 'max' => 1 },
+        'status' => { 'valid_codes' => { 'http://hl7.org/fhir/medication-statement-status' => ['active', 'completed', 'entered-in-error', 'intended'] }, 'type' => 'code', 'path' => 'MedicationStatement.status', 'min' => 1, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/medication-statement-status' } },
+        'wasNotTaken' => { 'type' => 'boolean', 'path' => 'MedicationStatement.wasNotTaken', 'min' => 0, 'max' => 1 },
+        'reasonNotTaken' => { 'valid_codes' => { 'http://hl7.org/fhir/reason-medication-not-given' => ['a', 'b', 'c', 'd'] }, 'type' => 'CodeableConcept', 'path' => 'MedicationStatement.reasonNotTaken', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes' } },
+        'reasonForUseCodeableConcept' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'MedicationStatement.reasonForUse[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/condition-code' } },
+        'reasonForUseReference' => { 'type' => 'Reference', 'path' => 'MedicationStatement.reasonForUse[x]', 'min' => 0, 'max' => 1 },
+        'effectiveDateTime' => { 'type' => 'dateTime', 'path' => 'MedicationStatement.effective[x]', 'min' => 0, 'max' => 1 },
+        'effectivePeriod' => { 'type' => 'Period', 'path' => 'MedicationStatement.effective[x]', 'min' => 0, 'max' => 1 },
+        'note' => { 'type' => 'string', 'path' => 'MedicationStatement.note', 'min' => 0, 'max' => 1 },
+        'supportingInformation' => { 'type' => 'Reference', 'path' => 'MedicationStatement.supportingInformation', 'min' => 0, 'max' => Float::INFINITY },
+        'medicationCodeableConcept' => { 'type' => 'CodeableConcept', 'path' => 'MedicationStatement.medication[x]', 'min' => 1, 'max' => 1 },
+        'medicationReference' => { 'type' => 'Reference', 'path' => 'MedicationStatement.medication[x]', 'min' => 1, 'max' => 1 },
+        'dosage' => { 'type' => 'MedicationStatement::Dosage', 'path' => 'MedicationStatement.dosage', 'min' => 0, 'max' => Float::INFINITY }
       }
 
       class Dosage < FHIR::DSTU2::Model
@@ -50,22 +50,22 @@ module FHIR
           'rate' => ['Ratio', 'Range']
         }
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Dosage.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Dosage.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Dosage.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'text' => {'type'=>'string', 'path'=>'Dosage.text', 'min'=>0, 'max'=>1},
-          'timing' => {'type'=>'Timing', 'path'=>'Dosage.timing', 'min'=>0, 'max'=>1},
-          'asNeededBoolean' => {'type'=>'boolean', 'path'=>'Dosage.asNeeded[x]', 'min'=>0, 'max'=>1},
-          'asNeededCodeableConcept' => {'type'=>'CodeableConcept', 'path'=>'Dosage.asNeeded[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>nil}},
-          'siteCodeableConcept' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Dosage.site[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/approach-site-codes'}},
-          'siteReference' => {'type'=>'Reference', 'path'=>'Dosage.site[x]', 'min'=>0, 'max'=>1},
-          'route' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Dosage.route', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/route-codes'}},
-          'method' => {'local_name'=>'local_method', 'type'=>'CodeableConcept', 'path'=>'Dosage.method', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>nil}},
-          'quantityQuantity' => {'type'=>'Quantity', 'path'=>'Dosage.quantity[x]', 'min'=>0, 'max'=>1},
-          'quantityRange' => {'type'=>'Range', 'path'=>'Dosage.quantity[x]', 'min'=>0, 'max'=>1},
-          'rateRatio' => {'type'=>'Ratio', 'path'=>'Dosage.rate[x]', 'min'=>0, 'max'=>1},
-          'rateRange' => {'type'=>'Range', 'path'=>'Dosage.rate[x]', 'min'=>0, 'max'=>1},
-          'maxDosePerPeriod' => {'type'=>'Ratio', 'path'=>'Dosage.maxDosePerPeriod', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Dosage.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Dosage.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Dosage.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'text' => { 'type' => 'string', 'path' => 'Dosage.text', 'min' => 0, 'max' => 1 },
+          'timing' => { 'type' => 'Timing', 'path' => 'Dosage.timing', 'min' => 0, 'max' => 1 },
+          'asNeededBoolean' => { 'type' => 'boolean', 'path' => 'Dosage.asNeeded[x]', 'min' => 0, 'max' => 1 },
+          'asNeededCodeableConcept' => { 'type' => 'CodeableConcept', 'path' => 'Dosage.asNeeded[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => nil } },
+          'siteCodeableConcept' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Dosage.site[x]', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/approach-site-codes' } },
+          'siteReference' => { 'type' => 'Reference', 'path' => 'Dosage.site[x]', 'min' => 0, 'max' => 1 },
+          'route' => { 'valid_codes' => { 'http://snomed.info/sct' => [] }, 'type' => 'CodeableConcept', 'path' => 'Dosage.route', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/route-codes' } },
+          'method' => { 'local_name' => 'local_method', 'type' => 'CodeableConcept', 'path' => 'Dosage.method', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => nil } },
+          'quantityQuantity' => { 'type' => 'Quantity', 'path' => 'Dosage.quantity[x]', 'min' => 0, 'max' => 1 },
+          'quantityRange' => { 'type' => 'Range', 'path' => 'Dosage.quantity[x]', 'min' => 0, 'max' => 1 },
+          'rateRatio' => { 'type' => 'Ratio', 'path' => 'Dosage.rate[x]', 'min' => 0, 'max' => 1 },
+          'rateRange' => { 'type' => 'Range', 'path' => 'Dosage.rate[x]', 'min' => 0, 'max' => 1 },
+          'maxDosePerPeriod' => { 'type' => 'Ratio', 'path' => 'Dosage.maxDosePerPeriod', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                      # 0-1 id

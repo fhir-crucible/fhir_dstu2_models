@@ -7,24 +7,24 @@ module FHIR
 
       SEARCH_PARAMS = ['identifier']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'EligibilityResponse.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'EligibilityResponse.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'EligibilityResponse.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'EligibilityResponse.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'EligibilityResponse.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'EligibilityResponse.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'EligibilityResponse.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'EligibilityResponse.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'identifier' => {'type'=>'Identifier', 'path'=>'EligibilityResponse.identifier', 'min'=>0, 'max'=>Float::INFINITY},
-        'request' => {'type'=>'Reference', 'path'=>'EligibilityResponse.request', 'min'=>0, 'max'=>1},
-        'outcome' => {'valid_codes'=>{'http://hl7.org/fhir/remittance-outcome'=>['complete', 'error']}, 'type'=>'code', 'path'=>'EligibilityResponse.outcome', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/remittance-outcome'}},
-        'disposition' => {'type'=>'string', 'path'=>'EligibilityResponse.disposition', 'min'=>0, 'max'=>1},
-        'ruleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'EligibilityResponse.ruleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}},
-        'originalRuleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'EligibilityResponse.originalRuleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}},
-        'created' => {'type'=>'dateTime', 'path'=>'EligibilityResponse.created', 'min'=>0, 'max'=>1},
-        'organization' => {'type'=>'Reference', 'path'=>'EligibilityResponse.organization', 'min'=>0, 'max'=>1},
-        'requestProvider' => {'type'=>'Reference', 'path'=>'EligibilityResponse.requestProvider', 'min'=>0, 'max'=>1},
-        'requestOrganization' => {'type'=>'Reference', 'path'=>'EligibilityResponse.requestOrganization', 'min'=>0, 'max'=>1}
+        'id' => { 'type' => 'id', 'path' => 'EligibilityResponse.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'EligibilityResponse.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'EligibilityResponse.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'EligibilityResponse.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'EligibilityResponse.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'EligibilityResponse.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'EligibilityResponse.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'EligibilityResponse.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'EligibilityResponse.identifier', 'min' => 0, 'max' => Float::INFINITY },
+        'request' => { 'type' => 'Reference', 'path' => 'EligibilityResponse.request', 'min' => 0, 'max' => 1 },
+        'outcome' => { 'valid_codes' => { 'http://hl7.org/fhir/remittance-outcome' => ['complete', 'error'] }, 'type' => 'code', 'path' => 'EligibilityResponse.outcome', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/remittance-outcome' } },
+        'disposition' => { 'type' => 'string', 'path' => 'EligibilityResponse.disposition', 'min' => 0, 'max' => 1 },
+        'ruleset' => { 'valid_codes' => { 'http://hl7.org/fhir/ruleset' => ['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3'] }, 'type' => 'Coding', 'path' => 'EligibilityResponse.ruleset', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/ruleset' } },
+        'originalRuleset' => { 'valid_codes' => { 'http://hl7.org/fhir/ruleset' => ['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3'] }, 'type' => 'Coding', 'path' => 'EligibilityResponse.originalRuleset', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/ruleset' } },
+        'created' => { 'type' => 'dateTime', 'path' => 'EligibilityResponse.created', 'min' => 0, 'max' => 1 },
+        'organization' => { 'type' => 'Reference', 'path' => 'EligibilityResponse.organization', 'min' => 0, 'max' => 1 },
+        'requestProvider' => { 'type' => 'Reference', 'path' => 'EligibilityResponse.requestProvider', 'min' => 0, 'max' => 1 },
+        'requestOrganization' => { 'type' => 'Reference', 'path' => 'EligibilityResponse.requestOrganization', 'min' => 0, 'max' => 1 }
       }
 
       attr_accessor :id                  # 0-1 id

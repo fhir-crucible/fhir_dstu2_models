@@ -7,27 +7,27 @@ module FHIR
 
       SEARCH_PARAMS = ['identifier', 'organization', 'request', 'requestorganization', 'requestprovider']
       METADATA = {
-        'id' => {'type'=>'id', 'path'=>'ProcessResponse.id', 'min'=>0, 'max'=>1},
-        'meta' => {'type'=>'Meta', 'path'=>'ProcessResponse.meta', 'min'=>0, 'max'=>1},
-        'implicitRules' => {'type'=>'uri', 'path'=>'ProcessResponse.implicitRules', 'min'=>0, 'max'=>1},
-        'language' => {'type'=>'code', 'path'=>'ProcessResponse.language', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://tools.ietf.org/html/bcp47'}},
-        'text' => {'type'=>'Narrative', 'path'=>'ProcessResponse.text', 'min'=>0, 'max'=>1},
-        'contained' => {'type'=>'Resource', 'path'=>'ProcessResponse.contained', 'min'=>0, 'max'=>Float::INFINITY},
-        'extension' => {'type'=>'Extension', 'path'=>'ProcessResponse.extension', 'min'=>0, 'max'=>Float::INFINITY},
-        'modifierExtension' => {'type'=>'Extension', 'path'=>'ProcessResponse.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-        'identifier' => {'type'=>'Identifier', 'path'=>'ProcessResponse.identifier', 'min'=>0, 'max'=>Float::INFINITY},
-        'request' => {'type'=>'Reference', 'path'=>'ProcessResponse.request', 'min'=>0, 'max'=>1},
-        'outcome' => {'valid_codes'=>{'http://hl7.org/fhir/processoutcomecodes'=>['complete', 'pended', 'error']}, 'type'=>'Coding', 'path'=>'ProcessResponse.outcome', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/process-outcome'}},
-        'disposition' => {'type'=>'string', 'path'=>'ProcessResponse.disposition', 'min'=>0, 'max'=>1},
-        'ruleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'ProcessResponse.ruleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}},
-        'originalRuleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'ProcessResponse.originalRuleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}},
-        'created' => {'type'=>'dateTime', 'path'=>'ProcessResponse.created', 'min'=>0, 'max'=>1},
-        'organization' => {'type'=>'Reference', 'path'=>'ProcessResponse.organization', 'min'=>0, 'max'=>1},
-        'requestProvider' => {'type'=>'Reference', 'path'=>'ProcessResponse.requestProvider', 'min'=>0, 'max'=>1},
-        'requestOrganization' => {'type'=>'Reference', 'path'=>'ProcessResponse.requestOrganization', 'min'=>0, 'max'=>1},
-        'form' => {'valid_codes'=>{'http://hl7.org/fhir/forms-codes'=>['1', '2']}, 'type'=>'Coding', 'path'=>'ProcessResponse.form', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/forms'}},
-        'notes' => {'type'=>'ProcessResponse::Notes', 'path'=>'ProcessResponse.notes', 'min'=>0, 'max'=>Float::INFINITY},
-        'error' => {'valid_codes'=>{'http://hl7.org/fhir/adjudication-error'=>['A001', 'A002']}, 'type'=>'Coding', 'path'=>'ProcessResponse.error', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/adjudication-error'}}
+        'id' => { 'type' => 'id', 'path' => 'ProcessResponse.id', 'min' => 0, 'max' => 1 },
+        'meta' => { 'type' => 'Meta', 'path' => 'ProcessResponse.meta', 'min' => 0, 'max' => 1 },
+        'implicitRules' => { 'type' => 'uri', 'path' => 'ProcessResponse.implicitRules', 'min' => 0, 'max' => 1 },
+        'language' => { 'type' => 'code', 'path' => 'ProcessResponse.language', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://tools.ietf.org/html/bcp47' } },
+        'text' => { 'type' => 'Narrative', 'path' => 'ProcessResponse.text', 'min' => 0, 'max' => 1 },
+        'contained' => { 'type' => 'Resource', 'path' => 'ProcessResponse.contained', 'min' => 0, 'max' => Float::INFINITY },
+        'extension' => { 'type' => 'Extension', 'path' => 'ProcessResponse.extension', 'min' => 0, 'max' => Float::INFINITY },
+        'modifierExtension' => { 'type' => 'Extension', 'path' => 'ProcessResponse.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+        'identifier' => { 'type' => 'Identifier', 'path' => 'ProcessResponse.identifier', 'min' => 0, 'max' => Float::INFINITY },
+        'request' => { 'type' => 'Reference', 'path' => 'ProcessResponse.request', 'min' => 0, 'max' => 1 },
+        'outcome' => { 'valid_codes' => { 'http://hl7.org/fhir/processoutcomecodes' => ['complete', 'pended', 'error'] }, 'type' => 'Coding', 'path' => 'ProcessResponse.outcome', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/process-outcome' } },
+        'disposition' => { 'type' => 'string', 'path' => 'ProcessResponse.disposition', 'min' => 0, 'max' => 1 },
+        'ruleset' => { 'valid_codes' => { 'http://hl7.org/fhir/ruleset' => ['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3'] }, 'type' => 'Coding', 'path' => 'ProcessResponse.ruleset', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/ruleset' } },
+        'originalRuleset' => { 'valid_codes' => { 'http://hl7.org/fhir/ruleset' => ['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3'] }, 'type' => 'Coding', 'path' => 'ProcessResponse.originalRuleset', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'example', 'uri' => 'http://hl7.org/fhir/ValueSet/ruleset' } },
+        'created' => { 'type' => 'dateTime', 'path' => 'ProcessResponse.created', 'min' => 0, 'max' => 1 },
+        'organization' => { 'type' => 'Reference', 'path' => 'ProcessResponse.organization', 'min' => 0, 'max' => 1 },
+        'requestProvider' => { 'type' => 'Reference', 'path' => 'ProcessResponse.requestProvider', 'min' => 0, 'max' => 1 },
+        'requestOrganization' => { 'type' => 'Reference', 'path' => 'ProcessResponse.requestOrganization', 'min' => 0, 'max' => 1 },
+        'form' => { 'valid_codes' => { 'http://hl7.org/fhir/forms-codes' => ['1', '2'] }, 'type' => 'Coding', 'path' => 'ProcessResponse.form', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/forms' } },
+        'notes' => { 'type' => 'ProcessResponse::Notes', 'path' => 'ProcessResponse.notes', 'min' => 0, 'max' => Float::INFINITY },
+        'error' => { 'valid_codes' => { 'http://hl7.org/fhir/adjudication-error' => ['A001', 'A002'] }, 'type' => 'Coding', 'path' => 'ProcessResponse.error', 'min' => 0, 'max' => Float::INFINITY, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/adjudication-error' } }
       }
 
       class Notes < FHIR::DSTU2::Model
@@ -36,11 +36,11 @@ module FHIR
         include FHIR::DSTU2::Xml
 
         METADATA = {
-          'id' => {'type'=>'id', 'path'=>'Notes.id', 'min'=>0, 'max'=>1},
-          'extension' => {'type'=>'Extension', 'path'=>'Notes.extension', 'min'=>0, 'max'=>Float::INFINITY},
-          'modifierExtension' => {'type'=>'Extension', 'path'=>'Notes.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
-          'type' => {'valid_codes'=>{'http://hl7.org/fhir/note-type'=>['display', 'print', 'printoper']}, 'type'=>'Coding', 'path'=>'Notes.type', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/note-type'}},
-          'text' => {'type'=>'string', 'path'=>'Notes.text', 'min'=>0, 'max'=>1}
+          'id' => { 'type' => 'id', 'path' => 'Notes.id', 'min' => 0, 'max' => 1 },
+          'extension' => { 'type' => 'Extension', 'path' => 'Notes.extension', 'min' => 0, 'max' => Float::INFINITY },
+          'modifierExtension' => { 'type' => 'Extension', 'path' => 'Notes.modifierExtension', 'min' => 0, 'max' => Float::INFINITY },
+          'type' => { 'valid_codes' => { 'http://hl7.org/fhir/note-type' => ['display', 'print', 'printoper'] }, 'type' => 'Coding', 'path' => 'Notes.type', 'min' => 0, 'max' => 1, 'binding' => { 'strength' => 'required', 'uri' => 'http://hl7.org/fhir/ValueSet/note-type' } },
+          'text' => { 'type' => 'string', 'path' => 'Notes.text', 'min' => 0, 'max' => 1 }
         }
 
         attr_accessor :id                # 0-1 id
