@@ -24,7 +24,10 @@ module FHIR
       end
 
       def respond_to_missing?(method_name, *)
-        defined?(self.class::MULTIPLE_TYPES) && self.class::MULTIPLE_TYPES[method_name.to_s] || super
+        defined?(self.class::MULTIPLE_TYPES) && self.class::MULTIPLE_TYPES[method_name.to_s] ||
+        !@extension.nil? && !@extension.empty? ||
+        !@modifierExtension.nil? && !@modifierExtension.empty? ||
+        super
       end
 
       # allow two FHIR::DSTU2 models to be compared for equality
