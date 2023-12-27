@@ -24,9 +24,9 @@ module FHIR
       end
 
       def respond_to_missing?(method_name, *)
-        defined?(self.class::MULTIPLE_TYPES) && self.class::MULTIPLE_TYPES[method_name.to_s] ||
-          !@extension.nil? && !@extension.empty? ||
-          !@modifierExtension.nil? && !@modifierExtension.empty? ||
+        (defined?(self.class::MULTIPLE_TYPES) && self.class::MULTIPLE_TYPES[method_name.to_s]) ||
+          (!@extension.nil? && !@extension.empty? && !@extension.respond_to?(:to_ary)) ||
+          (!@modifierExtension.nil? && !@modifierExtension.empty? && !@modifierExtension.respond_to?(:to_ary)) ||
           super
       end
 
