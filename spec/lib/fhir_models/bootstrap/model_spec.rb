@@ -95,4 +95,17 @@ RSpec.describe 'FHIR::DSTU2::Model' do
       expect(range.respond_to? :value).to eq(false)
     end
   end
+
+  describe '#respond_to?' do
+    it 'returns true for :value on choice elements' do
+      extension = FHIR::DSTU2::Extension.new(valueInteger: 5)
+      expect(extension.value).to eq(5)
+      expect(extension.respond_to? :value).to be_truthy
+    end
+
+    it 'returns false for :value on nonchoice elements' do
+      range = FHIR::DSTU2::Range.new(low: {value: 18})
+      expect(range.respond_to? :value).to eq(false)
+    end
+  end
 end

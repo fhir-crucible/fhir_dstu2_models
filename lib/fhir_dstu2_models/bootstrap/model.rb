@@ -36,34 +36,26 @@ module FHIR
       end
       alias eql? ==
 
-      def method_missing(method, *_args, &_block)
-        if defined?(self.class::MULTIPLE_TYPES) && self.class::MULTIPLE_TYPES[method.to_s]
-          self.class::MULTIPLE_TYPES[method.to_s].each do |type|
+      def method_missing(method_name, *_args, &_block)
+        if defined?(self.class::MULTIPLE_TYPES) && self.class::MULTIPLE_TYPES[method_name.to_s]
+          self.class::MULTIPLE_TYPES[method_name.to_s].each do |type|
             type[0] = type[0].upcase
-            value = send("#{method}#{type}".to_sym)
+            value = send("#{method_name}#{type}".to_sym)
             return value unless value.nil?
           end
           return nil
         elsif !@extension.nil? && !@extension.empty?
-          ext = @extension.select do |x|
-            name = x.url.tr('-', '_').split('/').last
-            anchor = name.split('#').last
-            (method.to_s == name || method.to_s == anchor)
-          end
-          unless ext.first.nil?
-            return ext.first.value.nil? ? ext.first : ext.first.value
+          desired_extension = find_extension(@extension, method_name)
+          unless desired_extension.first.nil?
+            return desired_extension.first.value.nil? ? desired_extension.first : desired_extension.first.value
           end
         elsif !@modifierExtension.nil? && !@modifierExtension.empty?
-          ext = @modifierExtension.select do |x|
-            name = x.url.tr('-', '_').split('/').last
-            anchor = name.split('#').last
-            (method.to_s == name || method.to_s == anchor)
-          end
-          unless ext.first.nil?
-            return ext.first.value.nil? ? ext.first : ext.first.value
+          desired_extension = find_extension(@modifierExtension, method_name)
+          unless desired_extension.first.nil?
+            return desired_extension.first.value.nil? ? desired_extension.first : desired_extension.first.value
           end
         end
-        raise NoMethodError.new("undefined method `#{method}' for #{self.class.name}", method)
+        raise NoMethodError.new("undefined method `#{method_name}' for #{self.class.name}", method_name)
       end
 
       def to_reference
@@ -336,7 +328,15 @@ module FHIR
         self
       end
 
-      private :validate_reference_type, :check_binding_uri, :validate_field
+      def find_extension(extension_source, method_name)
+        extension_source.select do |extension|
+          name = extension.url.tr('-', '_').split('/').last
+          anchor = name.split('#').last
+          (method_name.to_s == name || method_name.to_s == anchor)
+        end
+      end
+
+      private :validate_reference_type, :check_binding_uri, :validate_field, :find_extension
     end
   end
 end
